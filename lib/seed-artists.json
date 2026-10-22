@@ -1,0 +1,2946 @@
+[
+ {
+  "slug": "04limitedsazabys",
+  "name": "04 Limited Sazabys",
+  "genres": [
+   "punk",
+   "jrock"
+  ],
+  "aliases": [
+   "제로얼리미티드사자비즈"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "acdc",
+  "name": "AC/DC",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "에이씨디씨"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "ado",
+  "name": "Ado",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "아도"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "adoy",
+  "name": "ADOY",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "아도이"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "aerosmith",
+  "name": "Aerosmith",
+  "genres": [
+   "hardrock",
+   "blues"
+  ],
+  "aliases": [
+   "에어로스미스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "aimer",
+  "name": "Aimer",
+  "genres": [
+   "jrock",
+   "ballad"
+  ],
+  "aliases": [
+   "에메"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "aimyon",
+  "name": "아이뮧",
+  "genres": [
+   "jrock",
+   "folk"
+  ],
+  "aliases": [
+   "aimyon"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "akfg",
+  "name": "Asian Kung-Fu Generation",
+  "genres": [
+   "jrock",
+   "modern"
+  ],
+  "aliases": [
+   "아지캉",
+   "아시안쿵푸제너레이션"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "akmu",
+  "name": "AKMU(악단광칠림)",
+  "genres": [
+   "folk",
+   "kpop"
+  ],
+  "aliases": [
+   "악뮤",
+   "악단광칠림",
+   "akmu"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "alexandros",
+  "name": "[Alexandros]",
+  "genres": [
+   "jrock",
+   "modern"
+  ],
+  "aliases": [
+   "알렉산드로스",
+   "alexandros"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "aliceinchains",
+  "name": "Alice In Chains",
+  "genres": [
+   "grunge",
+   "metal"
+  ],
+  "aliases": [
+   "앨리스인체인스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "alltimelow",
+  "name": "All Time Low",
+  "genres": [
+   "emo",
+   "punk"
+  ],
+  "aliases": [
+   "올타임로우"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "anri",
+  "name": "ANRI",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "안리"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "arcticmonkeys",
+  "name": "Arctic Monkeys",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "악틱몽키즈",
+   "아틱몽키즈"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "avengedsevenfold",
+  "name": "Avenged Sevenfold",
+  "genres": [
+   "metal"
+  ],
+  "aliases": [
+   "어벤지드세븐폴드"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "avrillavigne",
+  "name": "Avril Lavigne",
+  "genres": [
+   "emo",
+   "punk"
+  ],
+  "aliases": [
+   "에이브릴라비니"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "a_1y8s8a8",
+  "name": "Feeder",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [],
+  "source": "claude"
+ },
+ {
+  "slug": "babymetal",
+  "name": "BABYMETAL",
+  "genres": [
+   "metal",
+   "jrock"
+  ],
+  "aliases": [
+   "베이비메탈"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "backnumber",
+  "name": "back number",
+  "genres": [
+   "jrock",
+   "ballad"
+  ],
+  "aliases": [
+   "백넘버"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "baekdusan",
+  "name": "백두산",
+  "genres": [
+   "metal",
+   "hardrock"
+  ],
+  "aliases": [
+   "baekdoosan"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "bbking",
+  "name": "B.B. King",
+  "genres": [
+   "blues"
+  ],
+  "aliases": [
+   "비비킹"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "beabadoobee",
+  "name": "beabadoobee",
+  "genres": [
+   "indie",
+   "grunge"
+  ],
+  "aliases": [
+   "비아바두\be44",
+   "비아바두비"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "beatles",
+  "name": "The Beatles",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [
+   "비틀즈",
+   "비틀스",
+   "beatles"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "blacksabbath",
+  "name": "Black Sabbath",
+  "genres": [
+   "metal",
+   "hardrock"
+  ],
+  "aliases": [
+   "블랙사바스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "blackskirts",
+  "name": "검정치마",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "theblackskirts",
+   "blackskirts"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "blink182",
+  "name": "blink-182",
+  "genres": [
+   "punk",
+   "emo"
+  ],
+  "aliases": [
+   "블링크182",
+   "blink182"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "blur",
+  "name": "Blur",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [
+   "블러"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "bmth",
+  "name": "Bring Me The Horizon",
+  "genres": [
+   "metal",
+   "hardcore"
+  ],
+  "aliases": [
+   "브링미더호라이즌"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "bobdylan",
+  "name": "Bob Dylan",
+  "genres": [
+   "folk",
+   "blues"
+  ],
+  "aliases": [
+   "밥딜런"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "bolbbalgan4",
+  "name": "볼빨간사춘기",
+  "genres": [
+   "kpop",
+   "ballad"
+  ],
+  "aliases": [
+   "bol4",
+   "bolbbalgan4"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "bonjovi",
+  "name": "Bon Jovi",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "본조\be44",
+   "본조비"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "boohwal",
+  "name": "부활",
+  "genres": [
+   "hardrock",
+   "ballad"
+  ],
+  "aliases": [
+   "boohwal"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "bosudongcooler",
+  "name": "보수동쿨러",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "bosudong cooler"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "broccoli",
+  "name": "브로콜리너마저",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "broccoli you too"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "brunomars",
+  "name": "Bruno Mars",
+  "genres": [
+   "citypop",
+   "ballad"
+  ],
+  "aliases": [
+   "브루노마스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "bumpofchicken",
+  "name": "BUMP OF CHICKEN",
+  "genres": [
+   "jrock",
+   "modern"
+  ],
+  "aliases": [
+   "범프오브치킨"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "buzz",
+  "name": "버즈",
+  "genres": [
+   "modern",
+   "ballad"
+  ],
+  "aliases": [
+   "buzz"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "bz",
+  "name": "B'z",
+  "genres": [
+   "jrock",
+   "hardrock"
+  ],
+  "aliases": [
+   "비즈"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "carthegarden",
+  "name": "카더가든",
+  "genres": [
+   "indie",
+   "ballad"
+  ],
+  "aliases": [
+   "car the garden"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "cherryfilter",
+  "name": "체리필터",
+  "genres": [
+   "modern",
+   "punk"
+  ],
+  "aliases": [
+   "cherryfilter"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "cnblue",
+  "name": "씨엔블루",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "cnblue"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "coldplay",
+  "name": "Coldplay",
+  "genres": [
+   "modern",
+   "brit"
+  ],
+  "aliases": [
+   "콜드플레이"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "cream",
+  "name": "Cream",
+  "genres": [
+   "blues",
+   "hardrock"
+  ],
+  "aliases": [
+   "크림"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "cryingnut",
+  "name": "크라잉넛",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "cryingnut"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "davidbowie",
+  "name": "David Bowie",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [
+   "데이비드보위"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "day6",
+  "name": "DAY6",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "데이식스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "daybreak",
+  "name": "데이브레이크",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "daybreak"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "deeppurple",
+  "name": "Deep Purple",
+  "genres": [
+   "hardrock",
+   "metal"
+  ],
+  "aliases": [
+   "딥퍼플"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "deftones",
+  "name": "Deftones",
+  "genres": [
+   "metal",
+   "hardcore"
+  ],
+  "aliases": [
+   "데프톤즈"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "delispice",
+  "name": "델리스파이스",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "deli spice"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "deulgukhwa",
+  "name": "들국화",
+  "genres": [
+   "modern",
+   "folk"
+  ],
+  "aliases": [
+   "deulgukhwa"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "direngrey",
+  "name": "DIR EN GREY",
+  "genres": [
+   "metal",
+   "hardcore"
+  ],
+  "aliases": [
+   "디어엔그레이"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "dreamtheater",
+  "name": "Dream Theater",
+  "genres": [
+   "metal",
+   "hardrock"
+  ],
+  "aliases": [
+   "드림시어터"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "eagles",
+  "name": "Eagles",
+  "genres": [
+   "folk",
+   "hardrock"
+  ],
+  "aliases": [
+   "이글스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "edsheeran",
+  "name": "Ed Sheeran",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "에드시런"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "ellegarden",
+  "name": "ELLEGARDEN",
+  "genres": [
+   "punk",
+   "emo"
+  ],
+  "aliases": [
+   "엘르가든"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "ericclapton",
+  "name": "Eric Clapton",
+  "genres": [
+   "blues",
+   "hardrock"
+  ],
+  "aliases": [
+   "에릭클랩튼"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "evanescence",
+  "name": "Evanescence",
+  "genres": [
+   "metal",
+   "modern"
+  ],
+  "aliases": [
+   "에반에센스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "eve",
+  "name": "Eve",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "이\be0c",
+   "이브"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "falloutboy",
+  "name": "Fall Out Boy",
+  "genres": [
+   "emo",
+   "punk"
+  ],
+  "aliases": [
+   "폴아웃보이"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "fishmans",
+  "name": "Fishmans",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "피쉬맨즈",
+   "피시맨스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "fleetwoodmac",
+  "name": "Fleetwood Mac",
+  "genres": [
+   "folk",
+   "modern"
+  ],
+  "aliases": [
+   "플리트우드맥"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "foofighters",
+  "name": "Foo Fighters",
+  "genres": [
+   "hardrock",
+   "grunge"
+  ],
+  "aliases": [
+   "푸파이터스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "franzferdinand",
+  "name": "Franz Ferdinand",
+  "genres": [
+   "indie",
+   "brit"
+  ],
+  "aliases": [
+   "프란츠페르디난드"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "ftisland",
+  "name": "FT아일랜드",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "ftisland",
+   "ft island"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "fujiikaze",
+  "name": "후지이 카제",
+  "genres": [
+   "citypop",
+   "jrock"
+  ],
+  "aliases": [
+   "fujii kaze"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "galaxyexpress",
+  "name": "갤럭시 익스프레스",
+  "genres": [
+   "punk",
+   "grunge"
+  ],
+  "aliases": [
+   "galaxy express"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "garymoore",
+  "name": "Gary Moore",
+  "genres": [
+   "blues",
+   "hardrock"
+  ],
+  "aliases": [
+   "게리무어"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "gazette",
+  "name": "the GazettE",
+  "genres": [
+   "metal",
+   "jrock"
+  ],
+  "aliases": [
+   "가제트"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "gesunokiwami",
+  "name": "게스노키와미오토메",
+  "genres": [
+   "jrock",
+   "jazz"
+  ],
+  "aliases": [
+   "gesu no kiwami otome"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "glay",
+  "name": "GLAY",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "글레이"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "gongjunggeuneul",
+  "name": "공중그늘",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "ggongjunggeuneul",
+   "aerial shade"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "greenday",
+  "name": "Green Day",
+  "genres": [
+   "punk",
+   "emo"
+  ],
+  "aliases": [
+   "그린데이"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "gretavanfleet",
+  "name": "Greta Van Fleet",
+  "genres": [
+   "hardrock",
+   "blues"
+  ],
+  "aliases": [
+   "그레타반플릿"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "guckkasten",
+  "name": "국카스텐",
+  "genres": [
+   "modern",
+   "hardrock"
+  ],
+  "aliases": [
+   "guckkasten"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "gunamguyeo",
+  "name": "구남과여라이딩스텔라",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "goonamguayeoridingstella",
+   "구남과여"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "gunsnroses",
+  "name": "Guns N' Roses",
+  "genres": [
+   "hardrock",
+   "metal"
+  ],
+  "aliases": [
+   "건즈앤로지스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "hanroro",
+  "name": "한로로",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "hanroro"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "hatsunemiku",
+  "name": "하츠네 미쿠",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "hatsune miku"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "higedan",
+  "name": "Official髭男dism",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "히게단",
+   "오피셜히게단디즘"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "histandard",
+  "name": "Hi-STANDARD",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "하이스탠다드"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "hitsujibungaku",
+  "name": "히츠지분가쿠",
+  "genres": [
+   "indie",
+   "jrock"
+  ],
+  "aliases": [
+   "hitsujibungaku",
+   "羊文学"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "hoshinogen",
+  "name": "호시노 겐",
+  "genres": [
+   "citypop",
+   "jrock"
+  ],
+  "aliases": [
+   "gen hoshino"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "humpback",
+  "name": "Hump Back",
+  "genres": [
+   "jrock",
+   "punk"
+  ],
+  "aliases": [
+   "해프백",
+   "핼프백"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "hyukoh",
+  "name": "혁오",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "hyukoh"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "imaginedragons",
+  "name": "Imagine Dragons",
+  "genres": [
+   "modern"
+  ],
+  "aliases": [
+   "이매진드래곤스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "indigolaend",
+  "name": "indigo la End",
+  "genres": [
+   "jrock",
+   "indie"
+  ],
+  "aliases": [
+   "인디고라엔드"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "ironmaiden",
+  "name": "Iron Maiden",
+  "genres": [
+   "metal"
+  ],
+  "aliases": [
+   "아이언메이든"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "iu",
+  "name": "아이유",
+  "genres": [
+   "kpop",
+   "ballad"
+  ],
+  "aliases": [
+   "iu"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "jambinai",
+  "name": "잠비나이",
+  "genres": [
+   "metal",
+   "indie"
+  ],
+  "aliases": [
+   "jambinai"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "jamiroquai",
+  "name": "Jamiroquai",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "자미로콰이"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "jangbeomjune",
+  "name": "장범준",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "jang beom june"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "jangkiha",
+  "name": "장기하와 얼굴들",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "장기하",
+   "kiha and the faces"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "jangmiyeogwan",
+  "name": "장미여관",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "rose motel"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "jannabi",
+  "name": "잔나비",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "jannabi"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "jasonmraz",
+  "name": "Jason Mraz",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "제이슨므라즈"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "jaurim",
+  "name": "자우림",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "jaurim"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "jimihendrix",
+  "name": "Jimi Hendrix",
+  "genres": [
+   "blues",
+   "hardrock"
+  ],
+  "aliases": [
+   "지미헨드릭스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "johnmayer",
+  "name": "John Mayer",
+  "genres": [
+   "blues",
+   "folk"
+  ],
+  "aliases": [
+   "존메이어"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "joydivision",
+  "name": "Joy Division",
+  "genres": [
+   "indie",
+   "punk"
+  ],
+  "aliases": [
+   "조이디비전"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "jukjae",
+  "name": "적재",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "jukjae"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "jungjoonil",
+  "name": "정준일",
+  "genres": [
+   "ballad",
+   "modern"
+  ],
+  "aliases": [
+   "jung joon il"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "kanaboon",
+  "name": "KANA-BOON",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "카나봄"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "kasabian",
+  "name": "Kasabian",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [
+   "카사비안"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "keane",
+  "name": "Keane",
+  "genres": [
+   "brit",
+   "ballad"
+  ],
+  "aliases": [
+   "킨"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "kenshiyonezu",
+  "name": "요네즈 켄시",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "kenshi yonezu",
+   "하치"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "kessokuband",
+  "name": "결속밴드",
+  "genres": [
+   "jrock",
+   "indie"
+  ],
+  "aliases": [
+   "kessoku band",
+   "봇치더락"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "kimkwangseok",
+  "name": "김광석",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "kimkwangseok"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "kimkyungho",
+  "name": "김경호",
+  "genres": [
+   "metal",
+   "ballad"
+  ],
+  "aliases": [
+   "kim kyung ho"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "kinggnu",
+  "name": "King Gnu",
+  "genres": [
+   "jrock",
+   "modern"
+  ],
+  "aliases": [
+   "킹누"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "kinokoteikoku",
+  "name": "키노코테이코쿠",
+  "genres": [
+   "indie",
+   "grunge"
+  ],
+  "aliases": [
+   "kinoko teikoku"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "kirinji",
+  "name": "KIRINJI",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "키린지"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "kkadeho",
+  "name": "까데호",
+  "genres": [
+   "indie",
+   "jazz"
+  ],
+  "aliases": [
+   "kkadeho",
+   "cadejo"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "korn",
+  "name": "Korn",
+  "genres": [
+   "metal",
+   "hardcore"
+  ],
+  "aliases": [
+   "쾘"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "lamp",
+  "name": "Lamp",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "램프"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "larcenciel",
+  "name": "L'Arc~en~Ciel",
+  "genres": [
+   "jrock",
+   "modern"
+  ],
+  "aliases": [
+   "라르크앙시엘"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "laufey",
+  "name": "Laufey",
+  "genres": [
+   "jazz",
+   "ballad"
+  ],
+  "aliases": [
+   "레이베이"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "ledzeppelin",
+  "name": "Led Zeppelin",
+  "genres": [
+   "hardrock",
+   "blues"
+  ],
+  "aliases": [
+   "레드제플린"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "libertines",
+  "name": "The Libertines",
+  "genres": [
+   "brit",
+   "punk"
+  ],
+  "aliases": [
+   "리버틴스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "linkinpark",
+  "name": "Linkin Park",
+  "genres": [
+   "modern",
+   "metal"
+  ],
+  "aliases": [
+   "린킨파크"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "lisa",
+  "name": "LiSA",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "리사"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "lucidfall",
+  "name": "루시드폴",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "lucid fall"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "lucy",
+  "name": "LUCY",
+  "genres": [
+   "kpop",
+   "indie"
+  ],
+  "aliases": [
+   "루시"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "lunasea",
+  "name": "LUNA SEA",
+  "genres": [
+   "jrock",
+   "metal"
+  ],
+  "aliases": [
+   "루나시"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "macaronienpitsu",
+  "name": "마카로니엔피츠",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "macaroni enpitsu"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "macdemarco",
+  "name": "Mac DeMarco",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "맥데마코"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "maneskin",
+  "name": "Måneskin",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "마네스킨",
+   "maneskin"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "manwithamission",
+  "name": "MAN WITH A MISSION",
+  "genres": [
+   "jrock",
+   "hardrock"
+  ],
+  "aliases": [
+   "맨위드어미션"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "mariyatakeuchi",
+  "name": "타케우치 마리야",
+  "genres": [
+   "citypop",
+   "jrock"
+  ],
+  "aliases": [
+   "mariyatakeuchi",
+   "竹内まりや"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "maroon5",
+  "name": "Maroon 5",
+  "genres": [
+   "modern",
+   "ballad"
+  ],
+  "aliases": [
+   "마룬파이브",
+   "마룬5"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "maximumthehormone",
+  "name": "맥시머 더 호르몬",
+  "genres": [
+   "metal",
+   "hardcore"
+  ],
+  "aliases": [
+   "maximum the hormone"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "mcr",
+  "name": "My Chemical Romance",
+  "genres": [
+   "emo",
+   "punk"
+  ],
+  "aliases": [
+   "마이케미컬로맨스",
+   "엠씨알"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "mcthemax",
+  "name": "엠씨더맥스",
+  "genres": [
+   "ballad",
+   "modern"
+  ],
+  "aliases": [
+   "mc the max"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "megadeth",
+  "name": "Megadeth",
+  "genres": [
+   "metal"
+  ],
+  "aliases": [
+   "메가데스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "metallica",
+  "name": "Metallica",
+  "genres": [
+   "metal",
+   "hardrock"
+  ],
+  "aliases": [
+   "메탈리카"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "mgmt",
+  "name": "MGMT",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "엠지엠티"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "mikimatsubara",
+  "name": "마츠바라 미키",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "miki matsubara"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "misfits",
+  "name": "Misfits",
+  "genres": [
+   "punk",
+   "hardcore"
+  ],
+  "aliases": [
+   "미스핏츠"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "mot",
+  "name": "못(Mot)",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "mot",
+   "못"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "mrchildren",
+  "name": "Mr.Children",
+  "genres": [
+   "jrock",
+   "modern"
+  ],
+  "aliases": [
+   "미스터칠드런",
+   "미스칠"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "mrsgreenapple",
+  "name": "Mrs. GREEN APPLE",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "미세스그린애플"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "muse",
+  "name": "Muse",
+  "genres": [
+   "modern",
+   "hardrock"
+  ],
+  "aliases": [
+   "뮤즈"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "myfirststory",
+  "name": "MY FIRST STORY",
+  "genres": [
+   "jrock",
+   "emo"
+  ],
+  "aliases": [
+   "마이퍼스트스토리"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "nasanghyunband",
+  "name": "나상현씨밴드",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "band nah"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "nell",
+  "name": "넬",
+  "genres": [
+   "modern",
+   "ballad"
+  ],
+  "aliases": [
+   "nell"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "nerdconnection",
+  "name": "너드커넥션",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "nerd connection"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "next",
+  "name": "N.EX.T",
+  "genres": [
+   "metal",
+   "modern"
+  ],
+  "aliases": [
+   "넥스트",
+   "신해철"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "nflying",
+  "name": "N.Flying",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "엔플라잉",
+   "nflying"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "nirvana",
+  "name": "Nirvana",
+  "genres": [
+   "grunge",
+   "punk"
+  ],
+  "aliases": [
+   "너바나",
+   "니르바나"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "nobrain",
+  "name": "노브레인",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "nobrain"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "norahjones",
+  "name": "Norah Jones",
+  "genres": [
+   "jazz",
+   "ballad"
+  ],
+  "aliases": [
+   "노라존스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "numbergirl",
+  "name": "Number Girl",
+  "genres": [
+   "indie",
+   "punk"
+  ],
+  "aliases": [
+   "넘버걸"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "oasis",
+  "name": "Oasis",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [
+   "오아시스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "offspring",
+  "name": "The Offspring",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "오프스프링"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "oksangdalbit",
+  "name": "옥상달빛",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "oksangdalbit",
+   "dalmoon"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "omoinotake",
+  "name": "Omoinotake",
+  "genres": [
+   "citypop",
+   "jrock"
+  ],
+  "aliases": [
+   "오모이노타케"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "oneokrock",
+  "name": "ONE OK ROCK",
+  "genres": [
+   "jrock",
+   "modern"
+  ],
+  "aliases": [
+   "원오크락",
+   "원옥락"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "onerepublic",
+  "name": "OneRepublic",
+  "genres": [
+   "modern",
+   "ballad"
+  ],
+  "aliases": [
+   "원리퍼블릭"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "onewe",
+  "name": "원위(ONEWE)",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "onewe",
+   "원위"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "oralcigarettes",
+  "name": "THE ORAL CIGARETTES",
+  "genres": [
+   "jrock",
+   "modern"
+  ],
+  "aliases": [
+   "오럴시가렛츠"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "paledusk",
+  "name": "Paledusk",
+  "genres": [
+   "metal",
+   "hardcore"
+  ],
+  "aliases": [
+   "페일더스크"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "panicatthedisco",
+  "name": "Panic! At The Disco",
+  "genres": [
+   "emo",
+   "modern"
+  ],
+  "aliases": [
+   "패닉엇더디스코"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "pantera",
+  "name": "Pantera",
+  "genres": [
+   "metal"
+  ],
+  "aliases": [
+   "팬테라"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "paramore",
+  "name": "Paramore",
+  "genres": [
+   "emo",
+   "modern"
+  ],
+  "aliases": [
+   "파라모어"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "parannoul",
+  "name": "파란노을",
+  "genres": [
+   "indie",
+   "grunge"
+  ],
+  "aliases": [
+   "parannoul"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "pearljam",
+  "name": "Pearl Jam",
+  "genres": [
+   "grunge",
+   "hardrock"
+  ],
+  "aliases": [
+   "펄잼"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "peppertones",
+  "name": "페퍼톤스",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "peppertones"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "peterpancomplex",
+  "name": "피터팬 컴플렉스",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "peterpan complex"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "phoenix",
+  "name": "Phoenix",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "피닉스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "pia",
+  "name": "피아(PIA)",
+  "genres": [
+   "metal",
+   "hardcore"
+  ],
+  "aliases": [
+   "pia"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "pinkfloyd",
+  "name": "Pink Floyd",
+  "genres": [
+   "modern",
+   "hardrock"
+  ],
+  "aliases": [
+   "핑크플로이드"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "pornograffitti",
+  "name": "포르노그라피티",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "porno graffitti"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "pulp",
+  "name": "Pulp",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "펄프"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "queen",
+  "name": "Queen",
+  "genres": [
+   "hardrock",
+   "brit"
+  ],
+  "aliases": [
+   "퀸"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "qwer",
+  "name": "QWER",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "큐엄"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "radiohead",
+  "name": "Radiohead",
+  "genres": [
+   "modern",
+   "brit"
+  ],
+  "aliases": [
+   "라디오헤드"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "radwimps",
+  "name": "RADWIMPS",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "래드윔프스",
+   "라드윔프스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "ramones",
+  "name": "Ramones",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "라몬스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "ratm",
+  "name": "Rage Against The Machine",
+  "genres": [
+   "hardcore",
+   "metal"
+  ],
+  "aliases": [
+   "레이지어게인스더머신",
+   "ratm"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "rhcp",
+  "name": "Red Hot Chili Peppers",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "레드핫칠리페퍼스",
+   "rhcp"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "rollercoaster",
+  "name": "롤러코스터",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "roller coaster"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "romanticpunch",
+  "name": "로맨틱펌치",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "romantic punch"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "royalblood",
+  "name": "Royal Blood",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "로얄블러드"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "sakanaction",
+  "name": "사카나켄",
+  "genres": [
+   "jrock",
+   "citypop"
+  ],
+  "aliases": [
+   "sakanaction"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "sanulrim",
+  "name": "산울림",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "sanullim"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "saucydog",
+  "name": "Saucy Dog",
+  "genres": [
+   "jrock",
+   "ballad"
+  ],
+  "aliases": [
+   "소시도그"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "saysueme",
+  "name": "세이수미",
+  "genres": [
+   "indie",
+   "punk"
+  ],
+  "aliases": [
+   "say sue me"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "scandal",
+  "name": "SCANDAL",
+  "genres": [
+   "jrock",
+   "punk"
+  ],
+  "aliases": [
+   "스캔들"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "sekainoowari",
+  "name": "SEKAI NO OWARI",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "세카이노오와리",
+   "세계의끝"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "seosoneon",
+  "name": "새소년",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "sesoneon",
+   "se so neon"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "seotaiji",
+  "name": "서태지",
+  "genres": [
+   "modern",
+   "metal"
+  ],
+  "aliases": [
+   "seotaiji",
+   "서태지와아이들"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "sexpistols",
+  "name": "Sex Pistols",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "섹스피스톨스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "shiinaringo",
+  "name": "시이나 링고",
+  "genres": [
+   "jrock",
+   "jazz"
+  ],
+  "aliases": [
+   "sheena ringo",
+   "shiina ringo"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "silicagel",
+  "name": "실리카겔",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "silicagel"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "simpleplan",
+  "name": "Simple Plan",
+  "genres": [
+   "emo",
+   "punk"
+  ],
+  "aliases": [
+   "심플플랜"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "sinawe",
+  "name": "시나위",
+  "genres": [
+   "hardrock",
+   "metal"
+  ],
+  "aliases": [
+   "sinawe"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "sistersbarbershop",
+  "name": "언니네 이발관",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "sister's barbershop"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "slipknot",
+  "name": "Slipknot",
+  "genres": [
+   "metal",
+   "hardcore"
+  ],
+  "aliases": [
+   "슬립낫"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "smashingpumpkins",
+  "name": "The Smashing Pumpkins",
+  "genres": [
+   "grunge",
+   "modern"
+  ],
+  "aliases": [
+   "스매싱펌킨스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "soad",
+  "name": "System Of A Down",
+  "genres": [
+   "metal",
+   "hardcore"
+  ],
+  "aliases": [
+   "시스템오브어다운",
+   "soad"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "songolmae",
+  "name": "송골매",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "songolmae"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "soundgarden",
+  "name": "Soundgarden",
+  "genres": [
+   "grunge",
+   "metal"
+  ],
+  "aliases": [
+   "사운드가든"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "spitz",
+  "name": "스핏츠",
+  "genres": [
+   "jrock",
+   "indie"
+  ],
+  "aliases": [
+   "spitz"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "srv",
+  "name": "Stevie Ray Vaughan",
+  "genres": [
+   "blues"
+  ],
+  "aliases": [
+   "스티비레이본"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "standingegg",
+  "name": "스탠딩 에그",
+  "genres": [
+   "indie",
+   "ballad"
+  ],
+  "aliases": [
+   "standing egg"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "stellajang",
+  "name": "스텔라장",
+  "genres": [
+   "kpop",
+   "indie"
+  ],
+  "aliases": [
+   "stella jang"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "stoneroses",
+  "name": "The Stone Roses",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "스톤로지스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "suede",
+  "name": "Suede",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "스웨이드"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "sum41",
+  "name": "Sum 41",
+  "genres": [
+   "punk",
+   "emo"
+  ],
+  "aliases": [
+   "썸41",
+   "섬41"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "surl",
+  "name": "설(SURL)",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "surl",
+   "설"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "tameimpala",
+  "name": "Tame Impala",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "테임임팔라"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "tatsuroyamashita",
+  "name": "야마시타 타츠로",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "tatsuroyamashita",
+   "山下達郎"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "tencm",
+  "name": "10CM",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "십센치",
+   "10센치"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "tenfeet",
+  "name": "10-FEET",
+  "genres": [
+   "punk",
+   "jrock"
+  ],
+  "aliases": [
+   "텐피트"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "the1975",
+  "name": "The 1975",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "더1975"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "theclash",
+  "name": "The Clash",
+  "genres": [
+   "punk",
+   "brit"
+  ],
+  "aliases": [
+   "클래시"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "thecure",
+  "name": "The Cure",
+  "genres": [
+   "indie",
+   "brit"
+  ],
+  "aliases": [
+   "더큐어"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "thekillers",
+  "name": "The Killers",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "킬러스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "therose",
+  "name": "The Rose",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "더로즈"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "thesmiths",
+  "name": "The Smiths",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "더스미스",
+   "smiths"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "thestrokes",
+  "name": "The Strokes",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "스트록스",
+   "strokes"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "theverve",
+  "name": "The Verve",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [
+   "버브"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "thornapple",
+  "name": "쏜애플",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "thornapple"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "tokyojihen",
+  "name": "도쿄지헨",
+  "genres": [
+   "jrock",
+   "jazz"
+  ],
+  "aliases": [
+   "tokyo jihen",
+   "tokyo incidents",
+   "도쿄사변"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "touched",
+  "name": "터치드",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "touched"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "travis",
+  "name": "Travis",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [
+   "트래비스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "tricot",
+  "name": "tricot",
+  "genres": [
+   "indie",
+   "jrock"
+  ],
+  "aliases": [
+   "트리코"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "twentyonepilots",
+  "name": "Twenty One Pilots",
+  "genres": [
+   "modern",
+   "emo"
+  ],
+  "aliases": [
+   "트웨니원파일럿츠"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "twodoorcinemaclub",
+  "name": "Two Door Cinema Club",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "투도어시네마클럽"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "u2",
+  "name": "U2",
+  "genres": [
+   "modern",
+   "hardrock"
+  ],
+  "aliases": [
+   "유투"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "uverworld",
+  "name": "UVERworld",
+  "genres": [
+   "jrock",
+   "modern"
+  ],
+  "aliases": [
+   "우버월드"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "vampireweekend",
+  "name": "Vampire Weekend",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "뱀파이어위켄드"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "vassline",
+  "name": "바세린",
+  "genres": [
+   "hardcore",
+   "metal"
+  ],
+  "aliases": [
+   "vassline"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "vaundy",
+  "name": "Vaundy",
+  "genres": [
+   "jrock",
+   "citypop"
+  ],
+  "aliases": [
+   "바운디"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "wanima",
+  "name": "WANIMA",
+  "genres": [
+   "punk",
+   "jrock"
+  ],
+  "aliases": [
+   "와니마"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "wavetoearth",
+  "name": "wave to earth",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "웨이브투어스"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "weezer",
+  "name": "Weezer",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "위저"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "xjapan",
+  "name": "X JAPAN",
+  "genres": [
+   "metal",
+   "jrock"
+  ],
+  "aliases": [
+   "엑스재팬"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "yb",
+  "name": "YB(윤도현밴드)",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "yb",
+   "윤도현밴드",
+   "윤도현"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "yerinbaek",
+  "name": "백예린",
+  "genres": [
+   "citypop",
+   "kpop"
+  ],
+  "aliases": [
+   "yerin baek"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "yoasobi",
+  "name": "YOASOBI",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "요아소비"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "yorushika",
+  "name": "요루시카",
+  "genres": [
+   "jrock",
+   "indie"
+  ],
+  "aliases": [
+   "yorushika",
+   "ヨルシカ"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "yudabinband",
+  "name": "유다빈밴드",
+  "genres": [
+   "indie",
+   "ballad"
+  ],
+  "aliases": [
+   "yudabin band"
+  ],
+  "source": "seed"
+ },
+ {
+  "slug": "zutomayo",
+  "name": "ZUTOMAYO",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "즛토마요",
+   "ずっと真夜中でいいのに"
+  ],
+  "source": "seed"
+ }
+]
