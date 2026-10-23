@@ -2942,5 +2942,9029 @@
    "ずっと真夜中でいいのに"
   ],
   "source": "seed"
+ },
+ {
+  "slug": "a_4ippm",
+  "name": "윤상",
+  "genres": [
+   "citypop",
+   "ballad"
+  ],
+  "aliases": [
+   "Yoon Sang"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_458yve",
+  "name": "이승환",
+  "genres": [
+   "modern",
+   "ballad"
+  ],
+  "aliases": [
+   "Lee Seung-hwan",
+   "이승환밴드"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_455nbl",
+  "name": "이날치",
+  "genres": [
+   "folk",
+   "jazz"
+  ],
+  "aliases": [
+   "Leenalchi",
+   "LEENALCHI"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_411wyt",
+  "name": "김사월",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Kim Sawol"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_3xvzop",
+  "name": "Mogwai",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "모과이"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1shp4gq",
+  "name": "Phum Viphurit",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "품 비푸릿",
+   "품비푸릿"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_3dxlux",
+  "name": "더 발룬티어스",
+  "genres": [
+   "modern",
+   "indie",
+   "grunge"
+  ],
+  "aliases": [
+   "The Volunteers",
+   "발룬티어스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_45g6ub",
+  "name": "정홍일",
+  "genres": [
+   "hardrock",
+   "metal"
+  ],
+  "aliases": [
+   "Jeong Hong-il",
+   "Jung Hong-il"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_432hdp",
+  "name": "메써드",
+  "genres": [
+   "metal",
+   "hardcore"
+  ],
+  "aliases": [
+   "METHOD",
+   "메소드"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1rl1n6x",
+  "name": "The Linda Lindas",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "린다린다스",
+   "더 린다 린다스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_47nxr9",
+  "name": "헤이맨",
+  "genres": [
+   "modern"
+  ],
+  "aliases": [
+   "Hey Men",
+   "Heymen"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1su2afi",
+  "name": "선우정아",
+  "genres": [
+   "jazz",
+   "indie"
+  ],
+  "aliases": [
+   "Sunwoo Jung-a",
+   "Sunwoojunga"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_457jdd",
+  "name": "이무진",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "Lee Mujin",
+   "Lee Mu-jin"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1h2ux4z",
+  "name": "Elephant Gym",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "엘리펀트짐",
+   "엘리펀트 짐"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_46ofep",
+  "name": "크랙샷",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "Crack Shot",
+   "CRACKSHOT"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1jxgwyn",
+  "name": "Japanese Breakfast",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "재패니즈 브렉퍼스트",
+   "재패니즈브렉퍼스트"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4h3d9",
+  "name": "비비",
+  "genres": [
+   "jazz",
+   "kpop"
+  ],
+  "aliases": [
+   "BIBI"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_3774kj",
+  "name": "CHS",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "씨에이치에스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_11pv3cb",
+  "name": "이디오테잎",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "Idiotape"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1cg8a5s",
+  "name": "Tahiti 80",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "타히티80",
+   "타히티 에이티"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4ins1",
+  "name": "유라",
+  "genres": [
+   "indie",
+   "jazz"
+  ],
+  "aliases": [
+   "youra"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_44e6gd",
+  "name": "시네마",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "CNEMA"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4krsq",
+  "name": "트립",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "TRPP"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1rba8ul",
+  "name": "효도앤베이스",
+  "genres": [
+   "jazz",
+   "citypop"
+  ],
+  "aliases": [
+   "Hyodo and BASS",
+   "효도와베이스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1jjnyj2",
+  "name": "지소쿠리클럽",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "jisokuryClub",
+   "Jisokury Club",
+   "지소쿠리"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1ssdqng",
+  "name": "Deafheaven",
+  "genres": [
+   "metal",
+   "indie"
+  ],
+  "aliases": [
+   "데프헤븐",
+   "데프헤번"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1uikb34",
+  "name": "Crack Cloud",
+  "genres": [
+   "punk",
+   "indie"
+  ],
+  "aliases": [
+   "크랙 클라우드",
+   "크랙클라우드"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4ir31",
+  "name": "우효",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "Oohyo"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4ipxm",
+  "name": "이랑",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "Lang Lee",
+   "Lee Lang"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1oemu8x",
+  "name": "오션프롬더블루",
+  "genres": [
+   "jazz",
+   "indie"
+  ],
+  "aliases": [
+   "oceanfromtheblue"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1vwh5v5",
+  "name": "해서웨이",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "Hathaw9y",
+   "Hathaway"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_458vva",
+  "name": "이승윤",
+  "genres": [
+   "modern",
+   "folk"
+  ],
+  "aliases": [
+   "Lee Seung-yoon",
+   "Lee Seungyoon"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1puwje9",
+  "name": "글렌체크",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "Glen Check",
+   "Glencheck"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1etbig2",
+  "name": "미닝풀스톤",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "Meaningful Stone"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_syu9ol",
+  "name": "드링킹소년소녀합창단",
+  "genres": [
+   "punk",
+   "hardcore"
+  ],
+  "aliases": [
+   "Drinking Boys and Girls Choir",
+   "DBGC"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1qovbmx",
+  "name": "더 보울스",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "The Bowls",
+   "보울스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1swetfu",
+  "name": "소음발광",
+  "genres": [
+   "punk",
+   "indie"
+  ],
+  "aliases": [
+   "Soumbalgwang"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_139ss1c",
+  "name": "니클리어 이디엇츠",
+  "genres": [
+   "punk",
+   "citypop"
+  ],
+  "aliases": [
+   "Nuclear Idiots",
+   "뉴클리어이디엇츠"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1s7w2va",
+  "name": "봉제인간",
+  "genres": [
+   "indie",
+   "punk"
+  ],
+  "aliases": [
+   "Bongjeingan"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_44inwr",
+  "name": "스킵잭",
+  "genres": [
+   "emo",
+   "punk"
+  ],
+  "aliases": [
+   "Skipjack"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4hrvd",
+  "name": "수민",
+  "genres": [
+   "jazz",
+   "citypop"
+  ],
+  "aliases": [
+   "SUMIN"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4132tp",
+  "name": "김윤아",
+  "genres": [
+   "modern",
+   "ballad"
+  ],
+  "aliases": [
+   "Kim Yoon-ah",
+   "Kim Yuna"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4j2sl",
+  "name": "죠지",
+  "genres": [
+   "jazz",
+   "citypop"
+  ],
+  "aliases": [
+   "George"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1or6btt",
+  "name": "아디오스 오디오",
+  "genres": [
+   "modern",
+   "emo"
+  ],
+  "aliases": [
+   "Adios Audio"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1krbbyu",
+  "name": "김창완밴드",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "Kim Chang-wan Band"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_40zcop",
+  "name": "권진아",
+  "genres": [
+   "ballad",
+   "folk"
+  ],
+  "aliases": [
+   "Kwon Jin-ah",
+   "Kwon Jinah",
+   "권진아 밴드"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4f1so",
+  "name": "다섯",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Dasutt"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1tzspi5",
+  "name": "마이 앤트 메리",
+  "genres": [
+   "modern",
+   "brit"
+  ],
+  "aliases": [
+   "My Aunt Mary"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_41zq6p",
+  "name": "더 폴스",
+  "genres": [
+   "modern",
+   "brit"
+  ],
+  "aliases": [
+   "The Poles",
+   "폴스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_41t261",
+  "name": "다브다",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "Dabda"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_shlgrp",
+  "name": "라드뮤지엄",
+  "genres": [
+   "jazz",
+   "indie"
+  ],
+  "aliases": [
+   "Rad Museum"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1utvz1p",
+  "name": "Otoboke Beaver",
+  "genres": [
+   "punk",
+   "jrock"
+  ],
+  "aliases": [
+   "오토보케 비버",
+   "오토보케비버"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1okbki5",
+  "name": "김일두와 불세출",
+  "genres": [
+   "folk",
+   "blues"
+  ],
+  "aliases": [
+   "Kim Il Du",
+   "김일두"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_43cq6e",
+  "name": "박소은",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Park So-eun",
+   "Park Soeun"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4ix0q",
+  "name": "정우",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Jungwoo"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_3ubdd1",
+  "name": "Ginger Root",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "진저루트",
+   "진저 루트"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_7k4yi9",
+  "name": "데이먼스 이어",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "Damons Year"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1tmvp5p",
+  "name": "웬디완더",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "Wendy Wander"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_46mktp",
+  "name": "코토바",
+  "genres": [
+   "indie",
+   "jrock"
+  ],
+  "aliases": [
+   "cotoba"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_19wvzm5",
+  "name": "초록불꽃소년단",
+  "genres": [
+   "indie",
+   "punk"
+  ],
+  "aliases": [
+   "Green Flame Boys"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_i7gsp",
+  "name": "스네이크치킨수프",
+  "genres": [
+   "indie",
+   "punk"
+  ],
+  "aliases": [
+   "Snake Chicken Soup"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4e4nq",
+  "name": "김늑",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "Kim Neuk"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_41zyka",
+  "name": "더 픽스",
+  "genres": [
+   "modern",
+   "brit"
+  ],
+  "aliases": [
+   "The Fix"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_edj3vz",
+  "name": "모스크바서핑클럽",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "Moskva Surfing Club"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1dwir3",
+  "name": "Turnstile",
+  "genres": [
+   "hardcore",
+   "punk"
+  ],
+  "aliases": [
+   "턴스타일"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_42nq3d",
+  "name": "라쿠나",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "Lacuna"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4jz2l",
+  "name": "카디",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "KARDI"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_xqijkv",
+  "name": "Jack White",
+  "genres": [
+   "blues",
+   "hardrock"
+  ],
+  "aliases": [
+   "잭 화이트",
+   "잭화이트"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_m1eed",
+  "name": "girl in red",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "걸 인 레드",
+   "걸인레드"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_12fmftp",
+  "name": "브로큰 발렌타인",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "Broken Valentine"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_3fjg6g",
+  "name": "녹황색사회",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "Ryokuoushoku Shakai",
+   "緑黄色社会",
+   "료쿠오쇼쿠샤카이",
+   "리쿠오"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_42vtl5",
+  "name": "리도어",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "Redoor"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_jzi83z",
+  "name": "Kim Gordon",
+  "genres": [
+   "indie",
+   "punk"
+  ],
+  "aliases": [
+   "킴 고든",
+   "킴고든"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_377j0t",
+  "name": "toe",
+  "genres": [
+   "indie",
+   "jrock"
+  ],
+  "aliases": [
+   "토"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1ybvxuw",
+  "name": "Fire EX.",
+  "genres": [
+   "punk",
+   "modern"
+  ],
+  "aliases": [
+   "파이어 엑스",
+   "滅火器",
+   "파이어엑스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_x5ppbp",
+  "name": "Remnants of the Fallen",
+  "genres": [
+   "metal",
+   "hardcore"
+  ],
+  "aliases": [
+   "렘넌츠 오브 더 폴른"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1go9ek5",
+  "name": "아마도이자람밴드",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "Amado Lee Jaram Band",
+   "이자람"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykqpbd",
+  "name": "Ride",
+  "genres": [
+   "indie",
+   "brit"
+  ],
+  "aliases": [
+   "라이드"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1uqv7lj",
+  "name": "Dark Mirror ov Tragedy",
+  "genres": [
+   "metal"
+  ],
+  "aliases": [
+   "다크 미러 오브 트래지디"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_12zby1e",
+  "name": "Yuta Orisaka",
+  "genres": [
+   "folk",
+   "citypop"
+  ],
+  "aliases": [
+   "오리사카 유타",
+   "折坂悠太"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1d0zftx",
+  "name": "추다혜차지스",
+  "genres": [
+   "jazz",
+   "folk"
+  ],
+  "aliases": [
+   "Chudahye Chagis"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1s1nx6m",
+  "name": "미역수염",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "Seaweed Mustache"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ie02ru",
+  "name": "Sepultura",
+  "genres": [
+   "metal"
+  ],
+  "aliases": [
+   "세풀투라"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_458j22",
+  "name": "이상은",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Lee Sang-eun",
+   "Lee Tzsche"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4ieot",
+  "name": "아월",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "OurR"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1659isn",
+  "name": "극동아시아타이거즈",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "Far East Asian Tigers"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1uwtyki",
+  "name": "캐치더영",
+  "genres": [
+   "modern",
+   "emo"
+  ],
+  "aliases": [
+   "Catch The Young",
+   "CATCH THE YOUNG"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_42a9t1",
+  "name": "디폴트",
+  "genres": [
+   "modern",
+   "emo"
+  ],
+  "aliases": [
+   "Default.",
+   "DEFAULT"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4ijbe",
+  "name": "연정",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Yeonjeong"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4gkhh",
+  "name": "모허",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "Moher"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_hvp965",
+  "name": "세일러 허니문",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "Sailor Honeymoon"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1mbo0eg",
+  "name": "Sunset Rollercoaster",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "선셋 롤러코스터",
+   "落日飛車",
+   "낙일비차"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykea9m",
+  "name": "Beck",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "벡"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4gdb9",
+  "name": "마치",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "MRCH"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1u7s7ya",
+  "name": "Tempalay",
+  "genres": [
+   "jrock",
+   "indie"
+  ],
+  "aliases": [
+   "템팔레이"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_fnp2up",
+  "name": "드래곤포니",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "Dragon Pony"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1bijlti",
+  "name": "Kaneko Ayano",
+  "genres": [
+   "folk",
+   "jrock"
+  ],
+  "aliases": [
+   "카네코 아야노",
+   "카네코아야노",
+   "カネコアヤノ"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1jsl4vd",
+  "name": "바이 바이 배드맨",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "Bye Bye Badman"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1h6zi15",
+  "name": "단편선 순간들",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Danpyunsun & The Moments",
+   "단편선과 순간들",
+   "단편선"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1okejxc",
+  "name": "3호선 버터플라이",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "3rd Line Butterfly",
+   "삼호선버터플라이"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_410xh9",
+  "name": "김민규",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "Kim Min-kyu",
+   "스위트피"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_91mivd",
+  "name": "Touché Amoré",
+  "genres": [
+   "hardcore",
+   "emo"
+  ],
+  "aliases": [
+   "투셰 아모레",
+   "Touche Amore"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_18s6bfj",
+  "name": "Brandy Senki",
+  "genres": [
+   "jrock",
+   "indie"
+  ],
+  "aliases": [
+   "브랜디 전기",
+   "브랜디전기",
+   "ブランデー戦記"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_449yke",
+  "name": "송소희",
+  "genres": [
+   "folk",
+   "kpop"
+  ],
+  "aliases": [
+   "Song So-hee",
+   "Song Sohee"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1rg4746",
+  "name": "롤링쿼츠",
+  "genres": [
+   "hardrock",
+   "metal"
+  ],
+  "aliases": [
+   "Rolling Quartz"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_412are",
+  "name": "김승주",
+  "genres": [
+   "modern",
+   "ballad"
+  ],
+  "aliases": [
+   "Kim Seung-joo",
+   "Kimseungjoo"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_wlri3g",
+  "name": "로다운 30",
+  "genres": [
+   "blues",
+   "hardrock"
+  ],
+  "aliases": [
+   "Lowdown 30"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_exmrxi",
+  "name": "서울전자음악단",
+  "genres": [
+   "indie",
+   "hardrock"
+  ],
+  "aliases": [
+   "Seoul Electric Band"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_17330fk",
+  "name": "오마르와 동방전력",
+  "genres": [
+   "jazz",
+   "folk"
+  ],
+  "aliases": [
+   "Omar and the Eastern Power"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_43ae11",
+  "name": "밀레나",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Milena"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_41zarm",
+  "name": "데카당",
+  "genres": [
+   "blues",
+   "indie"
+  ],
+  "aliases": [
+   "Decadent"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_11ci1bi",
+  "name": "Khruangbin",
+  "genres": [
+   "jazz",
+   "indie"
+  ],
+  "aliases": [
+   "크루앙빈"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_wfj6mt",
+  "name": "Massive Attack",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "매시브 어택",
+   "매시브어택"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1ou3hxm",
+  "name": "never young beach",
+  "genres": [
+   "jrock",
+   "indie"
+  ],
+  "aliases": [
+   "네버 영 비치",
+   "네버영비치"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_5rwo8n",
+  "name": "Pixies",
+  "genres": [
+   "indie",
+   "punk"
+  ],
+  "aliases": [
+   "픽시스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_128zc3m",
+  "name": "엑스디너리 히어로즈",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "Xdinary Heroes",
+   "엑디즈"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_13unde7",
+  "name": "The Lemon Twigs",
+  "genres": [
+   "indie",
+   "hardrock"
+  ],
+  "aliases": [
+   "레몬 트윅스",
+   "레몬트윅스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4gbayz",
+  "name": "Mono No Aware",
+  "genres": [
+   "jrock",
+   "indie"
+  ],
+  "aliases": [
+   "모노노아와레"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_44ib9x",
+  "name": "신인류",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "Shin In Ryu",
+   "Sininryu"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_169rfcv",
+  "name": "The Jesus and Mary Chain",
+  "genres": [
+   "indie",
+   "brit"
+  ],
+  "aliases": [
+   "지저스 앤 메리 체인",
+   "지저스앤메리체인"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_45dcx6",
+  "name": "장필순",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "Jang Pill-soon",
+   "Jang Pil-soon"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_kw765t",
+  "name": "하이파이유니콘",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "Hi-Fi Un!corn",
+   "HiFi Unicorn"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_csaqd5",
+  "name": "술탄 오브 더 디스코",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "Sultan of the Disco"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_qrzys0",
+  "name": "Original Love",
+  "genres": [
+   "citypop",
+   "jrock"
+  ],
+  "aliases": [
+   "오리지널 러브",
+   "오리지널러브"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_169249",
+  "name": "노이즈가든",
+  "genres": [
+   "grunge",
+   "hardrock"
+  ],
+  "aliases": [
+   "Noizegarden"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_r1horj",
+  "name": "betcover!!",
+  "genres": [
+   "jrock",
+   "indie"
+  ],
+  "aliases": [
+   "벳커버",
+   "벳코버"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_43h3mm",
+  "name": "백현진",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Bek Hyunjin",
+   "Baek Hyun-jin"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_8knh5l",
+  "name": "Flesh Juicer",
+  "genres": [
+   "metal",
+   "hardcore"
+  ],
+  "aliases": [
+   "플레시 쥬서",
+   "血肉果汁機"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_97qyny",
+  "name": "피치트럭하이재커스",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "Peach Truck Hijackers"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_41sw1a",
+  "name": "더 긱스",
+  "genres": [
+   "hardcore",
+   "punk"
+  ],
+  "aliases": [
+   "The Geeks",
+   "긱스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1vulfoh",
+  "name": "할로우 잰",
+  "genres": [
+   "hardcore",
+   "metal"
+  ],
+  "aliases": [
+   "Hollow Jan"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_6ff6v4",
+  "name": "Turtle Island",
+  "genres": [
+   "punk",
+   "folk"
+  ],
+  "aliases": [
+   "터틀 아일랜드",
+   "터틀아일랜드"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1wa94ky",
+  "name": "Cigarettes After Sex",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "시가렛 애프터 섹스",
+   "시가렛애프터섹스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_riql72",
+  "name": "Hippo Campus",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "히포 캠퍼스",
+   "히포캠퍼스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_42a4y7",
+  "name": "딕펑스",
+  "genres": [
+   "modern",
+   "punk"
+  ],
+  "aliases": [
+   "DickPunks"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_437ojd",
+  "name": "문수진",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "Moon Su-jin"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4ez6t",
+  "name": "달담",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Daldam"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_cbjmvp",
+  "name": "Bastille",
+  "genres": [
+   "modern",
+   "citypop"
+  ],
+  "aliases": [
+   "배스틸",
+   "바스틸"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_m2vk23",
+  "name": "Oh Wonder",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "오 원더",
+   "오원더"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4hnf5",
+  "name": "소란",
+  "genres": [
+   "modern",
+   "citypop"
+  ],
+  "aliases": [
+   "Soran"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4iohp",
+  "name": "우즈",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "WOODZ"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_17a82ev",
+  "name": "I Mean Us",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "아이 민 어스",
+   "아이민어스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4gp95",
+  "name": "민수",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Minsu"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1lv8x3m",
+  "name": "데스크탑에러",
+  "genres": [
+   "grunge",
+   "indie"
+  ],
+  "aliases": [
+   "Desktop Error"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4br09p",
+  "name": "HONNE",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "혼네"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_45csno",
+  "name": "잭킹콩",
+  "genres": [
+   "modern"
+  ],
+  "aliases": [
+   "Jackingcong",
+   "Jack King Kong"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_6qbpfr",
+  "name": "Tilly Birds",
+  "genres": [
+   "modern"
+  ],
+  "aliases": [
+   "틸리 버즈",
+   "틸리버즈"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_bps98i",
+  "name": "Young K",
+  "genres": [
+   "modern",
+   "kpop"
+  ],
+  "aliases": [
+   "영케이",
+   "강영현"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykjdff",
+  "name": "HYBS",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "힙스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykjdgv",
+  "name": "HYDE",
+  "genres": [
+   "jrock",
+   "hardrock"
+  ],
+  "aliases": [
+   "하이드"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1cfdq09",
+  "name": "Starsailor",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "스타세일러"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_11n1oga",
+  "name": "해리빅버튼",
+  "genres": [
+   "hardrock",
+   "metal"
+  ],
+  "aliases": [
+   "Harry Big Button"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_449fip",
+  "name": "소수빈",
+  "genres": [
+   "ballad",
+   "folk"
+  ],
+  "aliases": [
+   "So Soo-bin",
+   "So Soobin"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1qs11z9",
+  "name": "더 크로스",
+  "genres": [
+   "hardrock",
+   "ballad"
+  ],
+  "aliases": [
+   "The Cross"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_12ettv3",
+  "name": "로우행잉프루츠",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "Low Hanging Fruits"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4iogmg",
+  "name": "RIIZE",
+  "genres": [
+   "kpop"
+  ],
+  "aliases": [
+   "라이즈"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1osv8hi",
+  "name": "양치기소년단",
+  "genres": [
+   "modern"
+  ],
+  "aliases": [
+   "Yangchigi Sonyeondan"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_455fs9",
+  "name": "윤마치",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Yun Marchi",
+   "Yoon Marchi"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykmuuf",
+  "name": "MIKA",
+  "genres": [
+   "modern",
+   "citypop"
+  ],
+  "aliases": [
+   "미카"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1tljspp",
+  "name": "오월오일",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "OWOI",
+   "5월5일"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_414myh",
+  "name": "까치산",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "Kkachisan"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1vsk6fq",
+  "name": "프랭클리",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "Frankly",
+   "FRankly"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1jl71ng",
+  "name": "Slot Machine",
+  "genres": [
+   "modern",
+   "hardrock"
+  ],
+  "aliases": [
+   "슬롯 머신",
+   "슬롯머신"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_t2g1fy",
+  "name": "Tokyo Ska Paradise Orchestra",
+  "genres": [
+   "jazz",
+   "punk"
+  ],
+  "aliases": [
+   "도쿄 스카 파라다이스 오케스트라",
+   "스카파라"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_40oyii",
+  "name": "강산에",
+  "genres": [
+   "folk",
+   "modern"
+  ],
+  "aliases": [
+   "Kang San-eh",
+   "Kang Sanae"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4e08a",
+  "name": "공원",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "gongwon"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykgamt",
+  "name": "DYGL",
+  "genres": [
+   "indie",
+   "brit"
+  ],
+  "aliases": [
+   "데이글로"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_j0ynas",
+  "name": "Luck Life",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "럭라이프",
+   "럭 라이프"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1cx3alj",
+  "name": "Suchmos",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "서치모스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_40q70e",
+  "name": "고고학",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "GOGOHAWK",
+   "Gogohawk"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ldd00h",
+  "name": "Skawakers",
+  "genres": [
+   "punk",
+   "jazz"
+  ],
+  "aliases": [
+   "스카워커스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_411vf6",
+  "name": "김성규",
+  "genres": [
+   "kpop",
+   "ballad"
+  ],
+  "aliases": [
+   "Kim Sung-kyu"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1qgi11p",
+  "name": "놀이도감",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "Noridogam"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_47ncea",
+  "name": "하현상",
+  "genres": [
+   "ballad",
+   "modern"
+  ],
+  "aliases": [
+   "Ha Hyun-sang"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1rqk066",
+  "name": "멜로망스",
+  "genres": [
+   "ballad",
+   "jazz"
+  ],
+  "aliases": [
+   "MeloMance"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1qs13r6",
+  "name": "더 클래식",
+  "genres": [
+   "ballad"
+  ],
+  "aliases": [
+   "The Classic"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_468wel",
+  "name": "최유리",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "Choi Yu-ree",
+   "Choi Yuree"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4ebih",
+  "name": "김필",
+  "genres": [
+   "ballad",
+   "modern"
+  ],
+  "aliases": [
+   "Kim Feel",
+   "Kim Pil"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ursy4j",
+  "name": "HYNN(박혜원)",
+  "genres": [
+   "ballad"
+  ],
+  "aliases": [
+   "HYNN",
+   "박혜원",
+   "힌"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4gq0e",
+  "name": "버둥",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "Burdung"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4gun1",
+  "name": "범진",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "Beomjin"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4j8n2",
+  "name": "짙은",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Zitten"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_46wppa",
+  "name": "ATEEZ",
+  "genres": [
+   "kpop"
+  ],
+  "aliases": [
+   "에이티즈"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4e945",
+  "name": "규현",
+  "genres": [
+   "ballad",
+   "kpop"
+  ],
+  "aliases": [
+   "Kyuhyun"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_47qfbn",
+  "name": "홍이삭",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "Hong Isaac"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_47h1xy",
+  "name": "하동균",
+  "genres": [
+   "ballad",
+   "blues"
+  ],
+  "aliases": [
+   "Ha Dong-kyun"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4l6id",
+  "name": "프롬",
+  "genres": [
+   "folk",
+   "citypop"
+  ],
+  "aliases": [
+   "Fromm"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4f0bd",
+  "name": "다린",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "Dareen"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1s760ya",
+  "name": "불독맨션",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "Bulldog Mansion"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_11w5u1s",
+  "name": "위아더나잇",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "We Are The Night"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1su822l",
+  "name": "솔루션스",
+  "genres": [
+   "modern",
+   "citypop"
+  ],
+  "aliases": [
+   "The Solutions",
+   "THE SOLUTIONS"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_g9ramw",
+  "name": "스윗소로우",
+  "genres": [
+   "ballad"
+  ],
+  "aliases": [
+   "Sweet Sorrow"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_47py0m",
+  "name": "허회경",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "Heo Hoe-kyung"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4e0mt",
+  "name": "구름",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "Gureum"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_413cgm",
+  "name": "김제형",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "Kim Jehyung"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_rxkie5",
+  "name": "Tuesday Beach Club",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "튜즈데이 비치 클럽",
+   "튜즈데이비치클럽"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4l4dp",
+  "name": "폴킴",
+  "genres": [
+   "ballad",
+   "jazz"
+  ],
+  "aliases": [
+   "Paul Kim"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_45cq5n",
+  "name": "정승환",
+  "genres": [
+   "ballad"
+  ],
+  "aliases": [
+   "Jung Seung-hwan"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4103nw",
+  "name": "김뜻돌",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "Kim Ddeutdol"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_6xka41",
+  "name": "캔트비블루",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "can't be blue",
+   "cant be blue"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_lctdpo",
+  "name": "PAMUNGKAS",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "파뭉카스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_o2ywtt",
+  "name": "Michael Kaneko",
+  "genres": [
+   "citypop",
+   "folk"
+  ],
+  "aliases": [
+   "마이클 카네코",
+   "마이클카네코"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1798j6t",
+  "name": "베리코이버니",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "Verycoybunny"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_45cd9i",
+  "name": "정세운",
+  "genres": [
+   "ballad",
+   "kpop"
+  ],
+  "aliases": [
+   "Jeong Sewoon"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_458l41",
+  "name": "이소라",
+  "genres": [
+   "ballad",
+   "jazz"
+  ],
+  "aliases": [
+   "Lee So-ra",
+   "Lee Sora"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_42rlrd",
+  "name": "로이킴",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "Roy Kim"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ixbkl1",
+  "name": "리브아워티어스",
+  "genres": [
+   "hardcore",
+   "emo"
+  ],
+  "aliases": [
+   "Leaveourtears"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_44ivyl",
+  "name": "신지훈",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "Shin Ji-hoon"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_458lba",
+  "name": "이석원",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "Lee Seok-won"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1w42ns9",
+  "name": "호피폴라",
+  "genres": [
+   "ballad",
+   "indie"
+  ],
+  "aliases": [
+   "Hoppipolla"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4k4xp",
+  "name": "콜드",
+  "genres": [
+   "jazz",
+   "indie"
+  ],
+  "aliases": [
+   "Colde"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1oueq6h",
+  "name": "디어클라우드",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "Dear Cloud",
+   "Dearcloud"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1sqrwj9",
+  "name": "서도밴드",
+  "genres": [
+   "folk",
+   "modern"
+  ],
+  "aliases": [
+   "Sordo Band",
+   "Seodo Band"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1y5un9h",
+  "name": "노리플라이",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "No Reply"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4gr8a",
+  "name": "백아",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "Baek-a"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4hh0d",
+  "name": "샘김",
+  "genres": [
+   "jazz",
+   "folk"
+  ],
+  "aliases": [
+   "Sam Kim"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_46zztf",
+  "name": "AxMxP",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "에이엠피"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_47m23e",
+  "name": "황가람",
+  "genres": [
+   "ballad"
+  ],
+  "aliases": [
+   "Hwang Ga-ram"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4irmh",
+  "name": "원필",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "Wonpil"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_44dzyl",
+  "name": "심규선",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "Lucia",
+   "Shim Kyu-sun"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_44wi9h",
+  "name": "안예은",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "Ahn Ye-eun"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4ikpp",
+  "name": "오존",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "O3ohn"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1oxdzgf",
+  "name": "Nothing But Thieves",
+  "genres": [
+   "modern",
+   "brit"
+  ],
+  "aliases": [
+   "낫띵 벗 띠브스",
+   "나띵벗띠브스",
+   "낫싱벗씨브즈"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_458a8a",
+  "name": "윤지영",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Yoon Ji-young"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_44inml",
+  "name": "스키조",
+  "genres": [
+   "punk",
+   "hardrock"
+  ],
+  "aliases": [
+   "Schizo"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_124s7sd",
+  "name": "윤수일밴드",
+  "genres": [
+   "citypop",
+   "hardrock"
+  ],
+  "aliases": [
+   "Yoon Soo-il Band",
+   "윤수일"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_412yjx",
+  "name": "김오키",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "Kim Oki",
+   "김오키 뻐킹매드니스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_47kkaq",
+  "name": "한영애",
+  "genres": [
+   "blues",
+   "folk"
+  ],
+  "aliases": [
+   "Han Young-ae"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_13q1icp",
+  "name": "Bandit Bandit",
+  "genres": [
+   "modern"
+  ],
+  "aliases": [
+   "밴딧 밴딧"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1noufgv",
+  "name": "Starcrawler",
+  "genres": [
+   "punk",
+   "hardrock"
+  ],
+  "aliases": [
+   "스타크롤러"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1pm4rcy",
+  "name": "Bohemian Betyars",
+  "genres": [
+   "folk",
+   "punk"
+  ],
+  "aliases": [
+   "보헤미안 베티아스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_j109ze",
+  "name": "The Inspector Cluzo",
+  "genres": [
+   "blues",
+   "hardrock"
+  ],
+  "aliases": [
+   "인스펙터 클루조"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1oy8ayh",
+  "name": "게이트 플라워즈",
+  "genres": [
+   "blues",
+   "hardrock"
+  ],
+  "aliases": [
+   "Gate Flowers"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4672ru",
+  "name": "최백호",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "Choi Baek-ho"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_sw33vw",
+  "name": "Michael Rother",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "미하엘 로터"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4bpfa6",
+  "name": "HMLTD",
+  "genres": [
+   "indie",
+   "punk"
+  ],
+  "aliases": [
+   "에이치엠엘티디"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_j1wliq",
+  "name": "Yellow Days",
+  "genres": [
+   "indie",
+   "jazz"
+  ],
+  "aliases": [
+   "옐로우 데이즈"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_yf9i0t",
+  "name": "9와 숫자들",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "9 and the Numbers",
+   "구와숫자들"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1tlqr0w",
+  "name": "Johnnivan",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "조니반"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1gmwwf6",
+  "name": "어어부 프로젝트",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "Uhuhboo Project",
+   "어어부"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4127dp",
+  "name": "김수철",
+  "genres": [
+   "hardrock",
+   "folk"
+  ],
+  "aliases": [
+   "Kim Soo-chul"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_99g138",
+  "name": "No Buses",
+  "genres": [
+   "indie",
+   "jrock"
+  ],
+  "aliases": [
+   "노 버시스",
+   "노버시스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_138761c",
+  "name": "Porridge Radio",
+  "genres": [
+   "indie",
+   "punk"
+  ],
+  "aliases": [
+   "포리지 라디오"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_yjiuyj",
+  "name": "9m88",
+  "genres": [
+   "jazz",
+   "citypop"
+  ],
+  "aliases": [],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1alqgj4",
+  "name": "Minami Deutsch",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "미나미 도이치"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1umx093",
+  "name": "TENDOUJI",
+  "genres": [
+   "jrock",
+   "indie"
+  ],
+  "aliases": [
+   "텐도우지"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_18g2t04",
+  "name": "Lambrini Girls",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "람브리니 걸스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_onjs0",
+  "name": "The Chairs",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "더 체어스",
+   "椅子樂團"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_415t8p",
+  "name": "김현철",
+  "genres": [
+   "citypop",
+   "ballad"
+  ],
+  "aliases": [
+   "Kim Hyun-chul"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_3xlm2j",
+  "name": "사랑과 평화",
+  "genres": [
+   "jazz",
+   "hardrock"
+  ],
+  "aliases": [
+   "Love and Peace"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_7ewkrf",
+  "name": "전국비둘기연합",
+  "genres": [
+   "punk",
+   "indie"
+  ],
+  "aliases": [
+   "National Pigeon Union"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_oo69yb",
+  "name": "DEADLETTER",
+  "genres": [
+   "punk",
+   "indie"
+  ],
+  "aliases": [
+   "데드레터"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_atl88i",
+  "name": "차승우와 사촌들",
+  "genres": [
+   "punk",
+   "hardrock"
+  ],
+  "aliases": [
+   "Cha Seung-woo",
+   "차승우"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_45d43u",
+  "name": "전자양",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "Dencihyang"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_jzypl4",
+  "name": "LA FLEMME",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "라 플렘"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1b233vv",
+  "name": "Mildlife",
+  "genres": [
+   "jazz",
+   "indie"
+  ],
+  "aliases": [
+   "마일드라이프"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_7cdih3",
+  "name": "Batavia Collective",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "바타비아 콜렉티브"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_147uu4g",
+  "name": "Nourished By Time",
+  "genres": [
+   "indie",
+   "jazz"
+  ],
+  "aliases": [
+   "너리시드 바이 타임"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_458vmu",
+  "name": "이승열",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "Lee Seung-yeol"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1m79fce",
+  "name": "Thurston Moore",
+  "genres": [
+   "indie",
+   "punk"
+  ],
+  "aliases": [
+   "서스턴 무어",
+   "서스턴무어"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_u072ip",
+  "name": "어반자카파",
+  "genres": [
+   "ballad",
+   "jazz"
+  ],
+  "aliases": [
+   "Urban Zakapa"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_k08alv",
+  "name": "MASS OF THE FERMENTING DREGS",
+  "genres": [
+   "jrock",
+   "indie"
+  ],
+  "aliases": [
+   "매스 오브 더 퍼멘팅 드레그스",
+   "마스드레"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykgtif",
+  "name": "envy",
+  "genres": [
+   "hardcore",
+   "indie"
+  ],
+  "aliases": [
+   "엔비"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1bx31iv",
+  "name": "중식이밴드",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "Joongsik-i Band",
+   "중식이"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_nmcloy",
+  "name": "트랜스픽션",
+  "genres": [
+   "modern",
+   "hardrock"
+  ],
+  "aliases": [
+   "Transfixion"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykqm8n",
+  "name": "Reol",
+  "genres": [
+   "jrock",
+   "citypop"
+  ],
+  "aliases": [
+   "레오루"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_134iyd4",
+  "name": "BURNOUT SYNDROMES",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "번아웃 신드롬즈"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1zn4pu",
+  "name": "NEMOPHILA",
+  "genres": [
+   "metal",
+   "jrock"
+  ],
+  "aliases": [
+   "네모필라"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_148shol",
+  "name": "하츠웨이브",
+  "genres": [
+   "kpop",
+   "modern"
+  ],
+  "aliases": [
+   "hrtz.wav",
+   "Hearts Wave"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1ses7gd",
+  "name": "닥터코어911",
+  "genres": [
+   "hardcore",
+   "metal"
+  ],
+  "aliases": [
+   "Dr.Core 911",
+   "닥터코어"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_959dup",
+  "name": "Daniel Caesar",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "다니엘 시저",
+   "다니엘시저"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_12iu3yn",
+  "name": "Seafret",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "씨프렛"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1jub2tx",
+  "name": "Lukas Graham",
+  "genres": [
+   "modern",
+   "ballad"
+  ],
+  "aliases": [
+   "루카스 그레이엄"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_tw15bx",
+  "name": "almost monday",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "올모스트 먼데이"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_tvl6r7",
+  "name": "Pearl & The Oysters",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "펄 앤 디 오이스터스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1nyviet",
+  "name": "Awesome City Club",
+  "genres": [
+   "citypop",
+   "jrock"
+  ],
+  "aliases": [
+   "어썸 시티 클럽",
+   "어썸시티클럽"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1qzxe49",
+  "name": "디에이드",
+  "genres": [
+   "ballad",
+   "folk"
+  ],
+  "aliases": [
+   "The Ade",
+   "어쿠스틱콜라보"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_92v5ub",
+  "name": "Peach Pit",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "피치 핏",
+   "피치핏"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_udp0gk",
+  "name": "KISS OF LIFE",
+  "genres": [
+   "kpop"
+  ],
+  "aliases": [
+   "키스오브라이프",
+   "키오프"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_159ll4h",
+  "name": "King Krule",
+  "genres": [
+   "indie",
+   "jazz"
+  ],
+  "aliases": [
+   "킹 크룰",
+   "킹크룰"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_e6c8cr",
+  "name": "Alvvays",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "올웨이즈"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_60m2qy",
+  "name": "Remi Wolf",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "레미 울프"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_19mxra6",
+  "name": "Alec Benjamin",
+  "genres": [
+   "folk",
+   "modern"
+  ],
+  "aliases": [
+   "알렉 벤자민",
+   "알렉벤자민"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ppiz9k",
+  "name": "Henry Moodie",
+  "genres": [
+   "ballad"
+  ],
+  "aliases": [
+   "헨리 무디"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_qa23kb",
+  "name": "Grrrl Gang",
+  "genres": [
+   "indie",
+   "punk"
+  ],
+  "aliases": [
+   "걸 갱"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1k8a8at",
+  "name": "Puuluup",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "풀룹"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1aj2zvy",
+  "name": "Carnival Youth",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "카니발 유스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_44epnp",
+  "name": "신대철",
+  "genres": [
+   "hardrock",
+   "metal"
+  ],
+  "aliases": [
+   "Shin Dae-chul"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1scg2ld",
+  "name": "빌리카터",
+  "genres": [
+   "blues",
+   "punk"
+  ],
+  "aliases": [
+   "Billy Carter"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_43bmbu",
+  "name": "박문치",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "Park Moon-chi",
+   "Moonchi"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1qcpee9",
+  "name": "네미시스",
+  "genres": [
+   "modern",
+   "hardrock"
+  ],
+  "aliases": [
+   "Nemesis"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_415ahd",
+  "name": "기프트",
+  "genres": [
+   "modern"
+  ],
+  "aliases": [
+   "Gift"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1rgdyux",
+  "name": "레이지본",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "Lazybone"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_3kytur",
+  "name": "왓에버댓민즈",
+  "genres": [
+   "punk",
+   "indie"
+  ],
+  "aliases": [
+   "Whatever That Means"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_2vinbi",
+  "name": "Vitalism",
+  "genres": [
+   "metal",
+   "hardcore"
+  ],
+  "aliases": [
+   "바이탈리즘"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1tdchlv",
+  "name": "악단광칠",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "ADG7"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1ovtkl3",
+  "name": "내귀에 도청장치",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "Naegwie Dochungjangchi"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1t3xi89",
+  "name": "슈퍼키드",
+  "genres": [
+   "punk",
+   "modern"
+  ],
+  "aliases": [
+   "Superkidd"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_2j26zk",
+  "name": "Tokyo Shoki Shoudou",
+  "genres": [
+   "punk",
+   "jrock"
+  ],
+  "aliases": [
+   "도쿄초기충동",
+   "東京初期衝動"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_u78dx0",
+  "name": "ASH DA HERO",
+  "genres": [
+   "jrock",
+   "hardrock"
+  ],
+  "aliases": [
+   "애쉬 다 히어로"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1tngtm5",
+  "name": "윈디시티",
+  "genres": [
+   "jazz",
+   "blues"
+  ],
+  "aliases": [
+   "Windy City"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_454gz5",
+  "name": "윤딴딴",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "Yoon Ddanddan"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_3d82q6",
+  "name": "92914",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "구이구일사"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1if5k8y",
+  "name": "ZEROBASEONE",
+  "genres": [
+   "kpop"
+  ],
+  "aliases": [
+   "제로베이스원",
+   "제베원"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1n62y1b",
+  "name": "MONSTA X",
+  "genres": [
+   "kpop"
+  ],
+  "aliases": [
+   "몬스타엑스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_7y1nan",
+  "name": "sumika",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "스미카"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_3772zf",
+  "name": "ALI",
+  "genres": [
+   "jrock",
+   "jazz"
+  ],
+  "aliases": [
+   "알리"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykgp1n",
+  "name": "eill",
+  "genres": [
+   "citypop",
+   "jrock"
+  ],
+  "aliases": [
+   "에일"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_3779ux",
+  "name": "iri",
+  "genres": [
+   "jazz",
+   "jrock"
+  ],
+  "aliases": [
+   "이리"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1h9uouq",
+  "name": "TOGENASHI TOGEARI",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "토게나시 토게아리",
+   "토게토게"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1m5n003",
+  "name": "UNISON SQUARE GARDEN",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "유니즌 스퀘어 가든",
+   "유니존"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1klqgeg",
+  "name": "ATARASHII GAKKO!",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "아타라시이 갓코",
+   "새로운학교의리더즈"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1ro9j6y",
+  "name": "Cö shu Nie",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "코슈니에"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_stdf2w",
+  "name": "Little Glee Monster",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "리틀 글리 몬스터",
+   "리글리"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4f5fb4",
+  "name": "milet",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "미레이"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_wqdtnb",
+  "name": "WEDNESDAY CAMPANELLA",
+  "genres": [
+   "citypop",
+   "jrock"
+  ],
+  "aliases": [
+   "수요일의 캄파넬라",
+   "水曜日のカンパネラ"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4nvwoz",
+  "name": "Yuuri",
+  "genres": [
+   "jrock",
+   "folk"
+  ],
+  "aliases": [
+   "유우리",
+   "優里"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykdujz",
+  "name": "asmi",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "아스미"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1wd03nd",
+  "name": "CHEEZE",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "치즈"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4tczn7",
+  "name": "Cody・Lee(李)",
+  "genres": [
+   "jrock",
+   "indie"
+  ],
+  "aliases": [
+   "Cody Lee",
+   "코디리"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1es4x8o",
+  "name": "MAISONdes",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "메종데"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_me5n60",
+  "name": "Tani Yuuki",
+  "genres": [
+   "jrock",
+   "folk"
+  ],
+  "aliases": [
+   "타니 유우키",
+   "타니유우키"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_rs13n4",
+  "name": "Kitani Tatsuya",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "키타니 타츠야",
+   "키타니타츠야"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykvwx9",
+  "name": "yama",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "야마"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_37731f",
+  "name": "ano",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "아노",
+   "あの"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykdr8z",
+  "name": "Aooo",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "아오"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1x1b4jv",
+  "name": "DISH//",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "디쉬"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_41jhs9",
+  "name": "노라조",
+  "genres": [
+   "hardrock",
+   "kpop"
+  ],
+  "aliases": [
+   "Norazo"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_19rbntn",
+  "name": "PEOPLE 1",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "피플 원",
+   "피플원"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_8h5bnx",
+  "name": "TOOBOE",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "투보에"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_15mee9z",
+  "name": "いきものがかり",
+  "genres": [
+   "jrock",
+   "ballad"
+  ],
+  "aliases": [
+   "Ikimonogakari",
+   "이키모노가카리"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_13rena8",
+  "name": "Akiyama Kiiro",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "아키야마 키이로",
+   "秋山黄色"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_zhfv3j",
+  "name": "凛として時雨",
+  "genres": [
+   "jrock",
+   "hardcore"
+  ],
+  "aliases": [
+   "Ling tosite sigure",
+   "린토시테시구레",
+   "시구레"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_g7eq45",
+  "name": "NOMELON NOLEMON",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "노멜론 노레몬"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_16blwo1",
+  "name": "Sukima Switch",
+  "genres": [
+   "jrock",
+   "folk"
+  ],
+  "aliases": [
+   "스키마스위치",
+   "スキマスイッチ"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_3225ur",
+  "name": "Chilli Beans.",
+  "genres": [
+   "jrock",
+   "indie"
+  ],
+  "aliases": [
+   "칠리 빈즈"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1lal1ne",
+  "name": "Nanao Akari",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "나나오 아카리",
+   "ナナヲアカリ"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_k1jh9c",
+  "name": "Penthouse",
+  "genres": [
+   "citypop",
+   "jrock"
+  ],
+  "aliases": [
+   "펜트하우스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1rug54f",
+  "name": "QUEEN BEE",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "퀸비",
+   "여왕벌"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_wkqnja",
+  "name": "amazarashi",
+  "genres": [
+   "jrock",
+   "folk"
+  ],
+  "aliases": [
+   "아마자라시"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1hyceit",
+  "name": "Conton Candy",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "콘톤 캔디"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4d4e75",
+  "name": "jo0ji",
+  "genres": [
+   "jrock",
+   "folk"
+  ],
+  "aliases": [
+   "조우지"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4bks2a",
+  "name": "natori",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "나토리"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_5pd23z",
+  "name": "Nishina",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "니시나"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4ilifu",
+  "name": "ReoNa",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "레오나"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_r5edry",
+  "name": "HoneyWorks",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "허니웍스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1o03qg9",
+  "name": "frederic",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "프레데릭"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1gcsjt9",
+  "name": "Kyary Pamyu Pamyu",
+  "genres": [
+   "jrock",
+   "citypop"
+  ],
+  "aliases": [
+   "캬리 파뮤파뮤",
+   "캬리"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykn875",
+  "name": "MyGO!!!!!",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "마이고"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_nzm5ys",
+  "name": "Roselia",
+  "genres": [
+   "jrock",
+   "metal"
+  ],
+  "aliases": [
+   "로젤리아"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1kmwdz7",
+  "name": "SAMBOMASTER",
+  "genres": [
+   "jrock",
+   "punk"
+  ],
+  "aliases": [
+   "삼보마스터"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykwe2q",
+  "name": "Yuzu",
+  "genres": [
+   "folk",
+   "jrock"
+  ],
+  "aliases": [
+   "유즈",
+   "ゆず"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_180sqp2",
+  "name": "Ai Otsuka",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "오오츠카 아이",
+   "大塚愛"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1wd0hns",
+  "name": "Chevon",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "쉐본"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_11hkwjj",
+  "name": "Pink Sweat$",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "핑크 스웨츠",
+   "핑크스웨츠"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1m2padk",
+  "name": "Johnny Stimson",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "조니 스팀슨"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_rqhfwi",
+  "name": "Moonchild",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "문차일드"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_ykpdgc",
+  "name": "PREP",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "프렙"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1lcbca4",
+  "name": "Ego Apartment",
+  "genres": [
+   "jazz",
+   "indie"
+  ],
+  "aliases": [
+   "에고 아파트먼트"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1g75812",
+  "name": "The Soul Rebels",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "소울 레벨스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_iue00u",
+  "name": "Mamas Gun",
+  "genres": [
+   "jazz",
+   "citypop"
+  ],
+  "aliases": [
+   "마마스건",
+   "마마스 건"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_45a5ep",
+  "name": "이진아",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "Lee Jin-ah"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_s0xzw2",
+  "name": "Wouter Hamel",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "바우터 하멜"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_34d5rq",
+  "name": "Damien Rice",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "데미안 라이스",
+   "데미안라이스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_3772xu",
+  "name": "AJR",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "에이제이알"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_7pg7on",
+  "name": "Sigrid",
+  "genres": [
+   "modern"
+  ],
+  "aliases": [
+   "시그리드"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1e2qecw",
+  "name": "BoyWithUke",
+  "genres": [
+   "modern",
+   "folk"
+  ],
+  "aliases": [
+   "보이위드우크"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_6ohfd8",
+  "name": "스카재즈유닛",
+  "genres": [
+   "jazz",
+   "punk"
+  ],
+  "aliases": [
+   "Ska Jazz Unit"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_yklwnx",
+  "name": "Lauv",
+  "genres": [
+   "modern"
+  ],
+  "aliases": [
+   "라우브"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_24d3t6",
+  "name": "Jungle",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "정글"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_e0io7e",
+  "name": "Tones and I",
+  "genres": [
+   "modern"
+  ],
+  "aliases": [
+   "톤즈 앤 아이"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_cdism2",
+  "name": "Mac Ayres",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "맥 아이레스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1tlgx5z",
+  "name": "Caravan Palace",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "카라반 팰리스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_4ar26v",
+  "name": "GAYLE",
+  "genres": [
+   "modern",
+   "emo"
+  ],
+  "aliases": [
+   "게일"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1fhuon8",
+  "name": "Bruno Major",
+  "genres": [
+   "jazz",
+   "folk"
+  ],
+  "aliases": [
+   "브루노 메이저"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_17fmqqs",
+  "name": "Anna of the North",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "애나 오브 더 노스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1cwbc0d",
+  "name": "Gipsy Kings",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "집시 킹스",
+   "집시킹스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1shggd8",
+  "name": "Lianne La Havas",
+  "genres": [
+   "jazz",
+   "folk"
+  ],
+  "aliases": [
+   "리앤 라 하바스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_l74471",
+  "name": "Cory Wong",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "코리 웡"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_7tahj9",
+  "name": "Jeremy Zucker",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "제레미 주커"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_42dgwu",
+  "name": "Alexander 23",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "알렉산더23"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1lyam57",
+  "name": "Cautious Clay",
+  "genres": [
+   "jazz",
+   "indie"
+  ],
+  "aliases": [
+   "코셔스 클레이"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_cvvl8e",
+  "name": "Tom Grennan",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [
+   "톰 그레넌"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_49qgd0",
+  "name": "Etham",
+  "genres": [
+   "ballad",
+   "folk"
+  ],
+  "aliases": [
+   "이담"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_yklwhl",
+  "name": "LANY",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "레이니"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_458i1i",
+  "name": "이상순",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "Lee Sang-soon"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_45fh39",
+  "name": "조원선",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "Jo Won-sun"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_3ifr2n",
+  "name": "Incognito",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "인코그니토"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_9hszw2",
+  "name": "Valley",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "밸리"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_pbujxz",
+  "name": "Thundercat",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "썬더캣"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_18f3jng",
+  "name": "Emotional Oranges",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "이모셔널 오렌지스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_j620o3",
+  "name": "Kings of Convenience",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "킹스 오브 컨비니언스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_9g1yme",
+  "name": "Damiano David",
+  "genres": [
+   "modern",
+   "hardrock"
+  ],
+  "aliases": [
+   "다미아노 다비드"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_xe35ou",
+  "name": "Jacob Collier",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "제이콥 콜리어"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1ulvaj4",
+  "name": "Janelle Monáe",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "자넬 모네",
+   "Janelle Monae"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_j227sk",
+  "name": "Trombone Shorty",
+  "genres": [
+   "jazz",
+   "blues"
+  ],
+  "aliases": [
+   "트롬본 쇼티"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_v8n6am",
+  "name": "LEISURE",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "레저"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_kr2qbc",
+  "name": "Jon Batiste",
+  "genres": [
+   "jazz",
+   "blues"
+  ],
+  "aliases": [
+   "존 바티스트"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_1nxydt4",
+  "name": "Cory Henry",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "코리 헨리"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_bwyr2g",
+  "name": "Of Monsters and Men",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "오브 몬스터즈 앤 맨"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_zgfgog",
+  "name": "Free Nationals",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "프리 내셔널스"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_69n06m",
+  "name": "Emily King",
+  "genres": [
+   "jazz",
+   "folk"
+  ],
+  "aliases": [
+   "에밀리 킹"
+  ],
+  "source": "festival"
+ },
+ {
+  "slug": "a_444yy5",
+  "name": "Taylor Swift",
+  "genres": [
+   "modern",
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "테일러 스위프트",
+   "테일러스위프트",
+   "테일러",
+   "TS"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1bk8dhb",
+  "name": "Olivia Rodrigo",
+  "genres": [
+   "emo",
+   "modern"
+  ],
+  "aliases": [
+   "올리비아 로드리고",
+   "올리비아로드리고",
+   "로드리고"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1tvq3ux",
+  "name": "Sabrina Carpenter",
+  "genres": [
+   "citypop",
+   "modern"
+  ],
+  "aliases": [
+   "사브리나 카펜터",
+   "사브리나카펜터",
+   "사브리나"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_377igj",
+  "name": "SZA",
+  "genres": [
+   "jazz",
+   "ballad"
+  ],
+  "aliases": [
+   "시저",
+   "시자"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_15fhgz2",
+  "name": "Noah Kahan",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "노아 칸",
+   "노아칸"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1op7044",
+  "name": "Billie Eilish",
+  "genres": [
+   "indie",
+   "ballad"
+  ],
+  "aliases": [
+   "빌리 아일리시",
+   "빌리 아일리쉬",
+   "빌리아일리시"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1fygtgi",
+  "name": "Ariana Grande",
+  "genres": [
+   "citypop",
+   "ballad"
+  ],
+  "aliases": [
+   "아리아나 그란데",
+   "아리아나그란데",
+   "아리아나"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_cmm205",
+  "name": "Dua Lipa",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "두아 리파",
+   "두아리파"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_dkmkbo",
+  "name": "The Weeknd",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "위켄드",
+   "더 위켄드",
+   "더위켄드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_cfklyn",
+  "name": "Harry Styles",
+  "genres": [
+   "modern",
+   "citypop"
+  ],
+  "aliases": [
+   "해리 스타일스",
+   "해리스타일스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1dfz9ni",
+  "name": "Chappell Roan",
+  "genres": [
+   "citypop",
+   "modern"
+  ],
+  "aliases": [
+   "채플 론",
+   "채플론",
+   "채펠 론"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_b7cspp",
+  "name": "Benson Boone",
+  "genres": [
+   "ballad",
+   "modern"
+  ],
+  "aliases": [
+   "벤슨 분",
+   "벤슨분"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_yv9yr6",
+  "name": "Teddy Swims",
+  "genres": [
+   "jazz",
+   "ballad"
+  ],
+  "aliases": [
+   "테디 스윔스",
+   "테디스윔스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ps9km",
+  "name": "Hozier",
+  "genres": [
+   "folk",
+   "indie",
+   "blues"
+  ],
+  "aliases": [
+   "호지어"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_iykshr",
+  "name": "Lady Gaga",
+  "genres": [
+   "citypop",
+   "ballad"
+  ],
+  "aliases": [
+   "레이디 가가",
+   "레이디가가"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1qhsly3",
+  "name": "Miley Cyrus",
+  "genres": [
+   "modern",
+   "citypop"
+  ],
+  "aliases": [
+   "마일리 사이러스",
+   "마일리사이러스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_8wxcrf",
+  "name": "Doja Cat",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "도자 캣",
+   "도자캣"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_5nb6or",
+  "name": "Tate McRae",
+  "genres": [
+   "citypop",
+   "ballad"
+  ],
+  "aliases": [
+   "테이트 맥레이",
+   "테이트맥레이"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_dmt8qu",
+  "name": "Gracie Abrams",
+  "genres": [
+   "folk",
+   "ballad",
+   "indie"
+  ],
+  "aliases": [
+   "그레이시 에이브럼스",
+   "그레이시 아브람스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1tf8bbz",
+  "name": "Lola Young",
+  "genres": [
+   "indie",
+   "jazz"
+  ],
+  "aliases": [
+   "롤라 영",
+   "롤라영"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_7svqlw",
+  "name": "Myles Smith",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "마일스 스미스",
+   "마일스스미스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_kkmta6",
+  "name": "Alex Warren",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "알렉스 워렌",
+   "알렉스워렌"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_3775gi",
+  "name": "Djo",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "죠",
+   "디조",
+   "조 키어리"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4jiktk",
+  "name": "Sombr",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "솜버"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_715uuf",
+  "name": "The Marías",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "더 마리아스",
+   "마리아스",
+   "The Marias"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1bzd5bf",
+  "name": "Gigi Perez",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "지지 페레즈",
+   "지지페레즈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_wwq41m",
+  "name": "Ravyn Lenae",
+  "genres": [
+   "jazz",
+   "citypop"
+  ],
+  "aliases": [
+   "레이븐 르네",
+   "라빈 레네이"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_xphb1b",
+  "name": "Leon Thomas",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "리온 토마스",
+   "레온 토마스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1kxof85",
+  "name": "Steve Lacy",
+  "genres": [
+   "jazz",
+   "indie"
+  ],
+  "aliases": [
+   "스티브 레이시",
+   "스티브레이시"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_z0owp0",
+  "name": "Glass Animals",
+  "genres": [
+   "indie",
+   "citypop"
+  ],
+  "aliases": [
+   "글래스 애니멀즈",
+   "글래스애니멀즈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4egcjh",
+  "name": "Lizzo",
+  "genres": [
+   "jazz",
+   "citypop"
+  ],
+  "aliases": [
+   "리조"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_46ke74",
+  "name": "Adele",
+  "genres": [
+   "ballad",
+   "jazz"
+  ],
+  "aliases": [
+   "아델"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4mlkp7",
+  "name": "Justin Bieber",
+  "genres": [
+   "citypop",
+   "ballad"
+  ],
+  "aliases": [
+   "저스틴 비버",
+   "저스틴비버"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1arltro",
+  "name": "Silk Sonic",
+  "genres": [
+   "jazz",
+   "citypop"
+  ],
+  "aliases": [
+   "실크 소닉",
+   "실크소닉"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1446aho",
+  "name": "Anderson .Paak",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "앤더슨 팩",
+   "앤더슨팩"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1yz9u31",
+  "name": "Giveon",
+  "genres": [
+   "jazz",
+   "ballad"
+  ],
+  "aliases": [
+   "기브온"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1lcuk97",
+  "name": "Sam Smith",
+  "genres": [
+   "ballad"
+  ],
+  "aliases": [
+   "샘 스미스",
+   "샘스미스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_v24dim",
+  "name": "Beyoncé",
+  "genres": [
+   "jazz",
+   "citypop"
+  ],
+  "aliases": [
+   "비욘세",
+   "Beyonce"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_jvyosm",
+  "name": "Rihanna",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "리한나"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1idyc0v",
+  "name": "Selena Gomez",
+  "genres": [
+   "citypop",
+   "ballad"
+  ],
+  "aliases": [
+   "셀레나 고메즈",
+   "셀레나고메즈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1uudlni",
+  "name": "Charlie Puth",
+  "genres": [
+   "citypop",
+   "ballad"
+  ],
+  "aliases": [
+   "찰리 푸스",
+   "찰리푸스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_vik0eh",
+  "name": "Jonas Brothers",
+  "genres": [
+   "modern",
+   "citypop"
+  ],
+  "aliases": [
+   "조나스 브라더스",
+   "조나스브라더스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_377fn2",
+  "name": "P!nk",
+  "genres": [
+   "modern"
+  ],
+  "aliases": [
+   "핑크",
+   "Pink"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1vc7fkz",
+  "name": "Ava Max",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "에이바 맥스",
+   "에이바맥스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1ltpn9h",
+  "name": "Machine Gun Kelly",
+  "genres": [
+   "emo",
+   "punk"
+  ],
+  "aliases": [
+   "머신 건 켈리",
+   "머신건켈리",
+   "MGK",
+   "mgk"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_yeddek",
+  "name": "Kate Bush",
+  "genres": [
+   "indie",
+   "brit"
+  ],
+  "aliases": [
+   "케이트 부시",
+   "케이트부시"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_126bj5",
+  "name": "Lauren Spencer Smith",
+  "genres": [
+   "ballad"
+  ],
+  "aliases": [
+   "로렌 스펜서 스미스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ykkooh",
+  "name": "Joji",
+  "genres": [
+   "indie",
+   "ballad"
+  ],
+  "aliases": [
+   "조지"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1rvrqrs",
+  "name": "Stephen Sanchez",
+  "genres": [
+   "ballad",
+   "folk"
+  ],
+  "aliases": [
+   "스티븐 산체스",
+   "스티븐산체스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ykep13",
+  "name": "d4vd",
+  "genres": [
+   "indie",
+   "ballad"
+  ],
+  "aliases": [
+   "데이비드",
+   "다비드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1l4gd1s",
+  "name": "Lizzy McAlpine",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "리지 맥알파인",
+   "리지맥알파인"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_asvw4r",
+  "name": "Mariah Carey",
+  "genres": [
+   "ballad",
+   "jazz"
+  ],
+  "aliases": [
+   "머라이어 캐리",
+   "머라이어캐리"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ykuj1u",
+  "name": "Wham!",
+  "genres": [
+   "citypop",
+   "brit"
+  ],
+  "aliases": [
+   "왬"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_zblhau",
+  "name": "Elton John",
+  "genres": [
+   "brit",
+   "ballad"
+  ],
+  "aliases": [
+   "엘튼 존",
+   "엘튼존"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_kmnff2",
+  "name": "Muni Long",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "뮤니 롱",
+   "무니 롱"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1dhphgt",
+  "name": "Victoria Monét",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "빅토리아 모네",
+   "Victoria Monet"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_h9fg88",
+  "name": "Coco Jones",
+  "genres": [
+   "jazz",
+   "ballad"
+  ],
+  "aliases": [
+   "코코 존스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_eoezb8",
+  "name": "Summer Walker",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "서머 워커",
+   "썸머 워커"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_9uv95t",
+  "name": "Kehlani",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "켈라니"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4l0dqk",
+  "name": "Usher",
+  "genres": [
+   "jazz",
+   "citypop"
+  ],
+  "aliases": [
+   "어셔"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1vmb44m",
+  "name": "Chris Brown",
+  "genres": [
+   "jazz",
+   "citypop"
+  ],
+  "aliases": [
+   "크리스 브라운",
+   "크리스브라운"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_yksmf3",
+  "name": "Tyla",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "타일라"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ykqj4m",
+  "name": "Raye",
+  "genres": [
+   "jazz",
+   "ballad"
+  ],
+  "aliases": [
+   "레이"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_xlqmjl",
+  "name": "Olivia Dean",
+  "genres": [
+   "jazz",
+   "ballad"
+  ],
+  "aliases": [
+   "올리비아 딘",
+   "올리비아딘"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_d1d0cf",
+  "name": "Addison Rae",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "애디슨 레이",
+   "애디슨레이"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_7iajej",
+  "name": "Katseye",
+  "genres": [
+   "kpop",
+   "citypop"
+  ],
+  "aliases": [
+   "캣츠아이"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1eyc0t0",
+  "name": "Jessie Murph",
+  "genres": [
+   "ballad",
+   "folk"
+  ],
+  "aliases": [
+   "제시 머프"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_10s97lz",
+  "name": "Post Malone",
+  "genres": [
+   "modern",
+   "folk"
+  ],
+  "aliases": [
+   "포스트 말론",
+   "포스트말론",
+   "포말"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_w0k9mm",
+  "name": "Camila Cabello",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "카밀라 카베요",
+   "카밀라카베요"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_14gu6js",
+  "name": "Shakira",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "샤키라"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_uroo6s",
+  "name": "Meghan Trainor",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "메건 트레이너",
+   "메간 트레이너"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_154nrro",
+  "name": "PinkPantheress",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "핑크팬서리스",
+   "핑크 팬서리스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ykkul1",
+  "name": "JVKE",
+  "genres": [
+   "ballad"
+  ],
+  "aliases": [
+   "제이크"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_e8o5u5",
+  "name": "David Kushner",
+  "genres": [
+   "ballad",
+   "folk"
+  ],
+  "aliases": [
+   "데이비드 쿠시너"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_sefr07",
+  "name": "Nicky Youre",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "니키 유어"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_16cdn7x",
+  "name": "Duncan Laurence",
+  "genres": [
+   "ballad"
+  ],
+  "aliases": [
+   "던컨 로렌스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_p42el4",
+  "name": "Dove Cameron",
+  "genres": [
+   "ballad",
+   "citypop"
+  ],
+  "aliases": [
+   "도브 캐머런",
+   "도브 카메론"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1quc401",
+  "name": "Michael Jackson",
+  "genres": [
+   "citypop",
+   "jazz"
+  ],
+  "aliases": [
+   "마이클 잭슨",
+   "마이클잭슨",
+   "MJ"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1jeujh",
+  "name": "Whitney Houston",
+  "genres": [
+   "ballad",
+   "jazz"
+  ],
+  "aliases": [
+   "휘트니 휴스턴"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_9oerjl",
+  "name": "George Michael",
+  "genres": [
+   "citypop",
+   "ballad"
+  ],
+  "aliases": [
+   "조지 마이클"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ykdfzf",
+  "name": "ABBA",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "아바"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ev8w8b",
+  "name": "Charli XCX",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "찰리 XCX",
+   "찰리 엑스씨엑스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1w3oqap",
+  "name": "Little Mix",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "리틀 믹스",
+   "리틀믹스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_5zj0xj",
+  "name": "Lewis Capaldi",
+  "genres": [
+   "ballad"
+  ],
+  "aliases": [
+   "루이스 카팔디",
+   "루이스카팔디"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_l4jbxz",
+  "name": "Kylie Minogue",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "카일리 미노그"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1b99lcq",
+  "name": "Robbie Williams",
+  "genres": [
+   "brit",
+   "ballad"
+  ],
+  "aliases": [
+   "로비 윌리엄스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1ebb1cr",
+  "name": "Take That",
+  "genres": [
+   "ballad",
+   "brit"
+  ],
+  "aliases": [
+   "테이크 댓",
+   "테이크댓"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1ddnth6",
+  "name": "Bob Marley & The Wailers",
+  "genres": [
+   "jazz",
+   "folk"
+  ],
+  "aliases": [
+   "밥 말리",
+   "밥말리",
+   "Bob Marley"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1bu1ix5",
+  "name": "Finneas",
+  "genres": [
+   "indie",
+   "ballad"
+  ],
+  "aliases": [
+   "피니어스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_fluwb",
+  "name": "Halsey",
+  "genres": [
+   "modern",
+   "emo"
+  ],
+  "aliases": [
+   "할시"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_vqf6c2",
+  "name": "Rex Orange County",
+  "genres": [
+   "indie",
+   "jazz"
+  ],
+  "aliases": [
+   "렉스 오렌지 카운티",
+   "렉오카"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1c0ek5i",
+  "name": "Lana Del Rey",
+  "genres": [
+   "indie",
+   "ballad"
+  ],
+  "aliases": [
+   "라나 델 레이",
+   "라나델레이"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_pm75x1",
+  "name": "Kim Petras",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "킴 페트라스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_rkmyfg",
+  "name": "Morgan Wallen",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "모건 월렌",
+   "모건 왈렌"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1faz6p3",
+  "name": "Zach Bryan",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "잭 브라이언",
+   "자크 브라이언"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_dcr1ze",
+  "name": "Luke Combs",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "루크 콤스",
+   "룩 콤스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_8i6cqg",
+  "name": "Chris Stapleton",
+  "genres": [
+   "folk",
+   "blues"
+  ],
+  "aliases": [
+   "크리스 스테이플턴"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_xa7vv3",
+  "name": "Kacey Musgraves",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "케이시 머스그레이브스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1vclgv7",
+  "name": "Lainey Wilson",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "레이니 윌슨"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ohnovt",
+  "name": "Shaboozey",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "샤부지"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1qok1r2",
+  "name": "Jelly Roll",
+  "genres": [
+   "hardrock",
+   "folk"
+  ],
+  "aliases": [
+   "젤리 롤",
+   "젤리롤"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4bgb6l",
+  "name": "HARDY",
+  "genres": [
+   "hardrock",
+   "folk"
+  ],
+  "aliases": [
+   "하디"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_cl6a8c",
+  "name": "Kane Brown",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "케인 브라운"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_st0xjm",
+  "name": "Carrie Underwood",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "캐리 언더우드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_tqdsd0",
+  "name": "Maren Morris",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "마렌 모리스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1vqew9k",
+  "name": "Dan + Shay",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "댄 앤 셰이",
+   "Dan and Shay"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1ica0bi",
+  "name": "Gabby Barrett",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "개비 배럿"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_o5mdzs",
+  "name": "Thomas Rhett",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "토머스 렛",
+   "토마스 렛"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_18172qa",
+  "name": "Keith Urban",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "키스 어반"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_13i5lgf",
+  "name": "Koe Wetzel",
+  "genres": [
+   "folk",
+   "hardrock"
+  ],
+  "aliases": [
+   "코 웻젤"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1w6ao57",
+  "name": "Riley Green",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "라일리 그린"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1s6crli",
+  "name": "Megan Moroney",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "메건 모로니"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_khb4cm",
+  "name": "Creedence Clearwater Revival",
+  "genres": [
+   "hardrock",
+   "folk"
+  ],
+  "aliases": [
+   "크리던스 클리어워터 리바이벌",
+   "CCR",
+   "씨씨알"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1u9e3ld",
+  "name": "Journey",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "저니"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1ndqsle",
+  "name": "Tom Petty and the Heartbreakers",
+  "genres": [
+   "hardrock",
+   "folk"
+  ],
+  "aliases": [
+   "톰 페티",
+   "톰 페티 앤 더 하트브레이커스",
+   "Tom Petty"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_f6yoa4",
+  "name": "Nickelback",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "니켈백"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_48a0co",
+  "name": "Creed",
+  "genres": [
+   "grunge",
+   "hardrock"
+  ],
+  "aliases": [
+   "크리드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_v34ui4",
+  "name": "Elvis Presley",
+  "genres": [
+   "blues",
+   "hardrock"
+  ],
+  "aliases": [
+   "엘비스 프레슬리",
+   "엘비스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_3mqpce",
+  "name": "Five Finger Death Punch",
+  "genres": [
+   "metal",
+   "hardrock"
+  ],
+  "aliases": [
+   "파이브 핑거 데스 펀치",
+   "5FDP",
+   "파핑데"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_yp4cyd",
+  "name": "Falling In Reverse",
+  "genres": [
+   "hardcore",
+   "emo"
+  ],
+  "aliases": [
+   "폴링 인 리버스",
+   "폴링인리버스",
+   "FIR"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_18wm6mo",
+  "name": "Three Days Grace",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "쓰리 데이즈 그레이스",
+   "3DG"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1v6ufe2",
+  "name": "Motionless In White",
+  "genres": [
+   "hardcore",
+   "metal"
+  ],
+  "aliases": [
+   "모션리스 인 화이트",
+   "MIW"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1jepec",
+  "name": "Papa Roach",
+  "genres": [
+   "hardcore",
+   "hardrock"
+  ],
+  "aliases": [
+   "파파 로치",
+   "파파로치"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_377i1a",
+  "name": "SiM",
+  "genres": [
+   "hardcore",
+   "jrock"
+  ],
+  "aliases": [
+   "심"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_gzdk3m",
+  "name": "Giovannie and the Hired Guns",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "조바니 앤 더 하이어드 건스",
+   "Giovannie & The Hired Guns"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1ouzhqs",
+  "name": "Shinedown",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "샤인다운"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_12lyc0l",
+  "name": "Seether",
+  "genres": [
+   "grunge",
+   "hardrock"
+  ],
+  "aliases": [
+   "시더"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_lrqoqk",
+  "name": "Def Leppard",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "데프 레파드",
+   "데프레파드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ou9v98",
+  "name": "Mötley Crüe",
+  "genres": [
+   "hardrock",
+   "metal"
+  ],
+  "aliases": [
+   "머틀리 크루",
+   "Motley Crue",
+   "머틀리크루"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_9amu8x",
+  "name": "I Prevail",
+  "genres": [
+   "hardcore"
+  ],
+  "aliases": [
+   "아이 프리베일"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_12949jm",
+  "name": "Volbeat",
+  "genres": [
+   "metal",
+   "hardrock"
+  ],
+  "aliases": [
+   "볼비트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_fazo1g",
+  "name": "Halestorm",
+  "genres": [
+   "hardrock",
+   "metal"
+  ],
+  "aliases": [
+   "헤일스톰"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_2ilcq6",
+  "name": "Bad Omens",
+  "genres": [
+   "hardcore",
+   "metal"
+  ],
+  "aliases": [
+   "배드 오멘스",
+   "배드오멘스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1r2o3a",
+  "name": "A Day To Remember",
+  "genres": [
+   "hardcore",
+   "emo"
+  ],
+  "aliases": [
+   "어 데이 투 리멤버",
+   "ADTR"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1g8sx1g",
+  "name": "Pop Evil",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "팝 이블"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_sryepj",
+  "name": "3 Doors Down",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "쓰리 도어즈 다운",
+   "3도어즈다운"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ykqzs7",
+  "name": "Rush",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "러시"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4op5ho",
+  "name": "ZZ Top",
+  "genres": [
+   "blues",
+   "hardrock"
+  ],
+  "aliases": [
+   "ZZ 탑",
+   "지지탑"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1h1isls",
+  "name": "Dance Gavin Dance",
+  "genres": [
+   "hardcore"
+  ],
+  "aliases": [
+   "댄스 개빈 댄스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_d08pl8",
+  "name": "Breaking Benjamin",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "브레이킹 벤자민"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1p4qotq",
+  "name": "Godsmack",
+  "genres": [
+   "metal",
+   "hardrock"
+  ],
+  "aliases": [
+   "갓스맥"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1knwujm",
+  "name": "Corey Taylor",
+  "genres": [
+   "metal",
+   "hardrock"
+  ],
+  "aliases": [
+   "코리 테일러"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_7x2zk8",
+  "name": "Staind",
+  "genres": [
+   "grunge",
+   "hardrock"
+  ],
+  "aliases": [
+   "스테인드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1y678vh",
+  "name": "Beartooth",
+  "genres": [
+   "hardcore"
+  ],
+  "aliases": [
+   "베어투스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_2ejez1",
+  "name": "Daughtry",
+  "genres": [
+   "hardrock",
+   "modern"
+  ],
+  "aliases": [
+   "도트리"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_oc4l3j",
+  "name": "Nothing More",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "낫싱 모어"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1egd8qb",
+  "name": "Wage War",
+  "genres": [
+   "hardcore"
+  ],
+  "aliases": [
+   "웨이지 워"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_awh760",
+  "name": "The Funeral Portrait",
+  "genres": [
+   "emo",
+   "hardrock"
+  ],
+  "aliases": [
+   "퓨너럴 포트레이트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_x2xh95",
+  "name": "Sleep Theory",
+  "genres": [
+   "hardcore",
+   "modern"
+  ],
+  "aliases": [
+   "슬립 띠어리",
+   "슬립 시어리"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_h2yz1r",
+  "name": "Architects",
+  "genres": [
+   "hardcore",
+   "metal"
+  ],
+  "aliases": [
+   "아키텍츠"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1bjroe9",
+  "name": "A Perfect Circle",
+  "genres": [
+   "metal",
+   "modern"
+  ],
+  "aliases": [
+   "어 퍼펙트 서클"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_uecvqa",
+  "name": "Dayseeker",
+  "genres": [
+   "hardcore"
+  ],
+  "aliases": [
+   "데이시커"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_14qza5b",
+  "name": "Ice Nine Kills",
+  "genres": [
+   "hardcore",
+   "metal"
+  ],
+  "aliases": [
+   "아이스 나인 킬스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1hv7gfi",
+  "name": "Pierce The Veil",
+  "genres": [
+   "emo",
+   "hardcore"
+  ],
+  "aliases": [
+   "피어스 더 베일",
+   "PTV"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_je1pq4",
+  "name": "The Warning",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "더 워닝"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4heeil",
+  "name": "Poppy",
+  "genres": [
+   "hardcore",
+   "metal"
+  ],
+  "aliases": [
+   "파피"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_7el7m3",
+  "name": "Superheaven",
+  "genres": [
+   "grunge",
+   "emo"
+  ],
+  "aliases": [
+   "슈퍼헤븐"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1c8lhhn",
+  "name": "Starset",
+  "genres": [
+   "modern",
+   "hardrock"
+  ],
+  "aliases": [
+   "스타셋"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1wbafan",
+  "name": "Tom Morello",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "톰 모렐로"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_tl9t0t",
+  "name": "Ayron Jones",
+  "genres": [
+   "hardrock",
+   "blues"
+  ],
+  "aliases": [
+   "에이런 존스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_59l20d",
+  "name": "Chevelle",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "쉐블"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1kha2ve",
+  "name": "The Pretty Reckless",
+  "genres": [
+   "hardrock",
+   "grunge"
+  ],
+  "aliases": [
+   "프리티 레클리스",
+   "더 프리티 레클리스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_198wcin",
+  "name": "Rise Against",
+  "genres": [
+   "punk",
+   "hardcore"
+  ],
+  "aliases": [
+   "라이즈 어게인스트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_177s76j",
+  "name": "Asking Alexandria",
+  "genres": [
+   "hardcore"
+  ],
+  "aliases": [
+   "애스킹 알렉산드리아"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_123oilt",
+  "name": "Highly Suspect",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "하이리 서스펙트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1ojepra",
+  "name": "Nita Strauss",
+  "genres": [
+   "metal"
+  ],
+  "aliases": [
+   "니타 스트라우스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1gd6qz",
+  "name": "Disturbed",
+  "genres": [
+   "metal",
+   "hardrock"
+  ],
+  "aliases": [
+   "디스터브드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_3ud2em",
+  "name": "Ozzy Osbourne",
+  "genres": [
+   "metal",
+   "hardrock"
+  ],
+  "aliases": [
+   "오지 오스본",
+   "오지오스본",
+   "오지"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_y77uwd",
+  "name": "Mammoth WVH",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "맘모스",
+   "Mammoth",
+   "맘모스 WVH",
+   "볼프강 반 헤일런"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4aw82y",
+  "name": "Ghost",
+  "genres": [
+   "metal",
+   "hardrock"
+  ],
+  "aliases": [
+   "고스트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_7i2wxz",
+  "name": "Cage the Elephant",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "케이지 디 엘리펀트",
+   "케이지 더 엘리펀트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1b33f0f",
+  "name": "The Black Keys",
+  "genres": [
+   "blues",
+   "hardrock"
+  ],
+  "aliases": [
+   "블랙 키스",
+   "더 블랙 키스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1dm1fxx",
+  "name": "Cannons",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "캐넌스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1ndl4t6",
+  "name": "Modest Mouse",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "모디스트 마우스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_czhg4a",
+  "name": "The Lumineers",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "루미니어스",
+   "더 루미니어스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1u4c3pf",
+  "name": "I Dont Know How But They Found Me",
+  "genres": [
+   "modern",
+   "emo"
+  ],
+  "aliases": [
+   "IDKHOW",
+   "아이 돈 노우 하우 벗 데이 파운드 미"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_zwljma",
+  "name": "Death Cab for Cutie",
+  "genres": [
+   "indie",
+   "emo"
+  ],
+  "aliases": [
+   "데스 캡 포 큐티",
+   "데캡큐"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1y9x7d4",
+  "name": "Beach Weather",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "비치 웨더"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1jvhuye",
+  "name": "Dirty Heads",
+  "genres": [
+   "modern"
+  ],
+  "aliases": [
+   "더티 헤즈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_x9aen4",
+  "name": "Dexter and the Moonrocks",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "덱스터 앤 더 문락스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_bc4bg3",
+  "name": "Balu Brigada",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "발루 브리가다"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1fio5ia",
+  "name": "Mumford & Sons",
+  "genres": [
+   "folk",
+   "brit"
+  ],
+  "aliases": [
+   "멈포드 앤 선즈",
+   "멈포드앤선즈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_j1vtln",
+  "name": "Yellowcard",
+  "genres": [
+   "emo",
+   "punk"
+  ],
+  "aliases": [
+   "옐로우카드",
+   "옐로카드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1cwgv12",
+  "name": "Sublime",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "서브라임"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_hwsnis",
+  "name": "Good Charlotte",
+  "genres": [
+   "emo",
+   "punk"
+  ],
+  "aliases": [
+   "굿 샬럿",
+   "굿샬롯"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1yr4thn",
+  "name": "Young the Giant",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "영 더 자이언트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1c5emxs",
+  "name": "The Head and the Heart",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "헤드 앤 더 하트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1h4gwrm",
+  "name": "Lord Huron",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "로드 휴런"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4ekrmj",
+  "name": "Lorde",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "로드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1592b50",
+  "name": "Vance Joy",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "밴스 조이"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_bgv7vc",
+  "name": "Nathaniel Rateliff & the Night Sweats",
+  "genres": [
+   "blues",
+   "folk",
+   "jazz"
+  ],
+  "aliases": [
+   "나다니엘 래틀리프",
+   "나다니엘 레이트리프"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ykfajy",
+  "name": "Coin",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "코인"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_t1erlc",
+  "name": "Portugal. The Man",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "포르투갈 더 맨"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_47wtt3",
+  "name": "Caamp",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "캠프"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_13inugx",
+  "name": "Maggie Rogers",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "매기 로저스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_r2ntkt",
+  "name": "Jack Johnson",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "잭 존슨"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1f3lwho",
+  "name": "The National",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "더 내셔널"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_nxzss3",
+  "name": "Leon Bridges",
+  "genres": [
+   "jazz",
+   "blues"
+  ],
+  "aliases": [
+   "리온 브리지스",
+   "레온 브릿지스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_zctrn5",
+  "name": "James Bay",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "제임스 베이"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_164j7m7",
+  "name": "Royel Otis",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "로열 오티스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_elxuar",
+  "name": "Alabama Shakes",
+  "genres": [
+   "blues",
+   "jazz"
+  ],
+  "aliases": [
+   "앨라배마 셰익스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1dzhxmb",
+  "name": "Michael Kiwanuka",
+  "genres": [
+   "jazz",
+   "folk"
+  ],
+  "aliases": [
+   "마이클 키와누카",
+   "마이클 키완누카"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_3e8o90",
+  "name": "Kings of Leon",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "킹스 오브 리온"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_119asfm",
+  "name": "The War on Drugs",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "워 온 드럭스",
+   "더 워 온 드럭스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4jjek4",
+  "name": "Spoon",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "스푼"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_dsibjc",
+  "name": "Black Pumas",
+  "genres": [
+   "jazz",
+   "blues"
+  ],
+  "aliases": [
+   "블랙 퓨마스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_um4vav",
+  "name": "Brittany Howard",
+  "genres": [
+   "blues",
+   "jazz"
+  ],
+  "aliases": [
+   "브리트니 하워드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_yw0fn2",
+  "name": "Bleachers",
+  "genres": [
+   "modern",
+   "indie"
+  ],
+  "aliases": [
+   "블리처스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ix9p62",
+  "name": "Phoebe Bridgers",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "피비 브리저스",
+   "피비브리저스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_nd73a2",
+  "name": "boygenius",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "보이지니어스",
+   "보이 지니어스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_a83n0t",
+  "name": "Wet Leg",
+  "genres": [
+   "indie",
+   "brit"
+  ],
+  "aliases": [
+   "웻 레그",
+   "웻레그"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_xcy493",
+  "name": "Big Thief",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "빅 띠프",
+   "빅 시프"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1rm99g",
+  "name": "Fiona Apple",
+  "genres": [
+   "indie",
+   "jazz"
+  ],
+  "aliases": [
+   "피오나 애플"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1kmsh8j",
+  "name": "St. Vincent",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "세인트 빈센트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1lhpd5g",
+  "name": "Arlo Parks",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "알로 파크스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_18phkbe",
+  "name": "Fleet Foxes",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "플릿 폭시스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1o0pvjh",
+  "name": "Yeah Yeah Yeahs",
+  "genres": [
+   "indie",
+   "punk"
+  ],
+  "aliases": [
+   "예예예스",
+   "예 예 예스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_47htms",
+  "name": "Björk",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "비요크",
+   "Bjork"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_63s70r",
+  "name": "Arcade Fire",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "아케이드 파이어"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1xzvajt",
+  "name": "Gorillaz",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "고릴라즈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1dc6yq6",
+  "name": "PJ Harvey",
+  "genres": [
+   "indie",
+   "brit"
+  ],
+  "aliases": [
+   "PJ 하비",
+   "피제이 하비"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1wfqs5b",
+  "name": "Clairo",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "클레어로",
+   "클레로"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1er6feg",
+  "name": "Nick Cave and the Bad Seeds",
+  "genres": [
+   "indie",
+   "folk"
+  ],
+  "aliases": [
+   "닉 케이브",
+   "닉 케이브 앤 더 배드 시즈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_11b8ere",
+  "name": "Bon Iver",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "본 이베어",
+   "보니베어"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1ainz6b",
+  "name": "Hayley Williams",
+  "genres": [
+   "emo",
+   "indie"
+  ],
+  "aliases": [
+   "헤일리 윌리엄스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_wd7eqk",
+  "name": "Florence and the Machine",
+  "genres": [
+   "indie",
+   "brit"
+  ],
+  "aliases": [
+   "플로렌스 앤 더 머신",
+   "플로렌스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1axoei4",
+  "name": "Amyl and the Sniffers",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "아밀 앤 더 스니퍼스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_pvnzcf",
+  "name": "Yungblud",
+  "genres": [
+   "punk",
+   "emo"
+  ],
+  "aliases": [
+   "영블러드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ykitfo",
+  "name": "Haim",
+  "genres": [
+   "indie",
+   "modern"
+  ],
+  "aliases": [
+   "하임"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1wots38",
+  "name": "Elvis Costello & the Imposters",
+  "genres": [
+   "punk",
+   "brit"
+  ],
+  "aliases": [
+   "엘비스 코스텔로",
+   "Elvis Costello"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_17aefcy",
+  "name": "Queens of the Stone Age",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "퀸즈 오브 더 스톤 에이지",
+   "QOTSA"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1mepzg6",
+  "name": "The Black Crowes",
+  "genres": [
+   "hardrock",
+   "blues"
+  ],
+  "aliases": [
+   "블랙 크로우즈",
+   "더 블랙 크로우즈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1pf1rcp",
+  "name": "The Rolling Stones",
+  "genres": [
+   "hardrock",
+   "blues"
+  ],
+  "aliases": [
+   "롤링 스톤즈",
+   "롤링스톤즈",
+   "더 롤링 스톤즈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_3yt3x",
+  "name": "Paul McCartney",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "폴 매카트니",
+   "폴매카트니"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1xagfu5",
+  "name": "Chris Cornell",
+  "genres": [
+   "grunge"
+  ],
+  "aliases": [
+   "크리스 코넬"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_z5z7qf",
+  "name": "Bryan Adams",
+  "genres": [
+   "hardrock",
+   "ballad"
+  ],
+  "aliases": [
+   "브라이언 아담스",
+   "브라이언 애덤스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1wmpy5t",
+  "name": "Brandi Carlile",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "브랜디 칼라일"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_12xo0q0",
+  "name": "Nine Inch Nails",
+  "genres": [
+   "metal",
+   "modern"
+  ],
+  "aliases": [
+   "나인 인치 네일스",
+   "NIN"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1kyxqf3",
+  "name": "Sleep Token",
+  "genres": [
+   "metal",
+   "modern"
+  ],
+  "aliases": [
+   "슬립 토큰",
+   "슬립토큰"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ujav5t",
+  "name": "Gary Clark Jr.",
+  "genres": [
+   "blues"
+  ],
+  "aliases": [
+   "게리 클락 주니어",
+   "게리 클라크 주니어"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ykse3n",
+  "name": "Tool",
+  "genres": [
+   "metal"
+  ],
+  "aliases": [
+   "툴"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_2555t",
+  "name": "Gojira",
+  "genres": [
+   "metal"
+  ],
+  "aliases": [
+   "고지라"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_n3imzu",
+  "name": "Mastodon",
+  "genres": [
+   "metal"
+  ],
+  "aliases": [
+   "마스토돈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1pqu3wu",
+  "name": "Rob Zombie",
+  "genres": [
+   "metal"
+  ],
+  "aliases": [
+   "롭 좀비"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_jpp59l",
+  "name": "Spiritbox",
+  "genres": [
+   "hardcore",
+   "metal"
+  ],
+  "aliases": [
+   "스피릿박스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1ww0rl2",
+  "name": "Knocked Loose",
+  "genres": [
+   "hardcore"
+  ],
+  "aliases": [
+   "녹트 루즈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_19jkc7n",
+  "name": "Judas Priest",
+  "genres": [
+   "metal"
+  ],
+  "aliases": [
+   "주다스 프리스트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1xqsboc",
+  "name": "Code Orange",
+  "genres": [
+   "hardcore",
+   "metal"
+  ],
+  "aliases": [
+   "코드 오렌지"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_rkrs84",
+  "name": "In This Moment",
+  "genres": [
+   "metal"
+  ],
+  "aliases": [
+   "인 디스 모먼트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_yf1bak",
+  "name": "Samara Joy",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "사마라 조이"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_wgg1ht",
+  "name": "Domi & JD Beck",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "도미 앤 제이디 벡",
+   "도미 앤 JD 벡"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_jfqhkr",
+  "name": "Omar Apollo",
+  "genres": [
+   "jazz",
+   "indie"
+  ],
+  "aliases": [
+   "오마 아폴로"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1gr5lp0",
+  "name": "Molly Tuttle",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "몰리 터틀"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1pmmvng",
+  "name": "The War and Treaty",
+  "genres": [
+   "folk",
+   "blues"
+  ],
+  "aliases": [
+   "워 앤 트리티"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1g63ovm",
+  "name": "Ingrid Andress",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "잉그리드 앤드레스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_11emryy",
+  "name": "Sam Fender",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [
+   "샘 펜더",
+   "샘펜더"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1wk647v",
+  "name": "Wolf Alice",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "울프 앨리스",
+   "울프앨리스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_vkhn6f",
+  "name": "Blossoms",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "블로썸즈",
+   "블라썸즈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_nass7x",
+  "name": "You Me At Six",
+  "genres": [
+   "brit",
+   "emo"
+  ],
+  "aliases": [
+   "유 미 앳 식스",
+   "YMAS"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1l560v3",
+  "name": "Ben Howard",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "벤 하워드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1i5e4df",
+  "name": "The Snuts",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "스너츠",
+   "더 스너츠"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_5otjg6",
+  "name": "London Grammar",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "런던 그래머"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_17zn2ko",
+  "name": "Inhaler",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "인헤일러"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_161ny01",
+  "name": "Manic Street Preachers",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "매닉 스트리트 프리처스",
+   "매닉스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1wltdr8",
+  "name": "The Lathums",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "래썸스",
+   "더 래썸스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ayagt7",
+  "name": "The Script",
+  "genres": [
+   "modern",
+   "ballad"
+  ],
+  "aliases": [
+   "더 스크립트",
+   "스크립트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4xmgzu",
+  "name": "Noel Gallagher's High Flying Birds",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "노엘 갤러거",
+   "노엘 갤러거스 하이 플라잉 버즈",
+   "Noel Gallagher"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_82sc7j",
+  "name": "Liam Gallagher",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "리암 갤러거",
+   "리엄 갤러거"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1carnqa",
+  "name": "Paul Weller",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "폴 웰러"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_scghz7",
+  "name": "The Wombats",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "웜뱃츠",
+   "더 웜뱃츠"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_coczwb",
+  "name": "Don Broco",
+  "genres": [
+   "modern",
+   "hardcore"
+  ],
+  "aliases": [
+   "돈 브로코"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1izq9x3",
+  "name": "Frank Turner",
+  "genres": [
+   "folk",
+   "punk"
+  ],
+  "aliases": [
+   "프랭크 터너"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1fw8drf",
+  "name": "Stereophonics",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "스테레오포닉스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_rk4shj",
+  "name": "Paolo Nutini",
+  "genres": [
+   "folk",
+   "jazz"
+  ],
+  "aliases": [
+   "파올로 누티니"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1q80cf",
+  "name": "Jamie T",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "제이미 T",
+   "제이미 티"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_y0xkz4",
+  "name": "George Ezra",
+  "genres": [
+   "folk",
+   "brit"
+  ],
+  "aliases": [
+   "조지 에즈라"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_110jf4k",
+  "name": "Courteeners",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "커티너스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1le0jh6",
+  "name": "The Reytons",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "레이턴스",
+   "더 레이턴스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_10q0kum",
+  "name": "Enter Shikari",
+  "genres": [
+   "hardcore",
+   "brit"
+  ],
+  "aliases": [
+   "엔터 시카리"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_m9y3xb",
+  "name": "The Lottery Winners",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "로터리 위너스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1vz6uoc",
+  "name": "Busted",
+  "genres": [
+   "emo",
+   "brit"
+  ],
+  "aliases": [
+   "버스티드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4f0o2o",
+  "name": "McFly",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [
+   "맥플라이"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1dwp9qo",
+  "name": "Madness",
+  "genres": [
+   "brit",
+   "punk"
+  ],
+  "aliases": [
+   "매드니스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_149dove",
+  "name": "Shed Seven",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "셰드 세븐"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1aszsbu",
+  "name": "The Last Dinner Party",
+  "genres": [
+   "indie",
+   "brit"
+  ],
+  "aliases": [
+   "라스트 디너 파티",
+   "더 라스트 디너 파티"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_49k5um",
+  "name": "Elbow",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "엘보"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_oqbbni",
+  "name": "Snow Patrol",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [
+   "스노우 패트롤",
+   "스노우패트롤"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_xcidum",
+  "name": "Biffy Clyro",
+  "genres": [
+   "brit",
+   "modern",
+   "hardrock"
+  ],
+  "aliases": [
+   "비피 클라이로"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4k2fac",
+  "name": "The K's",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "케이즈",
+   "더 케이즈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1gxi56p",
+  "name": "Ezra Collective",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "에즈라 콜렉티브"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_16ep0kg",
+  "name": "Bombay Bicycle Club",
+  "genres": [
+   "indie",
+   "brit"
+  ],
+  "aliases": [
+   "봄베이 바이시클 클럽"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ykg0ei",
+  "name": "DMA'S",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "디엠에이즈"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1hxiohx",
+  "name": "The Hives",
+  "genres": [
+   "punk"
+  ],
+  "aliases": [
+   "하이브스",
+   "더 하이브스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1q1rkse",
+  "name": "Miles Kane",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "마일스 케인"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_18723fd",
+  "name": "Holly Humberstone",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "홀리 험버스톤"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1xwjqo",
+  "name": "Maisie Peters",
+  "genres": [
+   "modern",
+   "folk"
+  ],
+  "aliases": [
+   "메이지 피터스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_rmnjk0",
+  "name": "Jorja Smith",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "조자 스미스",
+   "요르자 스미스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_125355j",
+  "name": "Jessie Ware",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "제시 웨어"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1kq7j55",
+  "name": "Ellie Goulding",
+  "genres": [
+   "citypop"
+  ],
+  "aliases": [
+   "엘리 굴딩"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_5z81al",
+  "name": "Passenger",
+  "genres": [
+   "folk"
+  ],
+  "aliases": [
+   "패신저"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_18x3xce",
+  "name": "Gabriels",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "가브리엘스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_15ctbpw",
+  "name": "Sufjan Stevens",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "수프얀 스티븐스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_dmqdlx",
+  "name": "Black Honey",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "블랙 허니"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_vklc31",
+  "name": "Circa Waves",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "서카 웨이브스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_2ejemx",
+  "name": "Daughter",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "도터"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_9jlqwi",
+  "name": "Slowdive",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "슬로우다이브"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1v6lu8i",
+  "name": "The Vaccines",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "백신스",
+   "더 백신스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_3pnauo",
+  "name": "Kula Shaker",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "쿨라 쉐이커"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1rr7hhb",
+  "name": "Sea Girls",
+  "genres": [
+   "brit",
+   "indie"
+  ],
+  "aliases": [
+   "씨 걸스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ot3uqs",
+  "name": "Father John Misty",
+  "genres": [
+   "folk",
+   "indie"
+  ],
+  "aliases": [
+   "파더 존 미스티"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1e099zv",
+  "name": "Placebo",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [
+   "플라시보"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ykdouo",
+  "name": "alt-J",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "알트제이",
+   "알트 제이"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1i5d2cg",
+  "name": "The Smile",
+  "genres": [
+   "indie",
+   "brit"
+  ],
+  "aliases": [
+   "더 스마일"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1ouga5p",
+  "name": "Pale Waves",
+  "genres": [
+   "indie",
+   "emo"
+  ],
+  "aliases": [
+   "페일 웨이브스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_nijpis",
+  "name": "Hot Chip",
+  "genres": [
+   "citypop",
+   "indie"
+  ],
+  "aliases": [
+   "핫 칩"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1pwelz2",
+  "name": "The Cult",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "더 컬트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ppu3dy",
+  "name": "Black Country, New Road",
+  "genres": [
+   "indie"
+  ],
+  "aliases": [
+   "블랙 컨트리 뉴 로드",
+   "BCNR"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4jkb63",
+  "name": "Squid",
+  "genres": [
+   "punk",
+   "indie"
+  ],
+  "aliases": [
+   "스퀴드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_73avfg",
+  "name": "Richard Ashcroft",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "리처드 애쉬크로프트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_14qd0ck",
+  "name": "Damon Albarn",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "데이먼 알반"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_xlc6ld",
+  "name": "The Darkness",
+  "genres": [
+   "hardrock"
+  ],
+  "aliases": [
+   "더 다크니스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_uq28c9",
+  "name": "Duran Duran",
+  "genres": [
+   "citypop",
+   "brit"
+  ],
+  "aliases": [
+   "듀란 듀란"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_11g2kvs",
+  "name": "Depeche Mode",
+  "genres": [
+   "citypop",
+   "brit"
+  ],
+  "aliases": [
+   "디페쉬 모드",
+   "디페시 모드"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ibd4zf",
+  "name": "Peter Gabriel",
+  "genres": [
+   "brit"
+  ],
+  "aliases": [
+   "피터 가브리엘"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_129f8n2",
+  "name": "Dermot Kennedy",
+  "genres": [
+   "folk",
+   "ballad"
+  ],
+  "aliases": [
+   "더멋 케네디"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1g3manh",
+  "name": "Rag'n'Bone Man",
+  "genres": [
+   "blues",
+   "jazz"
+  ],
+  "aliases": [
+   "래그 앤 본 맨",
+   "래그앤본맨"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1g5n00a",
+  "name": "Celeste",
+  "genres": [
+   "jazz"
+  ],
+  "aliases": [
+   "셀레스트"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1ulks9g",
+  "name": "Tom Jones",
+  "genres": [
+   "blues",
+   "ballad"
+  ],
+  "aliases": [
+   "톰 존스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_mav12v",
+  "name": "5 Seconds of Summer",
+  "genres": [
+   "emo",
+   "modern"
+  ],
+  "aliases": [
+   "파이브 세컨즈 오브 서머",
+   "5SOS",
+   "파세오서"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1fyuiml",
+  "name": "Niall Horan",
+  "genres": [
+   "folk",
+   "modern"
+  ],
+  "aliases": [
+   "나일 호란"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_pgn190",
+  "name": "Louis Tomlinson",
+  "genres": [
+   "brit",
+   "modern"
+  ],
+  "aliases": [
+   "루이 톰린슨"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_6h5izv",
+  "name": "Reneé Rapp",
+  "genres": [
+   "modern",
+   "ballad"
+  ],
+  "aliases": [
+   "르네 랩",
+   "Renee Rapp"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_yksj1e",
+  "name": "tuki.",
+  "genres": [
+   "jrock",
+   "ballad"
+  ],
+  "aliases": [
+   "투키",
+   "츠키"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_60i7ge",
+  "name": "宇多田ヒカル",
+  "genres": [
+   "jrock",
+   "ballad",
+   "citypop"
+  ],
+  "aliases": [
+   "우타다 히카루",
+   "Utada Hikaru",
+   "Hikaru Utada"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_4cel2s",
+  "name": "imase",
+  "genres": [
+   "citypop",
+   "jrock"
+  ],
+  "aliases": [
+   "이마세"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_2b8rrn",
+  "name": "DECO*27",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "데코니나",
+   "데코27",
+   "DECO27"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_811dam",
+  "name": "syudou",
+  "genres": [
+   "jrock"
+  ],
+  "aliases": [
+   "슈도"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_1j3wtrd",
+  "name": "菅田将暉",
+  "genres": [
+   "jrock",
+   "ballad"
+  ],
+  "aliases": [
+   "스다 마사키",
+   "Masaki Suda",
+   "Suda Masaki"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_3n7tkk",
+  "name": "平井大",
+  "genres": [
+   "folk",
+   "jrock"
+  ],
+  "aliases": [
+   "히라이 다이",
+   "Dai Hirai"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_ykee17",
+  "name": "BiSH",
+  "genres": [
+   "jrock",
+   "punk"
+  ],
+  "aliases": [
+   "비쉬",
+   "비시"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_48mfbv",
+  "name": "Da-iCE",
+  "genres": [
+   "jrock",
+   "citypop"
+  ],
+  "aliases": [
+   "다이스"
+  ],
+  "source": "chart"
+ },
+ {
+  "slug": "a_10lb6fx",
+  "name": "石崎ひゅーい",
+  "genres": [
+   "folk",
+   "jrock"
+  ],
+  "aliases": [
+   "이시자키 휴이",
+   "Huwie Ishizaki"
+  ],
+  "source": "chart"
  }
 ]

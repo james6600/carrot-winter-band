@@ -4,447 +4,269 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>당근 겨울밴드 매칭소</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
-<style>
-/* 분당 당근 ROCK 페스티벌 무드: 좁은 앱 컬럼, 딥네이비 카드, 비비드 오렌지 포인트, 굵은 산세리프 대형 타이포, 겨울 눈과 스타필드 */
-:root{
-  --bg:#070b14;
-  --card:#101a2e;
-  --card2:#172339;
-  --deep:#0b1322;
-  --line:#22304c;
-  --fg:#f2f6ff;
-  --muted:#8e9ab8;
-  --accent:#ff6b1a;
-  --accent-soft:#ff8a3d;
-  --lav:#a78bfa;
-  --gold:#ffd166;
-  --danger:#ff6b81;
-  --body:'Noto Sans KR',"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
-  color-scheme:dark;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
-}
-*{box-sizing:border-box}
-[hidden]{display:none!important}
-body{
-  margin:0;color:var(--fg);
-  font-family:var(--body);font-size:15px;line-height:1.65;
-  min-height:100%;
-  background:
-    radial-gradient(900px 500px at 85% -5%, rgba(255,107,26,.13), transparent 60%),
-    radial-gradient(800px 600px at -10% 100%, rgba(59,99,214,.14), transparent 60%),
-    var(--bg);
-  background-attachment:fixed;
-}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--bg)}
-#snow{position:fixed;inset:0;pointer-events:none;z-index:0}
-.wrap{
-  position:relative;z-index:1;max-width:560px;margin:0 auto;
-  padding-left:max(16px,env(safe-area-inset-left,0px));
-  padding-right:max(16px,env(safe-area-inset-right,0px));
-  padding-block:0 130px;
-}
-header.site{
-  position:sticky;top:env(safe-area-inset-top,0px);z-index:30;
-  display:flex;align-items:center;gap:10px;
-  padding-block:12px;margin-inline:-2px;
-  background:linear-gradient(180deg,var(--bg) 70%,transparent);
-}
-.logobadge{
-  width:36px;height:36px;flex:none;border-radius:11px;
-  background:linear-gradient(160deg,var(--accent-soft),var(--accent));
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 14px rgba(255,107,26,.35);
-}
-.logobadge svg{display:block}
-header.site h1{font-size:1.02rem;font-weight:900;margin:0;letter-spacing:-.01em}
-header.site h1 small{display:block;font-size:.6rem;color:var(--muted);font-weight:500;letter-spacing:.22em}
-#top-user{margin-left:auto;font-size:.78rem;color:var(--muted);font-weight:500;max-width:35%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.eyebrow{
-  color:var(--accent);font-size:.72rem;font-weight:900;letter-spacing:.24em;
-  text-transform:uppercase;margin:0 0 6px;
-}
-h2{font-size:1.65rem;font-weight:900;margin:0 0 6px;letter-spacing:-.02em;line-height:1.25;text-wrap:balance}
-h3{font-size:1.05rem;font-weight:900;margin:0 0 12px;letter-spacing:-.01em}
-p{margin:6px 0}
-.sub{color:var(--muted);font-size:.86rem}
-.center{text-align:center}
-.card{
-  background:var(--card);border:1px solid var(--line);border-radius:22px;
-  padding:26px 22px;margin-bottom:16px;
-}
-.hero{
-  position:relative;overflow:hidden;
-  background:linear-gradient(170deg,#101c38,#0b1322 70%);
-  border:1px solid #28395e;border-radius:24px;
-  padding:30px 24px;margin-bottom:16px;
-}
-.hero .stars{position:absolute;inset:0;pointer-events:none;opacity:.9;background-image:
-  radial-gradient(1.4px 1.4px at 12% 18%, #cfe0ff 50%, transparent 51%),
-  radial-gradient(1px 1px at 32% 8%, #9fb6ff 50%, transparent 51%),
-  radial-gradient(1.2px 1.2px at 55% 22%, #ffffff 50%, transparent 51%),
-  radial-gradient(1px 1px at 72% 10%, #cfe0ff 50%, transparent 51%),
-  radial-gradient(1.6px 1.6px at 88% 26%, #ffd166 50%, transparent 51%),
-  radial-gradient(1px 1px at 20% 40%, #9fb6ff 50%, transparent 51%),
-  radial-gradient(1.2px 1.2px at 92% 48%, #cfe0ff 50%, transparent 51%),
-  radial-gradient(1px 1px at 65% 38%, #ffffff 50%, transparent 51%);
-}
-.hero .char{position:absolute;top:16px;right:14px;width:86px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.45))}
-.hero h2{font-size:2.1rem;line-height:1.16;margin:4px 0 12px;padding-right:84px}
-.hero h2 .hl{color:var(--accent)}
-.hero .desc{color:#b9c4e2;font-size:.88rem;margin:0 0 16px;max-width:38ch}
-.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
-.pill{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(13,21,38,.8);border:1px solid #2b3c62;border-radius:999px;
-  padding:6px 13px;font-size:.78rem;font-weight:500;color:#d4ddf5;
-}
-button.primary{
-  width:100%;background:var(--accent);color:#fff;border:none;border-radius:14px;
-  padding:14px 22px;font:inherit;font-weight:900;font-size:1rem;cursor:pointer;
-  letter-spacing:-.01em;box-shadow:0 6px 20px rgba(255,107,26,.3);
-  transition:transform .1s ease;
-}
-button.primary:hover{transform:translateY(-1px)}
-button.primary:disabled{opacity:.45;cursor:default;box-shadow:none;transform:none}
-button.ghost{
-  width:100%;background:rgba(23,35,57,.9);border:1px solid var(--line);color:var(--fg);
-  border-radius:14px;padding:13px 18px;font:inherit;font-weight:700;cursor:pointer;font-size:.92rem;
-}
-button.ghost:hover{border-color:var(--accent)}
-.btnrow{display:flex;gap:10px;margin-top:22px}
-.btnrow .primary,.btnrow .ghost{width:auto;flex:1}
-button.mini{
-  background:var(--card2);border:1px solid var(--line);color:var(--muted);
-  border-radius:9px;padding:4px 10px;font:inherit;font-size:.76rem;font-weight:700;cursor:pointer;
-}
-button.mini.warn{color:var(--danger);border-color:rgba(255,107,129,.4)}
-input[type=text],input[type=password],textarea{
-  width:100%;background:var(--deep);border:1px solid #2b3c62;color:var(--fg);
-  border-radius:13px;padding:13px 15px;font:inherit;font-size:.95rem;
-}
-input::placeholder{color:#5e6b8d}
-input:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-label.fld{display:block;margin:12px 0 0;font-size:.78rem;font-weight:700;color:var(--muted)}
-label.fld input{margin-top:6px}
-.err{color:var(--danger);font-size:.84rem;min-height:1.4em;margin-top:10px;font-weight:500}
-.notice{
-  background:rgba(255,107,26,.08);border:1px solid rgba(255,138,61,.4);
-  border-radius:13px;padding:12px 14px;font-size:.85rem;margin-top:14px;
-}
-.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
-.chips button.chip{
-  background:var(--card2);border:1px solid var(--line);color:#d4ddf5;
-  border-radius:999px;padding:10px 17px;font:inherit;font-weight:700;font-size:.9rem;cursor:pointer;
-  transition:transform .12s ease;
-}
-.chips button.chip[aria-pressed=true]{
-  background:var(--accent);border-color:var(--accent);color:#fff;
-  box-shadow:0 4px 14px rgba(255,107,26,.35);transform:scale(1.04);
-}
-.stephead{display:flex;align-items:center;gap:14px;margin-bottom:6px}
-.stepnum{
-  width:46px;height:46px;flex:none;border-radius:14px;
-  background:linear-gradient(160deg,var(--accent-soft),var(--accent));
-  color:#fff;font-weight:900;font-size:1.4rem;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 14px rgba(255,107,26,.35);
-}
-.steps{display:flex;gap:6px;margin-bottom:20px}
-.steps i{flex:1;height:5px;border-radius:3px;background:var(--line)}
-.steps i.on{background:var(--accent)}
-.spacer{flex:1}
-.artist-row{display:flex;gap:8px;margin-top:14px}
-.artist-row input{flex:1;min-width:0}
-.artist-row .ghost{width:auto;flex:none;padding-inline:20px}
-.alist{display:flex;flex-direction:column;gap:9px;margin-top:14px}
-.aitem{
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  background:var(--deep);border:1px solid var(--line);border-radius:14px;padding:12px 14px;
-}
-.aitem b{font-size:.95rem;font-weight:700}
-.aitem .tags{display:flex;gap:6px;flex-wrap:wrap}
-.tag{
-  font-size:.7rem;font-weight:700;background:rgba(167,139,250,.13);border:1px solid rgba(167,139,250,.35);
-  color:#c9bdff;border-radius:999px;padding:2px 9px;white-space:nowrap;
-}
-.tag.orange{background:rgba(255,107,26,.13);border-color:rgba(255,138,61,.45);color:var(--accent-soft)}
-.aitem .x{margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:2px 6px}
-.status{color:var(--lav);font-size:.84rem;min-height:1.4em;margin-top:10px;font-weight:500}
-.hatwrap{display:flex;justify-content:center;margin:6px 0}
-.hat-shake{animation:shake 1.6s ease}
-@keyframes shake{
-  0%,100%{transform:rotate(0)}15%{transform:rotate(-8deg)}30%{transform:rotate(7deg)}
-  45%{transform:rotate(-6deg)}60%{transform:rotate(5deg)}75%{transform:rotate(-3deg)}90%{transform:rotate(2deg)}
-}
-.reveal{animation:pop .7s cubic-bezier(.2,1.4,.4,1)}
-@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
-@media (prefers-reduced-motion:reduce){.hat-shake,.reveal{animation:none}}
-.style-card{
-  position:relative;overflow:hidden;text-align:center;
-  background:linear-gradient(170deg,#121f3d,#0b1322 75%);
-  border:1px solid #2b3c62;border-radius:22px;padding:30px 20px;margin-top:16px;
-  box-shadow:0 0 50px rgba(255,107,26,.08);
-}
-.style-card .big{font-size:3.2rem;line-height:1}
-.style-card h2{font-size:1.6rem;margin:12px 0 4px;color:var(--accent-soft)}
-.style-card .chips{justify-content:center}
-.mates{display:flex;flex-direction:column;gap:10px;margin-top:14px}
-.mate{
-  display:flex;align-items:center;gap:13px;flex-wrap:wrap;
-  background:var(--deep);border:1px solid var(--line);border-radius:14px;padding:13px 15px;
-}
-.mate .pct{
-  font-weight:900;color:var(--accent);font-size:1.15rem;min-width:52px;
-  font-variant-numeric:tabular-nums;letter-spacing:-.02em;
-}
-.mate .who{flex:1;min-width:140px}
-.mate .who b{font-size:.96rem;font-weight:700}
-.mate .who span.meta{display:block;font-size:.77rem;color:var(--muted)}
-.grid2{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
-.stat{background:var(--deep);border:1px solid var(--line);border-radius:16px;padding:14px 8px;text-align:center}
-.stat .n{font-weight:900;font-size:1.9rem;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:-.03em}
-.stat .l{font-size:.7rem;color:var(--muted);font-weight:500}
-.bars{display:flex;flex-direction:column;gap:9px;margin-top:4px}
-button.bar{display:grid;grid-template-columns:104px 1fr 32px;align-items:center;gap:10px;font-size:.84rem;font-weight:500;background:none;border:none;color:var(--fg);font-family:inherit;padding:0;text-align:left;cursor:pointer;width:100%}
-button.bar:hover .fill{filter:brightness(1.25)}
-button.bar[aria-expanded=true] span:first-child{color:var(--accent-soft)}
-.bar .track{display:block;background:var(--deep);border-radius:6px;height:16px;overflow:hidden}
-.bar .fill{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent-soft));min-width:2px}
-.bar .num{color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
-.stylegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
-button.stylecell{background:var(--deep);border:1px solid var(--line);border-radius:14px;padding:13px 10px;text-align:center;color:var(--fg);font-family:inherit;font-size:inherit;cursor:pointer}
-button.stylecell:hover,button.stylecell[aria-expanded=true]{border-color:var(--accent)}
-.stylecell .e{font-size:1.5rem}
-.stylecell .nm{font-size:.74rem;color:var(--muted);margin-top:4px;font-weight:500}
-.stylecell .ct{font-weight:900;font-size:1rem;color:var(--fg);font-variant-numeric:tabular-nums}
-.cloud{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.cloud button.w{background:var(--deep);border:1px solid var(--line);border-radius:999px;padding:4px 13px;font-weight:700;color:var(--fg);font-family:inherit;cursor:pointer}
-.cloud button.w:hover,.cloud button.w[aria-pressed=true]{border-color:var(--accent);color:var(--accent-soft)}
-.cloud .w small{color:var(--accent);font-weight:900}
-button.stat{cursor:pointer;color:var(--fg);font-family:inherit;font-size:inherit}
-button.stat:hover,button.stat[aria-expanded=true]{border-color:var(--accent)}
-.whorow{display:flex;flex-wrap:wrap;gap:6px;padding:6px 2px 4px}
-.who-chip{font-size:.72rem;font-weight:700;background:rgba(255,138,61,.1);border:1px solid rgba(255,138,61,.35);color:var(--accent-soft);border-radius:999px;padding:2px 10px}
-.memgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:4px}
-button.mem{display:flex;gap:10px;align-items:flex-start;background:var(--deep);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:left;color:var(--fg);font-family:inherit;cursor:pointer;font-size:inherit}
-button.mem:hover,button.mem[aria-expanded=true]{border-color:var(--accent)}
-.mem .av{width:38px;height:38px;flex:none;border-radius:50%;background:var(--card2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:1.15rem}
-.mem .mi{flex:1;min-width:0}
-.mem b{font-size:.92rem}
-.mem .sub2{display:block;font-size:.74rem;color:var(--muted)}
-.mem .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
-table.admin{width:100%;border-collapse:collapse;font-size:.83rem;margin-top:10px}
-table.admin th,table.admin td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-table.admin th{color:var(--muted);font-weight:700;font-size:.72rem;letter-spacing:.06em}
-.tablewrap{overflow-x:auto}
-.rowedit{background:rgba(255,107,26,.06);border:1px solid rgba(255,138,61,.35);border-radius:14px;padding:14px;margin-top:10px}
-.rowedit input{margin:8px 0}
-nav.tabbar{
-  position:fixed;z-index:35;
-  left:max(16px,env(safe-area-inset-left,0px));
-  right:max(16px,env(safe-area-inset-right,0px));
-  bottom:calc(14px + env(safe-area-inset-bottom,0px));
-  max-width:528px;margin:0 auto;
-  display:flex;gap:4px;
-  background:rgba(13,20,36,.92);border:1px solid #2b3c62;border-radius:20px;
-  padding:8px;backdrop-filter:blur(10px);
-  box-shadow:0 10px 36px rgba(0,0,0,.5);
-}
-nav.tabbar button{
-  flex:1;background:transparent;border:none;color:var(--muted);cursor:pointer;
-  font:inherit;font-size:.68rem;font-weight:700;border-radius:14px;padding:7px 2px;
-  display:flex;flex-direction:column;align-items:center;gap:2px;
-}
-nav.tabbar button .ic{font-size:1.15rem;line-height:1.2}
-nav.tabbar button.on{background:rgba(255,107,26,.14);color:var(--accent-soft)}
-nav.tabbar button:hover{color:var(--fg)}
-footer.site{margin-top:34px;text-align:center;color:#556182;font-size:.72rem;font-weight:500}
-@media (max-width:430px){
-  .hero h2{font-size:1.75rem;padding-right:70px}
-  .hero .char{width:70px}
-  .card{padding:22px 17px}
-  button.bar{grid-template-columns:86px 1fr 30px}
-  .grid2{grid-template-columns:repeat(3,1fr)}
-}
-</style>
+<meta name="description" content="파트와 음악 취향, 합주 가능한 시간을 모아 이번 겨울 함께할 밴드원을 찾아주는 당근 밴드 매칭 페이지">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Cinzel:wght@600;700&family=Gaegu:wght@700&display=swap">
+<link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-
 <canvas id="snow"></canvas>
-<div class="wrap">
-  <header class="site" id="site-header">
-    <span class="logobadge" id="logo-slot"></span>
-    <h1>당근 겨울밴드<small>WINTER BAND MATCHING</small></h1>
+<div class="lights" id="lights" aria-hidden="true"></div>
+
+<header class="site">
+  <div class="site-in">
+    <button class="brand" id="brand" aria-label="처음 화면으로">
+      <span class="logobadge" id="logo-slot"></span>
+      <span><b><em>당근</em> 겨울밴드</b><small>WINTER JAM 2026</small></span>
+    </button>
+    <nav class="topnav" id="topnav" aria-label="주 메뉴"></nav>
     <span id="top-user"></span>
-  </header>
+  </div>
+</header>
+
+<main class="wrap">
 
   <!-- 연결 불가 -->
   <section id="view-offline" hidden>
-    <div class="hero"><div class="stars"></div>
-      <p class="eyebrow">Oops</p>
-      <h2 style="padding-right:84px">서버에<br>연결할 수 없어요</h2>
-      <span class="char" id="char-offline"></span>
-      <p class="desc">잠시 후 새로고침 해주세요. 계속 안 되면 모임장에게 알려주세요!</p>
+    <div class="card" style="margin-top:30px;text-align:center">
+      <div class="hatwrap" id="char-offline"></div>
+      <h2 class="section" style="font-size:1.6rem;margin-top:10px">서버에 연결할 수 없어요</h2>
+      <p class="sub">잠시 후 새로고침 해주세요. 계속 안 되면 모임장에게 알려주세요.</p>
     </div>
   </section>
 
-  <!-- 로그인 -->
+  <!-- 첫 화면 + 로그인 -->
   <section id="view-login" hidden>
     <div class="hero">
-      <div class="stars"></div>
-      <span class="char" id="char-login"></span>
-      <p class="eyebrow">2026 Winter · Karrot Band</p>
-      <h2>당근 겨울<br><span class="hl">BAND</span> 매칭소</h2>
-      <p class="desc">파트와 취향을 알려주면 마법의 모자가 당신의 밴드 스타일을 정해주고, 통하는 멤버를 찾아드려요.</p>
-      <div class="pillrow">
-        <span class="pill">❄ 겨울 합주 모임</span>
-        <span class="pill">🎸 파트 매칭</span>
-        <span class="pill">🔮 취향 분석</span>
+      <div class="hero-copy">
+        <p class="eyebrow">Year-end Band Matching</p>
+        <p class="sub" style="margin:0 0 6px;font-size:.95rem">이번 겨울, 같이 연주할 사람을 찾아요.</p>
+        <h1 class="display">취향이 맞는 우리,<br><span class="hl">함께 밴드 해요.</span></h1>
+        <p class="lead">연주할 파트와 좋아하는 음악, 합주 가능한 시간을 알려주면 마법의 모자가 당신의 밴드 스타일을 정하고 딱 맞는 밴드원을 묶어드려요.</p>
+        <div class="btnrow" style="max-width:440px">
+          <button class="btn btn-primary" id="cta-start">✦ 나의 밴드 취향 찾기</button>
+          <button class="btn btn-ghost" id="cta-browse">먼저 둘러보기 →</button>
+        </div>
+        <div class="partrow">
+          <span class="pchip">🎸 기타</span><span class="pchip">🥁 드럼</span><span class="pchip">🎵 베이스</span>
+          <span class="pchip">🎤 보컬</span><span class="pchip">🎹 키보드</span><span class="pchip">✨ 기타 악기</span>
+        </div>
       </div>
+      <figure class="stage-card" style="margin:0">
+        <div id="stage-art"></div>
+        <figcaption class="stage-cap">
+          <span class="live">Winter Session</span>
+          <b>나랑 맞는 밴드원을 찾아보세요</b>
+        </figcaption>
+      </figure>
     </div>
-    <div class="card">
-      <p class="eyebrow">Enter</p>
-      <h2 style="font-size:1.25rem">간편 로그인</h2>
-      <p class="sub">회원가입 없이, 처음 정한 아이디와 비밀번호로 바로 시작돼요.</p>
-      <label class="fld">아이디 (활동명)
-        <input type="text" id="login-id" autocomplete="off" maxlength="20" placeholder="예: 페퍼민트">
-      </label>
-      <label class="fld">비밀번호
-        <input type="password" id="login-pw" maxlength="40" placeholder="간단한 비밀번호">
-      </label>
-      <p class="err" id="login-err"></p>
-      <div id="login-btnrow" style="margin-top:20px">
-        <button class="primary" id="btn-login">입장하기 🪄</button>
+
+    <div class="steps4">
+      <div><span class="no">01</span><div><b>파트를 고르고</b><span>이번 합주에서 맡고 싶은 악기를 골라요.</span></div></div>
+      <div><span class="no">02</span><div><b>취향을 들려주고</b><span>장르와 좋아하는 아티스트로 취향을 표현해요.</span></div></div>
+      <div><span class="no">03</span><div><b>합주 시간을 칠하고</b><span>11–12월 중 되는 시간을 달력에 칠해요.</span></div></div>
+      <div><span class="no">04</span><div><b>밴드를 만나요</b><span>취향과 시간이 맞는 사람끼리 밴드를 짜드려요.</span></div></div>
+    </div>
+
+    <div class="login-wrap" id="login-anchor">
+      <div class="card login-card">
+        <p class="eyebrow" style="margin-bottom:8px">Enter the Jam Room</p>
+        <h2 style="font-size:1.35rem;font-weight:900">간편 로그인</h2>
+        <p class="sub">회원가입 없이, 처음 정한 아이디와 비밀번호로 바로 시작돼요.</p>
+        <label class="fld">아이디 (활동명)
+          <input type="text" id="login-id" autocomplete="off" maxlength="20" placeholder="예: 페퍼민트">
+        </label>
+        <label class="fld">비밀번호
+          <input type="password" id="login-pw" maxlength="40" placeholder="간단한 비밀번호">
+        </label>
+        <p class="err" id="login-err"></p>
+        <button class="btn btn-primary btn-block" id="btn-login">입장하기 🪄</button>
+        <p class="sub" style="text-align:center;margin-top:14px">간편 인증이라 평소 쓰는 비밀번호는 쓰지 말아주세요.<br>오타로 아이디가 두 개가 되면 관리자가 합쳐줄 수 있어요.</p>
       </div>
-      <p class="sub center" style="margin-top:14px">간편 인증이라 평소 쓰는 비밀번호는 쓰지 말아주세요 ✦<br>오타로 아이디가 두 개가 되면 관리자가 합쳐줄 수 있어요.</p>
     </div>
   </section>
 
   <!-- 온보딩 -->
-  <section class="card" id="view-onboard" hidden>
-    <div class="steps"><i id="st1"></i><i id="st2"></i><i id="st3"></i></div>
+  <section id="view-onboard" hidden>
+    <div class="card ob-card">
+      <div class="steps"><i id="st1"></i><i id="st2"></i><i id="st3"></i><i id="st4"></i></div>
 
-    <div id="ob-parts" hidden>
-      <div class="stephead"><span class="stepnum">1</span>
-        <div><p class="eyebrow" style="margin:0">Step 1 · Part</p>
-        <h2 style="font-size:1.3rem;margin:0">어떤 파트를 맡을 수 있나요?</h2></div>
-      </div>
-      <p class="sub">여러 개를 골라도 좋아요. 멀티 플레이어 환영!</p>
-      <div class="chips" id="part-chips"></div>
-      <label class="fld" id="part-etc-fld" hidden>그 외 악기 이름
-        <input type="text" id="part-etc" maxlength="20" placeholder="예: 바이올린, 색소폰, 멜로디언…">
-      </label>
-      <div class="btnrow"><span class="spacer"></span>
-        <button class="primary" id="ob1-next" style="flex:none;width:auto;padding-inline:30px">다음 →</button>
-      </div>
-    </div>
-
-    <div id="ob-genres" hidden>
-      <div class="stephead"><span class="stepnum">2</span>
-        <div><p class="eyebrow" style="margin:0">Step 2 · Genre</p>
-        <h2 style="font-size:1.3rem;margin:0">끌리는 장르를 골라주세요</h2></div>
-      </div>
-      <p class="sub">마음 가는 대로, 여러 개 환영이에요.</p>
-      <div class="chips" id="genre-chips"></div>
-      <div class="btnrow">
-        <button class="ghost" id="ob2-back">← 이전</button>
-        <button class="primary" id="ob2-next">다음 →</button>
-      </div>
-    </div>
-
-    <div id="ob-artists" hidden>
-      <div class="stephead"><span class="stepnum">3</span>
-        <div><p class="eyebrow" style="margin:0">Step 3 · Artist</p>
-        <h2 style="font-size:1.3rem;margin:0">최애 가수를 알려주세요</h2></div>
-      </div>
-      <p class="sub">한 팀씩 입력하고 추가를 눌러요. 마법 수정구가 장르를 알아맞혀요 🔮</p>
-      <div class="artist-row">
-        <input type="text" id="artist-input" maxlength="40" placeholder="예: Oasis, Green Day, 요루시카">
-        <button class="ghost" id="artist-add">추가</button>
-      </div>
-      <p class="status" id="artist-status"></p>
-      <div id="manual-pick" hidden>
-        <div class="notice">수정구가 흐릿하네요… 이 뮤지션의 장르를 직접 1~3개 골라주세요.</div>
-        <div class="chips" id="manual-chips"></div>
-        <div class="btnrow">
-          <button class="ghost" id="manual-cancel">취소</button>
-          <button class="primary" id="manual-ok">이 장르로 추가</button>
+      <div id="ob-parts" hidden>
+        <div class="stephead"><span class="stepnum">1</span>
+          <div><p class="kicker">Step 1 · Part</p><h2>어떤 파트를 맡을 수 있나요?</h2></div>
+        </div>
+        <p class="sub">여러 개를 골라도 좋아요. 멀티 플레이어 환영!</p>
+        <div class="chips" id="part-chips"></div>
+        <label class="fld" id="part-etc-fld" hidden>그 외 악기 이름
+          <input type="text" id="part-etc" maxlength="20" placeholder="예: 바이올린, 색소폰, 멜로디언">
+        </label>
+        <div class="btnrow"><span style="flex:1"></span>
+          <button class="btn btn-primary" id="ob1-next" style="flex:none">다음 →</button>
         </div>
       </div>
-      <div class="alist" id="artist-list"></div>
-      <div class="btnrow">
-        <button class="ghost" id="ob3-back">← 이전</button>
-        <button class="primary" id="ob3-done">결과 보기 ✨</button>
+
+      <div id="ob-genres" hidden>
+        <div class="stephead"><span class="stepnum">2</span>
+          <div><p class="kicker">Step 2 · Genre</p><h2>끌리는 장르를 골라주세요</h2></div>
+        </div>
+        <p class="sub">마음 가는 대로, 여러 개 환영이에요.</p>
+        <div class="chips" id="genre-chips"></div>
+        <div class="btnrow">
+          <button class="btn btn-ghost" id="ob2-back">← 이전</button>
+          <button class="btn btn-primary" id="ob2-next">다음 →</button>
+        </div>
+      </div>
+
+      <div id="ob-artists" hidden>
+        <div class="stephead"><span class="stepnum">3</span>
+          <div><p class="kicker">Step 3 · Artist</p><h2>최애 가수를 알려주세요</h2></div>
+        </div>
+        <p class="sub">한 팀씩 입력하고 추가를 눌러요. 마법 수정구가 장르를 알아맞혀요 🔮</p>
+        <div class="artist-row">
+          <input type="text" id="artist-input" maxlength="40" placeholder="예: Oasis, 실리카겔, 요루시카">
+          <button class="btn btn-ghost btn-sm" id="artist-add">추가</button>
+        </div>
+        <p class="status" id="artist-status"></p>
+        <div id="manual-pick" hidden>
+          <div class="notice">수정구가 흐릿하네요… 이 뮤지션의 장르를 직접 1~3개 골라주세요.</div>
+          <div class="chips" id="manual-chips"></div>
+          <div class="btnrow">
+            <button class="btn btn-ghost" id="manual-cancel">취소</button>
+            <button class="btn btn-primary" id="manual-ok">이 장르로 추가</button>
+          </div>
+        </div>
+        <div class="alist" id="artist-list"></div>
+        <div class="btnrow">
+          <button class="btn btn-ghost" id="ob3-back">← 이전</button>
+          <button class="btn btn-primary" id="ob3-next">다음 →</button>
+        </div>
+      </div>
+
+      <div id="ob-time" hidden>
+        <div class="stephead"><span class="stepnum">4</span>
+          <div><p class="kicker">Step 4 · Jam Time</p><h2>합주 가능한 시간을 칠해주세요</h2></div>
+        </div>
+        <p class="sub">11월~12월 중 연습할 수 있는 칸을 누르거나 쓱 드래그해요. 아래 빠른 선택도 있어요.</p>
+        <div class="sched" id="ob-sched"></div>
+        <div class="btnrow">
+          <button class="btn btn-ghost" id="ob4-back">← 이전</button>
+          <button class="btn btn-primary" id="ob4-done">결과 보기 ✨</button>
+        </div>
+        <p class="err" id="ob-err"></p>
       </div>
     </div>
   </section>
 
-  <!-- 결과 -->
+  <!-- 내 결과 -->
   <section id="view-result" hidden>
-    <div class="card center">
-      <div class="hatwrap" id="char-result"></div>
-      <div id="result-pending"><p class="eyebrow">Sorting</p><h2 style="font-size:1.3rem">마법의 모자가 고민 중…</h2></div>
-      <div id="result-body" hidden>
-        <div class="style-card reveal" id="style-card"></div>
-        <div class="btnrow">
-          <button class="ghost" id="btn-edit">내 취향 수정</button>
-          <button class="primary" id="btn-godash">모두의 대시보드</button>
-        </div>
+    <div class="result-top">
+      <div class="style-card" id="style-card"></div>
+      <div class="card" style="margin:0">
+        <div class="card-head"><div><p class="kicker">My Band</p><h3>마법의 모자가 짜준 내 밴드</h3></div><span class="ic">🎄</span></div>
+        <div id="my-band"></div>
       </div>
     </div>
-    <div class="card" id="mates-card" hidden>
-      <p class="eyebrow">Matching</p>
-      <h2 style="font-size:1.3rem">당신과 통하는 멤버들 🤝</h2>
-      <p class="sub">취향이 비슷한 순서예요. 합주 말 걸어보기 좋은 상대!</p>
+    <div id="time-callout" style="margin-top:16px"></div>
+    <div class="card" style="margin-top:16px">
+      <div class="card-head"><div><p class="kicker">Matching</p><h3>취향과 시간이 통하는 멤버</h3>
+        <p class="sub">취향 60% + 겹치는 합주 시간 40%로 계산했어요.</p></div><span class="ic">🤝</span></div>
       <div class="mates" id="mates"></div>
     </div>
+    <div class="btnrow">
+      <button class="btn btn-ghost" id="btn-edit">내 취향 수정</button>
+      <button class="btn btn-ghost" id="btn-time">합주 시간 수정</button>
+      <button class="btn btn-primary" id="btn-godash">모두의 음악 구경하기</button>
+    </div>
   </section>
 
-  <!-- 대시보드 -->
+  <!-- 내 합주 시간 -->
+  <section id="view-schedule" hidden>
+    <div class="dash-head">
+      <p class="eyebrow">My Jam Calendar</p>
+      <h2 class="section">언제 <span class="hl">합주할 수 있나요?</span></h2>
+      <p class="sub">2시간 단위 칸이에요. 누르거나 드래그해서 칠하고, 다 칠하면 저장을 눌러주세요.</p>
+    </div>
+    <div class="card">
+      <div class="sched" id="my-sched"></div>
+      <div class="btnrow">
+        <button class="btn btn-ghost" id="sched-cancel">취소</button>
+        <button class="btn btn-primary" id="sched-save">저장하기</button>
+      </div>
+      <p class="err" id="sched-err"></p>
+    </div>
+  </section>
+
+  <!-- 모두의 음악 -->
   <section id="view-dash" hidden>
-    <div class="card">
-      <p class="eyebrow">Music Observatory</p>
-      <h2 style="font-size:1.45rem">모두의 음악 우주 🔭</h2>
-      <p class="sub" id="dash-weather"></p>
-      <p class="sub">숫자 · 막대 · 이름을 누르면 누가 골랐는지 보여요 👆</p>
-      <div class="grid2" id="dash-stats"></div>
+    <div class="dash-head">
+      <p class="eyebrow">Band Room Stats</p>
+      <h2 class="section">우리 모임에는<br><span class="hl">어떤 취향이 모였을까요?</span></h2>
+      <p class="sub">숫자 · 막대 · 칸 · 이름을 누르면 누가 골랐는지 바로 보여요.</p>
     </div>
+    <div class="statrow" id="dash-stats"></div>
+
     <div class="card">
-      <h3>🎸 파트 분포</h3>
-      <div class="bars" id="dash-parts"></div>
-      <p class="sub" id="dash-need"></p>
+      <div class="card-head"><div><p class="kicker">Sorting Hat · Bands</p><h3>마법의 모자가 짜본 밴드</h3>
+        <p class="sub">필요한 파트를 채우면서 취향 궁합과 함께 되는 시간이 가장 잘 맞는 조합이에요.</p></div><span class="ic">🎩</span></div>
+      <div class="bands" id="dash-bands"></div>
     </div>
+
     <div class="card">
-      <h3>🎶 장르 인기 투표</h3>
-      <div class="bars" id="dash-genres"></div>
+      <div class="card-head"><div><p class="kicker">Jam Time · Click</p><h3>모두의 합주 시간표</h3>
+        <p class="sub">진할수록 많이 모일 수 있는 시간이에요. 칸을 누르면 누가 되는지, 어떤 파트가 모이는지 보여요.</p></div><span class="ic">🗓️</span></div>
+      <div class="heat-wrap">
+        <div>
+          <div class="sched" id="dash-heat"></div>
+          <div class="heat-legend">적음 <i style="background:rgba(255,122,47,.18)"></i><i style="background:rgba(255,122,47,.45)"></i><i style="background:rgba(255,122,47,.75)"></i><i style="background:var(--accent)"></i> 많음</div>
+          <div id="slot-detail"></div>
+        </div>
+        <div>
+          <p class="kicker">Best Times</p>
+          <h3 style="margin-bottom:10px">가장 많이 모이는 시간</h3>
+          <div class="toplist" id="dash-top"></div>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <h3>🧙 겨울 마법사 유형 분포</h3>
-      <div class="stylegrid" id="dash-styles"></div>
-    </div>
-    <div class="card">
-      <h3>⭐ 모두의 최애 가수</h3>
-      <div class="cloud" id="dash-artists"></div>
-      <div id="dash-artist-detail"></div>
-    </div>
-    <div class="card">
-      <h3>❄ 함께하는 멤버들</h3>
-      <p class="sub">카드를 누르면 그 멤버의 최애 가수까지 보여요.</p>
-      <div class="memgrid" id="dash-members"></div>
+
+    <div class="dgrid" style="margin-top:16px">
+      <div class="card">
+        <div class="card-head"><div><p class="kicker">Parts · Click</p><h3>어떤 파트가 모였나요?</h3></div><span class="ic">🎸</span></div>
+        <div class="bars" id="dash-parts"></div>
+        <p class="sub" id="dash-need" style="margin-top:12px"></p>
+      </div>
+      <div class="card">
+        <div class="card-head"><div><p class="kicker">Genres · Click</p><h3>우리의 플레이리스트</h3></div><span class="ic">🎧</span></div>
+        <div class="bars" id="dash-genres"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div><p class="kicker">Wizards · Click</p><h3>겨울 마법사 유형 분포</h3></div><span class="ic">🧙</span></div>
+        <div class="stylegrid" id="dash-styles"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div><p class="kicker">Artists · Click</p><h3>가장 많이 겹친 아티스트</h3></div><span class="ic">⭐</span></div>
+        <div class="cloud" id="dash-artists"></div>
+        <div id="dash-artist-detail"></div>
+      </div>
+      <div class="card span2">
+        <div class="card-head"><div><p class="kicker">Members</p><h3>함께하는 멤버들</h3>
+          <p class="sub">카드를 누르면 그 멤버의 최애 가수와 등록한 시간이 보여요.</p></div><span class="ic">❄</span></div>
+        <div class="memgrid" id="dash-members"></div>
+      </div>
     </div>
   </section>
 
   <!-- 관리자 -->
   <section id="view-admin" hidden>
-    <div class="card">
+    <div class="dash-head">
       <p class="eyebrow">Admin Only</p>
-      <h2 style="font-size:1.35rem">관리자의 방 🗝️</h2>
+      <h2 class="section">관리자의 방 🗝️</h2>
       <p class="sub">중복 아이디 정리(이름 변경·합치기), 비밀번호 재설정, 계정 삭제를 할 수 있어요.</p>
+    </div>
+    <div class="card">
       <div class="tablewrap">
         <table class="admin">
-          <thead><tr><th>아이디</th><th>파트</th><th>장르</th><th>가수</th><th>유형</th><th>관리</th></tr></thead>
+          <thead><tr><th>ID</th><th>PART</th><th>GENRE</th><th>ARTIST</th><th>TIME</th><th>TYPE</th><th>MANAGE</th></tr></thead>
           <tbody id="admin-rows"></tbody>
         </table>
       </div>
@@ -453,661 +275,15 @@ footer.site{margin-top:34px;text-align:center;color:#556182;font-size:.72rem;fon
     </div>
   </section>
 
-  <footer class="site">당근 겨울밴드 ❄ 함께 맞추는 첫 합주</footer>
-</div>
+  <footer class="site">
+    <b>CARROT WINTER BAND</b>
+    <span>연말의 작은 마법 · 중심은 합주와 사람 · Merry Jamming 🎄</span>
+  </footer>
+</main>
 
-<nav class="tabbar" id="nav" hidden>
-  <button id="nav-result"><span class="ic">🎩</span>내 결과</button>
-  <button id="nav-dash"><span class="ic">🔭</span>모두의 음악</button>
-  <button id="nav-admin" hidden><span class="ic">🗝️</span>관리자</button>
-  <button id="nav-logout"><span class="ic">🚪</span>나가기</button>
-</nav>
+<nav class="tabbar" id="tabbar" aria-label="하단 메뉴"></nav>
+<div class="toast" id="toast" role="status" hidden></div>
 
-<script>
-"use strict";
-/* ---------- 데이터 정의 ---------- */
-const GENRES = [
-  {k:"brit",   n:"브리티시락"},
-  {k:"modern", n:"모던락"},
-  {k:"indie",  n:"인디락"},
-  {k:"punk",   n:"펑크"},
-  {k:"emo",    n:"이모/팝펑크"},
-  {k:"grunge", n:"그런지"},
-  {k:"hardcore",n:"하드코어"},
-  {k:"metal",  n:"메탈"},
-  {k:"hardrock",n:"하드록"},
-  {k:"blues",  n:"블루스"},
-  {k:"jazz",   n:"재즈"},
-  {k:"ballad", n:"발라드"},
-  {k:"kpop",   n:"K-pop"},
-  {k:"jrock",  n:"J-rock/J-pop"},
-  {k:"citypop",n:"시티팝"},
-  {k:"folk",   n:"포크/어쿠스틱"},
-];
-const GENRE_NAME = Object.fromEntries(GENRES.map(g=>[g.k,g.n]));
-
-const PARTS = [
-  {k:"vocal", n:"🎤 보컬"},
-  {k:"guitar",n:"🎸 기타"},
-  {k:"bass",  n:"🎸 베이스"},
-  {k:"drum",  n:"🥁 드럼"},
-  {k:"keys",  n:"🎹 키보드"},
-  {k:"etc",   n:"✨ 그 외 악기"},
-];
-const PART_NAME = Object.fromEntries(PARTS.map(p=>[p.k,p.n]));
-
-const GROUP_OF = {
-  brit:"brit", modern:"brit",
-  punk:"punkish", emo:"punkish", hardcore:"punkish", grunge:"punkish",
-  metal:"heavy", hardrock:"heavy",
-  indie:"indie", folk:"indie", citypop:"indie",
-  jazz:"soul", blues:"soul",
-  kpop:"pop", ballad:"pop",
-  jrock:"jrockg",
-};
-const STYLES = {
-  brit:   {e:"🎩", n:"눈보라의 브릿팝 마법사",
-    d:"눈 내리는 밤, 원더월을 흥얼거리는 낭만파. 떼창 유발 멜로디에 약한 당신, 합주실의 분위기 메이커예요.",
-    mate:"벽난로의 블루스 현자"},
-  punkish:{e:"⚡", n:"얼음폭풍 펑크 폭주족",
-    d:"파워코드 세 개면 겨울도 녹여버리는 에너지! 템포는 빠르게, 고민은 짧게. 무대 위에서 제일 뜨거운 타입이에요.",
-    mate:"서리거인 메탈 기사"},
-  heavy:  {e:"🗡️", n:"서리거인 메탈 기사",
-    d:"묵직한 리프와 드라마틱한 전개의 수호자. 한 곡을 파고드는 집요함이 있어 합주 완성도를 끌어올려요.",
-    mate:"얼음폭풍 펑크 폭주족"},
-  indie:  {e:"🌲", n:"겨울숲 인디 음유시인",
-    d:"조용히 쌓이는 눈처럼 섬세한 사운드를 사랑하는 타입. 디테일에 진심이라 편곡 회의에서 빛나요.",
-    mate:"첫눈의 멜로디 요정"},
-  soul:   {e:"🔥", n:"벽난로의 블루스 현자",
-    d:"그루브와 여백을 아는 사람. 즉흥 연주에서 미소 짓는 당신 덕에 합주가 깊어져요.",
-    mate:"눈보라의 브릿팝 마법사"},
-  pop:    {e:"🌨️", n:"첫눈의 멜로디 요정",
-    d:"좋은 멜로디 앞에서 장르 불문 무장해제! 듣는 사람을 가장 먼저 생각하는, 셋리스트의 중심이에요.",
-    mate:"겨울숲 인디 음유시인"},
-  jrockg: {e:"☃️", n:"설국의 제이락 여행자",
-    d:"질주하는 기타와 애절한 멜로디의 공존을 아는 타입. 카피 욕심 많은 당신, 합주 레퍼토리 부자예요.",
-    mate:"얼음폭풍 펑크 폭주족"},
-};
-
-/* ---------- 유틸 ---------- */
-const $ = id => document.getElementById(id);
-function norm(s){
-  return (s||"").normalize("NFC").toLowerCase().replace(/[\s\-_.·'’!?&,()]/g,"");
-}
-function esc(s){
-  return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
-function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
-function lsDel(k){ try{ localStorage.removeItem(k); }catch(e){} }
-
-/* ---------- 서버 API ---------- */
-async function api(path, body){
-  const r = await fetch("/api/"+path, body ? {
-    method:"POST",
-    headers:{"content-type":"application/json"},
-    body:JSON.stringify(body)
-  } : undefined);
-  let d = {};
-  try{ d = await r.json(); }catch(e){}
-  if (!r.ok){ d.status = r.status; throw d; }
-  return d;
-}
-function writeErrText(e){
-  if (e && (e.error==="wrong_pw"||e.error==="wrong_token"))
-    return "비밀번호가 달라요. 처음이라면 다른 아이디를 써보세요.";
-  return "앗, 저장에 실패했어요. 잠시 후 다시 시도해 주세요.";
-}
-
-/* ---------- 당근 마법사 캐릭터 ---------- */
-let carrotN=0;
-function carrotSVG(size){
-  const u = "c" + (++carrotN);
-  return '<svg viewBox="0 0 120 140" width="'+size+'" height="'+Math.round(size*140/120)+'" role="img" aria-label="당근 마법사">'
-  +'<defs><linearGradient id="cg'+u+'" x1="0" y1="0" x2="0" y2="1">'
-  +'<stop offset="0" stop-color="#ffa35c"/><stop offset="1" stop-color="#e5671c"/></linearGradient>'
-  +'<linearGradient id="hg'+u+'" x1="0" y1="0" x2="0" y2="1">'
-  +'<stop offset="0" stop-color="#6d5bd0"/><stop offset="1" stop-color="#4636a3"/></linearGradient></defs>'
-  +'<path d="M60 38 C84 38 92 58 88 82 C84 108 72 130 60 134 C48 130 36 108 32 82 C28 58 36 38 60 38 Z" fill="url(#cg'+u+')"/>'
-  +'<path d="M44 70 q6 4 12 0 M58 92 q6 4 12 0 M46 108 q5 3 10 0" stroke="#c4551a" stroke-width="2.5" fill="none" stroke-linecap="round"/>'
-  +'<path d="M38 56 Q60 68 82 56 L80 66 Q60 76 40 66 Z" fill="#b23a48"/>'
-  +'<rect x="66" y="62" width="9" height="20" rx="4" fill="#b23a48"/>'
-  +'<path d="M52 36 C48 22 52 12 60 8 C60 20 58 28 56 36 Z" fill="#7ed37e"/>'
-  +'<path d="M64 36 C66 24 74 16 82 16 C78 26 72 32 68 38 Z" fill="#5cb85c"/>'
-  +'<ellipse cx="60" cy="40" rx="34" ry="8" fill="url(#hg'+u+')"/>'
-  +'<path d="M60 0 C74 14 80 28 82 40 L38 40 C40 28 46 14 60 0 Z" fill="url(#hg'+u+')"/>'
-  +'<path d="M40 32 L80 32 L82 40 L38 40 Z" fill="#372a85"/>'
-  +'<circle cx="66" cy="14" r="2.2" fill="#ffd166"/><circle cx="54" cy="24" r="1.6" fill="#ffd166"/>'
-  +'<path d="M72 26 l1.4 2.8 3 .4 -2.2 2.1 .6 3 -2.8-1.5 -2.8 1.5 .6-3 -2.2-2.1 3-.4 Z" fill="#ffd166"/>'
-  +'<circle cx="50" cy="54" r="3.4" fill="#2b1708"/><circle cx="70" cy="54" r="3.4" fill="#2b1708"/>'
-  +'<circle cx="51.2" cy="52.8" r="1.1" fill="#fff"/><circle cx="71.2" cy="52.8" r="1.1" fill="#fff"/>'
-  +'<path d="M54 61 Q60 66 66 61" stroke="#2b1708" stroke-width="2.5" fill="none" stroke-linecap="round"/>'
-  +'<ellipse cx="43" cy="60" rx="4" ry="2.6" fill="#ff9d7a" opacity=".7"/>'
-  +'<ellipse cx="77" cy="60" rx="4" ry="2.6" fill="#ff9d7a" opacity=".7"/>'
-  +'<line x1="90" y1="96" x2="106" y2="66" stroke="#8a5a2b" stroke-width="4" stroke-linecap="round"/>'
-  +'<path d="M106 58 l2 4.2 4.6.6 -3.4 3.2 .9 4.6 -4.1-2.3 -4.1 2.3 .9-4.6 -3.4-3.2 4.6-.6 Z" fill="#ffd166"/>'
-  +'</svg>';
-}
-function carrotMini(){
-  return '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">'
-  +'<path d="M12 7 C16 7 17.5 10 16.8 14 C16.1 18 13.8 21 12 21.6 C10.2 21 7.9 18 7.2 14 C6.5 10 8 7 12 7 Z" fill="#fff"/>'
-  +'<path d="M10.5 6.6 C9.8 4.4 10.4 2.8 12 2 C12 4 11.7 5.4 11.3 6.6 Z" fill="#d6f5d6"/>'
-  +'<path d="M13 6.8 C13.4 4.9 14.8 3.6 16.2 3.6 C15.5 5.3 14.4 6.2 13.6 7 Z" fill="#b5e8b5"/>'
-  +'</svg>';
-}
-
-/* ---------- 눈 내리기 ---------- */
-(function snow(){
-  const cv = $("snow"), ctx = cv.getContext("2d");
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  let W,H,flakes;
-  function reset(){
-    W = cv.width = innerWidth; H = cv.height = innerHeight;
-    flakes = Array.from({length:60},()=>({
-      x:Math.random()*W, y:Math.random()*H,
-      r:Math.random()*1.8+.6, v:Math.random()*.5+.25, drift:Math.random()*.6-.3
-    }));
-  }
-  reset(); addEventListener("resize",reset);
-  (function tick(){
-    if (!document.hidden){
-      ctx.clearRect(0,0,W,H);
-      ctx.fillStyle = "rgba(234,238,252,.7)";
-      for (const f of flakes){
-        ctx.globalAlpha = .2 + f.r/3.5;
-        ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,7); ctx.fill();
-        f.y += f.v; f.x += f.drift;
-        if (f.y > H+4){ f.y = -4; f.x = Math.random()*W; }
-      }
-      ctx.globalAlpha = 1;
-    }
-    requestAnimationFrame(tick);
-  })();
-})();
-
-/* ---------- 앱 상태 ---------- */
-let me=null;                 // {id, slug, token, data}
-let membersCache=[];
-let pollTimer=null;
-let artistMap=new Map();     // norm(name|alias) -> {name, genres[]}
-let draft={parts:[],partEtc:"",genres:[],artists:[]};
-let currentView="";
-
-const VIEWS=["view-offline","view-login","view-onboard","view-result","view-dash","view-admin"];
-function show(view){
-  currentView=view;
-  for (const v of VIEWS) $(v).hidden = (v!==view);
-  $("nav").hidden = !me;
-  $("top-user").textContent = me ? me.id : "";
-  if (me){
-    $("nav-result").classList.toggle("on",view==="view-result"||view==="view-onboard");
-    $("nav-dash").classList.toggle("on",view==="view-dash");
-    $("nav-admin").classList.toggle("on",view==="view-admin");
-    $("nav-admin").hidden = !isAdmin();
-  }
-}
-function isAdmin(){ return !!me && norm(me.id)==="admin"; }
-
-/* ---------- 부팅 ---------- */
-(async function boot(){
-  $("logo-slot").innerHTML = carrotMini();
-  $("char-login").innerHTML = carrotSVG(86);
-  $("char-offline").innerHTML = carrotSVG(86);
-  show("view-login");
-  $("login-err").textContent="연결 중…";
-  try{
-    const d = await api("artists");
-    for (const a of (d.artists||[])){
-      if (!a || !a.name) continue;
-      const entry = {name:a.name, genres:(a.genres||[]).filter(k=>GENRE_NAME[k])};
-      artistMap.set(norm(a.name), entry);
-      for (const al of (a.aliases||[])) artistMap.set(norm(al), entry);
-    }
-    $("login-err").textContent="";
-  }catch(e){ show("view-offline"); return; }
-
-  const saved = lsGet("kw-session");
-  if (saved){
-    try{
-      const {id, token} = JSON.parse(saved);
-      const d = await api("login", {id, token});
-      if (d.ok){ enterApp(d.member, token); return; }
-    }catch(e){}
-    lsDel("kw-session");
-  }
-})();
-
-/* ---------- 로그인 ---------- */
-$("btn-login").addEventListener("click", doLogin);
-$("login-pw").addEventListener("keydown", e=>{ if(e.key==="Enter") doLogin(); });
-async function doLogin(){
-  const id = $("login-id").value.trim().normalize("NFC");
-  const pw = $("login-pw").value;
-  const err = $("login-err");
-  err.textContent="";
-  if (!id || id.length<2){ err.textContent="아이디는 2자 이상으로 지어주세요."; return; }
-  if (!pw || pw.length<4){ err.textContent="비밀번호는 4자 이상이면 좋겠어요."; return; }
-  $("btn-login").disabled=true;
-  try{
-    const d = await api("login", {id, pw});
-    lsSet("kw-session", JSON.stringify({id:d.member.id, token:d.token}));
-    enterApp(d.member, d.token);
-  }catch(e){
-    err.textContent = writeErrText(e);
-  }finally{
-    $("btn-login").disabled=false;
-  }
-}
-
-/* ---------- 입장 ---------- */
-function enterApp(member, token){
-  me={id:member.id, slug:member.slug, token, data:member};
-  $("login-pw").value="";
-  startPolling();
-  if (isAdmin()){ renderAdmin(); show("view-admin"); return; }
-  if (member.done){ renderResult(false); show("view-result"); }
-  else startOnboarding();
-}
-$("nav-logout").addEventListener("click", ()=>{
-  lsDel("kw-session"); me=null;
-  if (pollTimer){ clearInterval(pollTimer); pollTimer=null; }
-  $("login-id").value=""; $("login-err").textContent="";
-  show("view-login");
-});
-$("nav-result").addEventListener("click", ()=>{
-  if (me.data.done){ renderResult(false); show("view-result"); }
-  else startOnboarding();
-});
-$("nav-dash").addEventListener("click", ()=>{ renderDash(); show("view-dash"); });
-$("nav-admin").addEventListener("click", ()=>{ renderAdmin(); show("view-admin"); });
-$("btn-godash").addEventListener("click", ()=>{ renderDash(); show("view-dash"); });
-$("btn-edit").addEventListener("click", startOnboarding);
-
-function startPolling(){
-  loadMembers();
-  if (!pollTimer) pollTimer=setInterval(loadMembers, 20000);
-}
-async function loadMembers(){
-  if (!me) return;
-  try{
-    const d = await api("members");
-    membersCache = d.members||[];
-    if (currentView==="view-dash") renderDash();
-    if (currentView==="view-result") renderMates();
-    if (currentView==="view-admin") renderAdmin();
-  }catch(e){ /* 다음 폴링에서 재시도 */ }
-}
-
-/* ---------- 온보딩 ---------- */
-function startOnboarding(){
-  draft={
-    parts:[...(me.data.parts||[])],
-    partEtc:me.data.partEtc||"",
-    genres:[...(me.data.genres||[])],
-    artists:(me.data.artists||[]).map(a=>({name:a.name,genres:[...(a.genres||[])]}))
-  };
-  renderPartChips(); renderGenreChips(); renderArtistList();
-  $("part-etc").value=draft.partEtc;
-  $("part-etc-fld").hidden=!draft.parts.includes("etc");
-  obStep(1); show("view-onboard");
-}
-function obStep(n){
-  $("ob-parts").hidden=n!==1; $("ob-genres").hidden=n!==2; $("ob-artists").hidden=n!==3;
-  $("st1").className=n>=1?"on":""; $("st2").className=n>=2?"on":""; $("st3").className=n>=3?"on":"";
-}
-function renderPartChips(){
-  const box=$("part-chips"); box.innerHTML="";
-  for (const p of PARTS){
-    const b=document.createElement("button");
-    b.type="button"; b.className="chip"; b.textContent=p.n;
-    b.setAttribute("aria-pressed", draft.parts.includes(p.k));
-    b.addEventListener("click",()=>{
-      const i=draft.parts.indexOf(p.k);
-      if (i>=0) draft.parts.splice(i,1); else draft.parts.push(p.k);
-      b.setAttribute("aria-pressed", draft.parts.includes(p.k));
-      if (p.k==="etc") $("part-etc-fld").hidden=!draft.parts.includes("etc");
-    });
-    box.appendChild(b);
-  }
-}
-function renderGenreChips(){
-  const box=$("genre-chips"); box.innerHTML="";
-  for (const g of GENRES){
-    const b=document.createElement("button");
-    b.type="button"; b.className="chip"; b.textContent=g.n;
-    b.setAttribute("aria-pressed", draft.genres.includes(g.k));
-    b.addEventListener("click",()=>{
-      const i=draft.genres.indexOf(g.k);
-      if (i>=0) draft.genres.splice(i,1); else draft.genres.push(g.k);
-      b.setAttribute("aria-pressed", draft.genres.includes(g.k));
-    });
-    box.appendChild(b);
-  }
-}
-$("ob1-next").addEventListener("click",()=>{
-  if (!draft.parts.length){ alertStatus("part"); return; }
-  draft.partEtc = draft.parts.includes("etc") ? $("part-etc").value.trim() : "";
-  obStep(2);
-});
-$("ob2-back").addEventListener("click",()=>obStep(1));
-$("ob2-next").addEventListener("click",()=>{
-  if (!draft.genres.length){ alertStatus("genre"); return; }
-  obStep(3);
-});
-$("ob3-back").addEventListener("click",()=>obStep(2));
-function alertStatus(kind){
-  const el = kind==="part" ? $("ob1-next") : $("ob2-next");
-  el.textContent = "하나 이상 골라주세요!";
-  setTimeout(()=>{ el.textContent="다음 →"; },1400);
-}
-
-/* ---------- 가수 입력 ---------- */
-let manualPending=null, manualSel=[];
-$("artist-add").addEventListener("click", addArtist);
-$("artist-input").addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); addArtist(); }});
-async function addArtist(){
-  const name = $("artist-input").value.trim();
-  const st=$("artist-status");
-  if (!name) return;
-  if (draft.artists.some(a=>norm(a.name)===norm(name))){ st.textContent="이미 담겨 있어요!"; return; }
-  $("artist-input").value="";
-  // 1) 로컬 캐시 매칭
-  const hit = artistMap.get(norm(name));
-  if (hit && hit.genres.length){
-    draft.artists.push({name:hit.name, genres:[...hit.genres]});
-    st.textContent=""; renderArtistList(); return;
-  }
-  // 2) 서버 조회 (DB → 마법 수정구)
-  st.textContent="🔮 마법 수정구에 '"+name+"'을(를) 물어보는 중…";
-  $("artist-add").disabled=true;
-  try{
-    const d = await api("artists", {name});
-    if (d.known && (d.genres||[]).length){
-      const genres = d.genres.filter(k=>GENRE_NAME[k]).slice(0,3);
-      draft.artists.push({name:d.name||name, genres});
-      st.textContent="✨ 수정구: "+genres.map(k=>GENRE_NAME[k]).join(", ")+" 느낌이래요!";
-      artistMap.set(norm(d.name||name), {name:d.name||name, genres});
-      renderArtistList();
-      return;
-    }
-  }catch(e){ /* 수동 선택으로 폴백 */ }
-  finally{ $("artist-add").disabled=false; }
-  // 3) 수동 선택
-  st.textContent="";
-  openManual(name);
-}
-function openManual(name){
-  manualPending=name; manualSel=[];
-  const box=$("manual-chips"); box.innerHTML="";
-  for (const g of GENRES){
-    const b=document.createElement("button");
-    b.type="button"; b.className="chip"; b.textContent=g.n;
-    b.setAttribute("aria-pressed","false");
-    b.addEventListener("click",()=>{
-      const i=manualSel.indexOf(g.k);
-      if (i>=0) manualSel.splice(i,1);
-      else if (manualSel.length<3) manualSel.push(g.k);
-      b.setAttribute("aria-pressed", manualSel.includes(g.k));
-    });
-    box.appendChild(b);
-  }
-  $("manual-pick").hidden=false;
-}
-$("manual-cancel").addEventListener("click",()=>{ manualPending=null; $("manual-pick").hidden=true; });
-$("manual-ok").addEventListener("click",()=>{
-  if (!manualPending || !manualSel.length) return;
-  draft.artists.push({name:manualPending, genres:[...manualSel]});
-  manualPending=null; $("manual-pick").hidden=true;
-  renderArtistList();
-});
-function renderArtistList(){
-  const box=$("artist-list"); box.innerHTML="";
-  draft.artists.forEach((a,idx)=>{
-    const div=document.createElement("div"); div.className="aitem";
-    div.innerHTML = "<b>"+esc(a.name)+"</b><span class='tags'>"
-      + a.genres.map(k=>"<span class='tag'>"+esc(GENRE_NAME[k]||k)+"</span>").join("")
-      + "</span>";
-    const x=document.createElement("button");
-    x.className="x"; x.textContent="✕"; x.setAttribute("aria-label",a.name+" 빼기");
-    x.addEventListener("click",()=>{ draft.artists.splice(idx,1); renderArtistList(); });
-    div.appendChild(x);
-    box.appendChild(div);
-  });
-}
-
-/* ---------- 저장 & 결과 ---------- */
-$("ob3-done").addEventListener("click", async ()=>{
-  if (!draft.artists.length){
-    $("artist-status").textContent="최애 가수를 한 팀 이상 담아주세요!"; return;
-  }
-  const btn=$("ob3-done"); btn.disabled=true;
-  try{
-    const d = await api("members", {id:me.id, token:me.token, profile:{
-      parts:draft.parts, partEtc:draft.partEtc, genres:draft.genres, artists:draft.artists
-    }});
-    me.data = d.member;
-    loadMembers();
-    renderResult(true); show("view-result");
-  }catch(e){
-    $("artist-status").textContent = writeErrText(e);
-  }finally{ btn.disabled=false; }
-});
-
-function renderResult(animate){
-  const st = STYLES[me.data.style] || STYLES.pop;
-  $("char-result").innerHTML = carrotSVG(110);
-  const body=$("result-body"), pend=$("result-pending");
-  const fill=()=>{
-    pend.hidden=true; body.hidden=false;
-    const parts = me.data.parts.map(k=> k==="etc" && me.data.partEtc ? "✨ "+me.data.partEtc : PART_NAME[k]).join(" · ");
-    $("style-card").innerHTML =
-      "<div class='stars'></div>"
-      +"<div class='big'>"+st.e+"</div>"
-      +"<p class='eyebrow' style='margin:8px 0 0'>Sorting Hat Says</p>"
-      +"<h2>"+esc(st.n)+"</h2>"
-      +"<p style='font-size:.9rem;color:#c3cde8'>"+esc(st.d)+"</p>"
-      +"<p class='sub'>잘 맞는 유형: <b style='color:var(--fg)'>"+esc(st.mate)+"</b></p>"
-      +"<div class='chips'>"
-      +"<span class='tag orange'>"+esc(parts)+"</span>"
-      +me.data.genres.slice(0,6).map(k=>"<span class='tag'>"+esc(GENRE_NAME[k])+"</span>").join("")
-      +"</div>";
-    renderMates();
-  };
-  if (animate){
-    pend.hidden=false; body.hidden=true;
-    $("char-result").firstChild.classList.add("hat-shake");
-    setTimeout(fill, matchMedia("(prefers-reduced-motion: reduce)").matches?0:1600);
-  } else fill();
-}
-
-function renderMates(){
-  const others = membersCache.filter(m=>m.done && m.slug!==me.slug && norm(m.id||"")!=="admin");
-  const card=$("mates-card");
-  if (!others.length){ card.hidden=false;
-    $("mates").innerHTML="<p class='sub'>아직 나 혼자예요. 멤버들에게 링크를 돌려볼까요? 🥕</p>"; return; }
-  const myG=new Set(me.data.genres), myA=new Set(me.data.artists.map(a=>norm(a.name)));
-  const scored = others.map(m=>{
-    const g=new Set(m.genres||[]);
-    const inter=[...myG].filter(x=>g.has(x)).length;
-    const uni=new Set([...myG,...g]).size||1;
-    const aShared=(m.artists||[]).filter(a=>myA.has(norm(a.name)));
-    const pct=Math.min(99, Math.round((inter/uni)*70 + Math.min(aShared.length,2)*15));
-    return {m,pct,aShared};
-  }).sort((a,b)=>b.pct-a.pct).slice(0,6);
-  card.hidden=false;
-  $("mates").innerHTML = scored.map(({m,pct,aShared})=>{
-    const st=STYLES[m.style]||STYLES.pop;
-    const parts=(m.parts||[]).map(k=> k==="etc"&&m.partEtc ? m.partEtc : (PART_NAME[k]||"").replace(/^\S+\s/,"")).join("·");
-    const common = aShared.length ? "같이 좋아해요: "+aShared.map(a=>a.name).join(", ") : (st.n);
-    return "<div class='mate'><span class='pct'>"+pct+"%</span>"
-      +"<span class='who'><b>"+esc(m.id)+"</b> <span class='tag'>"+st.e+" "+esc(st.n)+"</span>"
-      +"<span class='meta'>"+esc(parts)+" · "+esc(common)+"</span></span></div>";
-  }).join("");
-}
-
-/* ---------- 대시보드 ---------- */
-let dashOpen=new Set();  // 펼쳐둔 항목: "part:vocal", "genre:brit", "style:pop", "artist:xx", "mem:slug", "stat:members"
-function renderDash(){
-  const all = membersCache.filter(m=>m.done && norm(m.id||"")!=="admin");
-  const n=all.length;
-  const partCount={}, partWho={};
-  for (const p of PARTS){ partCount[p.k]=0; partWho[p.k]=[]; }
-  for (const m of all) for (const k of (m.parts||[])) if (k in partCount){ partCount[k]++; partWho[k].push(m.id); }
-  const teams = Math.min(partCount.vocal,partCount.guitar,partCount.bass,partCount.drum);
-  const artistAgg={};
-  for (const m of all) for (const a of (m.artists||[])){
-    const key=norm(a.name);
-    if (!artistAgg[key]) artistAgg[key]={name:a.name,count:0,who:[]};
-    artistAgg[key].count++; artistAgg[key].who.push(m.id);
-  }
-  const uniqArtists=Object.keys(artistAgg).length;
-  $("dash-stats").innerHTML =
-    "<button class='stat' data-wk='stat:members' aria-expanded='"+dashOpen.has("stat:members")+"'><div class='n'>"+n+"</div><div class='l'>참여 멤버</div></button>"
-    +"<div class='stat'><div class='n'>"+teams+"</div><div class='l'>가능한 밴드 수</div></div>"
-    +"<div class='stat'><div class='n'>"+uniqArtists+"</div><div class='l'>모인 최애 가수</div></div>"
-    +(dashOpen.has("stat:members")?"<div class='whorow' style='grid-column:1/-1'>"+whoChips(all.map(m=>m.id))+"</div>":"");
-  const genreCount={}, genreWho={};
-  for (const m of all) for (const k of (m.genres||[])){ genreCount[k]=(genreCount[k]||0)+1; (genreWho[k]=genreWho[k]||[]).push(m.id); }
-  const topGenre = Object.entries(genreCount).sort((a,b)=>b[1]-a[1])[0];
-  $("dash-weather").textContent = n===0
-    ? "아직 눈밭이 깨끗해요. 첫 발자국을 남겨볼까요?"
-    : "오늘의 합주 기상도: "+(topGenre?GENRE_NAME[topGenre[0]]:"")+" 전선의 영향으로 뜨거운 합주가 예상됩니다 ❄";
-  const maxP=Math.max(1,...Object.values(partCount));
-  $("dash-parts").innerHTML = PARTS.map(p=>bar("part:"+p.k,p.n,partCount[p.k],maxP,partWho[p.k])).join("");
-  const rare = PARTS.filter(p=>p.k!=="etc").sort((a,b)=>partCount[a.k]-partCount[b.k])[0];
-  $("dash-need").textContent = n>0 ? "지금 제일 귀한 파트: "+rare.n+" — 주변에 연주자가 있다면 모셔와요!" : "";
-  const gSorted=Object.entries(genreCount).sort((a,b)=>b[1]-a[1]);
-  const maxG=Math.max(1,...gSorted.map(e=>e[1]));
-  $("dash-genres").innerHTML = gSorted.length
-    ? gSorted.map(([k,c])=>bar("genre:"+k,GENRE_NAME[k],c,maxG,genreWho[k])).join("")
-    : "<p class='sub'>아직 데이터가 없어요.</p>";
-  const sCount={}, sWho={};
-  for (const m of all){ sCount[m.style]=(sCount[m.style]||0)+1; (sWho[m.style]=sWho[m.style]||[]).push(m.id); }
-  $("dash-styles").innerHTML = Object.entries(STYLES).map(([k,s])=>{
-    const open=dashOpen.has("style:"+k);
-    return "<button class='stylecell' data-wk='style:"+k+"' aria-expanded='"+open+"'><div class='e'>"+s.e+"</div><div class='ct'>"+(sCount[k]||0)+"명</div><div class='nm'>"+esc(s.n)+"</div>"
-      +(open?"<div class='whorow' style='justify-content:center'>"+whoChips(sWho[k]||[])+"</div>":"")
-      +"</button>";
-  }).join("");
-  const aSorted=Object.values(artistAgg).sort((a,b)=>b.count-a.count).slice(0,20);
-  const openArtist=[...dashOpen].find(x=>x.indexOf("artist:")===0);
-  $("dash-artists").innerHTML = aSorted.length
-    ? aSorted.map(a=>{
-        const id="artist:"+norm(a.name);
-        return "<button class='w' data-wk='"+esc(id)+"' aria-pressed='"+(openArtist===id)+"' style='font-size:"+(0.78+Math.min(a.count,5)*0.12)+"rem'>"
-          +esc(a.name)+" <small>"+a.count+"</small></button>";
-      }).join("")
-    : "<p class='sub'>아직 데이터가 없어요.</p>";
-  const detail=$("dash-artist-detail");
-  const da = openArtist ? artistAgg[openArtist.slice(7)] : null;
-  detail.innerHTML = da
-    ? "<div class='whorow'><span class='sub' style='margin-right:4px'>"+esc(da.name)+" 좋아하는 멤버 →</span>"+whoChips(da.who)+"</div>"
-    : "";
-  $("dash-members").innerHTML = all.length
-    ? all.map(m=>{
-        const st=STYLES[m.style]||STYLES.pop;
-        const open=dashOpen.has("mem:"+m.slug);
-        const parts=(m.parts||[]).map(k=>k==="etc"&&m.partEtc?m.partEtc:(PART_NAME[k]||"").replace(/^\S+\s/,"")).join("·");
-        return "<button class='mem' data-wk='mem:"+esc(m.slug)+"' aria-expanded='"+open+"'><span class='av'>"+st.e+"</span>"
-          +"<span class='mi'><b>"+esc(m.id)+"</b><span class='sub2'>"+esc(parts)+" · "+esc(st.n)+"</span>"
-          +"<span class='tags'>"+(m.genres||[]).slice(0,4).map(k=>"<span class='tag'>"+esc(GENRE_NAME[k]||k)+"</span>").join("")+"</span>"
-          +(open?"<span class='tags'>"+(m.artists||[]).map(a=>"<span class='tag orange'>"+esc(a.name)+"</span>").join("")+"</span>":"")
-          +"</span></button>";
-      }).join("")
-    : "<p class='sub'>아직 아무도 없어요.</p>";
-  bindDashToggles();
-}
-function whoChips(list){
-  return list.length ? list.map(x=>"<span class='who-chip'>"+esc(x)+"</span>").join("") : "<span class='sub'>아직 없어요</span>";
-}
-function bindDashToggles(){
-  document.querySelectorAll("#view-dash [data-wk]").forEach(el=>{
-    el.onclick=()=>{
-      const id=el.getAttribute("data-wk");
-      if (id.indexOf("artist:")===0){
-        const had=dashOpen.has(id);
-        for (const x of [...dashOpen]) if (x.indexOf("artist:")===0) dashOpen.delete(x);
-        if (!had) dashOpen.add(id);
-      } else {
-        if (dashOpen.has(id)) dashOpen.delete(id); else dashOpen.add(id);
-      }
-      renderDash();
-    };
-  });
-}
-function bar(wk,label,c,max,who){
-  const open=dashOpen.has(wk);
-  return "<button class='bar' data-wk='"+esc(wk)+"' aria-expanded='"+open+"'><span>"+esc(label)+"</span><span class='track'><span class='fill' style='width:"
-    +Math.round(c/max*100)+"%'></span></span><span class='num'>"+c+"</span></button>"
-    +(open?"<div class='whorow'>"+whoChips(who||[])+"</div>":"");
-}
-
-/* ---------- 관리자 ---------- */
-let adminTarget=null;
-function renderAdmin(){
-  if (!isAdmin()) return;
-  const rows=$("admin-rows");
-  const list=[...membersCache].sort((a,b)=>(a.createdAt||"").localeCompare(b.createdAt||""));
-  rows.innerHTML="";
-  if (!list.length){ rows.innerHTML="<tr><td colspan='6' class='sub'>아직 멤버가 없어요.</td></tr>"; }
-  for (const m of list){
-    const tr=document.createElement("tr");
-    const st=STYLES[m.style];
-    tr.innerHTML = "<td><b>"+esc(m.id||"?")+"</b>"+(norm(m.id||"")==="admin"?" 🗝️":"")+"</td>"
-      +"<td>"+esc((m.parts||[]).map(k=>k==="etc"&&m.partEtc?m.partEtc:(PART_NAME[k]||"").replace(/^\S+\s/,"")).join(", "))+"</td>"
-      +"<td>"+esc((m.genres||[]).map(k=>GENRE_NAME[k]||k).join(", "))+"</td>"
-      +"<td>"+esc((m.artists||[]).map(a=>a.name).join(", "))+"</td>"
-      +"<td>"+(st&&m.done?st.e+" "+esc(st.n):"<span class='sub'>미완료</span>")+"</td>";
-    const td=document.createElement("td");
-    for (const [label,act] of [["이름 변경","rename"],["비번 재설정","resetpw"],["삭제","delete"]]){
-      const b=document.createElement("button");
-      b.className="mini"+(act==="delete"?" warn":""); b.textContent=label;
-      b.addEventListener("click",()=>openAdminEditor(m,act));
-      td.appendChild(b); td.appendChild(document.createTextNode(" "));
-    }
-    tr.appendChild(td);
-    rows.appendChild(tr);
-  }
-}
-function openAdminEditor(m,act){
-  adminTarget={m,act};
-  const ed=$("admin-editor"); ed.hidden=false;
-  $("admin-err").textContent="";
-  if (act==="rename"){
-    ed.innerHTML = "<div class='rowedit'><b>'"+esc(m.id)+"' 이름 변경 / 합치기</b>"
-      +"<p class='sub'>새 이름이 이미 있는 계정이면 두 계정을 하나로 합쳐요 (파트·장르·가수 합집합, 비밀번호는 기존 계정 것 유지).</p>"
-      +"<input type='text' id='admin-input' maxlength='20' placeholder='새 아이디'>"
-      +"<div class='btnrow'><button class='ghost' id='admin-cancel'>취소</button>"
-      +"<button class='primary' id='admin-go'>변경하기</button></div></div>";
-  } else if (act==="resetpw"){
-    ed.innerHTML = "<div class='rowedit'><b>'"+esc(m.id)+"' 비밀번호 재설정</b>"
-      +"<input type='text' id='admin-input' maxlength='40' placeholder='새 비밀번호 (본인에게 전달하세요)'>"
-      +"<div class='btnrow'><button class='ghost' id='admin-cancel'>취소</button>"
-      +"<button class='primary' id='admin-go'>재설정</button></div></div>";
-  } else {
-    ed.innerHTML = "<div class='rowedit'><b>'"+esc(m.id)+"' 계정을 삭제할까요?</b>"
-      +"<p class='sub'>프로필과 취향 데이터가 모두 지워지고 되돌릴 수 없어요.</p>"
-      +"<div class='btnrow'><button class='ghost' id='admin-cancel'>취소</button>"
-      +"<button class='primary' id='admin-go' style='background:#d64561'>삭제하기</button></div></div>";
-  }
-  $("admin-cancel").addEventListener("click",()=>{ ed.hidden=true; adminTarget=null; });
-  $("admin-go").addEventListener("click",runAdminAction);
-}
-async function runAdminAction(){
-  if (!adminTarget) return;
-  const {m,act}=adminTarget;
-  const err=$("admin-err");
-  const input=$("admin-input") ? $("admin-input").value.trim() : "";
-  if (act==="resetpw" && input.length<4){ err.textContent="비밀번호는 4자 이상!"; return; }
-  if (act==="rename" && input.length<2){ err.textContent="새 아이디는 2자 이상!"; return; }
-  try{
-    await api("admin", {id:me.id, token:me.token, action:act, target:m.slug, value:input});
-    $("admin-editor").hidden=true; adminTarget=null;
-    await loadMembers();
-  }catch(e){
-    err.textContent=writeErrText(e);
-  }
-}
-</script>
+<script src="/app.js"></script>
 </body>
 </html>

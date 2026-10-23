@@ -45,7 +45,8 @@ export default async function handler(req, res){
         const names = new Set((existing.artists||[]).map(a => norm(a.name)));
         const artists = [...(existing.artists||[]),
           ...((target.artists||[]).filter(a => !names.has(norm(a.name))))];
-        await putMember({ ...existing, parts, genres, artists,
+        const avail = [...new Set([...(existing.avail||[]), ...(target.avail||[])])].sort();
+        await putMember({ ...existing, parts, genres, artists, avail,
           partEtc: existing.partEtc || target.partEtc || "",
           done: !!(existing.done || target.done),
           style: computeStyle(genres, artists), updatedAt: now });

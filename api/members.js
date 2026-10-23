@@ -1,4 +1,4 @@
-import { json, readBody, memberSlug, strip, GENRE_KEYS, PART_KEYS, computeStyle } from "../lib/util.js";
+import { json, readBody, memberSlug, strip, GENRE_KEYS, PART_KEYS, computeStyle, cleanAvail } from "../lib/util.js";
 import { getMember, putMember, listMembers } from "../lib/db.js";
 
 export default async function handler(req, res){
@@ -13,8 +13,17 @@ export default async function handler(req, res){
     const id = String(b.id || "").normalize("NFC");
     const me = await getMember(memberSlug(id));
     if (!me || me.pw !== b.token) return json(res, 401, { error: "auth" });
+    const now = new Date().toISOString();
 
-    const p = b.profile || {};
+    // 합주 가능 시간만 갱신
+    if (!b.profile){
+      if (b.avail === undefined) return json(res, 400, { error: "empty" });
+      const updated = { ...me, avail: cleanAvail(b.avail), updatedAt: now };
+      await putMember(updated);
+      return json(res, 200, { ok: true, member: strip(updated) });
+    }
+
+    const p = b.profile;
     const parts = Array.isArray(p.parts) ? p.parts.filter(k => PART_KEYS.includes(k)) : [];
     const genres = Array.isArray(p.genres) ? p.genres.filter(k => GENRE_KEYS.includes(k)) : [];
     const artists = (Array.isArray(p.artists) ? p.artists : []).slice(0, 30).map(a => ({
@@ -29,7 +38,8 @@ export default async function handler(req, res){
       partEtc: String(p.partEtc || "").slice(0, 20),
       style: computeStyle(genres, artists),
       done: true,
-      updatedAt: new Date().toISOString(),
+      avail: p.avail === undefined ? (me.avail || []) : cleanAvail(p.avail),
+      updatedAt: now,
     };
     await putMember(updated);
     return json(res, 200, { ok: true, member: strip(updated) });
