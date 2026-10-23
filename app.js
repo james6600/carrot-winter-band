@@ -39,44 +39,58 @@ const STYLES = {
   jrockg: {e:"☃️", n:"설국의 제이락 여행자", band:"설국 제이락단",
     d:"질주하는 기타와 애절한 멜로디의 공존을 아는 타입. 카피 욕심 많은 당신, 레퍼토리 부자예요.", mate:"얼음폭풍 펑크 폭주족"},
 };
-const AV = {wizard:"/assets/av-wizard.webp", bass:"/assets/av-bass.webp", drum:"/assets/av-drum.webp", keys:"/assets/av-keys.webp"};
+const AV = Object.fromEntries(["vocal","guitar","bass","drum","keys","etc"].map(k=>[k,"/assets/av-"+k+".webp"]));
 function avatarUrl(m){
   const p = ((m && m.parts) || [])[0];
-  return p==="drum" ? AV.drum : p==="keys" ? AV.keys : (p==="bass"||p==="guitar") ? AV.bass : AV.wizard;
+  return AV[m && m.main] || AV[p] || AV.vocal;
 }
 const avatarHTML = m => '<span class="avatar" style="background-image:url('+avatarUrl(m)+')"></span>';
 
 /* ---------- 합주 시간 (lib/util.js와 같은 값) ---------- */
 const SLOT_HOURS = [10,12,14,16,18,20,22];
-const RANGE_START = "2026-11-01";
-const RANGE_END = "2026-12-31";
+const GLOBAL_START = "2026-10-01";
+const GLOBAL_END = "2027-12-31";
 const DOW = ["일","월","화","수","목","금","토"];
 function ymd(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function pd(s){ const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); }
+const TODAY = ymd(new Date());
+// 이번 달부터 3개월만 열린다 (10~12월, 11~1월, 12~2월 …). 지난 날짜는 고를 수 없다.
+const WINDOW = (()=>{
+  const now = new Date();
+  const first = ymd(new Date(now.getFullYear(), now.getMonth(), 1));
+  const last = ymd(new Date(now.getFullYear(), now.getMonth()+3, 0));
+  const start = first < GLOBAL_START ? GLOBAL_START : first;
+  const end = last > GLOBAL_END ? GLOBAL_END : last;
+  return {start, end, open: TODAY > start ? TODAY : start};
+})();
+const RANGE_START = WINDOW.open;
+const RANGE_END = WINDOW.end;
 const inRange = s => s>=RANGE_START && s<=RANGE_END;
+const WINDOW_LABEL = (()=>{
+  const a = pd(WINDOW.start), b = pd(WINDOW.end);
+  return (a.getMonth()+1)+"월~"+(b.getFullYear()!==a.getFullYear() ? String(b.getFullYear()).slice(2)+"년 " : "")+(b.getMonth()+1)+"월";
+})();
 const WEEKS = (()=>{
+  if (RANGE_START > RANGE_END) return [];
   const start = pd(RANGE_START); start.setDate(start.getDate()-((start.getDay()+6)%7));
   const end = pd(RANGE_END), out = [], d = new Date(start);
   while (d<=end){ const w=[]; for (let i=0;i<7;i++){ w.push(ymd(d)); d.setDate(d.getDate()+1); } out.push(w); }
   return out;
 })();
 const ALL_DAYS = WEEKS.flat().filter(inRange);
+const activeAvail = list => (list||[]).filter(k=>inRange(String(k).slice(0,10)));
 const slotKey = (day,h) => day+"@"+String(h).padStart(2,"0");
 function slotLabel(k){
   const [day,h]=k.split("@"); const d=pd(day);
   return (d.getMonth()+1)+"/"+d.getDate()+"("+DOW[d.getDay()]+") "+Number(h)+"–"+(Number(h)+2)+"시";
 }
+function dayLabel(day){ const d=pd(day); return (d.getMonth()+1)+"/"+d.getDate()+"("+DOW[d.getDay()]+")"; }
 function weekLabel(w){
   const days=w.filter(inRange); const a=pd(days[0]), b=pd(days[days.length-1]);
   return (a.getMonth()+1)+"/"+a.getDate()+" – "+(b.getMonth()+1)+"/"+b.getDate();
 }
 const weekIndexOf = day => Math.max(0, WEEKS.findIndex(w=>w.includes(day)));
-function defaultWeek(){
-  const t = ymd(new Date());
-  if (t < RANGE_START) return Math.max(0, WEEKS.findIndex(w=>w.filter(inRange).length>=4));
-  if (t > RANGE_END) return WEEKS.length-1;
-  return weekIndexOf(t);
-}
+function defaultWeek(){ return weekIndexOf(RANGE_START); }
 function intersectAll(arrs){
   if (!arrs.length) return [];
   let cur = new Set(arrs[0]);
@@ -194,6 +208,7 @@ $("part-quick").addEventListener("click", e=>{
 
 /* ---------- 부팅 (파일 맨 끝에서 실행) ---------- */
 async function boot(){
+  document.querySelectorAll(".win-label").forEach(el=>{ el.textContent = WINDOW_LABEL; });
   show("view-home");
   initStage(); initTilt();
   try{
@@ -268,9 +283,9 @@ async function loadMembers(){
   }catch(e){ /* 다음 폴링에서 재시도 */ }
 }
 function currentMembers(){
-  const list = membersCache.filter(m=>!isAdminId(m.id));
+  const list = membersCache.filter(m=>!isAdminId(m.id)).map(m=>({...m, avail:activeAvail(m.avail)}));
   if (!me || isAdmin()) return list;
-  const mine = {...me.data, slug:me.slug, id:me.id};
+  const mine = {...me.data, slug:me.slug, id:me.id, avail:activeAvail(me.data.avail)};
   const i = list.findIndex(m=>m.slug===me.slug);
   if (i>=0) list[i] = mine; else list.push(mine);
   return list;
@@ -384,7 +399,11 @@ function bandCard(b){
 
 /* ---------- 합주 시간표 컴포넌트 ---------- */
 function ScheduleGrid(root, o){
-  let week = o.week!=null ? o.week : defaultWeek();
+  if (!WEEKS.length){
+    root.innerHTML = '<div class="empty-state"><span>☾</span><p>지금은 열린 합주 기간이 없어요.</p></div>';
+    return { render(){}, setWeek(){}, week:0 };
+  }
+  let week = Math.min(o.week!=null ? o.week : defaultWeek(), WEEKS.length-1);
   root.innerHTML = '<div class="sg-head"><button class="sg-nav" data-d="-1" aria-label="이전 주">‹</button><div class="sg-title"></div><button class="sg-nav" data-d="1" aria-label="다음 주">›</button></div>'
     +'<div class="sg-weeks"></div><div class="sg-grid'+(o.mode==="heat"?" heat":"")+'"></div>';
   const title=root.querySelector(".sg-title"), weeksEl=root.querySelector(".sg-weeks"), grid=root.querySelector(".sg-grid");
@@ -416,7 +435,7 @@ function ScheduleGrid(root, o){
   }
   function render(){
     const w = WEEKS[week], a = pd(w.find(inRange));
-    title.innerHTML = '<small>WEEK '+(week+1)+' / '+WEEKS.length+'</small>'+(a.getMonth()+1)+'월 · '+weekLabel(w);
+    title.innerHTML = '<small>WEEK '+(week+1)+' / '+WEEKS.length+' · '+a.getFullYear()+'</small>'+(a.getMonth()+1)+'월 · '+weekLabel(w);
     prev.disabled = week===0; next.disabled = week===WEEKS.length-1;
     renderWeeks();
     let h = '<div></div>';
@@ -530,7 +549,8 @@ function startOnboarding(){
   draft = {
     parts:[...(d.parts||[])], partEtc:d.partEtc||"", genres:[...(d.genres||[])],
     artists:(d.artists||[]).map(a=>({name:a.name, genres:[...(a.genres||[])]})),
-    avail:new Set(d.avail||[]),
+    avail:new Set(activeAvail(d.avail)),
+    main:(d.parts||[])[0] || null,
   };
   $("ob-name").textContent = me.id;
   $("ob-avatar").style.backgroundImage = "url("+avatarUrl(draft)+")";
@@ -547,8 +567,27 @@ function startOnboarding(){
 function renderPartChoices(){
   $("part-choices").innerHTML = PARTS.map(p=>{
     const on = draft.parts.includes(p.k);
-    return '<button type="button" class="choice-card" data-k="'+p.k+'" aria-pressed="'+on+'" data-tilt><span class="choice-icon">'+p.e+'</span><b>'+p.n+'</b><small>'+(on?"선택됨":"선택하기")+'</small></button>';
+    return '<button type="button" class="choice-card" data-k="'+p.k+'" aria-pressed="'+on+'" data-tilt>'
+      +'<span class="choice-av" style="background-image:url('+AV[p.k]+')"></span>'
+      +'<b>'+p.e+' '+p.n+'</b><small>'+(on?"선택됨":"선택하기")+'</small></button>';
   }).join("");
+  renderMainPick();
+}
+function fixMain(){
+  if (!draft.parts.length) draft.main = null;
+  else if (!draft.main || !draft.parts.includes(draft.main)) draft.main = draft.parts[0];
+}
+function renderMainPick(){
+  fixMain();
+  const box = $("main-pick");
+  box.hidden = draft.parts.length < 2;
+  $("ob-avatar").style.backgroundImage = "url("+avatarUrl(draft)+")";
+  if (box.hidden) return;
+  $("main-choices").innerHTML = draft.parts.map(k=>
+    '<button type="button" class="main-card" data-k="'+k+'" aria-pressed="'+(draft.main===k)+'" data-tilt>'
+    +'<span class="main-av" style="background-image:url('+AV[k]+')"></span>'
+    +'<b>'+PART[k].e+' '+(k==="etc" && $("part-etc").value.trim() ? esc($("part-etc").value.trim()) : PART[k].n)+'</b>'
+    +'<small>'+(draft.main===k ? "메인 캐릭터 ✦" : "이걸로 할래요")+'</small></button>').join("");
 }
 $("part-choices").addEventListener("click", e=>{
   const b = e.target.closest(".choice-card"); if (!b) return;
@@ -557,8 +596,14 @@ $("part-choices").addEventListener("click", e=>{
   const on = draft.parts.includes(k);
   b.setAttribute("aria-pressed", on); b.querySelector("small").textContent = on ? "선택됨" : "선택하기";
   if (k==="etc") $("part-etc-fld").hidden = !on;
-  $("ob-avatar").style.backgroundImage = "url("+avatarUrl(draft)+")";
+  renderMainPick();
   updateSaveSummary();
+});
+$("part-etc").addEventListener("input", ()=>{ if (draft) renderMainPick(); });
+$("main-choices").addEventListener("click", e=>{
+  const b = e.target.closest(".main-card"); if (!b) return;
+  draft.main = b.dataset.k;
+  renderMainPick(); updateSaveSummary();
 });
 function renderGenreChoices(){
   $("genre-choices").innerHTML = GENRES.map(g=>'<button type="button" class="genre-chip" data-k="'+g.k+'" aria-pressed="'+draft.genres.includes(g.k)+'">'+g.n+'</button>').join("");
@@ -608,7 +653,7 @@ function updateSaveSummary(){
   if (!draft) return;
   const s = $("save-summary"); s.classList.remove("err");
   const n = obStep;
-  s.innerHTML = n===1 ? (draft.parts.length ? "선택한 파트: "+esc(memberPartsText(draft)) : "여러 개 골라도 좋아요.")
+  s.innerHTML = n===1 ? (draft.parts.length ? "선택한 파트: "+esc(memberPartsText(draft))+(draft.parts.length>1 && draft.main ? " · 메인 캐릭터: "+PART[draft.main].e+" "+PART[draft.main].n : "") : "여러 개 골라도 좋아요.")
     : n===2 ? (draft.genres.length ? "선택한 장르 "+draft.genres.length+"개" : "끌리는 장르를 여러 개 골라주세요.")
     : n===3 ? (draft.artists.length ? "담은 아티스트 "+draft.artists.length+"팀 · "+esc(draft.artists.slice(0,3).map(a=>a.name).join(", ")) : "검색해서 한 팀 이상 담아주세요.")
     : availSummary(draft.avail);
@@ -641,7 +686,7 @@ async function completeOnboarding(){
   const btn = $("ob-next"); btn.disabled = true;
   try{
     const d = await api("members", {id:me.id, token:me.token, profile:{
-      parts:draft.parts, partEtc:draft.partEtc, genres:draft.genres, artists:draft.artists, avail:[...draft.avail],
+      parts:[draft.main, ...draft.parts.filter(p=>p!==draft.main)].filter(Boolean), partEtc:draft.partEtc, genres:draft.genres, artists:draft.artists, avail:[...draft.avail],
     }});
     me.data = d.member;
     loadMembers();
@@ -735,7 +780,7 @@ function celebrate(audio){
   $("cel-sub").innerHTML = esc(me.id)+"님은 <b style=\"color:#fff\">"+st.e+" "+esc(st.n)+"</b>!<br>마법의 모자가 맞는 메이트와 밴드를 찾아뒀어요.";
   $("cel-stats").innerHTML = '<span class="pill orange">'+esc(memberPartsText(d))+'</span>'
     +'<span class="pill gold">장르 '+(d.genres||[]).length+'</span><span class="pill gold">아티스트 '+(d.artists||[]).length+'</span>'
-    +'<span class="pill '+((d.avail||[]).length?"ok":"")+'">합주 시간 '+(d.avail||[]).length+'칸</span>';
+    +'<span class="pill '+(activeAvail(d.avail).length?"ok":"")+'">합주 시간 '+activeAvail(d.avail).length+'칸</span>';
   $("celebrate").hidden = false;
   fireConfetti(); playFanfare(audio);
   setTimeout(()=>$("cel-go").focus(), 400);
@@ -866,13 +911,13 @@ function renderResult(animate){
   if (animate && !reduceMotion()){
     $("result-title").innerHTML = '마법의 모자가<br><em>고민 중이에요…</em>';
     $("result-desc").textContent = "파트와 취향, 합주 시간을 섞어보는 중이에요.";
-    card.innerHTML = '<div class="hat-avatar thinking" style="background-image:url('+AV.wizard+')"></div><div><div class="section-label">SORTING…</div><h2>음… 어디 보자…</h2><p>당신의 플레이리스트에서 겨울 냄새가 나요.</p></div>';
+    card.innerHTML = '<div class="hat-avatar thinking" style="background-image:url('+AV.vocal+')"></div><div><div class="section-label">SORTING…</div><h2>음… 어디 보자…</h2><p>당신의 플레이리스트에서 겨울 냄새가 나요.</p></div>';
     setTimeout(fill, 1700);
   } else fill();
   renderTimeCallout(); renderMyBand(); renderMates();
 }
 function renderTimeCallout(){
-  const n = (me.data.avail||[]).length;
+  const n = activeAvail(me.data.avail).length;
   $("time-callout").innerHTML = n
     ? '<section class="coming-card"><span>🗓️</span><div><b>합주 가능 시간 '+n+'칸 ('+(n*2)+'시간) 등록됨</b><p>시간이 바뀌면 언제든 다시 칠할 수 있어요.</p></div><button class="button small ghost" data-go="view-schedule">시간 수정</button></section>'
     : '<section class="coming-card"><span>🎄</span><div><b>아직 합주 시간을 칠하지 않았어요</b><p>시간을 칠하면 다 같이 되는 시간이 맞는 사람끼리 밴드를 더 정확히 묶어드려요.</p></div><button class="button small primary" data-go="view-schedule">시간 칠하기 →</button></section>';
@@ -890,38 +935,97 @@ function renderMyBand(){
   box.innerHTML = '<div class="empty-state"><span>☾</span><p>아직 밴드를 짤 만큼 멤버가 모이지 않았어요.'
     +(need.length ? '<br>지금 필요한 파트: <b style="color:#f2cf79">'+need.map(partLabel).join(", ")+'</b>' : '')+'<br>링크를 모임방에 공유해 보세요 🥕</p></div>';
 }
+let mateMode = "both";
+const timeOpen = new Set();
+const MODE_DESC = {
+  both:"취향(장르·아티스트·마법 모자 유형) 60% + 겹치는 합주 시간 40%",
+  taste:"합주 시간은 빼고 음악 취향만 비교했어요. 같이 좋아하는 아티스트가 많을수록 위로 와요.",
+  time:"취향은 빼고 합주 가능한 시간이 많이 겹치는 순서예요. 다 같이 되는 날짜와 시간을 확인해 보세요.",
+};
+function groupByDay(slots){
+  const by = new Map();
+  for (const k of slots.slice().sort()){ const [d,h] = k.split("@"); if (!by.has(d)) by.set(d, []); by.get(d).push(Number(h)); }
+  return [...by.entries()];
+}
 function renderMates(){
   if (!me || !me.data.done) return;
-  $("mates-title").textContent = me.id+"님과 취향·시간이 가까운 메이트";
+  document.querySelectorAll("#mate-mode button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.mode===mateMode));
+  $("mates-desc").textContent = MODE_DESC[mateMode];
+  $("mates-title").textContent = mateMode==="time" ? me.id+"님과 합주 시간이 맞는 메이트"
+    : mateMode==="taste" ? me.id+"님과 취향이 맞는 메이트" : me.id+"님과 취향·시간이 가까운 메이트";
+  const meNow = currentMembers().find(m=>m.slug===me.slug) || me.data;
   const others = currentMembers().filter(m=>m.done && m.slug!==me.slug);
   const box = $("mates");
   if (!others.length){ box.innerHTML = '<div class="empty-state"><span>☾</span><p>다른 참여자가 취향을 저장하면 매칭 카드가 나타나요.</p></div>'; return; }
-  const myParts = new Set(me.data.parts||[]);
-  const rows = others.map(m=>({m, s:mateScore(me.data, m)})).sort((a,b)=>b.s.total-a.s.total).slice(0,8);
-  box.innerHTML = '<div class="match-grid">'+rows.map(({m,s},idx)=>{
+  const myParts = new Set(meNow.parts||[]);
+  const scored = others.map(m=>({m, s:mateScore(meNow, m)}));
+
+  if (mateMode==="time"){
+    if (!(meNow.avail||[]).length){
+      box.innerHTML = '<div class="empty-state"><span>🗓️</span><p>내 합주 시간을 먼저 칠해야 시간이 맞는 사람을 찾을 수 있어요.</p>'
+        +'<button class="button small primary" data-go="view-schedule" style="margin-top:8px">시간 칠하기 →</button></div>';
+      return;
+    }
+    const hit = scored.filter(x=>x.s.common && x.s.common.length).sort((a,b)=>b.s.common.length-a.s.common.length || b.s.taste-a.s.taste);
+    const none = scored.filter(x=>x.s.common && !x.s.common.length).map(x=>x.m.id);
+    const unknown = scored.filter(x=>x.s.common===null).map(x=>x.m.id);
+    box.innerHTML = '<div class="mates-in">'
+      +(hit.length ? '<div class="time-list">'+hit.map(({m,s})=>{
+        const st = STYLES[m.style]||STYLES.pop;
+        const days = groupByDay(s.common), open = timeOpen.has(m.slug), shown = open ? days : days.slice(0,5);
+        return '<article class="time-row">'+avatarHTML(m)
+          +'<div><h3>'+esc(m.id)+'</h3><p class="sub">'+esc(memberPartsText(m))+' · '+st.e+' '+esc(st.n)+'</p></div>'
+          +'<div class="big"><strong>'+s.common.length+'</strong>칸<small>'+days.length+'일 · '+(s.common.length*2)+'시간</small></div>'
+          +'<div class="tdays">'+shown.map(([d,hs])=>'<div class="tday"><b>'+dayLabel(d)+'</b>'
+            +hs.map(h=>'<span class="pill ok">'+h+'–'+(h+2)+'시</span>').join("")+'</div>').join("")+'</div>'
+          +(days.length>5 ? '<button type="button" class="tmore" data-more="'+esc(m.slug)+'">'+(open ? "접기 ▲" : "+ "+(days.length-5)+"일 더 보기 ▼")+'</button>' : '')
+          +'</article>';
+      }).join("")+'</div>' : '<div class="empty-state"><span>☾</span><p>아직 나와 겹치는 합주 시간이 있는 멤버가 없어요.</p></div>')
+      +(none.length ? '<p class="tnote">🕰️ 겹치는 시간이 없는 멤버 · '+esc(none.join(", "))+'</p>' : '')
+      +(unknown.length ? '<p class="tnote">✏️ 아직 시간을 안 칠한 멤버 · '+esc(unknown.join(", "))+'</p>' : '')
+      +'</div>';
+    return;
+  }
+
+  const key = mateMode==="taste" ? (x=>x.s.taste) : (x=>x.s.total);
+  const rows = scored.sort((a,b)=>key(b)-key(a)).slice(0,8);
+  box.innerHTML = '<div class="match-grid mates-in">'+rows.map(({m,s},idx)=>{
     const st = STYLES[m.style]||STYLES.pop;
     const lack = (m.parts||[]).filter(p=>CORE.includes(p) && !myParts.has(p));
+    const pct = Math.min(99, Math.round((mateMode==="taste" ? s.taste : s.total)*100));
     const time = s.common===null ? '<span>🗓️ 합주 시간 · 아직 미입력</span>'
       : s.common.length ? '<span class="time">🗓️ 겹치는 시간 '+s.common.length+'칸 · '+slotLabel(s.common[0])+'</span>'
       : '<span>🗓️ 겹치는 시간 없음</span>';
-    return '<article class="match-card" data-tilt><div class="match-rank">#'+(idx+1)+'</div><div class="match-score"><strong>'+Math.min(99,Math.round(s.total*100))+'</strong><span>%</span></div>'
+    return '<article class="match-card" data-tilt><div class="match-rank">#'+(idx+1)+(mateMode==="taste"?" · 취향":"")+'</div><div class="match-score"><strong>'+pct+'</strong><span>%</span></div>'
       +'<div class="match-who">'+avatarHTML(m)+'<div><h3>'+esc(m.id)+'</h3><p class="match-title" style="margin:2px 0 0">'+st.e+' '+esc(st.n)+'</p></div></div>'
       +'<div class="match-reasons" style="margin-top:14px">'
       +(s.shared.length ? '<span>🎧 같이 좋아함 · '+esc(s.shared.slice(0,3).map(a=>a.name).join(" · "))+'</span>' : '')
       +(s.sharedGenres.length ? '<span>✦ 취향 결 · '+esc(s.sharedGenres.slice(0,3).map(g=>GENRE_NAME[g]).join(" · "))+'</span>' : '')
-      +time
+      +(mateMode==="taste" && m.style===meNow.style ? '<span>🎩 같은 마법사 유형</span>' : '')
+      +(mateMode==="taste" ? '' : time)
       +'<span>🎸 파트 · '+esc(memberPartsText(m))+'</span>'
       +(lack.length ? '<span class="need">🧩 내게 없는 파트 · '+lack.map(p=>PART[p].n).join(" · ")+'</span>' : '')
       +'</div></article>';
   }).join("")+'</div>';
 }
+$("mate-mode").addEventListener("click", e=>{
+  const b = e.target.closest("button[data-mode]"); if (!b) return;
+  mateMode = b.dataset.mode; renderMates();
+});
+$("mates").addEventListener("click", e=>{
+  const go = e.target.closest("[data-go]"); if (go) return goTo(go.dataset.go);
+  const more = e.target.closest("[data-more]"); if (!more) return;
+  const k = more.dataset.more;
+  if (timeOpen.has(k)) timeOpen.delete(k); else timeOpen.add(k);
+  renderMates();
+});
 $("btn-edit").addEventListener("click", ()=>goTo("view-onboard"));
 $("btn-time").addEventListener("click", ()=>goTo("view-schedule"));
 $("btn-godash").addEventListener("click", ()=>goTo("view-dash"));
 
 /* ---------- 내 합주 시간 ---------- */
 function openSchedule(){
-  schedDraft = new Set(me.data.avail||[]);
+  schedDraft = new Set(activeAvail(me.data.avail));
   mountEditor($("my-sched"), schedDraft, ()=>{ $("sched-summary").innerHTML = availSummary(schedDraft); });
   show("view-schedule");
 }

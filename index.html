@@ -107,7 +107,7 @@
     <section class="feature-strip">
       <article data-reveal><span>01</span><b>파트를 고르고</b><p>이번 합주에서 맡고 싶은 악기를 선택해요.</p></article>
       <article data-reveal><span>02</span><b>취향을 들려주고</b><p>장르와 좋아하는 아티스트로 음악 취향을 표현해요.</p></article>
-      <article data-reveal><span>03</span><b>합주 시간을 칠하고</b><p>11–12월 중 연습할 수 있는 시간을 달력에 칠해요.</p></article>
+      <article data-reveal><span>03</span><b>합주 시간을 칠하고</b><p>이번 달부터 3개월(<span class="win-label">10월~12월</span>) 중 되는 시간을 달력에 칠해요.</p></article>
       <article data-reveal><span>04</span><b>밴드를 만나고</b><p>취향과 시간이 맞는 사람끼리 밴드를 짜드려요.</p></article>
     </section>
   </main>
@@ -143,7 +143,8 @@
           <li><span>✨</span><div><b>마법 모자 스타일</b><small>취향을 재미있게 한 줄로</small></div></li>
         </ul>
         <div class="side-avatars">
-          <span class="avatar" style="background-image:url(/assets/av-wizard.webp)"></span>
+          <span class="avatar" style="background-image:url(/assets/av-vocal.webp)"></span>
+          <span class="avatar" style="background-image:url(/assets/av-guitar.webp)"></span>
           <span class="avatar" style="background-image:url(/assets/av-bass.webp)"></span>
           <span class="avatar" style="background-image:url(/assets/av-drum.webp)"></span>
           <span class="avatar" style="background-image:url(/assets/av-keys.webp)"></span>
@@ -178,6 +179,10 @@
         <div class="choice-grid" id="part-choices"></div>
         <label class="input-field etc-field" id="part-etc-fld" hidden><span>그 외 악기 이름</span>
           <input id="part-etc" maxlength="20" placeholder="예: 바이올린, 색소폰, 멜로디언"></label>
+        <div class="main-pick" id="main-pick" hidden>
+          <div class="main-pick-head"><span>✦</span><div><b>메인 캐릭터를 뭘로 할까요?</b><small>여러 파트를 골랐네요! 프로필과 밴드 카드에 나올 캐릭터를 하나 골라주세요.</small></div></div>
+          <div class="main-pick-grid" id="main-choices"></div>
+        </div>
       </section>
       <section class="magic-card preference-card ob-step" data-step="2" hidden>
         <div class="step-title"><span>02</span><div><h2>좋아하는 음악 장르</h2><p>내 플레이리스트에 자주 나오는 장르를 여러 개 골라주세요.</p></div></div>
@@ -204,7 +209,7 @@
         </div>
       </section>
       <section class="magic-card preference-card ob-step" data-step="4" hidden>
-        <div class="step-title"><span>04</span><div><h2>합주 가능한 시간</h2><p>11월~12월 중 연습할 수 있는 2시간 칸을 누르거나 드래그해서 칠해요. 나중에 칠해도 괜찮아요.</p></div></div>
+        <div class="step-title"><span>04</span><div><h2>합주 가능한 시간</h2><p><span class="win-label">10월~12월</span> 중 연습할 수 있는 2시간 칸을 누르거나 드래그해서 칠해요. 나중에 칠해도 괜찮아요.</p></div></div>
         <div id="ob-sched"></div>
       </section>
       <div class="save-bar ob-nav">
@@ -232,7 +237,12 @@
     <div id="time-callout"></div>
     <section class="magic-card match-section section-gap" data-reveal>
       <div class="card-head"><div><small>YOUR BANDMATES</small><h2 id="mates-title">취향과 시간이 가까운 메이트</h2>
-        <p>취향(장르·아티스트·마법 모자 유형) 60% + 겹치는 합주 시간 40%</p></div><span>🪄</span></div>
+        <p id="mates-desc">취향(장르·아티스트·마법 모자 유형) 60% + 겹치는 합주 시간 40%</p></div><span>🪄</span></div>
+      <div class="seg" id="mate-mode" role="group" aria-label="매칭 기준">
+        <button type="button" data-mode="both" aria-pressed="true">✦ 취향 &amp; 시간</button>
+        <button type="button" data-mode="taste" aria-pressed="false">🎧 취향</button>
+        <button type="button" data-mode="time" aria-pressed="false">🗓️ 시간대</button>
+      </div>
       <div id="mates"></div>
     </section>
     <div class="hero-actions">
@@ -247,7 +257,7 @@
     <div class="page-heading" data-reveal>
       <div class="season-badge"><span>✦</span> MY JAM CALENDAR</div>
       <h1>언제 <em>합주할 수 있나요?</em></h1>
-      <p>2시간 단위 칸이에요. 누르거나 드래그해서 칠하고, 다 칠하면 저장을 눌러주세요.</p>
+      <p>지금은 <b class="win-label">10월~12월</b>이 열려 있어요. 매달 1일에 다음 달이 새로 열려요. 2시간 칸을 누르거나 드래그해서 칠해주세요.</p>
     </div>
     <section class="magic-card preference-card" data-reveal>
       <div id="my-sched"></div>
