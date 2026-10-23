@@ -128,8 +128,12 @@ function toast(msg){
   const t=$("toast"); t.textContent=msg; t.hidden=false;
   clearTimeout(toastTimer); toastTimer=setTimeout(()=>{ t.hidden=true; },2600);
 }
+const lvlOf = (m,p) => { const v = m && m.levels && m.levels[p]; return v ? v : 100; };
+const lvlWord = v => v>=100 ? "메인으로 맡을래요" : v>=70 ? "자신 있어요" : v>=40 ? "필요하면 할 수 있어요" : "조금 해봤어요";
 function memberPartsText(m, sep){
-  return (m.parts||[]).map(k=> k==="etc" && m.partEtc ? m.partEtc : (PART[k]?PART[k].n:k)).join(sep||" · ") || "파트 미정";
+  const parts = m.parts||[];
+  const showLv = parts.length>1 && m.levels && Object.keys(m.levels).length;
+  return parts.map(k=>(k==="etc" && m.partEtc ? m.partEtc : (PART[k]?PART[k].n:k))+(showLv ? " "+lvlOf(m,k)+"%" : "")).join(sep||" · ") || "파트 미정";
 }
 function countUp(el, to){
   const from = Number(el.dataset.v || 0);
@@ -311,41 +315,62 @@ function mateScore(a,b){
   const total = timeFit===null ? t.score : t.score*.6 + timeFit*.4;
   return {...t, taste:t.score, common, total};
 }
-function teamFit(teamMs, c){
+// 파트 비중이 낮을수록 그 파트 배정 점수를 깎는다 (100% → 그대로, 50% → 0.78배, 10% → 0.6배).
+function teamFit(teamMs, c, role){
   const taste = teamMs.length ? teamMs.reduce((s,t)=>s+tasteScore(t,c).score,0)/teamMs.length : .5;
   const withA = [...teamMs, c].filter(m=>(m.avail||[]).length);
   let timeFit = (c.avail||[]).length ? .3 : .15;
   if (withA.length>=2) timeFit = Math.min(1, intersectAll(withA.map(m=>m.avail)).length/4);
-  return taste*.55 + timeFit*.45;
+  return (taste*.55 + timeFit*.45) * (.55 + .45*lvlOf(c, role)/100);
+}
+// 밴드 한 팀씩: 파트마다 비중·시간 순 상위 후보를 추린 뒤 조합을 모두 비교해
+// (빈 자리 수 → 비중 × (취향 궁합·다 같이 되는 시간)) 가장 좋은 팀을 고른다.
+const lvlFactor = (m, r) => .55 + .45*lvlOf(m, r)/100;
+function teamScore(assign){
+  const ms = assign.filter(t=>t.m).map(t=>t.m);
+  let ts=0, c=0;
+  for (let i=0;i<ms.length;i++) for (let j=i+1;j<ms.length;j++){ ts+=tasteScore(ms[i],ms[j]).score; c++; }
+  const taste = c ? ts/c : .3;
+  const withA = ms.filter(m=>(m.avail||[]).length);
+  const time = withA.length>=2 ? Math.min(1, intersectAll(withA.map(m=>m.avail)).length/4) : .25;
+  const lv = ms.reduce((s,m,i)=>s+lvlFactor(m, assign.filter(t=>t.m)[i].role),0)/(ms.length||1);
+  return ms.length*10 + (taste*.55 + time*.45)*lv*3 + lv;
 }
 function buildBands(list){
   const pool = list.filter(m=>m.done && !isAdminId(m.id));
   const used = new Set(), bands = [];
-  const cand = r => pool.filter(m=>!used.has(m.slug) && (m.parts||[]).includes(r));
+  const cand = r => pool.filter(m=>!used.has(m.slug) && (m.parts||[]).includes(r))
+    .sort((x,y)=>lvlOf(y,r)-lvlOf(x,r) || (y.avail||[]).length-(x.avail||[]).length).slice(0,6);
   while (bands.length < 12){
-    const roles = [...CORE].sort((a,b)=>cand(a).length-cand(b).length);
-    const seedRole = roles.find(r=>cand(r).length);
-    if (!seedRole) break;
-    const seed = cand(seedRole).sort((a,b)=>(b.avail||[]).length-(a.avail||[]).length)[0];
-    const team = [{m:seed, role:seedRole}]; used.add(seed.slug);
-    for (const r of roles){
-      if (r===seedRole) continue;
-      const cs = cand(r);
-      if (!cs.length){ team.push({m:null, role:r}); continue; }
-      const ms = team.filter(t=>t.m).map(t=>t.m);
-      let best=null, bs=-1;
-      for (const c of cs){ const s=teamFit(ms,c); if (s>bs){ bs=s; best=c; } }
-      team.push({m:best, role:r}); used.add(best.slug);
-    }
-    const ks = cand("keys");
-    if (ks.length){
-      const ms = team.filter(t=>t.m).map(t=>t.m);
-      let best=null, bs=-1;
-      for (const c of ks){ const s=teamFit(ms,c); if (s>bs){ bs=s; best=c; } }
-      if (bs>=.3){ team.push({m:best, role:"keys"}); used.add(best.slug); }
-    }
+    const lists = CORE.map(r=>{ const cs = cand(r); return cs.length ? cs : [null]; });
+    if (lists.every(l=>l[0]===null)) break;
+    let best = null, bestScore = -1;
+    const pick = (i, chosen, seen) => {
+      if (i===CORE.length){
+        const assign = chosen.map((m,k)=>({m, role:CORE[k]}));
+        const sc = teamScore(assign);
+        if (sc>bestScore){ bestScore = sc; best = assign; }
+        return;
+      }
+      for (const m of lists[i]){
+        if (m && seen.has(m.slug)) continue;
+        if (m) seen.add(m.slug);
+        pick(i+1, [...chosen, m], seen);
+        if (m) seen.delete(m.slug);
+      }
+      if (lists[i][0]!==null) pick(i+1, [...chosen, null], seen);
+    };
+    pick(0, [], new Set());
+    const team = best.map(t=>({m:t.m, role:t.role}));
     const filled = team.filter(t=>t.m);
-    if (filled.length<2){ filled.forEach(t=>used.delete(t.m.slug)); break; }
+    if (filled.length<2) break;
+    filled.forEach(t=>used.add(t.m.slug));
+    const ks = pool.filter(m=>!used.has(m.slug) && (m.parts||[]).includes("keys"));
+    if (ks.length){
+      let kb=null, kbs=-1;
+      for (const c of ks){ const sc = teamFit(filled.map(t=>t.m), c, "keys"); if (sc>kbs){ kbs=sc; kb=c; } }
+      if (kbs>=.3){ team.push({m:kb, role:"keys"}); used.add(kb.slug); }
+    }
     bands.push(describeBand(team));
     if (team.some(t=>!t.m)) break;
   }
@@ -385,7 +410,7 @@ function bandCard(b){
   const st = STYLES[b.style]||STYLES.pop;
   const mine = me && b.team.some(t=>t.m && t.m.slug===me.slug);
   const rows = b.team.slice().sort((x,y)=>ROLE_ORDER.indexOf(x.role)-ROLE_ORDER.indexOf(y.role)).map(t=> t.m
-    ? '<div class="role">'+avatarHTML(t.m)+'<span class="rl">'+partLabel(t.role)+'</span><b>'+esc(t.m.id)+'</b>'+(me && t.m.slug===me.slug?' <span class="pill orange">나</span>':'')+'</div>'
+    ? '<div class="role">'+avatarHTML(t.m)+'<span class="rl">'+partLabel(t.role)+'</span><b>'+esc(t.m.id)+'</b>'+((t.m.parts||[]).length>1 && t.m.levels && t.m.levels[t.role] ? '<span class="lv-tag">'+t.m.levels[t.role]+'%</span>' : '')+(me && t.m.slug===me.slug?' <span class="pill orange">나</span>':'')+'</div>'
     : '<div class="role need"><span class="avatar">🔍</span><span class="rl">'+partLabel(t.role)+'</span><b>구하는 중</b></div>').join("");
   const timeTxt = b.common===null ? "시간 등록 멤버 부족" : "다 같이 되는 시간 <b>"+b.common.length+"칸</b>";
   const chips = (b.common||[]).slice(0,3).map(k=>'<span class="pill ok">'+slotLabel(k)+'</span>').join("");
@@ -551,6 +576,7 @@ function startOnboarding(){
     artists:(d.artists||[]).map(a=>({name:a.name, genres:[...(a.genres||[])]})),
     avail:new Set(activeAvail(d.avail)),
     main:(d.parts||[])[0] || null,
+    levels:Object.fromEntries((d.parts||[]).map(p=>[p, lvlOf(d,p)])),
   };
   $("ob-name").textContent = me.id;
   $("ob-avatar").style.backgroundImage = "url("+avatarUrl(draft)+")";
@@ -577,8 +603,22 @@ function fixMain(){
   if (!draft.parts.length) draft.main = null;
   else if (!draft.main || !draft.parts.includes(draft.main)) draft.main = draft.parts[0];
 }
+function partName(k){ return k==="etc" && $("part-etc").value.trim() ? $("part-etc").value.trim() : PART[k].n; }
+function renderLevels(){
+  const box = $("level-pick");
+  box.hidden = draft.parts.length < 2;
+  if (box.hidden) return;
+  $("level-list").innerHTML = draft.parts.map(k=>{
+    const v = draft.levels[k] || 100;
+    return '<div class="level-row"><span class="avatar" style="background-image:url('+AV[k]+')"></span>'
+      +'<b>'+PART[k].e+' '+esc(partName(k))+'</b>'
+      +'<input type="range" min="10" max="100" step="10" value="'+v+'" data-k="'+k+'" style="--v:'+v+'%" aria-label="'+esc(partName(k))+' 비중">'
+      +'<span class="lv-val"><span data-v="'+k+'">'+v+'%</span><small data-w="'+k+'">'+lvlWord(v)+'</small></span></div>';
+  }).join("");
+}
 function renderMainPick(){
   fixMain();
+  renderLevels();
   const box = $("main-pick");
   box.hidden = draft.parts.length < 2;
   $("ob-avatar").style.backgroundImage = "url("+avatarUrl(draft)+")";
@@ -592,7 +632,8 @@ function renderMainPick(){
 $("part-choices").addEventListener("click", e=>{
   const b = e.target.closest(".choice-card"); if (!b) return;
   const k = b.dataset.k, i = draft.parts.indexOf(k);
-  if (i>=0) draft.parts.splice(i,1); else draft.parts.push(k);
+  if (i>=0){ draft.parts.splice(i,1); delete draft.levels[k]; }
+  else { draft.parts.push(k); if (!draft.levels[k]) draft.levels[k] = draft.parts.length===1 ? 100 : 60; }
   const on = draft.parts.includes(k);
   b.setAttribute("aria-pressed", on); b.querySelector("small").textContent = on ? "선택됨" : "선택하기";
   if (k==="etc") $("part-etc-fld").hidden = !on;
@@ -600,6 +641,15 @@ $("part-choices").addEventListener("click", e=>{
   updateSaveSummary();
 });
 $("part-etc").addEventListener("input", ()=>{ if (draft) renderMainPick(); });
+$("level-list").addEventListener("input", e=>{
+  const r = e.target.closest("input[type=range]"); if (!r) return;
+  const k = r.dataset.k, v = Number(r.value);
+  draft.levels[k] = v;
+  r.style.setProperty("--v", v+"%");
+  document.querySelector('[data-v="'+k+'"]').textContent = v+"%";
+  document.querySelector('[data-w="'+k+'"]').textContent = lvlWord(v);
+  updateSaveSummary();
+});
 $("main-choices").addEventListener("click", e=>{
   const b = e.target.closest(".main-card"); if (!b) return;
   draft.main = b.dataset.k;
@@ -653,7 +703,7 @@ function updateSaveSummary(){
   if (!draft) return;
   const s = $("save-summary"); s.classList.remove("err");
   const n = obStep;
-  s.innerHTML = n===1 ? (draft.parts.length ? "선택한 파트: "+esc(memberPartsText(draft))+(draft.parts.length>1 && draft.main ? " · 메인 캐릭터: "+PART[draft.main].e+" "+PART[draft.main].n : "") : "여러 개 골라도 좋아요.")
+  s.innerHTML = n===1 ? (draft.parts.length ? "선택한 파트: "+esc(memberPartsText({...draft, levels:draft.parts.length>1 ? draft.levels : {}}))+(draft.parts.length>1 && draft.main ? " · 메인 캐릭터: "+PART[draft.main].e+" "+PART[draft.main].n : "") : "여러 개 골라도 좋아요.")
     : n===2 ? (draft.genres.length ? "선택한 장르 "+draft.genres.length+"개" : "끌리는 장르를 여러 개 골라주세요.")
     : n===3 ? (draft.artists.length ? "담은 아티스트 "+draft.artists.length+"팀 · "+esc(draft.artists.slice(0,3).map(a=>a.name).join(", ")) : "검색해서 한 팀 이상 담아주세요.")
     : availSummary(draft.avail);
@@ -686,7 +736,7 @@ async function completeOnboarding(){
   const btn = $("ob-next"); btn.disabled = true;
   try{
     const d = await api("members", {id:me.id, token:me.token, profile:{
-      parts:[draft.main, ...draft.parts.filter(p=>p!==draft.main)].filter(Boolean), partEtc:draft.partEtc, genres:draft.genres, artists:draft.artists, avail:[...draft.avail],
+      parts:[draft.main, ...draft.parts.filter(p=>p!==draft.main)].filter(Boolean), partEtc:draft.partEtc, genres:draft.genres, artists:draft.artists, avail:[...draft.avail], levels:draft.levels,
     }});
     me.data = d.member;
     loadMembers();
@@ -1074,7 +1124,9 @@ function renderDash(fresh){
   for (const p of PARTS) partCount[p.k]=0;
   for (const m of done) for (const k of (m.parts||[])) if (k in partCount) partCount[k]++;
   const maxP = Math.max(1, ...Object.values(partCount));
-  $("dash-parts").innerHTML = PARTS.map(p=>barRow("part:"+p.k, partLabel(p.k), partCount[p.k], maxP, "")).join("");
+  const mainCount = {};
+  for (const p of PARTS) mainCount[p.k] = done.filter(m=>(m.parts||[]).includes(p.k) && lvlOf(m,p.k)>=70).length;
+  $("dash-parts").innerHTML = PARTS.map(p=>barRow("part:"+p.k, partLabel(p.k), partCount[p.k], maxP, "", partCount[p.k] ? "주력 "+mainCount[p.k] : "")).join("");
   const rare = CORE.slice().sort((a,b)=>partCount[a]-partCount[b])[0];
   $("dash-need").textContent = done.length ? "지금 제일 귀한 파트: "+PART[rare].n+" — 주변에 연주자가 있다면 모셔와요!" : "";
 
@@ -1103,9 +1155,9 @@ function renderDash(fresh){
   }
 }
 function empty(t){ return '<div class="empty-state"><span>☾</span><p>'+t+'</p></div>'; }
-function barRow(selKey, label, c, max, tone){
+function barRow(selKey, label, c, max, tone, extra){
   const on = sel && (sel.type+":"+sel.key)===selKey;
-  return '<button class="bar-row'+(on?" on":"")+'" data-sel="'+esc(selKey)+'"><div class="bar-label"><b>'+esc(label)+'</b><span>'+c+'명 →</span></div>'
+  return '<button class="bar-row'+(on?" on":"")+'" data-sel="'+esc(selKey)+'"><div class="bar-label"><b>'+esc(label)+'</b><span>'+c+'명'+(extra?' · '+extra:'')+' →</span></div>'
     +'<div class="bar-track'+(tone?" "+tone:"")+'"><i style="width:'+(c?Math.max(8,c/max*100):0)+'%"></i></div></button>';
 }
 function renderSelection(all, artistAgg){

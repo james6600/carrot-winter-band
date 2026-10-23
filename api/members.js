@@ -1,4 +1,4 @@
-import { json, readBody, memberSlug, strip, GENRE_KEYS, PART_KEYS, computeStyle, cleanAvail } from "../lib/util.js";
+import { json, readBody, memberSlug, strip, GENRE_KEYS, PART_KEYS, computeStyle, cleanAvail, cleanLevels } from "../lib/util.js";
 import { getMember, putMember, listMembers } from "../lib/db.js";
 
 export default async function handler(req, res){
@@ -39,6 +39,7 @@ export default async function handler(req, res){
       style: computeStyle(genres, artists),
       done: true,
       avail: p.avail === undefined ? (me.avail || []) : cleanAvail(p.avail),
+      levels: cleanLevels(p.levels, parts),
       updatedAt: now,
     };
     await putMember(updated);

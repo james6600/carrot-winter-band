@@ -46,7 +46,9 @@ export default async function handler(req, res){
         const artists = [...(existing.artists||[]),
           ...((target.artists||[]).filter(a => !names.has(norm(a.name))))];
         const avail = [...new Set([...(existing.avail||[]), ...(target.avail||[])])].sort();
-        await putMember({ ...existing, parts, genres, artists, avail,
+        const levels = { ...(target.levels||{}) };
+        for (const [k, v] of Object.entries(existing.levels||{})) levels[k] = Math.max(v, levels[k]||0);
+        await putMember({ ...existing, parts, genres, artists, avail, levels,
           partEtc: existing.partEtc || target.partEtc || "",
           done: !!(existing.done || target.done),
           style: computeStyle(genres, artists), updatedAt: now });
