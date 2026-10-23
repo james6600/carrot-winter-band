@@ -18,6 +18,7 @@ const ACTION_NAME = {
   admin_reset2fa:"2단계 초기화", admin_delete:"관리자 삭제",
   feedback_update:"의견 처리", feedback_delete:"의견 삭제",
   jam_status:"모임 상태 변경", jam_delete:"모임 삭제",
+  proposal_status:"제안 상태 변경", proposal_delete:"제안 삭제",
 };
 const ERR = {
   auth:"아이디 또는 비밀번호가 맞지 않아요.", proof:"예전 admin 계정 비밀번호가 맞지 않아요.",
@@ -385,7 +386,32 @@ $("a-rows").addEventListener("click", e=>{
 /* 합주 모임 */
 const JAM_STATUS = {planning:["날짜 정하는 중", "gold"], fixed:["확정", "ok"], done:["끝남", ""], canceled:["취소", "bad"]};
 let jams = [];
-async function loadJams(){ jams = (await api("jams_list")).jams; renderJams(); }
+async function loadJams(){ jams = (await api("jams_list")).jams; renderJams(); await loadProposals(); }
+const PROP_STATUS = {open:["모집 중", "ok"], converted:["모임 됨", "orange"], closed:["닫힘", ""]};
+let proposals = [];
+async function loadProposals(){ proposals = (await api("proposals_list")).proposals; renderProposals(); }
+function renderProposals(){
+  $("p-rows").innerHTML = proposals.length ? proposals.map(p => {
+    const [st, cls] = PROP_STATUS[p.status] || PROP_STATUS.open;
+    const acts = (p.status === "converted" ? "" : p.status === "closed" ? '<button class="button small ghost" data-p="' + p.slug + '" data-pa="open">다시 열기</button>' : '<button class="button small ghost" data-p="' + p.slug + '" data-pa="closed">닫기</button>')
+      + (isSuper() ? '<button class="button small danger" data-p="' + p.slug + '" data-pa="delete">삭제</button>' : "");
+    return '<tr><td><b>' + esc(p.title) + '</b>' + (p.whenText ? '<br><small class="muted">🗓️ ' + esc(p.whenText) + '</small>' : '') + '</td>'
+      + '<td><span class="pill ' + cls + '">' + st + '</span></td>'
+      + '<td><div class="bs-clamp">' + esc(p.body) + '</div></td>'
+      + '<td>🙋 ' + esc(p.applicantNames.join(", ") || "—") + '<br><small class="muted">👀 ' + p.interestCount + '</small></td>'
+      + '<td>' + esc(p.createdByName) + '<br><small class="muted">' + when(p.createdAt) + '</small></td>'
+      + '<td><div class="row-actions">' + acts + '</div></td></tr>';
+  }).join("") : '<tr><td colspan="6" class="muted">아직 제안이 없어요.</td></tr>';
+}
+$("p-rows").addEventListener("click", e=>{
+  const b = e.target.closest("[data-pa]"); if (!b) return;
+  const p = proposals.find(x => x.slug === b.dataset.p); if (!p) return;
+  if (b.dataset.pa === "delete")
+    return dialog('<b>「' + esc(p.title) + '」 제안을 지울까요?</b><p class="muted bs-small">되돌릴 수 없어요.</p>',
+      async ()=>{ await api("proposal_delete", {target:p.slug}); toast("지웠어요"); await loadProposals(); }, "삭제");
+  dialog('<b>「' + esc(p.title) + '」 ' + (b.dataset.pa === "closed" ? "제안을 닫을까요?" : "다시 열까요?") + '</b>',
+    async ()=>{ await api("proposal_status", {target:p.slug, status:b.dataset.pa}); toast("바꿨어요"); await loadProposals(); });
+});
 function renderJams(){
   $("j-rows").innerHTML = jams.length ? jams.map(j => {
     const [st, cls] = JAM_STATUS[j.status] || JAM_STATUS.planning;

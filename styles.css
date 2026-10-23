@@ -756,3 +756,26 @@ button,input{font:inherit;color:inherit}
   .ag-row{flex-wrap:wrap}
   .ag-side{width:100%;justify-content:flex-start;padding-left:64px}
 }
+
+/* ---------- 합주 제안 ---------- */
+.jams-tabs{margin:0 0 22px}
+.jam-lead{font-size:13px;margin:-6px 0 14px}
+.jam-card.prop .prop-body{color:#a49d96;font-size:12px;line-height:1.55;white-space:pre-wrap}
+.prop-text{margin:0;font-size:14px;line-height:1.8;color:#e4ddd4;white-space:pre-wrap}
+.prop-apply{margin-top:16px;border-top:1px dashed rgba(255,255,255,.08);padding-top:14px}
+.prop-apply .sug-manual-row select.text-input{appearance:auto;min-height:42px}
+.prop-want{display:grid;gap:8px}
+.pw-row{display:grid;grid-template-columns:1fr auto;gap:2px 8px;border:1px solid rgba(255,255,255,.08);border-radius:13px;padding:10px 12px;background:rgba(255,255,255,.02);align-items:center}
+.pw-row.ok{border-color:rgba(115,211,151,.3);background:rgba(64,128,82,.08)}
+.pw-row b{font-size:14px}
+.pw-row small{grid-column:1/-1;color:#968f88;font-size:11px}
+.pe-want{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:6px}
+.pw-edit{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:8px 8px 8px 12px;background:#0b0c10;color:#8d8680}
+.pw-edit.on{border-color:rgba(255,155,83,.6);background:rgba(255,123,44,.12);color:#fff}
+.pw-edit b{font-size:13px}
+.pw-step{display:inline-flex;align-items:center;gap:2px}
+.pw-step span{min-width:34px;text-align:center;font-size:12px;font-weight:800}
+.pw-step button{width:30px;height:30px;border-radius:9px;border:1px solid rgba(255,255,255,.12);background:#17181e;color:#fff;cursor:pointer;font-size:16px;line-height:1}
+.pw-step button:disabled{opacity:.25;cursor:default}
+#prop-convert{margin-top:12px}
+#prop-back{margin-bottom:18px}

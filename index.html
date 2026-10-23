@@ -285,11 +285,26 @@
       </div>
       <div id="jams-cta" data-reveal></div>
     </div>
+    <div class="seg jams-tabs" id="jams-tabs" role="tablist"><button data-jt="jams" aria-pressed="true">🎪 모임</button><button data-jt="props" aria-pressed="false">📣 합주 제안</button><button data-jt="cal" aria-pressed="false">🗓️ 캘린더</button></div>
+    <div id="jt-props" hidden>
+      <section class="jam-section" id="props-open-sec">
+        <div class="section-label">OPEN</div><h2 class="jam-h2">모집 중인 제안 📣</h2>
+        <p class="muted jam-lead">"이런 합주 하고 싶어요" 글을 올리면 관심 있는 사람이 파트를 골라 신청해요. 사람이 모이면 제안자가 모임으로 만들어요.</p>
+        <div class="jam-list" id="props-open"></div>
+      </section>
+      <section class="section-gap jam-section" id="props-closed-sec">
+        <div class="section-label">ARCHIVE</div><h2 class="jam-h2">모임이 됐거나 닫힌 제안</h2>
+        <div class="jam-list" id="props-closed"></div>
+      </section>
+    </div>
+    <div id="jt-cal" hidden>
     <section class="magic-card cal-card" data-reveal>
       <div class="card-head"><div><small>CALENDAR</small><h2>전체 합주 캘린더</h2><p>확정된 합주의 날짜·시간·멤버·노래를 모두가 볼 수 있어요. 칸을 누르면 자세히 보여요.</p></div><span>🗓️</span></div>
       <div id="jam-cal"></div>
     </section>
-    <section class="section-gap jam-section" id="jams-planning-sec" data-reveal>
+    </div>
+    <div id="jt-jams">
+    <section class="jam-section" id="jams-planning-sec" data-reveal>
       <div class="section-label">PLANNING</div><h2 class="jam-h2">날짜 정하는 중 ⏳</h2>
       <div class="jam-list" id="jams-planning"></div>
     </section>
@@ -300,6 +315,33 @@
     <section class="section-gap jam-section" id="jams-past-sec" data-reveal>
       <div class="section-label">ARCHIVE</div><h2 class="jam-h2">지난 합주 · 취소</h2>
       <div class="jam-list" id="jams-past"></div>
+    </section>
+    </div>
+  </main>
+
+  <!-- 합주 제안: 상세 -->
+  <main id="view-prop" class="content-page" hidden>
+    <button class="button small ghost" id="prop-back">‹ 합주 제안</button>
+    <div id="prop-body"></div>
+  </main>
+
+  <!-- 합주 제안: 작성 / 수정 -->
+  <main id="view-prop-edit" class="content-page" hidden>
+    <div class="page-heading">
+      <div class="season-badge"><span>✦</span> JAM PROPOSAL</div>
+      <h1 id="pe-heading">합주 <em>제안 올리기</em></h1>
+      <p>하고 싶은 합주를 적어두면 관심 있는 사람이 파트를 골라 신청해요. 충분히 모이면 모임으로 바꿀 수 있어요.</p>
+    </div>
+    <section class="magic-card login-card je-card">
+      <div class="form-stack">
+        <label class="input-field"><span>제목</span><input id="pe-title" maxlength="40" placeholder="예: 겨울 브릿팝 카피 밴드 모집"></label>
+        <label class="input-field"><span>어떤 합주인가요?</span><textarea id="pe-body" rows="5" maxlength="1000" placeholder="하고 싶은 음악, 분위기, 실력 기준, 자주 모일 수 있는지 등을 자유롭게 적어주세요."></textarea></label>
+        <div class="input-field"><span>모집 파트 <small>필요한 인원을 정해요</small></span><div class="pe-want" id="pe-want"></div></div>
+        <label class="input-field"><span>하고 싶은 곡 <small>선택 · 한 줄에 한 곡</small></span><textarea id="pe-songs" rows="3" maxlength="700" placeholder="Wonderwall - Oasis&#10;Creep - Radiohead"></textarea></label>
+        <label class="input-field"><span>희망 시기 <small>선택</small></span><input id="pe-when" maxlength="60" placeholder="예: 11월 주말 저녁, 격주 1회"></label>
+        <div id="pe-err" class="notice error" hidden></div>
+        <div class="je-actions"><button class="button ghost" id="pe-cancel">취소</button><button class="button primary" id="pe-save">올리기 <span>→</span></button></div>
+      </div>
     </section>
   </main>
 

@@ -81,3 +81,5 @@ select.text-input{appearance:auto}
 .bs-fb-reply textarea{min-height:64px;padding:10px 13px;resize:vertical;font:inherit;line-height:1.5}
 .bs-fb-actions{display:flex;gap:6px;flex-wrap:wrap}
 .bs-fb-actions select{max-width:140px;min-height:38px}
+
+.bs-clamp{max-width:320px;max-height:3.2em;overflow:hidden;font-size:12px;line-height:1.6;color:#cfc8c0;white-space:pre-wrap}

@@ -133,7 +133,9 @@ function errText(e){
   if (e && e.error==="not_member") return "이 모임의 멤버만 할 수 있어요.";
   if (e && e.error==="not_owner") return "모임을 만든 사람만 할 수 있어요.";
   if (e && e.error==="bad_slot") return "지난 시간이거나 고를 수 없는 시간이에요.";
-  if (e && e.error==="bad_title") return "모임 이름을 2자 이상 적어주세요.";
+  if (e && e.error==="bad_title") return "제목을 2자 이상 적어주세요.";
+  if (e && e.error==="closed") return "이미 닫힌 제안이에요.";
+  if (e && e.error==="bad_part") return "파트를 골라주세요.";
   if (e && e.error==="reserved") return "운영용으로 예약된 이름이에요. 다른 닉네임을 써주세요.";
   if (e && e.error==="incomplete") return "파트·장르·아티스트를 하나 이상씩 골라주세요.";
   return "저장 중 오류가 났어요. 잠시 후 다시 시도해 주세요.";
@@ -173,7 +175,7 @@ let draft = null;
 let currentView = "";
 let schedDraft = null, schedPref = null;
 let sel = null;                // 대시보드 선택: {type, key}
-const VIEWS = ["view-offline","view-home","view-login","view-onboard","view-result","view-schedule","view-dash","view-feedback","view-jams","view-jam","view-jam-edit"];
+const VIEWS = ["view-offline","view-home","view-login","view-onboard","view-result","view-schedule","view-dash","view-feedback","view-jams","view-jam","view-jam-edit","view-prop","view-prop-edit"];
 
 /* ---------- 네비게이션 ---------- */
 function navItems(){
@@ -198,7 +200,7 @@ function show(view){
   currentView = view;
   for (const v of VIEWS) $(v).hidden = (v!==view);
   // 모임 상세·수정 화면은 메뉴에서 '합주 모임'을 켜둔다
-  renderNav(view==="view-jam"||view==="view-jam-edit" ? "view-jams" : view);
+  renderNav(["view-jam","view-jam-edit","view-prop","view-prop-edit"].includes(view) ? "view-jams" : view);
   window.scrollTo(0,0);
   revealIn($(view));
 }
@@ -211,6 +213,8 @@ function goTo(v){
   if (v==="view-jams"){ show("view-jams"); renderJams(); loadJams(); loadMembers(); return; }
   if (v==="view-jam"){ if (!jamOpen) return goTo("view-jams"); renderJam(); show("view-jam"); loadJams(); return; }
   if (v==="view-jam-edit"){ if (!me) return goTo("view-login"); return openJamEdit(null); }
+  if (v==="view-prop"){ if (!propOpen) return goTo("view-jams"); renderProp(); show("view-prop"); loadJams(); return; }
+  if (v==="view-prop-edit"){ if (!me) return goTo("view-login"); return openPropEdit(null); }
   if (!me) return goTo("view-login");
   if (v==="view-onboard") return startOnboarding();
   if (v==="view-schedule") return openSchedule();
@@ -1023,13 +1027,19 @@ function renderAgenda(){
   if (planning.length) html += '<div class="ag-group"><div class="section-label">⏳ 날짜 정하는 중</div>'+planning.map(j=>{
       const me0 = activeAvail(me.data.avail).length;
       return row(j, j.createdBy===me.slug ? '<span class="pill orange">내가 날짜를 정해요</span>' : me0 ? '<span class="pill ok">내 시간 등록됨</span>' : '<span class="pill bad">내 시간 미등록</span>'); }).join("")+'</div>';
-  if (!invites.length && !upcoming.length && !planning.length)
+  const myProps = propsCache.filter(p=>p.status==="open" && p.createdBy===me.slug);
+  const applied = propsCache.filter(p=>p.status==="open" && p.applicants[me.slug]);
+  const prow = (p, side) => '<div class="ag-row" data-prop="'+p.slug+'"><div class="ag-d"><b>📣</b><small>제안</small></div><div class="ag-main"><b>'+esc(p.title)+'</b><small>'+(p.whenText?'🗓️ '+esc(p.whenText)+' · ':'')+'신청 '+Object.keys(p.applicants).length+' · 관심 '+p.interest.length+'</small></div><div class="ag-side">'+side+'</div></div>';
+  if (myProps.length) html += '<div class="ag-group"><div class="section-label">📣 내 합주 제안</div>'+myProps.map(p=>prow(p, propFull(p)?'<span class="pill gold">파트 다 모임 · 모임 만들기</span>':'<span class="pill">모집 중</span>')).join("")+'</div>';
+  if (applied.length) html += '<div class="ag-group"><div class="section-label">🙋 신청한 제안</div>'+applied.map(p=>prow(p, '<span class="pill orange">'+PART[p.applicants[me.slug].part].e+' '+PART[p.applicants[me.slug].part].n+'로 신청</span>')).join("")+'</div>';
+  if (!invites.length && !upcoming.length && !planning.length && !myProps.length && !applied.length)
     html += '<div class="empty-state ag-empty"><span>🎪</span><p>합주 모임에서 멤버를 모아 첫 합주를 만들어 보세요.<br>누군가 나를 모임에 넣으면 여기에 초대가 떠요.</p></div>';
   html += '<div class="jam-actions"><button class="button small ghost" data-v="view-jams">🎪 합주 모임 전체 보기</button>'+(activeAvail(me.data.avail).length?'':'<button class="button small ghost" data-v="view-schedule">🗓️ 내 합주 시간 등록하기</button>')+'</div>';
   box.innerHTML = html;
 }
 $("my-agenda").addEventListener("click", async e=>{
   const nav = e.target.closest("[data-v]"); if (nav){ e.stopPropagation(); return goTo(nav.dataset.v); }
+  const pr = e.target.closest("[data-prop]"); if (pr){ e.stopPropagation(); propOpen = pr.dataset.prop; return goTo("view-prop"); }
   const b = e.target.closest("[data-ag-rsvp]"); if (!b) return;
   e.stopPropagation();
   b.disabled = true;
@@ -1413,10 +1423,11 @@ function fixJam(j, slot, duration){
 }
 async function loadJams(){
   try{
-    const d = await api("jams");
-    jamsCache = d.jams||[];
+    const [d, p] = await Promise.all([api("jams"), api("proposals")]);
+    jamsCache = d.jams||[]; propsCache = p.proposals||[];
     if (currentView==="view-jams") renderJams();
     if (currentView==="view-jam") renderJam();
+    if (currentView==="view-prop") renderProp();
     if (currentView==="view-result") renderAgenda();
     renderNav();
   }catch(e){ /* 다음 폴링에서 재시도 */ }
@@ -1433,11 +1444,15 @@ function jamCard(j){
     +(j.songs.length?'<p class="jam-songs">🎵 '+esc(j.songs.slice(0,3).join(" · "))+(j.songs.length>3?' 외 '+(j.songs.length-3)+'곡':'')+'</p>':'')
     +'</article>';
 }
+let jamsTab = "jams";
+$("jams-tabs").addEventListener("click", e=>{ const b = e.target.closest("[data-jt]"); if (!b) return; jamsTab = b.dataset.jt; renderJams(); });
 function renderJams(){
-  $("jams-cta").innerHTML = me
-    ? '<button class="button primary" id="jams-new">+ 새 모임 만들기</button>'
-    : '<button class="button ghost" id="jams-login">모임을 만들려면 입장해 주세요 →</button>';
-  renderCal();
+  for (const b of $("jams-tabs").querySelectorAll("button")) b.setAttribute("aria-pressed", b.dataset.jt===jamsTab);
+  $("jt-jams").hidden = jamsTab!=="jams"; $("jt-props").hidden = jamsTab!=="props"; $("jt-cal").hidden = jamsTab!=="cal";
+  $("jams-cta").innerHTML = jamsTab==="cal" ? ''
+    : me ? '<button class="button primary" id="'+(jamsTab==="props"?"props-new":"jams-new")+'">'+(jamsTab==="props"?"+ 합주 제안 올리기":"+ 새 모임 만들기")+'</button>'
+    : '<button class="button ghost" id="jams-login">'+(jamsTab==="props"?"제안·신청하려면 입장해 주세요 →":"모임을 만들려면 입장해 주세요 →")+'</button>';
+  renderCal(); renderProps();
   const groups = {planning:[], fixed:[], past:[]};
   for (const j of jamsCache){ const p = jamPhase(j); (groups[p==="canceled"?"past":p]).push(j); }
   groups.planning.sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
@@ -1477,8 +1492,10 @@ $("jam-cal").addEventListener("click", e=>{
   calMonth = d.getFullYear()+"-"+pad2(d.getMonth()+1); renderCal();
 });
 document.addEventListener("click", e=>{
-  const nb = e.target.closest("#jams-new, #jams-login");
-  if (nb){ return goTo(nb.id==="jams-new" ? "view-jam-edit" : "view-login"); }
+  const nb = e.target.closest("#jams-new, #jams-login, #props-new");
+  if (nb){ return goTo(nb.id==="jams-new" ? "view-jam-edit" : nb.id==="props-new" ? "view-prop-edit" : "view-login"); }
+  const pc = e.target.closest("[data-prop]");
+  if (pc){ propOpen = pc.dataset.prop; goTo("view-prop"); return; }
   const fb = e.target.closest("[data-jam-band]");
   if (fb){ e.stopPropagation(); return openJamEdit(null, {members:fb.dataset.jamBand.split(","), title:fb.dataset.jamTitle}); }
   const c = e.target.closest("[data-jam]");
@@ -1594,6 +1611,163 @@ async function jamAct(action, extra, msg){
     renderJam(); toast(msg);
   }catch(e){ toast(errText(e)); }
 }
+
+/* ---------- 합주 제안 ---------- */
+let propsCache = [], propOpen = null, propDraft = null;
+const PROP_STATUS = {open:["모집 중","ok"], converted:["모임이 됐어요","orange"], closed:["닫힘",""]};
+const isPropOwner = p => !!me && p.createdBy===me.slug;
+// 모집 파트별 현황: 필요 인원과 그 파트로 신청한 사람
+function wantRows(p){
+  const apps = Object.entries(p.applicants||{});
+  return PARTS.filter(k=>p.want[k.k]).map(k=>({part:k.k, need:p.want[k.k], who:apps.filter(([,a])=>a.part===k.k).map(([s])=>s)}));
+}
+const propFull = p => { const w = wantRows(p); return w.length>0 && w.every(x=>x.who.length>=x.need); };
+function propCard(p){
+  const [st, cls] = PROP_STATUS[p.status]||PROP_STATUS.open;
+  const all = currentMembers(), by = all.find(m=>m.slug===p.createdBy);
+  const apps = Object.keys(p.applicants||{}).length, mine = me && (p.createdBy===me.slug ? "owner" : p.applicants[me.slug] ? "applied" : p.interest.includes(me.slug) ? "interest" : "");
+  return '<article class="jam-card prop'+(mine?" me":"")+'" data-prop="'+p.slug+'" data-tilt>'
+    +'<div class="jam-top"><span class="pill '+cls+'">'+st+'</span>'+(propFull(p)&&p.status==="open"?'<span class="pill gold">파트 다 모임</span>':'')+(mine==="owner"?'<span class="pill orange">내 제안</span>':mine==="applied"?'<span class="pill orange">신청함</span>':mine==="interest"?'<span class="pill">관심</span>':'')+'<small>👀 '+p.interest.length+' · 🙋 '+apps+'</small></div>'
+    +'<h4>'+esc(p.title)+'</h4>'
+    +'<p class="jam-when">'+(p.whenText?'🗓️ '+esc(p.whenText)+' · ':'')+'🗝️ '+esc(by?by.id:"?")+'</p>'
+    +(wantRows(p).length?'<div class="pills">'+wantRows(p).map(w=>'<span class="pill '+(w.who.length>=w.need?"ok":"")+'">'+PART[w.part].e+' '+PART[w.part].n+' '+w.who.length+'/'+w.need+'</span>').join("")+'</div>':'')
+    +(p.body?'<p class="jam-songs prop-body">'+esc(p.body.length>90?p.body.slice(0,90)+"…":p.body)+'</p>':'')
+    +'</article>';
+}
+function renderProps(){
+  const open = propsCache.filter(p=>p.status==="open"), rest = propsCache.filter(p=>p.status!=="open");
+  const empty = t => '<div class="empty-state"><span>📣</span><p>'+t+'</p></div>';
+  $("props-open").innerHTML = open.length ? open.map(propCard).join("") : empty(me ? "아직 제안이 없어요. 하고 싶은 합주를 먼저 올려보세요!" : "아직 모집 중인 제안이 없어요.");
+  $("props-closed-sec").hidden = !rest.length;
+  $("props-closed").innerHTML = rest.map(propCard).join("");
+}
+function renderProp(){
+  const p = propsCache.find(x=>x.slug===propOpen);
+  if (!p){ $("prop-body").innerHTML = '<div class="empty-state"><span>☾</span><p>'+(propsCache.length?"제안을 찾을 수 없어요. 지워졌을 수 있어요.":"불러오는 중…")+'</p></div>'; return; }
+  const all = currentMembers(), by = all.find(m=>m.slug===p.createdBy), owner = isPropOwner(p);
+  const [st, cls] = PROP_STATUS[p.status]||PROP_STATUS.open;
+  const person = sl => all.find(m=>m.slug===sl) || {slug:sl, id:"(나간 멤버)", parts:[]};
+  const apps = Object.entries(p.applicants||{}).sort((a,b)=>a[1].at.localeCompare(b[1].at));
+  const myApp = me && p.applicants[me.slug];
+  const rows = wantRows(p);
+  let act = "";
+  if (p.status==="converted") act = '<div class="jam-actions"><button class="button small primary" data-pact="gojam">🎪 만들어진 모임으로 이동 →</button></div>';
+  else if (!me) act = '<p class="jam-note">입장하면 관심을 남기거나 파트를 골라 신청할 수 있어요.</p><div class="jam-actions"><button class="button small primary" data-pact="login">입장하기 →</button></div>';
+  else if (owner){
+    act = '<div class="jam-actions">'
+      +(p.status==="open" ? '<button class="button small primary" data-pact="convert-ui">🎪 모임으로 만들기</button><button class="button small ghost" data-pact="close">다음에 해요 (닫기)</button>' : '<button class="button small ghost" data-pact="reopen">다시 모집하기</button>')
+      +'<button class="button small ghost" data-pact="edit">✏️ 수정</button><button class="button small danger" data-pact="delete">삭제</button></div><div id="prop-convert" hidden></div>';
+  } else if (p.status==="open"){
+    const myParts = (me.data.parts||[]), opts = [...myParts, ...PARTS.map(k=>k.k).filter(k=>!myParts.includes(k))];
+    act = '<div class="prop-apply">'
+      +(myApp ? '<p class="jam-note">🙋 <b>'+PART[myApp.part].e+' '+PART[myApp.part].n+'</b>로 신청했어요. 제안자가 모임을 만들면 초대돼요.</p><div class="jam-actions"><button class="button small ghost" data-pact="unapply">신청 취소</button></div>'
+        : '<div class="sug-manual-row"><select class="text-input" id="prop-part">'+opts.map(k=>'<option value="'+k+'">'+PART[k].e+' '+PART[k].n+(p.want[k]?' (모집 중)':'')+'</option>').join("")+'</select><button class="button small primary" data-pact="apply">🙋 이 파트로 신청</button></div>')
+      +'<div class="jam-actions"><button class="button small '+(p.interest.includes(me.slug)?"primary":"ghost")+'" data-pact="interest">'+(p.interest.includes(me.slug)?"👀 관심 있어요 ✓":"👀 관심 있어요")+'</button></div></div>';
+  } else act = '<p class="jam-note">지금은 모집하지 않는 제안이에요.</p>';
+
+  $("prop-body").innerHTML = '<div class="page-heading jam-heading"><div class="season-badge"><span>✦</span> JAM PROPOSAL</div><h1>'+esc(p.title)+'</h1>'
+    +'<div class="pills"><span class="pill '+cls+'">'+st+'</span>'+(propFull(p)&&p.status==="open"?'<span class="pill gold">파트 다 모임</span>':'')+'<span class="pill'+(owner?' orange':'')+'">🗝️ '+esc(by?by.id:"?")+(owner?' (나)':'')+'</span>'+(p.whenText?'<span class="pill">🗓️ '+esc(p.whenText)+'</span>':'')+'</div></div>'
+    +'<div class="jam-layout"><div>'
+    +'<section class="magic-card jam-sec"><div class="card-head"><div><small>ABOUT</small><h2>어떤 합주인가요?</h2></div><span>📣</span></div>'
+    +(p.body?'<p class="prop-text">'+esc(p.body)+'</p>':'<p class="muted" style="margin:0">설명이 없어요.</p>')
+    +(p.songs.length?'<div class="section-label" style="margin-top:16px">SONGS</div><ol class="jam-songlist">'+p.songs.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>':'')
+    +act+'</section>'
+    +'</div><aside>'
+    +'<section class="magic-card jam-sec"><div class="card-head"><div><small>PARTS</small><h2>모집 파트</h2></div><span>🎸</span></div>'
+    +(rows.length ? '<div class="prop-want">'+rows.map(w=>'<div class="pw-row'+(w.who.length>=w.need?" ok":"")+'"><b>'+PART[w.part].e+' '+PART[w.part].n+'</b><span class="pill '+(w.who.length>=w.need?"ok":"gold")+'">'+w.who.length+'/'+w.need+'</span><small>'+(w.who.length?esc(w.who.map(sl=>person(sl).id).join(", ")):"아직 없어요")+'</small></div>').join("")+'</div>' : '<p class="muted" style="margin:0">파트를 정하지 않은 제안이에요. 누구나 신청할 수 있어요.</p>')
+    +'</section>'
+    +'<section class="magic-card jam-sec section-gap"><div class="card-head"><div><small>PEOPLE</small><h2>신청 '+apps.length+' · 관심 '+p.interest.length+'</h2></div><span>🥕</span></div>'
+    +(apps.length?'<div class="jam-chips">'+apps.map(([sl,a])=>{ const m = person(sl); return '<span class="jam-chip'+(me&&sl===me.slug?" me":"")+'">'+avatarHTML(m)+'<b>'+esc(m.id)+'</b><small class="r">'+PART[a.part].e+' '+PART[a.part].n+'</small></span>'; }).join("")+'</div>':'<p class="muted bs-small" style="margin:0 0 8px">아직 신청한 사람이 없어요.</p>')
+    +(p.interest.length?'<p class="jam-note">👀 '+esc(p.interest.map(sl=>person(sl).id).join(", "))+'</p>':'')
+    +'</section></aside></div>';
+}
+$("prop-back").addEventListener("click", ()=>{ jamsTab = "props"; goTo("view-jams"); });
+$("prop-body").addEventListener("click", async e=>{
+  const p = propsCache.find(x=>x.slug===propOpen); if (!p) return;
+  const b = e.target.closest("[data-pact]"); if (!b) return;
+  const a = b.dataset.pact;
+  if (a==="login") return goTo("view-login");
+  if (a==="gojam"){ jamOpen = p.jamSlug; return goTo("view-jam"); }
+  if (a==="edit") return openPropEdit(p);
+  if (a==="interest") return propAct("interest", {}, p.interest.includes(me.slug) ? "관심을 거뒀어요" : "관심을 남겼어요 👀");
+  if (a==="apply") return propAct("apply", {part:$("prop-part").value}, "신청했어요! 제안자가 모임을 만들면 초대돼요 🙋");
+  if (a==="unapply") return propAct("unapply", {}, "신청을 취소했어요");
+  if (a==="close") return propAct("close", {}, "제안을 닫았어요. 언제든 다시 열 수 있어요");
+  if (a==="reopen") return propAct("reopen", {}, "다시 모집해요 📣");
+  if (a==="delete"){ if (confirm("'"+p.title+"' 제안을 지울까요? 되돌릴 수 없어요.")) propAct("delete", {}, "제안을 지웠어요"); return; }
+  if (a==="convert-ui"){
+    const box = $("prop-convert"), all = currentMembers();
+    const apps = Object.entries(p.applicants||{});
+    box.hidden = false;
+    box.innerHTML = '<div class="row-edit"><b>모임에 넣을 멤버를 골라주세요</b><p class="muted bs-small">신청한 사람 중에서 골라요. 나는 자동으로 들어가요. 모임을 만들면 이 제안은 "모임이 됐어요"로 바뀌어요.</p>'
+      +(apps.length?'<div class="je-members">'+apps.map(([sl,ap])=>{ const m = all.find(x=>x.slug===sl)||{slug:sl,id:"?",parts:[]}; return '<button type="button" class="je-m on" data-cm="'+sl+'">'+avatarHTML(m)+'<span>'+esc(m.id)+'</span><small>'+PART[ap.part].e+'</small></button>'; }).join("")+'</div>':'<p class="muted bs-small">아직 신청한 사람이 없어요. 나 혼자로도 모임을 만들 수는 있어요.</p>')
+      +'<div class="jam-actions"><button class="button small ghost" data-pact="convert-cancel">취소</button><button class="button small primary" data-pact="convert">🎪 이 멤버로 모임 만들기</button></div></div>';
+    box.scrollIntoView({behavior:reduceMotion()?"auto":"smooth", block:"center"});
+    return;
+  }
+  if (a==="convert-cancel"){ $("prop-convert").hidden = true; return; }
+  if (a==="convert"){
+    const members = [...$("prop-convert").querySelectorAll(".je-m.on")].map(x=>x.dataset.cm);
+    try{
+      const d = await api("proposals", {id:me.id, token:me.token, action:"convert", target:p.slug, members});
+      propsCache = propsCache.map(x=>x.slug===d.proposal.slug ? d.proposal : x);
+      jamsCache = [d.jam, ...jamsCache];
+      toast("모임을 만들었어요! 이제 날짜를 정해요 🎪");
+      jamOpen = d.jam.slug; goTo("view-jam");
+    }catch(err){ toast(errText(err)); }
+  }
+});
+$("prop-body").addEventListener("click", e=>{ const b = e.target.closest("#prop-convert .je-m"); if (b) b.classList.toggle("on"); });
+async function propAct(action, extra, msg){
+  if (!me) return goTo("view-login");
+  try{
+    const d = await api("proposals", {id:me.id, token:me.token, action, target:propOpen, ...extra});
+    if (action==="delete"){ propsCache = propsCache.filter(x=>x.slug!==propOpen); propOpen = null; toast(msg); jamsTab = "props"; return goTo("view-jams"); }
+    propsCache = propsCache.map(x=>x.slug===d.proposal.slug ? d.proposal : x);
+    renderProp(); toast(msg);
+  }catch(e){ toast(errText(e)); }
+}
+/* 제안 올리기 · 수정 */
+function openPropEdit(p){
+  if (!me) return goTo("view-login");
+  propDraft = p ? {slug:p.slug, want:{...p.want}} : {slug:null, want:{vocal:1, guitar:1, bass:1, drum:1}};
+  if (!p){ for (const k of (me.data.parts||[])) delete propDraft.want[k]; }   // 내 파트는 빼고 시작
+  $("pe-heading").innerHTML = p ? '제안 <em>수정</em>' : '합주 <em>제안 올리기</em>';
+  $("pe-title").value = p ? p.title : ""; $("pe-body").value = p ? p.body : "";
+  $("pe-songs").value = p ? p.songs.join("\n") : ""; $("pe-when").value = p ? p.whenText : "";
+  $("pe-save").innerHTML = (p ? "저장하기" : "올리기")+' <span>→</span>';
+  $("pe-err").hidden = true;
+  renderPeWant();
+  show("view-prop-edit");
+  setTimeout(()=>$("pe-title").focus(), 150);
+}
+function renderPeWant(){
+  $("pe-want").innerHTML = PARTS.map(k=>{ const n = propDraft.want[k.k]||0;
+    return '<div class="pw-edit'+(n?" on":"")+'"><b>'+k.e+' '+k.n+'</b><div class="pw-step"><button type="button" data-pw="'+k.k+'" data-d="-1" aria-label="줄이기"'+(n?"":" disabled")+'>−</button><span>'+n+'명</span><button type="button" data-pw="'+k.k+'" data-d="1" aria-label="늘리기"'+(n>=5?" disabled":"")+'>+</button></div></div>'; }).join("");
+}
+$("pe-want").addEventListener("click", e=>{
+  const b = e.target.closest("[data-pw]"); if (!b || b.disabled) return;
+  const k = b.dataset.pw, n = Math.min(5, Math.max(0, (propDraft.want[k]||0) + Number(b.dataset.d)));
+  if (n) propDraft.want[k] = n; else delete propDraft.want[k];
+  renderPeWant();
+});
+$("pe-cancel").addEventListener("click", ()=>{ if (propDraft.slug){ propOpen = propDraft.slug; goTo("view-prop"); } else { jamsTab = "props"; goTo("view-jams"); } });
+$("pe-save").addEventListener("click", async ()=>{
+  const err = $("pe-err"), fail = t=>{ err.textContent = t; err.hidden = false; };
+  const title = $("pe-title").value.trim(), body = $("pe-body").value.trim();
+  if (title.length<2) return fail("제목을 2자 이상 적어주세요.");
+  if (body.length<5) return fail("어떤 합주인지 5자 이상 적어주세요.");
+  const proposal = {title, body, want:propDraft.want, songs:$("pe-songs").value.split("\n").map(x=>x.trim()).filter(Boolean), whenText:$("pe-when").value.trim()};
+  const btn = $("pe-save"); btn.disabled = true; err.hidden = true;
+  try{
+    const d = await api("proposals", propDraft.slug ? {id:me.id, token:me.token, action:"update", target:propDraft.slug, proposal} : {id:me.id, token:me.token, action:"create", proposal});
+    propsCache = propsCache.some(x=>x.slug===d.proposal.slug) ? propsCache.map(x=>x.slug===d.proposal.slug ? d.proposal : x) : [d.proposal, ...propsCache];
+    propOpen = d.proposal.slug;
+    toast(propDraft.slug ? "제안을 고쳤어요" : "제안을 올렸어요! 사람들이 신청하면 알려드릴게요 📣");
+    goTo("view-prop");
+  }catch(e){ fail(errText(e)); }
+  finally{ btn.disabled = false; }
+});
 
 /* 만들기 · 수정 */
 function openJamEdit(j, preset){

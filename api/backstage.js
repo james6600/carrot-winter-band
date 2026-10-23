@@ -8,6 +8,7 @@ import {
   putSession, getSession, deleteSession, deleteSessionsOf, addLog, listLogs,
   listFeedback, getFeedback, updateFeedback, deleteFeedback,
   listJams, getJam, putJam, deleteJam,
+  listProposals, getProposal, putProposal, deleteProposal,
 } from "../lib/db.js";
 import {
   hashPw, checkPw, verifyTotp, newSecret, newToken, tokenHash, otpauthUri, parseCookies, sessionCookie,
@@ -17,7 +18,7 @@ const FULL_TTL = 8 * 3600e3;      // 로그인 유지 8시간
 const STEP_TTL = 5 * 60e3;        // 비밀번호 확인 후 코드 입력까지 5분
 const MAX_FAILS = 5, LOCK_MS = 10 * 60e3;
 const SUPER_ONLY = new Set(["admins", "admin_create", "admin_role", "admin_resetpw", "admin_reset2fa", "admin_delete",
-  "member_resetpw", "member_delete", "logs", "feedback_delete", "jam_delete"]);
+  "member_resetpw", "member_delete", "logs", "feedback_delete", "jam_delete", "proposal_delete"]);
 const FEEDBACK_STATUS = ["new", "checking", "doing", "done", "hold"];
 const DUMMY = hashPw("timing-equalizer");
 
@@ -252,6 +253,25 @@ export default async function handler(req, res){
     if (action === "jams_list"){
       const names = Object.fromEntries((await listMembers()).map(m => [m.slug, m.id]));
       return json(res, 200, { jams: (await listJams()).map(j => ({ ...j, memberNames: j.members.map(s => names[s] || "(나간 멤버)"), createdByName: names[j.createdBy] || "?" })) });
+    }
+    if (action === "proposals_list"){
+      const names = Object.fromEntries((await listMembers()).map(m => [m.slug, m.id]));
+      return json(res, 200, { proposals: (await listProposals()).map(p => ({ ...p, createdByName: names[p.createdBy] || "?",
+        applicantNames: Object.keys(p.applicants).map(s => names[s] || "?"), interestCount: p.interest.length })) });
+    }
+    if (action === "proposal_status" || action === "proposal_delete"){
+      const p = await getProposal(String(b.target || ""));
+      if (!p) return json(res, 404, { error: "no_target" });
+      if (action === "proposal_delete"){
+        await deleteProposal(p.slug);
+        await log("proposal_delete", p.title);
+        return json(res, 200, { ok: true });
+      }
+      const status = ["open", "closed"].includes(b.status) && p.status !== "converted" ? b.status : null;
+      if (!status) return json(res, 400, { error: "bad_status" });
+      await putProposal({ ...p, status, updatedAt: new Date().toISOString() });
+      await log("proposal_status", p.title, status);
+      return json(res, 200, { ok: true });
     }
     if (action === "jam_status" || action === "jam_delete"){
       const j = await getJam(String(b.target || ""));
