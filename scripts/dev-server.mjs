@@ -40,7 +40,8 @@ http.createServer(async (req, res) => {
   }
 
   let p = u.pathname === "/" ? "/index.html" : decodeURIComponent(u.pathname);
-  const f = path.normalize(path.join(root, p));
+  let f = path.normalize(path.join(root, p));
+  if (f.startsWith(root) && fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, "index.html");
   if (!f.startsWith(root) || !fs.existsSync(f) || fs.statSync(f).isDirectory()){
     res.statusCode = 404; res.end("not found"); return;
   }

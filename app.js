@@ -120,6 +120,7 @@ async function api(path, body){
 }
 function errText(e){
   if (e && (e.error==="wrong_pw"||e.error==="wrong_token")) return "비밀번호가 맞지 않아요. 같은 닉네임의 기존 참가자가 있어요.";
+  if (e && e.error==="reserved") return "운영용으로 예약된 이름이에요. 다른 닉네임을 써주세요.";
   if (e && e.error==="incomplete") return "파트·장르·아티스트를 하나 이상씩 골라주세요.";
   return "저장 중 오류가 났어요. 잠시 후 다시 시도해 주세요.";
 }
@@ -158,13 +159,11 @@ let draft = null;
 let currentView = "";
 let schedDraft = null;
 let sel = null;                // 대시보드 선택: {type, key}
-const VIEWS = ["view-offline","view-home","view-login","view-onboard","view-result","view-schedule","view-dash","view-admin"];
-const isAdmin = () => !!me && isAdminId(me.id);
+const VIEWS = ["view-offline","view-home","view-login","view-onboard","view-result","view-schedule","view-dash"];
 
 /* ---------- 네비게이션 ---------- */
 function navItems(){
   if (!me) return [{v:"view-home",ic:"✦",t:"홈"},{v:"view-login",ic:"🎸",t:"취향 등록"},{v:"view-dash",ic:"📊",t:"대시보드"}];
-  if (isAdmin()) return [{v:"view-admin",ic:"⚙",t:"관리자"},{v:"view-dash",ic:"📊",t:"대시보드"},{v:"logout",ic:"🚪",t:"나가기"}];
   return [{v:"view-result",ic:"🎩",t:"내 결과"},{v:"view-onboard",ic:"🎸",t:"취향 등록"},{v:"view-schedule",ic:"🗓️",t:"합주 시간"},{v:"view-dash",ic:"📊",t:"대시보드"},{v:"logout",ic:"🚪",t:"나가기"}];
 }
 function renderNav(){
@@ -186,9 +185,8 @@ function show(view){
 function goTo(v){
   if (v==="logout") return logout();
   if (v==="view-home"){ refreshHomeCta(); return show("view-home"); }
-  if (v==="view-login"){ if (me) return goTo(isAdmin() ? "view-admin" : "view-onboard"); show("view-login"); setTimeout(()=>$("login-id").focus(), 200); return; }
+  if (v==="view-login"){ if (me) return goTo("view-onboard"); show("view-login"); setTimeout(()=>$("login-id").focus(), 200); return; }
   if (v==="view-dash"){ show("view-dash"); renderDash(true); loadMembers(); return; }
-  if (v==="view-admin"){ renderAdmin(); return show("view-admin"); }
   if (!me) return goTo("view-login");
   if (v==="view-onboard") return startOnboarding();
   if (v==="view-schedule") return openSchedule();
@@ -198,10 +196,10 @@ function goTo(v){
   }
 }
 function refreshHomeCta(){
-  $("cta-start-label").textContent = !me ? "나의 밴드 취향 찾기" : isAdmin() ? "관리자의 방으로" : me.data.done ? "내 결과 보기" : "취향 등록 이어하기";
+  $("cta-start-label").textContent = !me ? "나의 밴드 취향 찾기" : me.data.done ? "내 결과 보기" : "취향 등록 이어하기";
 }
 $("brand").addEventListener("click", ()=>goTo("view-home"));
-$("cta-start").addEventListener("click", ()=>goTo(!me ? "view-login" : isAdmin() ? "view-admin" : "view-result"));
+$("cta-start").addEventListener("click", ()=>goTo(!me ? "view-login" : "view-result"));
 $("cta-browse").addEventListener("click", ()=>goTo("view-dash"));
 $("part-quick").addEventListener("click", e=>{
   const b = e.target.closest("button[data-part]"); if (!b) return;
@@ -257,8 +255,7 @@ async function doLogin(){
     setMe(d.member, d.token);
     $("login-pw").value = "";
     loadMembers();
-    if (isAdmin()) goTo("view-admin");
-    else if (d.member.done) goTo("view-result");
+    if (d.member.done) goTo("view-result");
     else startOnboarding();
   }catch(e){ fail(errText(e)); }
   finally{ $("btn-login").disabled = false; }
@@ -283,12 +280,11 @@ async function loadMembers(){
     membersCache = d.members || [];
     if (currentView==="view-dash") renderDash(false);
     if (currentView==="view-result"){ renderMates(); renderMyBand(); }
-    if (currentView==="view-admin") renderAdmin();
   }catch(e){ /* 다음 폴링에서 재시도 */ }
 }
 function currentMembers(){
   const list = membersCache.filter(m=>!isAdminId(m.id)).map(m=>({...m, avail:activeAvail(m.avail)}));
-  if (!me || isAdmin()) return list;
+  if (!me) return list;
   const mine = {...me.data, slug:me.slug, id:me.id, avail:activeAvail(me.data.avail)};
   const i = list.findIndex(m=>m.slug===me.slug);
   if (i>=0) list[i] = mine; else list.push(mine);
@@ -1256,69 +1252,6 @@ $("dash-top").addEventListener("click", e=>{
   renderHeat();
   $("dash-heat").scrollIntoView({behavior:reduceMotion()?"auto":"smooth", block:"center"});
 });
-
-/* ---------- 관리자 ---------- */
-let adminTarget = null;
-function renderAdmin(){
-  if (!isAdmin()) return;
-  const list = [...membersCache].sort((a,b)=>(a.createdAt||"").localeCompare(b.createdAt||""));
-  const people = list.filter(m=>!isAdminId(m.id));
-  $("admin-summary").innerHTML = '<div><small>TOTAL MEMBERS</small><strong>'+people.length+'</strong><span> 명</span></div>'
-    +'<p>완료 '+people.filter(m=>m.done).length+'명 · 작성 중 '+people.filter(m=>!m.done).length+'명 · 시간 등록 '+people.filter(m=>(m.avail||[]).length).length+'명</p>';
-  const rows = $("admin-rows");
-  rows.innerHTML = list.length ? "" : '<tr><td colspan="7" class="muted">아직 멤버가 없어요.</td></tr>';
-  for (const m of list){
-    const tr = document.createElement("tr");
-    tr.innerHTML = '<td><b>'+esc(m.id||"?")+'</b>'+(isAdminId(m.id||"")?" 🗝️":"")+'</td>'
-      +'<td>'+esc(memberPartsText(m, ", "))+'</td>'
-      +'<td>'+esc((m.genres||[]).map(k=>GENRE_NAME[k]||k).join(", "))+'</td>'
-      +'<td>'+esc((m.artists||[]).map(a=>a.name).join(", "))+'</td>'
-      +'<td>'+(m.avail||[]).length+'칸</td>'
-      +'<td>'+(m.done ? '<span class="pill ok">완료</span>' : '<span class="pill gold">작성 중</span>')+'</td>';
-    const td = document.createElement("td");
-    td.innerHTML = '<div class="row-actions"></div>';
-    for (const [label,act] of [["이름 변경","rename"],["비번 재설정","resetpw"],["삭제","delete"]]){
-      const b = document.createElement("button");
-      b.className = "button small "+(act==="delete"?"danger":"ghost"); b.textContent = label;
-      b.addEventListener("click", ()=>openAdminEditor(m, act));
-      td.firstChild.appendChild(b);
-    }
-    tr.appendChild(td); rows.appendChild(tr);
-  }
-}
-function openAdminEditor(m, act){
-  adminTarget = {m, act};
-  const ed = $("admin-editor"); ed.hidden = false;
-  const btns = (cls, txt)=>'<div style="display:flex;gap:8px"><button class="button small ghost" id="admin-cancel">취소</button><button class="button small '+cls+'" id="admin-go">'+txt+'</button></div><div id="admin-err" class="notice error" hidden></div>';
-  if (act==="rename"){
-    ed.innerHTML = '<div class="row-edit"><b>\''+esc(m.id)+'\' 이름 변경 / 합치기</b>'
-      +'<p class="muted" style="margin:0;font-size:12px">새 이름이 이미 있는 계정이면 두 계정을 하나로 합쳐요 (파트·장르·가수·합주 시간 합집합, 비밀번호는 기존 계정 것 유지).</p>'
-      +'<input class="text-input" id="admin-input" maxlength="20" placeholder="새 닉네임">'+btns("primary","변경하기")+'</div>';
-  } else if (act==="resetpw"){
-    ed.innerHTML = '<div class="row-edit"><b>\''+esc(m.id)+'\' 비밀번호 재설정</b>'
-      +'<input class="text-input" id="admin-input" maxlength="40" placeholder="새 비밀번호 (본인에게 전달하세요)">'+btns("primary","재설정")+'</div>';
-  } else {
-    ed.innerHTML = '<div class="row-edit"><b>\''+esc(m.id)+'\' 계정을 삭제할까요?</b>'
-      +'<p class="muted" style="margin:0;font-size:12px">프로필, 취향, 합주 시간이 모두 지워지고 되돌릴 수 없어요.</p>'+btns("danger","삭제하기")+'</div>';
-  }
-  $("admin-cancel").addEventListener("click", ()=>{ ed.hidden=true; adminTarget=null; });
-  $("admin-go").addEventListener("click", runAdminAction);
-  ed.scrollIntoView({behavior:reduceMotion()?"auto":"smooth", block:"center"});
-}
-async function runAdminAction(){
-  if (!adminTarget) return;
-  const {m, act} = adminTarget, err = $("admin-err");
-  const fail = t => { err.textContent = t; err.hidden = false; };
-  const input = $("admin-input") ? $("admin-input").value.trim() : "";
-  if (act==="resetpw" && input.length<4) return fail("비밀번호는 4자 이상!");
-  if (act==="rename" && input.length<2) return fail("새 닉네임은 2자 이상!");
-  try{
-    await api("admin", {id:me.id, token:me.token, action:act, target:m.slug, value:input});
-    $("admin-editor").hidden = true; adminTarget = null;
-    toast("처리했어요");
-    await loadMembers();
-  }catch(e){ fail(errText(e)); }
-}
 
 /* ---------- 모션: 무대 3D 기울기 ---------- */
 function initStage(){

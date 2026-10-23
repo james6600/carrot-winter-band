@@ -1,18 +1,18 @@
-import { json, readBody, memberSlug, strip, GENRE_KEYS, PART_KEYS, computeStyle, cleanAvail, cleanLevels } from "../lib/util.js";
+import { json, readBody, memberSlug, strip, isReservedId, GENRE_KEYS, PART_KEYS, computeStyle, cleanAvail, cleanLevels } from "../lib/util.js";
 import { getMember, putMember, listMembers } from "../lib/db.js";
 
 export default async function handler(req, res){
   try {
     if (req.method === "GET"){
       const members = await listMembers();
-      return json(res, 200, { members: members.map(strip) });
+      return json(res, 200, { members: members.filter(m => !isReservedId(m.id)).map(strip) });
     }
     if (req.method !== "POST") return json(res, 405, { error: "method" });
 
     const b = await readBody(req);
     const id = String(b.id || "").normalize("NFC");
     const me = await getMember(memberSlug(id));
-    if (!me || me.pw !== b.token) return json(res, 401, { error: "auth" });
+    if (!me || me.pw !== b.token || isReservedId(id)) return json(res, 401, { error: "auth" });
     const now = new Date().toISOString();
 
     // 합주 가능 시간만 갱신

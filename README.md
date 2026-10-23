@@ -8,7 +8,11 @@
 - 마법의 모자 스타일 판정 + 취향 60%·겹치는 시간 40%로 멤버 매칭
 - 파트를 채워 밴드를 자동으로 짜주는 기능, 모두의 합주 시간 히트맵
 - 모두의 음악 대시보드(숫자·막대·칸을 누르면 누가 골랐는지 표시)
-- 관리자(`admin` 계정): 중복 아이디 합치기, 비밀번호 재설정, 삭제
+- 관리자 페이지 `/backstage` (일반 화면에 링크 없음, 검색엔진 수집 차단)
+  - 최고 관리자: 모든 권한 + 관리자 추가·삭제·권한 변경·비번/2단계 초기화, 회원 비번 재설정·삭제, 활동 기록
+  - 서브 관리자: 회원 일정 조율(겹치는 시간 보기·회원 시간 수정), 닉네임 변경·중복 계정 합치기
+  - 로그인: 아이디·비밀번호(scrypt) → Authenticator 6자리 코드(TOTP) → 8시간 HttpOnly 쿠키 세션
+  - 5회 실패 시 10분 잠금, 코드 재사용 차단, 모든 관리 작업 기록
 
 합주 기간과 시간 칸은 `app.js`와 `lib/util.js` 양쪽의 `RANGE_START`, `RANGE_END`, `SLOT_HOURS`를 같이 고치면 바뀝니다.
 가수 DB 조사 결과는 `scripts/merge-research.mjs`로 합칩니다 (국내 락페 라인업 2021–2026, 빌보드·그래미·UK·빌보드 재팬 차트).
@@ -31,7 +35,8 @@ npm run dev
    - `DATABASE_URL` 환경변수가 자동 등록됩니다. 테이블 생성과 가수 244팀 시딩은 첫 요청 때 서버가 자동으로 합니다.
 3. **(선택) 마법 수정구**: Settings → Environment Variables에 `ANTHROPIC_API_KEY` 추가.
    - 키가 없으면 DB에 없는 가수는 수동 장르 선택으로 동작합니다.
-4. 재배포(Redeploy) 후 접속. **`admin` 아이디를 가장 먼저 로그인해서 관리자 비밀번호를 선점하세요.**
+4. 재배포(Redeploy) 후 `/backstage`에 접속해 최초 설정으로 최고 관리자를 만들고 Authenticator를 등록하세요.
+   - 본인 확인은 예전 `admin` 회원 비밀번호로 합니다. 그런 회원이 없으면 환경변수 `ADMIN_SETUP_KEY`를 정해두고 그 값을 입력하세요.
 
 ## 구조
 
@@ -40,7 +45,9 @@ index.html            # 앱 전체 (단일 페이지)
 api/login.js          # 로그인/계정 자동 생성
 api/members.js        # 멤버 목록(GET) / 프로필 저장(POST)
 api/artists.js        # 가수 DB 조회(GET) / 매칭+AI 분류(POST)
-api/admin.js          # 관리자: 이름 변경·합치기, 비번 재설정, 삭제
+api/backstage.js      # 관리자 API (권한별 기능, 2단계 인증, 세션, 활동 기록)
+backstage/            # 관리자 페이지 (검색 차단)
+lib/admin-auth.js     # 관리자 비밀번호 해시·TOTP·세션 쿠키
 lib/db.js             # Neon Postgres (없으면 로컬 JSON 파일)
 lib/seed-artists.json # 가수 244팀 시드 데이터
 scripts/dev-server.mjs# 로컬 개발 서버

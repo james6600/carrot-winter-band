@@ -1,4 +1,4 @@
-import { json, readBody, sha, memberSlug, strip } from "../lib/util.js";
+import { json, readBody, sha, memberSlug, strip, isReservedId } from "../lib/util.js";
 import { getMember, putMember } from "../lib/db.js";
 
 export default async function handler(req, res){
@@ -7,6 +7,7 @@ export default async function handler(req, res){
     const b = await readBody(req);
     const id = String(b.id || "").trim().normalize("NFC");
     if (id.length < 2 || id.length > 20) return json(res, 400, { error: "bad_id" });
+    if (isReservedId(id)) return json(res, 400, { error: "reserved" });
     const slug = memberSlug(id);
     const existing = await getMember(slug);
 
