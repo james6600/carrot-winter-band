@@ -39,7 +39,7 @@ const STYLES = {
   jrockg: {e:"☃️", n:"설국의 제이락 여행자", band:"설국 제이락단",
     d:"질주하는 기타와 애절한 멜로디의 공존을 아는 타입. 카피 욕심 많은 당신, 레퍼토리 부자예요.", mate:"얼음폭풍 펑크 폭주족"},
 };
-const AV = Object.fromEntries(["vocal","guitar","bass","drum","keys","etc"].map(k=>[k,"/assets/av-"+k+".webp"]));
+const AV = Object.fromEntries(["vocal","guitar","bass","drum","keys","etc"].map(k=>[k,"/assets/av-"+k+".webp?v=2"]));
 function avatarUrl(m){
   const p = ((m && m.parts) || [])[0];
   return AV[m && m.main] || AV[p] || AV.vocal;
