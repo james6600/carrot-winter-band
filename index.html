@@ -163,18 +163,27 @@
       <div><span class="avatar" id="ob-avatar"></span><div><small>WELCOME</small><strong id="ob-name"></strong></div></div>
       <button class="button small ghost" id="ob-logout">로그아웃</button>
     </section>
+    <nav class="ob-progress" id="ob-progress" aria-label="취향 등록 진행 단계">
+      <div class="ob-progress-head"><span id="ob-step-label">STEP 1 / 4</span><b id="ob-step-pct">0%</b></div>
+      <ol class="ob-steps" id="ob-steps">
+        <li><button type="button" data-step="1"><i></i><span><em>1</em>파트</span></button></li>
+        <li><button type="button" data-step="2"><i></i><span><em>2</em>장르</span></button></li>
+        <li><button type="button" data-step="3"><i></i><span><em>3</em>아티스트</span></button></li>
+        <li><button type="button" data-step="4"><i></i><span><em>4</em>합주 시간</span></button></li>
+      </ol>
+    </nav>
     <div class="preference-form">
-      <section class="magic-card preference-card" data-reveal>
-        <div class="step-title"><span>01</span><div><h2>이번에 맡고 싶은 파트</h2><p>할 수 있는 파트를 모두 골라주세요.</p></div></div>
+      <section class="magic-card preference-card ob-step" data-step="1">
+        <div class="step-title"><span>01</span><div><h2>맡고 싶은 파트</h2><p>할 수 있는 파트를 모두 골라주세요.</p></div></div>
         <div class="choice-grid" id="part-choices"></div>
         <label class="input-field etc-field" id="part-etc-fld" hidden><span>그 외 악기 이름</span>
           <input id="part-etc" maxlength="20" placeholder="예: 바이올린, 색소폰, 멜로디언"></label>
       </section>
-      <section class="magic-card preference-card" data-reveal>
+      <section class="magic-card preference-card ob-step" data-step="2" hidden>
         <div class="step-title"><span>02</span><div><h2>좋아하는 음악 장르</h2><p>내 플레이리스트에 자주 나오는 장르를 여러 개 골라주세요.</p></div></div>
         <div class="genre-grid" id="genre-choices"></div>
       </section>
-      <section class="magic-card preference-card" data-reveal>
+      <section class="magic-card preference-card ob-step" data-step="3" hidden>
         <div class="step-title"><span>03</span><div><h2>좋아하는 아티스트</h2><p>국내 락페 라인업과 빌보드 차트로 만든 약 1,000팀에서 검색돼요. 없는 가수는 마법 수정구가 장르를 맞혀요.</p></div></div>
         <div class="artist-picker">
           <div id="artist-list" class="artist-picker"></div>
@@ -194,13 +203,14 @@
           <p class="artist-picker-help">좋아하는 순서대로 올려두세요. ↑↓로 순서를 바꿀 수 있어요.</p>
         </div>
       </section>
-      <section class="magic-card preference-card" data-reveal>
-        <div class="step-title"><span>04</span><div><h2>합주 가능한 시간</h2><p>11월~12월 중 연습할 수 있는 2시간 칸을 누르거나 드래그해서 칠해요.</p></div></div>
+      <section class="magic-card preference-card ob-step" data-step="4" hidden>
+        <div class="step-title"><span>04</span><div><h2>합주 가능한 시간</h2><p>11월~12월 중 연습할 수 있는 2시간 칸을 누르거나 드래그해서 칠해요. 나중에 칠해도 괜찮아요.</p></div></div>
         <div id="ob-sched"></div>
       </section>
-      <div class="save-bar">
-        <div><span>✦</span><p><b>선택을 마쳤나요?</b><small id="save-summary">저장하면 전체 통계에서 내 취향도 함께 보여요.</small></p></div>
-        <button class="button primary" id="ob-save">취향 저장하기 <span>→</span></button>
+      <div class="save-bar ob-nav">
+        <button type="button" class="button ghost" id="ob-prev">← 이전</button>
+        <div class="ob-nav-mid"><span>✦</span><p><b id="ob-nav-title">맡고 싶은 파트를 골라주세요</b><small id="save-summary"></small></p></div>
+        <button type="button" class="button primary" id="ob-next">다음 <span>→</span></button>
       </div>
     </div>
   </main>
@@ -327,6 +337,17 @@
 </div>
 
 <nav class="mobile-nav" id="mobilenav" aria-label="모바일 메뉴"></nav>
+<div class="celebrate" id="celebrate" role="dialog" aria-modal="true" aria-labelledby="cel-title" hidden>
+  <div class="cel-card">
+    <div class="cel-avatar" id="cel-avatar"></div>
+    <div class="season-badge"><span>✦</span> READY TO JAM</div>
+    <h2 id="cel-title">합주 매칭 준비가<br><em>완료되었어요!</em></h2>
+    <p id="cel-sub">마법의 모자가 당신과 맞는 메이트와 밴드를 찾았어요.</p>
+    <div class="pills cel-stats" id="cel-stats"></div>
+    <button class="button primary full" id="cel-go">내 결과 보러 가기 <span>→</span></button>
+  </div>
+</div>
+<canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
 <div class="toast" id="toast" role="status" hidden></div>
 <script src="/app.js"></script>
 </body>

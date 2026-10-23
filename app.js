@@ -540,7 +540,9 @@ function startOnboarding(){
   $("artist-input").value = ""; $("artist-results").innerHTML = ""; $("artist-status").textContent = "";
   $("manual-pick").hidden = true;
   mountEditor($("ob-sched"), draft.avail, updateSaveSummary);
+  obMax = d.done ? 4 : 1;
   show("view-onboard");
+  setStep(1, 0);
 }
 function renderPartChoices(){
   $("part-choices").innerHTML = PARTS.map(p=>{
@@ -568,33 +570,184 @@ $("genre-choices").addEventListener("click", e=>{
   b.setAttribute("aria-pressed", draft.genres.includes(k));
   updateSaveSummary();
 });
+/* 단계 이동 */
+const STEP_INFO = {
+  1:{title:"맡고 싶은 파트를 골라주세요", need:"파트를 하나 이상 골라주세요."},
+  2:{title:"좋아하는 장르를 골라주세요", need:"장르를 하나 이상 골라주세요."},
+  3:{title:"좋아하는 아티스트를 담아주세요", need:"좋아하는 아티스트를 한 팀 이상 담아주세요."},
+  4:{title:"합주 가능한 시간을 칠해주세요", need:""},
+};
+let obStep = 1, obMax = 1;
+const stepOk = n => n===1 ? draft.parts.length>0 : n===2 ? draft.genres.length>0 : n===3 ? draft.artists.length>0 : true;
+function setStep(n, dir){
+  obStep = n; obMax = Math.max(obMax, n);
+  document.querySelectorAll(".ob-step").forEach(s=>{
+    const on = Number(s.dataset.step)===n;
+    s.hidden = !on;
+    s.classList.remove("from-left","from-right","nope");
+    if (on && dir){ void s.offsetWidth; s.classList.add(dir<0 ? "from-left" : "from-right"); }
+  });
+  document.querySelectorAll("#ob-steps li").forEach((li,i)=>{
+    const k = i+1;
+    li.classList.toggle("cur", k===n);
+    li.classList.toggle("done", k<n || (k!==n && k<=obMax && stepOk(k) && k<4));
+    li.querySelector("button").disabled = k>obMax;
+    li.querySelector("button").setAttribute("aria-current", k===n ? "step" : "false");
+  });
+  $("ob-step-label").textContent = "STEP "+n+" / 4 · "+["파트","장르","아티스트","합주 시간"][n-1];
+  $("ob-step-pct").textContent = Math.round((n-1)/4*100)+"%";
+  $("ob-prev").hidden = n===1;
+  $("ob-next").innerHTML = n<4 ? '다음 <span>→</span>' : '완료하기 <span>✦</span>';
+  $("ob-nav-title").textContent = STEP_INFO[n].title;
+  updateSaveSummary();
+  const top = $("view-onboard").querySelector(".member-banner").getBoundingClientRect().top + scrollY - 12;
+  if (dir) window.scrollTo({top, behavior:reduceMotion()?"auto":"smooth"});
+  if (n===3 && finePointer()) setTimeout(()=>$("artist-input").focus(), 300);
+}
 function updateSaveSummary(){
   if (!draft) return;
   const s = $("save-summary"); s.classList.remove("err");
-  s.textContent = "파트 "+draft.parts.length+" · 장르 "+draft.genres.length+" · 아티스트 "+draft.artists.length+" · 합주 시간 "+draft.avail.size+"칸";
+  const n = obStep;
+  s.innerHTML = n===1 ? (draft.parts.length ? "선택한 파트: "+esc(memberPartsText(draft)) : "여러 개 골라도 좋아요.")
+    : n===2 ? (draft.genres.length ? "선택한 장르 "+draft.genres.length+"개" : "끌리는 장르를 여러 개 골라주세요.")
+    : n===3 ? (draft.artists.length ? "담은 아티스트 "+draft.artists.length+"팀 · "+esc(draft.artists.slice(0,3).map(a=>a.name).join(", ")) : "검색해서 한 팀 이상 담아주세요.")
+    : availSummary(draft.avail);
 }
-$("ob-save").addEventListener("click", async ()=>{
-  draft.partEtc = draft.parts.includes("etc") ? $("part-etc").value.trim() : "";
-  const s = $("save-summary");
-  const need = !draft.parts.length ? ["part-choices","파트를 하나 이상 골라주세요."]
-    : !draft.genres.length ? ["genre-choices","장르를 하나 이상 골라주세요."]
-    : !draft.artists.length ? ["artist-input","좋아하는 아티스트를 한 팀 이상 담아주세요."] : null;
-  if (need){
-    s.textContent = need[1]; s.classList.add("err");
-    $(need[0]).closest(".preference-card").scrollIntoView({behavior:reduceMotion()?"auto":"smooth", block:"center"});
-    return;
+function nope(n, msg){
+  const s = $("save-summary"); s.textContent = msg; s.classList.add("err");
+  const card = document.querySelector('.ob-step[data-step="'+n+'"]');
+  card.classList.remove("nope","from-left","from-right"); void card.offsetWidth; card.classList.add("nope");
+}
+$("ob-prev").addEventListener("click", ()=>{ if (obStep>1) setStep(obStep-1, -1); });
+$("ob-next").addEventListener("click", ()=>{
+  if (obStep===1) draft.partEtc = draft.parts.includes("etc") ? $("part-etc").value.trim() : "";
+  if (!stepOk(obStep)) return nope(obStep, STEP_INFO[obStep].need);
+  if (obStep<4) return setStep(obStep+1, 1);
+  completeOnboarding();
+});
+$("ob-steps").addEventListener("click", e=>{
+  const b = e.target.closest("button[data-step]"); if (!b || b.disabled) return;
+  const t = Number(b.dataset.step);
+  if (t===obStep) return;
+  if (t>obStep){
+    for (let k=obStep; k<t; k++) if (!stepOk(k)){ if (k!==obStep) setStep(k, -1); return nope(k, STEP_INFO[k].need); }
   }
-  const btn = $("ob-save"); btn.disabled = true;
+  setStep(t, t>obStep ? 1 : -1);
+});
+async function completeOnboarding(){
+  draft.partEtc = draft.parts.includes("etc") ? $("part-etc").value.trim() : "";
+  for (let k=1;k<=3;k++) if (!stepOk(k)){ setStep(k, -1); return nope(k, STEP_INFO[k].need); }
+  const audio = prepareAudio();
+  const btn = $("ob-next"); btn.disabled = true;
   try{
     const d = await api("members", {id:me.id, token:me.token, profile:{
       parts:draft.parts, partEtc:draft.partEtc, genres:draft.genres, artists:draft.artists, avail:[...draft.avail],
     }});
     me.data = d.member;
     loadMembers();
-    renderResult(true); show("view-result");
-  }catch(e){ s.textContent = errText(e); s.classList.add("err"); }
+    $("ob-step-pct").textContent = "100%";
+    document.querySelectorAll("#ob-steps li").forEach(li=>{ li.classList.remove("cur"); li.classList.add("done"); });
+    celebrate(audio);
+  }catch(e){ const s=$("save-summary"); s.textContent = errText(e); s.classList.add("err"); if (audio) audio.close(); }
   finally{ btn.disabled = false; }
-});
+}
+
+/* ---------- 완료 축하: 팡파레 + 폭죽 ---------- */
+function prepareAudio(){
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    const ac = new AC(); if (ac.state==="suspended") ac.resume();
+    return ac;
+  }catch(e){ return null; }
+}
+function playFanfare(ac){
+  if (!ac) return;
+  try{
+    const master = ac.createGain(); master.gain.value = .14; master.connect(ac.destination);
+    const lp = ac.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 2400; lp.connect(master);
+    const t0 = ac.currentTime + .05;
+    // 빰-빰-빰 빠아~ 빰 빠아아~ (C5 E5 G5 C6 ... G5 C6)
+    const notes = [[523.25,0,.13],[659.25,.15,.13],[783.99,.30,.13],[1046.5,.45,.5],[783.99,.82,.12],[1046.5,.98,.85]];
+    for (const [f,t,d] of notes){
+      for (const [type,vol,det] of [["sawtooth",.32,1],["square",.14,1.004],["triangle",.22,.5]]){
+        const o = ac.createOscillator(), g = ac.createGain();
+        o.type = type; o.frequency.value = f*det;
+        const st = t0+t;
+        g.gain.setValueAtTime(0, st);
+        g.gain.linearRampToValueAtTime(vol, st+.025);
+        g.gain.setValueAtTime(vol*.8, st+d);
+        g.gain.exponentialRampToValueAtTime(.0008, st+d+.25);
+        o.connect(g); g.connect(lp); o.start(st); o.stop(st+d+.3);
+      }
+    }
+    for (const [f,t] of [[2093,1.05],[2637,1.15],[3136,1.25]]){
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = "sine"; o.frequency.value = f;
+      g.gain.setValueAtTime(0, t0+t); g.gain.linearRampToValueAtTime(.12, t0+t+.01); g.gain.exponentialRampToValueAtTime(.0008, t0+t+.6);
+      o.connect(g); g.connect(master); o.start(t0+t); o.stop(t0+t+.65);
+    }
+    setTimeout(()=>{ try{ ac.close(); }catch(e){} }, 3200);
+  }catch(e){}
+}
+function fireConfetti(){
+  if (reduceMotion()) return;
+  const cv = $("confetti"), ctx = cv.getContext("2d");
+  const dpr = Math.min(2, window.devicePixelRatio||1), W = innerWidth, H = innerHeight;
+  cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  const colors = ["#ff7b2c","#ff9a53","#f5d58b","#d8b764","#c26c8c","#76c08f","#fff1c9","#9f8cf5"];
+  const emojis = ["🥕","✨","🎸","🎵","⭐","🥁","🎤","❄️","🎹"];
+  const parts = [];
+  const add = (x,y,ang,spread,speed,n) => {
+    for (let i=0;i<n;i++){
+      const a = ang + (Math.random()-.5)*spread, s = speed*(.55+Math.random()*.6);
+      const emoji = Math.random()<.16;
+      parts.push({x, y, vx:Math.cos(a)*s, vy:Math.sin(a)*s, g:.16+Math.random()*.1, r:Math.random()*6.28, vr:(Math.random()-.5)*.3,
+        w:6+Math.random()*6, h:9+Math.random()*9, c:colors[i%colors.length], e: emoji ? emojis[(Math.random()*emojis.length)|0] : null,
+        sz:18+Math.random()*12, life:0, max:150+Math.random()*90, wob:Math.random()*6.28});
+    }
+  };
+  add(W*.08, H*.98, -Math.PI/2+.42, .8, 19, 70);
+  add(W*.92, H*.98, -Math.PI/2-.42, .8, 19, 70);
+  setTimeout(()=>add(W*.5, H*.3, -Math.PI/2, 6.28, 11, 80), 350);
+  setTimeout(()=>{ for (let i=0;i<50;i++) add(Math.random()*W, -20, Math.PI/2, .5, 3, 1); }, 700);
+  let raf = 0;
+  const loop = ()=>{
+    ctx.clearRect(0,0,W,H);
+    for (let i=parts.length-1;i>=0;i--){
+      const p = parts[i];
+      p.life++; p.vy += p.g; p.vx *= .985; p.vy *= .985; p.wob += .1;
+      p.x += p.vx + Math.sin(p.wob)*.6; p.y += p.vy; p.r += p.vr;
+      const fade = p.life>p.max-40 ? Math.max(0,(p.max-p.life)/40) : 1;
+      if (p.life>p.max || p.y>H+60){ parts.splice(i,1); continue; }
+      ctx.save(); ctx.globalAlpha = fade; ctx.translate(p.x,p.y); ctx.rotate(p.r);
+      if (p.e){ ctx.font = p.sz+"px serif"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(p.e,0,0); }
+      else { ctx.fillStyle = p.c; ctx.scale(1, Math.cos(p.wob)); ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); }
+      ctx.restore();
+    }
+    if (parts.length) raf = requestAnimationFrame(loop); else { ctx.clearRect(0,0,W,H); raf = 0; }
+  };
+  raf = requestAnimationFrame(loop);
+}
+function celebrate(audio){
+  const d = me.data, st = STYLES[d.style]||STYLES.pop;
+  $("cel-avatar").style.backgroundImage = "url("+avatarUrl(d)+")";
+  $("cel-sub").innerHTML = esc(me.id)+"님은 <b style=\"color:#fff\">"+st.e+" "+esc(st.n)+"</b>!<br>마법의 모자가 맞는 메이트와 밴드를 찾아뒀어요.";
+  $("cel-stats").innerHTML = '<span class="pill orange">'+esc(memberPartsText(d))+'</span>'
+    +'<span class="pill gold">장르 '+(d.genres||[]).length+'</span><span class="pill gold">아티스트 '+(d.artists||[]).length+'</span>'
+    +'<span class="pill '+((d.avail||[]).length?"ok":"")+'">합주 시간 '+(d.avail||[]).length+'칸</span>';
+  $("celebrate").hidden = false;
+  fireConfetti(); playFanfare(audio);
+  setTimeout(()=>$("cel-go").focus(), 400);
+}
+function closeCelebrate(){
+  if ($("celebrate").hidden) return;
+  $("celebrate").hidden = true;
+  renderResult(true); show("view-result");
+}
+$("cel-go").addEventListener("click", closeCelebrate);
+$("celebrate").addEventListener("click", e=>{ if (e.target.id==="celebrate") closeCelebrate(); });
+document.addEventListener("keydown", e=>{ if (e.key==="Escape") closeCelebrate(); });
 
 /* ---------- 아티스트 검색 ---------- */
 let manualPending = null, manualSel = [];
