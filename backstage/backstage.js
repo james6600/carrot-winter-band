@@ -6,6 +6,7 @@
 const GENRE_NAME = {brit:"브리티시락",modern:"모던락",indie:"인디락",punk:"펑크",emo:"이모/팝펑크",grunge:"그런지",
   hardcore:"하드코어",metal:"메탈",hardrock:"하드록",blues:"블루스",jazz:"재즈/펑크",ballad:"발라드",
   kpop:"K-pop",jrock:"J-rock/J-pop",citypop:"시티팝",folk:"포크/어쿠스틱"};
+const TPREF = {wkDay:"평일 오후", wkEve:"평일 저녁", weDay:"주말 오후", weEve:"주말 저녁"};
 const PART = {vocal:"🎤 보컬",guitar:"🎸 기타",bass:"🎵 베이스",drum:"🥁 드럼",keys:"🎹 키보드",etc:"✨ 그 외"};
 const SLOT_HOURS = [10,12,14,16,18,20,22];
 const ROLE_NAME = {super:"최고 관리자", sub:"서브 관리자"};
@@ -191,7 +192,8 @@ $("m-search").addEventListener("input", ()=>renderMembers());
 function renderMembers(){
   const done = members.filter(m => m.done).length;
   $("m-summary").innerHTML = '<div><small>TOTAL MEMBERS</small><strong>' + members.length + '</strong><span> 명</span></div>'
-    + '<p>완료 ' + done + '명 · 작성 중 ' + (members.length - done) + '명 · 시간 등록 ' + members.filter(m => activeAvail(m).length).length + '명</p>';
+    + '<p>완료 ' + done + '명 · 작성 중 ' + (members.length - done) + '명 · 시간 등록 ' + members.filter(m => activeAvail(m).length).length + '명<br>'
+    + '선호 시간대 · ' + Object.entries(TPREF).map(([k, t]) => t + ' <b>' + members.filter(m => (m.timePref || []).includes(k)).length + '</b>').join(' · ') + '</p>';
   const q = $("m-search").value.trim().toLowerCase();
   const list = members.filter(m => !q || String(m.id).toLowerCase().includes(q));
   const acts = [["일정","avail"],["이름 변경·합치기","rename"]].concat(isSuper() ? [["비번 재설정","resetpw"],["삭제","delete"]] : []);
@@ -199,7 +201,7 @@ function renderMembers(){
     '<tr><td><b>' + esc(m.id) + '</b></td>'
     + '<td>' + esc((m.parts || []).map(p => PART[p] || p).join(", ")) + '</td>'
     + '<td>' + esc((m.genres || []).map(g => GENRE_NAME[g] || g).join(", ")) + '</td>'
-    + '<td>' + activeAvail(m).length + '칸</td>'
+    + '<td>' + activeAvail(m).length + '칸' + ((m.timePref || []).length ? '<br><small class="muted">' + m.timePref.map(k => TPREF[k] || k).join(", ") + '</small>' : '') + '</td>'
     + '<td>' + (m.done ? '<span class="pill ok">완료</span>' : '<span class="pill gold">작성 중</span>') + '</td>'
     + '<td><div class="row-actions">' + acts.map(([t, a]) =>
         '<button class="button small ' + (a === "delete" ? "danger" : "ghost") + '" data-m="' + esc(m.slug) + '" data-ma="' + a + '">' + t + '</button>').join("")

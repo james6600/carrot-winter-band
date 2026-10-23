@@ -214,6 +214,7 @@
       </section>
       <section class="magic-card preference-card ob-step" data-step="4" hidden>
         <div class="step-title"><span>04</span><div><h2>합주 가능한 시간</h2><p><span class="win-label">10월~12월</span> 중 연습할 수 있는 2시간 칸을 누르거나 드래그해서 칠해요. 나중에 칠해도 괜찮아요.</p></div></div>
+        <div id="ob-tpref"></div>
         <div id="ob-sched"></div>
       </section>
       <div class="save-bar ob-nav">
@@ -264,6 +265,7 @@
       <p>지금은 <b class="win-label">10월~12월</b>이 열려 있어요. 매달 1일에 다음 달이 새로 열려요. 2시간 칸을 누르거나 드래그해서 칠해주세요.</p>
     </div>
     <section class="magic-card preference-card" data-reveal>
+      <div id="my-tpref"></div>
       <div id="my-sched"></div>
     </section>
     <div class="save-bar section-gap">
@@ -401,6 +403,10 @@
       <section class="magic-card chart-card" data-reveal>
         <div class="card-head"><div><small>GENRES · CLICK</small><h2>우리의 플레이리스트</h2></div><span>🎧</span></div>
         <div class="bar-list" id="dash-genres"></div>
+      </section>
+      <section class="magic-card chart-card" data-reveal>
+        <div class="card-head"><div><small>WHEN · CLICK</small><h2>주로 언제 편한가요?</h2><p id="dash-tpref-note">평일·주말, 오후·저녁 중 편한 시간대를 골라 달라고 물어봤어요.</p></div><span>🕰️</span></div>
+        <div class="bar-list" id="dash-tpref"></div>
       </section>
     </div>
     <section class="magic-card chart-card section-gap" data-reveal>

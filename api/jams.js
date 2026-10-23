@@ -1,5 +1,5 @@
 // 합주 모임: 멤버·노래·장소를 정하고, 멤버들의 합주 가능 시간으로 날짜를 제안받아 확정(픽스)한다.
-// 목록(GET)은 누구나, 만들기·수정은 로그인한 멤버, 삭제는 만든 사람만.
+// 목록(GET)은 누구나, 만들기는 로그인한 멤버, 날짜 픽스·수정·취소·삭제는 만든 사람만, 참석 응답은 멤버.
 import crypto from "node:crypto";
 import { json, readBody, memberSlug, SLOT_HOURS, GLOBAL_END } from "../lib/util.js";
 import { getMember, listMembers, listJams, getJam, putJam, deleteJam } from "../lib/db.js";
@@ -48,8 +48,9 @@ export default async function handler(req, res){
 
     const jam = await getJam(String(b.target || ""));
     if (!jam) return json(res, 404, { error: "no_target" });
-    const isMember = jam.members.includes(me.slug) || jam.createdBy === me.slug;
-    if (!isMember) return json(res, 403, { error: "not_member" });
+    const isOwner = jam.createdBy === me.slug;
+    if (!isOwner && !jam.members.includes(me.slug)) return json(res, 403, { error: "not_member" });
+    if (b.action !== "rsvp" && !isOwner) return json(res, 403, { error: "not_owner" });
 
     if (b.action === "update"){
       const next = await cleanJam(b.jam || {}, jam);
@@ -85,7 +86,6 @@ export default async function handler(req, res){
       return json(res, 200, { ok: true, jam: next });
     }
     if (b.action === "delete"){
-      if (jam.createdBy !== me.slug) return json(res, 403, { error: "not_owner" });
       await deleteJam(jam.slug);
       return json(res, 200, { ok: true });
     }

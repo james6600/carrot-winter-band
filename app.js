@@ -78,6 +78,16 @@ const WEEKS = (()=>{
   return out;
 })();
 const ALL_DAYS = WEEKS.flat().filter(inRange);
+// 선호 시간대 간단 조사 (lib/util.js TIME_PREF_KEYS와 같은 키)
+const TIME_PREF = [{k:"wkDay",e:"☀️",n:"평일 오후"},{k:"wkEve",e:"🌙",n:"평일 저녁"},{k:"weDay",e:"🌤️",n:"주말 오후"},{k:"weEve",e:"✨",n:"주말 저녁"}];
+const TPREF = Object.fromEntries(TIME_PREF.map(t=>[t.k,t]));
+const tprefLabel = k => TPREF[k] ? TPREF[k].e+" "+TPREF[k].n : k;
+function mountTimePref(root, set, onChange){
+  const draw = ()=>{ root.innerHTML = '<div class="tpref"><p><b>주로 언제가 편해요?</b><small>여러 개 골라도 돼요 · 날짜별 칸과 별개로 전체 경향을 조사해요</small></p><div class="tpref-chips">'
+    +TIME_PREF.map(t=>'<button type="button" class="genre-chip" data-tp="'+t.k+'" aria-pressed="'+set.has(t.k)+'">'+t.e+' '+t.n+'</button>').join("")+'</div></div>'; };
+  root.onclick = e=>{ const b = e.target.closest("[data-tp]"); if (!b) return; const k = b.dataset.tp; set.has(k) ? set.delete(k) : set.add(k); draw(); if (onChange) onChange(); };
+  draw();
+}
 const activeAvail = list => (list||[]).filter(k=>inRange(String(k).slice(0,10)));
 const slotKey = (day,h) => day+"@"+String(h).padStart(2,"0");
 function slotLabel(k){
@@ -121,7 +131,7 @@ async function api(path, body){
 function errText(e){
   if (e && (e.error==="wrong_pw"||e.error==="wrong_token")) return "비밀번호가 맞지 않아요. 같은 닉네임의 기존 참가자가 있어요.";
   if (e && e.error==="not_member") return "이 모임의 멤버만 할 수 있어요.";
-  if (e && e.error==="not_owner") return "모임을 만든 사람만 지울 수 있어요.";
+  if (e && e.error==="not_owner") return "모임을 만든 사람만 할 수 있어요.";
   if (e && e.error==="bad_slot") return "지난 시간이거나 고를 수 없는 시간이에요.";
   if (e && e.error==="bad_title") return "모임 이름을 2자 이상 적어주세요.";
   if (e && e.error==="reserved") return "운영용으로 예약된 이름이에요. 다른 닉네임을 써주세요.";
@@ -161,7 +171,7 @@ const artistMap = new Map();   // norm(name|alias) -> {name, genres}
 let artistIndex = [];          // [{name, genres, aliases, keys}]
 let draft = null;
 let currentView = "";
-let schedDraft = null;
+let schedDraft = null, schedPref = null;
 let sel = null;                // 대시보드 선택: {type, key}
 const VIEWS = ["view-offline","view-home","view-login","view-onboard","view-result","view-schedule","view-dash","view-feedback","view-jams","view-jam","view-jam-edit"];
 
@@ -615,6 +625,7 @@ function startOnboarding(){
     parts:[...(d.parts||[])], partEtc:d.partEtc||"", genres:[...(d.genres||[])],
     artists:(d.artists||[]).map(a=>({name:a.name, genres:[...(a.genres||[])]})),
     avail:new Set(activeAvail(d.avail)),
+    timePref:new Set(d.timePref||[]),
     main:(d.parts||[])[0] || null,
     levels:Object.fromEntries((d.parts||[]).map(p=>[p, lvlOf(d,p)])),
   };
@@ -625,6 +636,7 @@ function startOnboarding(){
   $("part-etc-fld").hidden = !draft.parts.includes("etc");
   $("artist-input").value = ""; $("artist-results").innerHTML = ""; $("artist-status").textContent = "";
   $("manual-pick").hidden = true;
+  mountTimePref($("ob-tpref"), draft.timePref);
   mountEditor($("ob-sched"), draft.avail, updateSaveSummary);
   obMax = d.done ? 4 : 1;
   show("view-onboard");
@@ -776,7 +788,7 @@ async function completeOnboarding(){
   const btn = $("ob-next"); btn.disabled = true;
   try{
     const d = await api("members", {id:me.id, token:me.token, profile:{
-      parts:[draft.main, ...draft.parts.filter(p=>p!==draft.main)].filter(Boolean), partEtc:draft.partEtc, genres:draft.genres, artists:draft.artists, avail:[...draft.avail], levels:draft.levels,
+      parts:[draft.main, ...draft.parts.filter(p=>p!==draft.main)].filter(Boolean), partEtc:draft.partEtc, genres:draft.genres, artists:draft.artists, avail:[...draft.avail], levels:draft.levels, timePref:[...draft.timePref],
     }});
     me.data = d.member;
     loadMembers();
@@ -1116,6 +1128,8 @@ $("btn-godash").addEventListener("click", ()=>goTo("view-dash"));
 /* ---------- 내 합주 시간 ---------- */
 function openSchedule(){
   schedDraft = new Set(activeAvail(me.data.avail));
+  schedPref = new Set(me.data.timePref||[]);
+  mountTimePref($("my-tpref"), schedPref);
   mountEditor($("my-sched"), schedDraft, ()=>{ $("sched-summary").innerHTML = availSummary(schedDraft); });
   show("view-schedule");
 }
@@ -1123,7 +1137,7 @@ $("sched-cancel").addEventListener("click", ()=>goTo("view-result"));
 $("sched-save").addEventListener("click", async ()=>{
   const btn = $("sched-save"); btn.disabled = true;
   try{
-    const d = await api("members", {id:me.id, token:me.token, avail:[...schedDraft]});
+    const d = await api("members", {id:me.id, token:me.token, avail:[...schedDraft], timePref:[...schedPref]});
     me.data = d.member;
     toast("합주 시간을 저장했어요 🎄");
     loadMembers();
@@ -1170,6 +1184,14 @@ function renderDash(fresh){
   const rare = CORE.slice().sort((a,b)=>partCount[a]-partCount[b])[0];
   $("dash-need").textContent = done.length ? "지금 제일 귀한 파트: "+PART[rare].n+" — 주변에 연주자가 있다면 모셔와요!" : "";
 
+  const tCount={}; for (const t of TIME_PREF) tCount[t.k]=0;
+  let answered = 0;
+  for (const m of done){ const tp = m.timePref||[]; if (tp.length) answered++; for (const k of tp) if (k in tCount) tCount[k]++; }
+  const maxT = Math.max(1, ...Object.values(tCount));
+  $("dash-tpref").innerHTML = TIME_PREF.map(t=>barRow("tpref:"+t.k, t.e+" "+t.n, tCount[t.k], maxT, "")).join("");
+  const topT = TIME_PREF.slice().sort((a,b)=>tCount[b.k]-tCount[a.k])[0];
+  $("dash-tpref-note").textContent = answered ? answered+"명이 답했어요. 제일 인기: "+topT.e+" "+topT.n+" ("+tCount[topT.k]+"명)" : "아직 답한 사람이 없어요. 합주 시간 화면에서 고를 수 있어요.";
+
   const gCount={};
   for (const m of done) for (const k of (m.genres||[])) gCount[k]=(gCount[k]||0)+1;
   const gSorted = Object.entries(gCount).sort((a,b)=>b[1]-a[1]).slice(0,10);
@@ -1207,6 +1229,7 @@ function renderSelection(all, artistAgg){
   let title = "", list = [];
   if (sel.type==="all"){ title = "참여자 전체"; list = done; }
   else if (sel.type==="part"){ title = partLabel(sel.key)+" 선택자"; list = done.filter(m=>(m.parts||[]).includes(sel.key)); }
+  else if (sel.type==="tpref"){ title = tprefLabel(sel.key)+"이 편한 사람"; list = done.filter(m=>(m.timePref||[]).includes(sel.key)); }
   else if (sel.type==="genre"){ title = (GENRE_NAME[sel.key]||sel.key)+" 선택자"; list = done.filter(m=>(m.genres||[]).includes(sel.key)); }
   else if (sel.type==="style"){ const s = STYLES[sel.key]||STYLES.pop; title = s.e+" "+s.n; list = done.filter(m=>m.style===sel.key); }
   else if (sel.type==="artist"){ const a = artistAgg && artistAgg[sel.key]; title = (a ? a.name : "그 아티스트")+" 좋아하는 사람"; list = done.filter(m=>(m.artists||[]).some(x=>norm(x.name)===sel.key)); }
@@ -1395,11 +1418,11 @@ function renderJam(){
   let main = "";
   if (phase==="planning"){
     const sug = jamSuggest(j);
-    main += '<section class="magic-card jam-sec"><div class="card-head"><div><small>SUGGESTED</small><h2>이런 시간은 어때요?</h2><p>멤버들이 등록한 합주 시간에서 많이 겹치는 순서예요. '+(member?'하나를 골라 픽스하면 캘린더에 올라가요.':'')+'</p></div><span>✨</span></div>'
+    main += '<section class="magic-card jam-sec"><div class="card-head"><div><small>SUGGESTED</small><h2>이런 시간은 어때요?</h2><p>멤버들이 등록한 합주 시간에서 많이 겹치는 순서예요. '+(owner?'하나를 골라 픽스하면 캘린더에 올라가요.':'날짜는 만든 사람('+esc(creator?creator.id:"?")+')이 정해요.')+'</p></div><span>✨</span></div>'
       + (sug.length ? '<div class="sug-list">'+sug.slice(0,8).map((s,i)=>{
           const missing = people.filter(m=>!s.who.some(w=>w.slug===m.slug)).map(m=>m.id);
           return '<div class="sug-row'+(s.n===people.length?" full":"")+'"><div class="sug-main"><b>'+(i===0?'👑 ':'')+jamSlotLabel(j, s.slot)+'</b><small><span class="pill '+(s.n===people.length?"ok":"gold")+'">'+s.n+'/'+people.length+'명</span>'+(missing.length?' 빠짐: '+esc(missing.join(", ")):' 전원 가능!')+'</small></div>'
-            +(member?'<button class="button small primary" data-fix="'+s.slot+'">픽스</button>':'')+'</div>';
+            +(owner?'<button class="button small primary" data-fix="'+s.slot+'">픽스</button>':'')+'</div>';
         }).join("")+'</div>'
         : '<div class="empty-state"><span>⏳</span><p>두 명 이상 합주 시간을 등록하면 제안이 떠요.</p></div>')
       + (noTime.length ? '<p class="jam-note">⏳ 아직 합주 시간을 등록하지 않은 멤버: <b>'+esc(noTime.map(m=>m.id).join(", "))+'</b></p>' : '')
@@ -1411,22 +1434,23 @@ function renderJam(){
       +(j.place?'<p class="jam-place">📍 '+esc(j.place)+'</p>':'')
       +'<div class="rsvp-sum"><span class="pill ok">참석 '+yes.length+'</span><span class="pill gold">미정 '+maybe.length+'</span><span class="pill bad">불참 '+no.length+'</span><span class="pill">응답 전 '+(people.length-yes.length-no.length-maybe.length)+'</span></div>'
       +(me && j.members.includes(me.slug) ? '<p class="jam-q">나는 갈 수 있나요?</p><div class="seg rsvp-seg">'+["yes","maybe","no"].map(k=>'<button data-rsvp="'+k+'" aria-pressed="'+(rsvpOf(me)===k)+'">'+RSVP_LABEL[k]+'</button>').join("")+'</div>' : '')
-      +(member?'<div class="jam-actions"><button class="button small ghost" data-jact="unfix">다른 시간으로 바꾸기</button><button class="button small ghost" data-jact="done">합주 끝! 완료로</button></div>':'')
+      +(owner?'<div class="jam-actions"><button class="button small ghost" data-jact="unfix">다른 시간으로 바꾸기</button><button class="button small ghost" data-jact="done">합주 끝! 완료로</button></div>':'')
       +'</section>';
   } else {
     main += '<section class="magic-card jam-sec jam-fixed muted-card"><small class="k">'+(phase==="canceled"?"CANCELED":"DONE")+'</small><h2>'+(j.fixedSlot?jamSlotLabel(j):"날짜를 정하지 않았어요")+'</h2>'
       +(j.place?'<p class="jam-place">📍 '+esc(j.place)+'</p>':'')
-      +(member?'<div class="jam-actions"><button class="button small ghost" data-jact="revive">다시 계획하기</button></div>':'')+'</section>';
+      +(owner?'<div class="jam-actions"><button class="button small ghost" data-jact="revive">다시 계획하기</button></div>':'')+'</section>';
   }
 
   $("jam-body").innerHTML = '<div class="page-heading jam-heading"><div class="season-badge"><span>✦</span> JAM SESSION</div>'
-    +'<h1>'+esc(j.title)+'</h1><div class="pills"><span class="pill '+cls+'">'+st+'</span><span class="pill">'+people.length+'명 · '+j.duration+'시간</span>'+(creator?'<span class="pill">만든 사람 '+esc(creator.id)+'</span>':'')+'</div></div>'
+    +'<h1>'+esc(j.title)+'</h1><div class="pills"><span class="pill '+cls+'">'+st+'</span><span class="pill">'+people.length+'명 · '+j.duration+'시간</span>'+(creator?'<span class="pill'+(owner?' orange':'')+'">🗝️ 만든 사람 '+esc(creator.id)+(owner?' (나)':'')+'</span>':'')+'</div></div>'
     +'<div class="jam-layout"><div>'+main
     +'<section class="magic-card jam-sec section-gap"><div class="card-head"><div><small>SETLIST</small><h2>합주할 노래</h2></div><span>🎵</span></div>'
     +(j.songs.length?'<ol class="jam-songlist">'+j.songs.map(sng=>'<li>'+esc(sng)+'</li>').join("")+'</ol>':'<p class="muted" style="margin:0">아직 정한 노래가 없어요.</p>')
     +(j.note?'<p class="jam-memo">📝 '+esc(j.note)+'</p>':'')+'</section></div>'
     +'<aside><section class="magic-card jam-sec"><div class="card-head"><div><small>MEMBERS</small><h2>멤버 '+people.length+'명</h2></div><span>🥕</span></div><div class="jam-chips">'+people.map(chip).join("")+'</div>'
-    +(member?'<div class="jam-actions"><button class="button small ghost" data-jact="edit">✏️ 모임 수정</button>'+(phase!=="canceled"?'<button class="button small ghost" data-jact="cancel">모임 취소</button>':'')+(owner?'<button class="button small danger" data-jact="delete">삭제</button>':'')+'</div>':'')
+    +(owner?'<div class="jam-actions"><button class="button small ghost" data-jact="edit">✏️ 모임 수정</button>'+(phase!=="canceled"?'<button class="button small ghost" data-jact="cancel">모임 취소</button>':'')+'<button class="button small danger" data-jact="delete">삭제</button></div>'
+      : member ? '<p class="jam-note">📌 멤버·노래·날짜는 만든 사람('+esc(creator?creator.id:"?")+')이 관리해요.</p>' : '')
     +'</section></aside></div>';
 }
 function dDay(day){ const n = Math.round((pd(day)-pd(TODAY))/864e5); return n===0 ? "-DAY" : n>0 ? "-"+n : "+"+(-n); }
