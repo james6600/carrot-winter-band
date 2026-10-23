@@ -9,6 +9,7 @@ import {
   listFeedback, getFeedback, updateFeedback, deleteFeedback,
   listJams, getJam, putJam, deleteJam,
   listProposals, getProposal, putProposal, deleteProposal,
+  listReports, updateReport, getMessage, hideMessage, setBan, deleteBan, listBans,
 } from "../lib/db.js";
 import {
   hashPw, checkPw, verifyTotp, newSecret, newToken, tokenHash, otpauthUri, parseCookies, sessionCookie,
@@ -253,6 +254,40 @@ export default async function handler(req, res){
     if (action === "jams_list"){
       const names = Object.fromEntries((await listMembers()).map(m => [m.slug, m.id]));
       return json(res, 200, { jams: (await listJams()).map(j => ({ ...j, memberNames: j.members.map(s => names[s] || "(나간 멤버)"), createdByName: names[j.createdBy] || "?" })) });
+    }
+    if (action === "reports_list"){
+      const names = Object.fromEntries((await listMembers()).map(m => [m.slug, m.id]));
+      const titles = Object.fromEntries((await listProposals()).map(p => [p.slug, p.title]));
+      const reports = (await listReports()).map(x => ({ ...x, roomTitle: titles[x.room] || x.room }));
+      const bans = (await listBans()).map(x => ({ ...x, id: names[x.slug] || "?" }));
+      return json(res, 200, { reports, bans });
+    }
+    if (action === "report_status"){
+      await updateReport(Number(b.target), b.status === "done" ? "done" : "new");
+      return json(res, 200, { ok: true });
+    }
+    if (action === "chat_hide"){
+      const m = await getMessage(Number(b.target));
+      if (!m) return json(res, 404, { error: "no_target" });
+      await hideMessage(m.n, me.id, b.hidden !== false);
+      await log(b.hidden !== false ? "chat_hide" : "chat_unhide", m.authorId, "#" + m.n + " " + m.body.slice(0, 40));
+      return json(res, 200, { ok: true });
+    }
+    if (action === "chat_ban"){
+      const target = await getMember(String(b.target || ""));
+      if (!target) return json(res, 404, { error: "no_target" });
+      const days = Math.min(365, Math.max(1, Math.round(Number(b.days) || 1)));
+      const until = new Date(Date.now() + days * 864e5).toISOString();
+      await setBan({ slug: target.slug, until, by: me.id, reason: String(b.reason || "").slice(0, 100), at: new Date().toISOString() });
+      await log("chat_ban", target.id, days + "일");
+      return json(res, 200, { ok: true, until });
+    }
+    if (action === "chat_unban"){
+      const target = await getMember(String(b.target || ""));
+      if (!target) return json(res, 404, { error: "no_target" });
+      await deleteBan(target.slug);
+      await log("chat_unban", target.id);
+      return json(res, 200, { ok: true });
     }
     if (action === "proposals_list"){
       const names = Object.fromEntries((await listMembers()).map(m => [m.slug, m.id]));

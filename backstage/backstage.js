@@ -19,6 +19,7 @@ const ACTION_NAME = {
   feedback_update:"의견 처리", feedback_delete:"의견 삭제",
   jam_status:"모임 상태 변경", jam_delete:"모임 삭제",
   proposal_status:"제안 상태 변경", proposal_delete:"제안 삭제",
+  chat_hide:"채팅 메시지 가림", chat_unhide:"채팅 가림 해제", chat_ban:"채팅 정지", chat_unban:"채팅 정지 해제",
 };
 const ERR = {
   auth:"아이디 또는 비밀번호가 맞지 않아요.", proof:"예전 admin 계정 비밀번호가 맞지 않아요.",
@@ -155,6 +156,7 @@ const TABS = [
   {k:"schedule", t:"🗓️ 일정 조율"},
   {k:"jams", t:"🎪 합주 모임"},
   {k:"feedback", t:"💌 의견함"},
+  {k:"reports", t:"🚨 신고함"},
   {k:"admins", t:"🛡️ 관리자", sup:true},
   {k:"logs", t:"📜 활동 기록", sup:true},
 ];
@@ -166,6 +168,7 @@ async function enterMain(){
   $("bs-tabs").innerHTML = tabs.map(t => '<button data-tab="' + t.k + '" aria-pressed="' + (t.k === tab) + '">' + t.t + '</button>').join("");
   await openTab(tab);
   if (tab !== "feedback") loadFeedback().catch(()=>{});
+  if (tab !== "reports") loadReports().catch(()=>{});
 }
 $("bs-tabs").addEventListener("click", e=>{ const b = e.target.closest("[data-tab]"); if (b) openTab(b.dataset.tab); });
 async function openTab(k){
@@ -178,6 +181,7 @@ async function openTab(k){
     if (k === "logs") await loadLogs();
     if (k === "feedback") await loadFeedback();
     if (k === "jams") await loadJams();
+    if (k === "reports"){ if (!members.length) await loadMembers(); await loadReports(); }
   } catch (e){ toast(errText(e)); }
 }
 async function loadMembers(){
@@ -484,6 +488,53 @@ $("f-list").addEventListener("click", async e=>{
     toast("#" + n + " 저장했어요"); await loadFeedback();
   } catch (err){ toast(errText(err)); }
   finally { b.disabled = false; }
+});
+
+/* 신고함 */
+let reports = [], bans = [], rFilter = "new";
+async function loadReports(){
+  const d = await api("reports_list"); reports = d.reports; bans = d.bans;
+  const fresh = reports.filter(x => x.status === "new").length;
+  const btn = $("bs-tabs").querySelector('[data-tab="reports"]');
+  if (btn) btn.innerHTML = "🚨 신고함" + (fresh ? ' <span class="bs-badge">' + fresh + '</span>' : "");
+  if (tab === "reports") renderReports();
+}
+function renderReports(){
+  const list = reports.filter(x => !rFilter || x.status === rFilter);
+  $("r-list").innerHTML = list.length ? list.map(x => '<article class="bs-fb' + (x.status === "new" ? " new" : "") + '" data-rn="' + x.n + '">'
+    + '<div class="bs-fb-head"><span class="pill ' + (x.status === "new" ? "bad" : "") + '">' + (x.status === "new" ? "미처리" : "처리됨") + '</span><span class="bs-fb-who">방: <b>' + esc(x.roomTitle) + '</b></span><small>#' + x.n + ' · ' + when(x.at) + ' · 신고자 ' + esc(x.byId) + '</small></div>'
+    + (x.msg ? '<p class="bs-fb-body"><b>' + esc(x.msg.authorId) + '</b>: ' + esc(x.msg.body) + (x.msg.hidden ? ' <span class="pill">가려짐</span>' : '') + '</p>' : '<p class="muted bs-small">(지워진 메시지)</p>')
+    + (x.reason ? '<p class="bs-small muted">사유: ' + esc(x.reason) + '</p>' : '')
+    + '<div class="bs-fb-actions">'
+    + (x.msg ? '<button class="button small ghost" data-ra="hide" data-msg="' + x.msgN + '" data-h="' + (x.msg.hidden ? "0" : "1") + '">' + (x.msg.hidden ? "가림 해제" : "메시지 가리기") + '</button>'
+      + '<button class="button small danger" data-ra="ban" data-who="' + esc(x.msg.authorSlug) + '" data-name="' + esc(x.msg.authorId) + '">' + esc(x.msg.authorId) + ' 채팅 정지</button>' : '')
+    + '<button class="button small ' + (x.status === "new" ? "primary" : "ghost") + '" data-ra="status" data-st="' + (x.status === "new" ? "done" : "new") + '">' + (x.status === "new" ? "처리 완료" : "다시 열기") + '</button></div></article>').join("")
+    : '<p class="muted">' + (reports.length ? "조건에 맞는 신고가 없어요." : "신고가 없어요 🎉") + '</p>';
+  $("ban-list").innerHTML = bans.length ? '<div class="bs-chips">' + bans.map(x => '<span class="bs-chip on"><button type="button" disabled>' + esc(x.id) + ' <small>' + when(x.until) + '까지' + (x.reason ? " · " + esc(x.reason) : "") + '</small></button><button type="button" data-unban="' + esc(x.slug) + '" title="해제">✕</button></span>').join("") + '</div>' : '<p class="muted bs-small" style="margin:0">정지 중인 회원이 없어요.</p>';
+  $("ban-target").innerHTML = members.length ? members.map(m => '<option value="' + esc(m.slug) + '">' + esc(m.id) + '</option>').join("") : '<option value="">회원 목록을 먼저 불러오세요</option>';
+}
+$("r-filter").addEventListener("click", e=>{ const b = e.target.closest("[data-rs]"); if (!b) return; rFilter = b.dataset.rs; for (const x of $("r-filter").querySelectorAll("button")) x.setAttribute("aria-pressed", x === b); renderReports(); });
+$("r-list").addEventListener("click", async e=>{
+  const b = e.target.closest("[data-ra]"); if (!b) return;
+  const n = Number(b.closest("[data-rn]").dataset.rn);
+  try {
+    if (b.dataset.ra === "hide"){ await api("chat_hide", {target:Number(b.dataset.msg), hidden:b.dataset.h === "1"}); toast(b.dataset.h === "1" ? "가렸어요" : "다시 보여요"); }
+    else if (b.dataset.ra === "status"){ await api("report_status", {target:n, status:b.dataset.st}); toast("바꿨어요"); }
+    else if (b.dataset.ra === "ban"){
+      return dialog('<b>' + esc(b.dataset.name) + ' 채팅 정지</b><p class="muted bs-small">정지 중에는 모든 채팅방에서 읽기만 할 수 있어요.</p>'
+        + '<select class="text-input" name="days"><option value="1">1일</option><option value="3">3일</option><option value="7" selected>7일</option><option value="30">30일</option></select><input class="text-input" name="reason" placeholder="사유 (선택)" maxlength="100">',
+        async v=>{ await api("chat_ban", {target:b.dataset.who, days:v.days, reason:v.reason}); toast("정지했어요"); await loadReports(); }, "정지");
+    }
+    await loadReports();
+  } catch (err){ toast(errText(err)); }
+});
+$("ban-list").addEventListener("click", async e=>{
+  const b = e.target.closest("[data-unban]"); if (!b) return;
+  try { await api("chat_unban", {target:b.dataset.unban}); toast("해제했어요"); await loadReports(); } catch (err){ toast(errText(err)); }
+});
+bindForm("f-ban", async (v, f)=>{
+  if (!v.target) throw "회원을 골라주세요.";
+  await api("chat_ban", {target:v.target, days:v.days, reason:v.reason}); toast("정지했어요"); f.reset(); await loadReports();
 });
 
 /* 활동 기록 */

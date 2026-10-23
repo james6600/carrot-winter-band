@@ -164,6 +164,21 @@
       </section>
     </section>
 
+    <section id="t-reports" hidden>
+      <section class="magic-card table-card">
+        <div class="card-head"><div><small>REPORTS</small><h2>신고함</h2><p>채팅에서 신고된 메시지예요. 메시지를 가리거나, 보낸 사람의 채팅을 정지할 수 있어요. 금칙어·AI 필터가 먼저 거르지만 완벽하진 않아요.</p></div><span>🚨</span></div>
+        <div class="bs-tools"><div class="seg bs-fb-filter" id="r-filter"><button data-rs="new" aria-pressed="true">처리 안 된 것</button><button data-rs="" aria-pressed="false">전체</button></div></div>
+        <div id="r-list" class="bs-fb-list"></div>
+      </section>
+      <section class="magic-card table-card" style="margin-top:14px">
+        <div class="card-head"><div><small>MUTED</small><h2>채팅 정지 중</h2></div><span>🔇</span></div>
+        <div id="ban-list"></div>
+        <form class="row-edit" id="f-ban" style="margin-top:12px"><b>채팅 정지하기</b>
+          <div class="bs-grid3"><select class="text-input" name="target" id="ban-target"></select><select class="text-input" name="days"><option value="1">1일</option><option value="3">3일</option><option value="7" selected>7일</option><option value="30">30일</option></select><input class="text-input" name="reason" placeholder="사유 (선택)" maxlength="100"></div>
+          <div class="notice error" hidden></div><button class="button small danger">정지</button></form>
+      </section>
+    </section>
+
     <section id="t-feedback" hidden>
       <section class="magic-card table-card">
         <div class="card-head"><div><small>MAILBOX</small><h2>의견함</h2><p>회원이 보낸 오류 보고와 기능 제안이에요. 상태를 바꾸고 답장을 남기면 보낸 사람의 '내가 보낸 의견'에 보여요.</p></div><span>💌</span></div>
