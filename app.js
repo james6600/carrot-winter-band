@@ -17,7 +17,7 @@ const PARTS = [
 ];
 const PART = Object.fromEntries(PARTS.map(p=>[p.k,p]));
 const partLabel = k => PART[k] ? PART[k].e+" "+PART[k].n : k;
-const CORE = ["vocal","guitar","bass","drum"];
+const CORE = ["vocal","guitar","bass","drum","keys"];
 const GROUP_OF = {
   brit:"brit", modern:"brit", punk:"punkish", emo:"punkish", hardcore:"punkish", grunge:"punkish",
   metal:"heavy", hardrock:"heavy", indie:"indie", folk:"indie", citypop:"indie",
@@ -315,62 +315,71 @@ function mateScore(a,b){
   const total = timeFit===null ? t.score : t.score*.6 + timeFit*.4;
   return {...t, taste:t.score, common, total};
 }
+/* 기본 밴드 편성: 보컬 1 · 기타 2 · 베이스 · 드럼 · 키보드 (6인) */
+const LINEUP = [
+  {slot:"vocal",   role:"vocal",  label:"🎤 보컬"},
+  {slot:"guitar1", role:"guitar", label:"🎸 기타 1"},
+  {slot:"guitar2", role:"guitar", label:"🎸 기타 2"},
+  {slot:"bass",    role:"bass",   label:"🎵 베이스"},
+  {slot:"drum",    role:"drum",   label:"🥁 드럼"},
+  {slot:"keys",    role:"keys",   label:"🎹 키보드"},
+];
+const SLOT_LABEL = Object.fromEntries(LINEUP.map(l=>[l.slot, l.label]));
 // 파트 비중이 낮을수록 그 파트 배정 점수를 깎는다 (100% → 그대로, 50% → 0.78배, 10% → 0.6배).
-function teamFit(teamMs, c, role){
-  const taste = teamMs.length ? teamMs.reduce((s,t)=>s+tasteScore(t,c).score,0)/teamMs.length : .5;
-  const withA = [...teamMs, c].filter(m=>(m.avail||[]).length);
-  let timeFit = (c.avail||[]).length ? .3 : .15;
-  if (withA.length>=2) timeFit = Math.min(1, intersectAll(withA.map(m=>m.avail)).length/4);
-  return (taste*.55 + timeFit*.45) * (.55 + .45*lvlOf(c, role)/100);
-}
-// 밴드 한 팀씩: 파트마다 비중·시간 순 상위 후보를 추린 뒤 조합을 모두 비교해
-// (빈 자리 수 → 비중 × (취향 궁합·다 같이 되는 시간)) 가장 좋은 팀을 고른다.
 const lvlFactor = (m, r) => .55 + .45*lvlOf(m, r)/100;
-function teamScore(assign){
-  const ms = assign.filter(t=>t.m).map(t=>t.m);
-  let ts=0, c=0;
-  for (let i=0;i<ms.length;i++) for (let j=i+1;j<ms.length;j++){ ts+=tasteScore(ms[i],ms[j]).score; c++; }
-  const taste = c ? ts/c : .3;
-  const withA = ms.filter(m=>(m.avail||[]).length);
-  const time = withA.length>=2 ? Math.min(1, intersectAll(withA.map(m=>m.avail)).length/4) : .25;
-  const lv = ms.reduce((s,m,i)=>s+lvlFactor(m, assign.filter(t=>t.m)[i].role),0)/(ms.length||1);
-  return ms.length*10 + (taste*.55 + time*.45)*lv*3 + lv;
-}
+// 자리를 하나씩 채우면서 점수가 좋은 조합 40개만 남기는 빔 탐색.
+// 점수: 채운 자리 수 → 비중 × (취향 궁합·다 같이 되는 시간).
 function buildBands(list){
   const pool = list.filter(m=>m.done && !isAdminId(m.id));
+  const tmemo = new Map();
+  const taste = (x,y)=>{ const k = x.slug<y.slug ? x.slug+"|"+y.slug : y.slug+"|"+x.slug;
+    if (!tmemo.has(k)) tmemo.set(k, tasteScore(x,y).score); return tmemo.get(k); };
+  const avs = new Map(pool.map(m=>[m.slug, new Set(m.avail||[])]));
+  const score = assign => {
+    const f = assign.filter(t=>t.m);
+    let ts=0, c=0;
+    for (let i=0;i<f.length;i++) for (let j=i+1;j<f.length;j++){ ts+=taste(f[i].m,f[j].m); c++; }
+    const withA = f.filter(t=>avs.get(t.m.slug).size);
+    let time = .25;
+    if (withA.length>=2){
+      let inter = null;
+      for (const t of withA){ const st = avs.get(t.m.slug); inter = inter ? new Set([...inter].filter(x=>st.has(x))) : new Set(st); }
+      time = Math.min(1, inter.size/4);
+    }
+    const lv = f.reduce((s,t)=>s+lvlFactor(t.m,t.role),0)/(f.length||1);
+    return f.length*10 + ((c ? ts/c : .3)*.55 + time*.45)*lv*3 + lv;
+  };
+  const sig = assign => LINEUP.map(l=>l.role).filter((r,i,arr)=>arr.indexOf(r)===i)
+    .map(r=>r+":"+assign.filter(t=>t.role===r && t.m).map(t=>t.m.slug).sort().join(",")).join(";");
   const used = new Set(), bands = [];
-  const cand = r => pool.filter(m=>!used.has(m.slug) && (m.parts||[]).includes(r))
-    .sort((x,y)=>lvlOf(y,r)-lvlOf(x,r) || (y.avail||[]).length-(x.avail||[]).length).slice(0,6);
   while (bands.length < 12){
-    const lists = CORE.map(r=>{ const cs = cand(r); return cs.length ? cs : [null]; });
-    if (lists.every(l=>l[0]===null)) break;
-    let best = null, bestScore = -1;
-    const pick = (i, chosen, seen) => {
-      if (i===CORE.length){
-        const assign = chosen.map((m,k)=>({m, role:CORE[k]}));
-        const sc = teamScore(assign);
-        if (sc>bestScore){ bestScore = sc; best = assign; }
-        return;
+    const cands = r => pool.filter(m=>!used.has(m.slug) && (m.parts||[]).includes(r))
+      .sort((x,y)=>lvlOf(y,r)-lvlOf(x,r) || (y.avail||[]).length-(x.avail||[]).length).slice(0,8);
+    const order = LINEUP.map((l,i)=>({...l, i, cs:cands(l.role)})).sort((x,y)=>x.cs.length-y.cs.length || x.i-y.i);
+    if (order.every(l=>!l.cs.length)) break;
+    let beam = [{assign:[], taken:new Set(), sc:0}];
+    for (const l of order){
+      const next = new Map();
+      for (const st of beam){
+        for (const m of [...l.cs.filter(c=>!st.taken.has(c.slug)), null]){
+          const assign = [...st.assign, {m, role:l.role, slot:l.slot}];
+          const k = sig(assign), sc = score(assign);
+          if (next.has(k) && next.get(k).sc>=sc) continue;
+          const taken = new Set(st.taken); if (m) taken.add(m.slug);
+          next.set(k, {assign, taken, sc});
+        }
       }
-      for (const m of lists[i]){
-        if (m && seen.has(m.slug)) continue;
-        if (m) seen.add(m.slug);
-        pick(i+1, [...chosen, m], seen);
-        if (m) seen.delete(m.slug);
-      }
-      if (lists[i][0]!==null) pick(i+1, [...chosen, null], seen);
-    };
-    pick(0, [], new Set());
-    const team = best.map(t=>({m:t.m, role:t.role}));
+      beam = [...next.values()].sort((x,y)=>y.sc-x.sc).slice(0,40);
+    }
+    const best = beam[0].assign;
+    const gs = best.filter(t=>t.role==="guitar" && t.m).map(t=>t.m).sort((x,y)=>lvlOf(y,"guitar")-lvlOf(x,"guitar"));
+    const team = LINEUP.map(l=>{
+      if (l.role==="guitar") return {m: gs[l.slot==="guitar1" ? 0 : 1] || null, role:"guitar", slot:l.slot};
+      const t = best.find(x=>x.slot===l.slot); return {m: t ? t.m : null, role:l.role, slot:l.slot};
+    });
     const filled = team.filter(t=>t.m);
     if (filled.length<2) break;
     filled.forEach(t=>used.add(t.m.slug));
-    const ks = pool.filter(m=>!used.has(m.slug) && (m.parts||[]).includes("keys"));
-    if (ks.length){
-      let kb=null, kbs=-1;
-      for (const c of ks){ const sc = teamFit(filled.map(t=>t.m), c, "keys"); if (sc>kbs){ kbs=sc; kb=c; } }
-      if (kbs>=.3){ team.push({m:kb, role:"keys"}); used.add(kb.slug); }
-    }
     bands.push(describeBand(team));
     if (team.some(t=>!t.m)) break;
   }
@@ -391,14 +400,15 @@ function describeBand(team){
   const cnt = {}; ms.forEach(m=>{ if (m.style) cnt[m.style]=(cnt[m.style]||0)+1; });
   const top = Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];
   return { team, common, taste: c ? ts/c : 0, style: top ? top[0] : "pop",
-    missing: team.filter(t=>!t.m).map(t=>t.role), unknownTime: ms.length-withA.length };
+    missing: team.filter(t=>!t.m).map(t=>t.slot), unknownTime: ms.length-withA.length };
 }
+// 이 사람들로 6인 기본 편성(보컬·기타 2·베이스·드럼·키보드)을 서로 다른 사람으로 채울 수 있는지
 function canFormBand(ms){
   const used = new Set();
   const bt = i => {
-    if (i===CORE.length) return true;
+    if (i===LINEUP.length) return true;
     for (const m of ms){
-      if (used.has(m.slug) || !(m.parts||[]).includes(CORE[i])) continue;
+      if (used.has(m.slug) || !(m.parts||[]).includes(LINEUP[i].role)) continue;
       used.add(m.slug); if (bt(i+1)) return true; used.delete(m.slug);
     }
     return false;
@@ -409,13 +419,14 @@ const ROLE_ORDER = ["vocal","guitar","bass","drum","keys"];
 function bandCard(b){
   const st = STYLES[b.style]||STYLES.pop;
   const mine = me && b.team.some(t=>t.m && t.m.slug===me.slug);
-  const rows = b.team.slice().sort((x,y)=>ROLE_ORDER.indexOf(x.role)-ROLE_ORDER.indexOf(y.role)).map(t=> t.m
-    ? '<div class="role">'+avatarHTML(t.m)+'<span class="rl">'+partLabel(t.role)+'</span><b>'+esc(t.m.id)+'</b>'+((t.m.parts||[]).length>1 && t.m.levels && t.m.levels[t.role] ? '<span class="lv-tag">'+t.m.levels[t.role]+'%</span>' : '')+(me && t.m.slug===me.slug?' <span class="pill orange">나</span>':'')+'</div>'
-    : '<div class="role need"><span class="avatar">🔍</span><span class="rl">'+partLabel(t.role)+'</span><b>구하는 중</b></div>').join("");
+  const rows = b.team.map(t=> t.m
+    ? '<div class="role">'+avatarHTML(t.m)+'<span class="rl">'+SLOT_LABEL[t.slot]+'</span><b>'+esc(t.m.id)+'</b>'+((t.m.parts||[]).length>1 && t.m.levels && t.m.levels[t.role] ? '<span class="lv-tag">'+t.m.levels[t.role]+'%</span>' : '')+(me && t.m.slug===me.slug?' <span class="pill orange">나</span>':'')+'</div>'
+    : '<div class="role need"><span class="avatar">🔍</span><span class="rl">'+SLOT_LABEL[t.slot]+'</span><b>구하는 중</b></div>').join("");
   const timeTxt = b.common===null ? "시간 등록 멤버 부족" : "다 같이 되는 시간 <b>"+b.common.length+"칸</b>";
   const chips = (b.common||[]).slice(0,3).map(k=>'<span class="pill ok">'+slotLabel(k)+'</span>').join("");
+  const filled = b.team.filter(t=>t.m).length;
   return '<article class="band'+(b.missing.length?"":" ready")+(mine?" me":"")+'" data-tilt>'
-    +'<small class="k">'+st.e+' '+(b.missing.length?"FORMING":"READY TO JAM")+'</small>'
+    +'<small class="k">'+st.e+' '+(b.missing.length?"FORMING · "+filled+"/"+LINEUP.length:"READY TO JAM · 6인")+'</small>'
     +'<h4>'+esc(b.name)+'</h4><div class="roles">'+rows+'</div>'
     +'<div class="stats"><span>취향 궁합 <b>'+Math.round(b.taste*100)+'%</b></span><span>'+timeTxt+'</span>'
     +(b.unknownTime?'<span>시간 미입력 '+b.unknownTime+'명</span>':'')+'</div>'
@@ -1210,7 +1221,7 @@ function renderHeat(all){
     det.innerHTML = '<div class="slot-detail"><h4>'+slotLabel(heatPick)+' · '+ms.length+'명 가능</h4>'
       +(ms.length ? '<div class="pills">'+ms.map(m=>'<span class="pill gold">'+esc(m.id)+'</span>').join("")+'</div>' : '<p class="muted" style="margin:0;font-size:12px">이 시간엔 아직 아무도 없어요.</p>')
       +'<div class="pills">'+cover+'</div>'
-      +(ms.length && canFormBand(ms) ? '<div class="notice success">🎉 이 시간엔 보컬·기타·베이스·드럼 풀밴드 합주가 가능해요!</div>' : '')
+      +(ms.length && canFormBand(ms) ? '<div class="notice success">🎉 이 시간엔 보컬·기타 2·베이스·드럼·키보드 6인 풀밴드 합주가 가능해요!</div>' : '')
       +'</div>';
   } else det.innerHTML = '<p class="muted" style="font-size:12px;margin:12px 0 0">'+(max ? "칸을 눌러 누가 되는지 확인해 보세요." : "아직 시간을 칠한 멤버가 없어요.")+'</p>';
   const top = [...heat.entries()].filter(([,v])=>v.length>=2).sort((a,b)=>b[1].length-a[1].length || (a[0]<b[0]?-1:1)).slice(0,6);
