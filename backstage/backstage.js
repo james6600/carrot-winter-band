@@ -15,6 +15,7 @@ const ACTION_NAME = {
   member_resetpw:"회원 비번 재설정", member_delete:"회원 삭제",
   admin_create:"관리자 추가", admin_role:"권한 변경", admin_resetpw:"관리자 비번 재설정",
   admin_reset2fa:"2단계 초기화", admin_delete:"관리자 삭제",
+  feedback_update:"의견 처리", feedback_delete:"의견 삭제",
 };
 const ERR = {
   auth:"아이디 또는 비밀번호가 맞지 않아요.", proof:"예전 admin 계정 비밀번호가 맞지 않아요.",
@@ -149,6 +150,7 @@ bindForm("f-changepw", async (v, f)=>{
 const TABS = [
   {k:"members", t:"👥 회원 관리"},
   {k:"schedule", t:"🗓️ 일정 조율"},
+  {k:"feedback", t:"💌 의견함"},
   {k:"admins", t:"🛡️ 관리자", sup:true},
   {k:"logs", t:"📜 활동 기록", sup:true},
 ];
@@ -159,6 +161,7 @@ async function enterMain(){
   if (!tabs.some(t => t.k === tab)) tab = "members";
   $("bs-tabs").innerHTML = tabs.map(t => '<button data-tab="' + t.k + '" aria-pressed="' + (t.k === tab) + '">' + t.t + '</button>').join("");
   await openTab(tab);
+  if (tab !== "feedback") loadFeedback().catch(()=>{});
 }
 $("bs-tabs").addEventListener("click", e=>{ const b = e.target.closest("[data-tab]"); if (b) openTab(b.dataset.tab); });
 async function openTab(k){
@@ -169,6 +172,7 @@ async function openTab(k){
     if (k === "members" || k === "schedule") await loadMembers();
     if (k === "admins") await loadAdmins();
     if (k === "logs") await loadLogs();
+    if (k === "feedback") await loadFeedback();
   } catch (e){ toast(errText(e)); }
 }
 async function loadMembers(){
@@ -371,6 +375,55 @@ $("a-rows").addEventListener("click", e=>{
   if (b.dataset.aa === "delete")
     dialog('<b>' + name + ' 관리자를 삭제할까요?</b><p class="muted bs-small">확인하려면 아이디를 그대로 입력하세요.</p><input class="text-input" name="confirm" required autocomplete="off" placeholder="' + esc(a.id) + '">',
       async v=>{ if (v.confirm.trim() !== a.id) throw "아이디가 일치하지 않아요."; await api("admin_delete", {target:a.id}); await done("관리자를 삭제했어요"); });
+});
+
+/* 의견함 */
+const FB_KIND = {bug:"🐞 오류", idea:"💡 제안", etc:"💬 기타"};
+const FB_STATUS = {new:["접수", ""], checking:["확인 중", "gold"], doing:["반영 중", "orange"], done:["완료", "ok"], hold:["보류", "bad"]};
+let feedback = [], fKind = "";
+async function loadFeedback(){
+  feedback = (await api("feedback_list")).items;
+  const fresh = feedback.filter(f => f.status === "new").length;
+  const btn = $("bs-tabs").querySelector('[data-tab="feedback"]');
+  if (btn) btn.innerHTML = "💌 의견함" + (fresh ? ' <span class="bs-badge">' + fresh + '</span>' : "");
+  renderFeedback();
+}
+function renderFeedback(){
+  const st = $("f-status").value;
+  const list = feedback.filter(f => (!fKind || f.kind === fKind)
+    && (st === "open" ? !["done", "hold"].includes(f.status) : !st || f.status === st));
+  $("f-list").innerHTML = list.length ? list.map(f => {
+    const [label, cls] = FB_STATUS[f.status] || FB_STATUS.new;
+    const who = f.authorSlug ? '<b>' + esc(f.authorId) + '</b>' : (f.authorId ? esc(f.authorId) + ' <small>(로그인 안 함)</small>' : '<small>익명</small>');
+    const meta = f.meta && f.meta.ua ? '<details class="bs-fb-meta"><summary>환경 정보</summary>화면: ' + esc(f.meta.view || "?") + ' · 크기: ' + esc(f.meta.screen || "?") + '<br>' + esc(f.meta.ua) + '</details>' : "";
+    return '<article class="bs-fb' + (f.status === "new" ? " new" : "") + '" data-n="' + f.n + '">'
+      + '<div class="bs-fb-head"><span class="pill">' + FB_KIND[f.kind] + '</span><span class="pill ' + cls + '">' + label + '</span><span class="bs-fb-who">' + who + '</span><small>#' + f.n + ' · ' + when(f.createdAt) + '</small></div>'
+      + '<h3>' + esc(f.title) + '</h3><p class="bs-fb-body">' + esc(f.body) + '</p>' + meta
+      + '<div class="bs-fb-reply"><textarea class="text-input" rows="2" maxlength="2000" placeholder="' + (f.authorSlug ? "답장 (보낸 사람에게 보여요)" : "메모 (로그인 안 한 사람은 답장을 볼 수 없어요)") + '">' + esc(f.reply) + '</textarea>'
+      + '<div class="bs-fb-actions"><select class="text-input">' + Object.entries(FB_STATUS).map(([k, [t]]) => '<option value="' + k + '"' + (k === f.status ? " selected" : "") + '>' + t + '</option>').join("") + '</select>'
+      + '<button class="button small primary" data-fb="save">저장</button>' + (isSuper() ? '<button class="button small danger" data-fb="delete">삭제</button>' : "") + '</div>'
+      + (f.repliedBy ? '<small class="muted">마지막 답장: ' + esc(f.repliedBy) + ' · ' + when(f.updatedAt) + '</small>' : "") + '</div></article>';
+  }).join("") : '<p class="muted">' + (feedback.length ? "조건에 맞는 의견이 없어요." : "아직 받은 의견이 없어요.") + '</p>';
+}
+$("f-kind").addEventListener("click", e=>{
+  const b = e.target.closest("[data-k]"); if (!b) return;
+  fKind = b.dataset.k;
+  for (const x of $("f-kind").querySelectorAll("button")) x.setAttribute("aria-pressed", x === b);
+  renderFeedback();
+});
+$("f-status").addEventListener("change", renderFeedback);
+$("f-list").addEventListener("click", async e=>{
+  const b = e.target.closest("[data-fb]"); if (!b) return;
+  const card = b.closest("[data-n]"), n = Number(card.dataset.n);
+  const f = feedback.find(x => x.n === n); if (!f) return;
+  if (b.dataset.fb === "delete") return dialog('<b>#' + n + ' 의견을 삭제할까요?</b><p class="muted bs-small">「' + esc(f.title) + '」 — 되돌릴 수 없어요.</p>',
+    async ()=>{ await api("feedback_delete", {target:n}); toast("삭제했어요"); await loadFeedback(); }, "삭제");
+  b.disabled = true;
+  try {
+    await api("feedback_update", {target:n, status:card.querySelector("select").value, reply:card.querySelector("textarea").value});
+    toast("#" + n + " 저장했어요"); await loadFeedback();
+  } catch (err){ toast(errText(err)); }
+  finally { b.disabled = false; }
 });
 
 /* 활동 기록 */

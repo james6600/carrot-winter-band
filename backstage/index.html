@@ -143,6 +143,17 @@
       </section>
     </section>
 
+    <section id="t-feedback" hidden>
+      <section class="magic-card table-card">
+        <div class="card-head"><div><small>MAILBOX</small><h2>의견함</h2><p>회원이 보낸 오류 보고와 기능 제안이에요. 상태를 바꾸고 답장을 남기면 보낸 사람의 '내가 보낸 의견'에 보여요.</p></div><span>💌</span></div>
+        <div class="bs-tools">
+          <div class="seg bs-fb-filter" id="f-kind"><button data-k="" aria-pressed="true">전체</button><button data-k="bug" aria-pressed="false">🐞 오류</button><button data-k="idea" aria-pressed="false">💡 제안</button><button data-k="etc" aria-pressed="false">💬 기타</button></div>
+          <select class="text-input bs-fb-status" id="f-status"><option value="open">처리 안 된 것</option><option value="">모든 상태</option><option value="new">접수</option><option value="checking">확인 중</option><option value="doing">반영 중</option><option value="done">완료</option><option value="hold">보류</option></select>
+        </div>
+        <div id="f-list" class="bs-fb-list"></div>
+      </section>
+    </section>
+
     <section id="t-admins" hidden>
       <section class="magic-card table-card">
         <div class="card-head"><div><small>STAFF</small><h2>관리자 계정</h2><p>새 관리자는 임시 비밀번호로 처음 들어와 Authenticator를 등록하고 비밀번호를 바꿔야 해요.</p></div><span>🛡️</span></div>

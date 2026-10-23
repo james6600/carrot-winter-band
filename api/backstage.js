@@ -6,6 +6,7 @@ import {
   getMember, putMember, deleteMember, listMembers,
   listAdmins, getAdmin, putAdmin, createFirstAdmin, deleteAdmin,
   putSession, getSession, deleteSession, deleteSessionsOf, addLog, listLogs,
+  listFeedback, getFeedback, updateFeedback, deleteFeedback,
 } from "../lib/db.js";
 import {
   hashPw, checkPw, verifyTotp, newSecret, newToken, tokenHash, otpauthUri, parseCookies, sessionCookie,
@@ -15,7 +16,8 @@ const FULL_TTL = 8 * 3600e3;      // 로그인 유지 8시간
 const STEP_TTL = 5 * 60e3;        // 비밀번호 확인 후 코드 입력까지 5분
 const MAX_FAILS = 5, LOCK_MS = 10 * 60e3;
 const SUPER_ONLY = new Set(["admins", "admin_create", "admin_role", "admin_resetpw", "admin_reset2fa", "admin_delete",
-  "member_resetpw", "member_delete", "logs"]);
+  "member_resetpw", "member_delete", "logs", "feedback_delete"]);
+const FEEDBACK_STATUS = ["new", "checking", "doing", "done", "hold"];
 const DUMMY = hashPw("timing-equalizer");
 
 const adminSlug = id => "ad_" + id;
@@ -225,6 +227,25 @@ export default async function handler(req, res){
         return json(res, 200, { ok: true });
       }
       return json(res, 400, { error: "bad_action" });
+    }
+
+    if (action === "feedback_list"){
+      const items = (await listFeedback()).map(({ ipHash, ...f }) => f);
+      return json(res, 200, { items });
+    }
+    if (action === "feedback_update" || action === "feedback_delete"){
+      const f = await getFeedback(Number(b.target));
+      if (!f) return json(res, 404, { error: "no_target" });
+      if (action === "feedback_delete"){
+        await deleteFeedback(f.n);
+        await log("feedback_delete", "#" + f.n, f.title);
+        return json(res, 200, { ok: true });
+      }
+      const status = FEEDBACK_STATUS.includes(b.status) ? b.status : f.status;
+      const reply = String(b.reply ?? f.reply).trim().slice(0, 2000);
+      await updateFeedback(f.n, { status, reply, repliedBy: reply !== f.reply ? me.id : f.repliedBy });
+      await log("feedback_update", "#" + f.n, status + (reply !== f.reply ? " · 답변" : ""));
+      return json(res, 200, { ok: true });
     }
 
     if (action === "admins") return json(res, 200, { admins: (await listAdmins()).map(publicAdmin) });

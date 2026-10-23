@@ -159,12 +159,13 @@ let draft = null;
 let currentView = "";
 let schedDraft = null;
 let sel = null;                // 대시보드 선택: {type, key}
-const VIEWS = ["view-offline","view-home","view-login","view-onboard","view-result","view-schedule","view-dash"];
+const VIEWS = ["view-offline","view-home","view-login","view-onboard","view-result","view-schedule","view-dash","view-feedback"];
 
 /* ---------- 네비게이션 ---------- */
 function navItems(){
-  if (!me) return [{v:"view-home",ic:"✦",t:"홈"},{v:"view-login",ic:"🎸",t:"취향 등록"},{v:"view-dash",ic:"📊",t:"대시보드"}];
-  return [{v:"view-result",ic:"🎩",t:"내 결과"},{v:"view-onboard",ic:"🎸",t:"취향 등록"},{v:"view-schedule",ic:"🗓️",t:"합주 시간"},{v:"view-dash",ic:"📊",t:"대시보드"},{v:"logout",ic:"🚪",t:"나가기"}];
+  const fb = {v:"view-feedback",ic:"💌",t:"의견"};
+  if (!me) return [{v:"view-home",ic:"✦",t:"홈"},{v:"view-login",ic:"🎸",t:"취향 등록"},{v:"view-dash",ic:"📊",t:"대시보드"},fb];
+  return [{v:"view-result",ic:"🎩",t:"내 결과"},{v:"view-onboard",ic:"🎸",t:"취향 등록"},{v:"view-schedule",ic:"🗓️",t:"합주 시간"},{v:"view-dash",ic:"📊",t:"대시보드"},fb,{v:"logout",ic:"🚪",t:"나가기"}];
 }
 function renderNav(){
   const items = navItems();
@@ -187,6 +188,7 @@ function goTo(v){
   if (v==="view-home"){ refreshHomeCta(); return show("view-home"); }
   if (v==="view-login"){ if (me) return goTo("view-onboard"); show("view-login"); setTimeout(()=>$("login-id").focus(), 200); return; }
   if (v==="view-dash"){ show("view-dash"); renderDash(true); loadMembers(); return; }
+  if (v==="view-feedback"){ if (currentView!=="view-feedback") fbFrom = currentView; openFeedback(); return; }
   if (!me) return goTo("view-login");
   if (v==="view-onboard") return startOnboarding();
   if (v==="view-schedule") return openSchedule();
@@ -1251,6 +1253,62 @@ $("dash-top").addEventListener("click", e=>{
   heatPick = b.dataset.top; heatWeek = weekIndexOf(heatPick.split("@")[0]);
   renderHeat();
   $("dash-heat").scrollIntoView({behavior:reduceMotion()?"auto":"smooth", block:"center"});
+});
+
+/* ---------- 오류 보고 · 기능 제안 ---------- */
+const FB_KIND = {bug:"🐞 오류", idea:"💡 제안", etc:"💬 기타"};
+const FB_STATUS = {new:["접수", ""], checking:["확인 중", "gold"], doing:["반영 중", "orange"], done:["완료", "ok"], hold:["보류", "bad"]};
+const FB_HINT = {
+  bug:"어떤 화면에서 무엇을 했을 때 어떻게 됐는지 적어주세요.\n예) 합주 시간에서 칸을 칠하고 저장을 누르면 '저장 중 오류'가 떠요. (휴대폰, 크롬)",
+  idea:"있으면 좋겠는 기능과 이유를 적어주세요.\n예) 밴드 카드에서 바로 단톡방 링크를 공유할 수 있으면 좋겠어요.",
+  etc:"하고 싶은 말을 자유롭게 적어주세요.",
+};
+let fbKind = "bug", fbFrom = "view-home";
+function setFbKind(k){
+  fbKind = k;
+  for (const b of $("fb-kind").querySelectorAll("button")) b.setAttribute("aria-pressed", b.dataset.kind===k);
+  $("fb-body").placeholder = FB_HINT[k];
+  $("fb-env-fld").hidden = k!=="bug";
+}
+$("fb-kind").addEventListener("click", e=>{ const b = e.target.closest("[data-kind]"); if (b) setFbKind(b.dataset.kind); });
+$("footer-feedback").addEventListener("click", ()=>goTo("view-feedback"));
+function openFeedback(){
+  setFbKind(fbKind);
+  $("fb-name-fld").hidden = !!me;
+  $("fb-err").hidden = true;
+  show("view-feedback");
+  renderMyFeedback();
+}
+async function renderMyFeedback(){
+  const box = $("fb-mine");
+  if (!me){ box.innerHTML = '<p class="muted fb-empty">로그인하고 보내면 처리 상태와 운영진 답장을 여기서 볼 수 있어요.</p>'; return; }
+  box.innerHTML = '<p class="muted fb-empty">불러오는 중…</p>';
+  try{
+    const {items} = await api("feedback", {action:"mine", id:me.id, token:me.token});
+    box.innerHTML = items.length ? items.map(f=>{
+      const [st, cls] = FB_STATUS[f.status] || FB_STATUS.new;
+      return '<div class="fb-item"><div class="fb-item-head"><span class="pill">'+FB_KIND[f.kind]+'</span><span class="pill '+cls+'">'+st+'</span><small>'+new Date(f.createdAt).toLocaleDateString("ko-KR",{month:"numeric",day:"numeric"})+'</small></div>'
+        +'<b>'+esc(f.title)+'</b>'
+        +(f.reply ? '<p class="fb-reply"><span>🗝️ 운영진</span>'+esc(f.reply)+'</p>' : '')+'</div>';
+    }).join("") : '<p class="muted fb-empty">아직 보낸 의견이 없어요.</p>';
+  }catch(e){ box.innerHTML = '<p class="muted fb-empty">목록을 불러오지 못했어요.</p>'; }
+}
+$("fb-send").addEventListener("click", async ()=>{
+  const err = $("fb-err"), fail = t=>{ err.textContent = t; err.hidden = false; };
+  const title = $("fb-title").value.trim(), body = $("fb-body").value.trim();
+  if (title.length<2) return fail("제목을 2자 이상 적어주세요.");
+  if (body.length<5) return fail("내용을 5자 이상 적어주세요.");
+  const meta = fbKind==="bug" && $("fb-env").checked
+    ? {view:fbFrom, ua:navigator.userAgent, screen:innerWidth+"x"+innerHeight, url:location.pathname} : null;
+  const btn = $("fb-send"); btn.disabled = true; err.hidden = true;
+  try{
+    await api("feedback", {action:"submit", kind:fbKind, title, body, meta, website:$("fb-website").value,
+      ...(me ? {id:me.id, token:me.token} : {name:$("fb-name").value.trim()})});
+    $("fb-title").value = ""; $("fb-body").value = "";
+    toast("부엉이가 의견을 전달했어요 🦉");
+    renderMyFeedback();
+  }catch(e){ fail(e && e.error==="too_many" ? "잠시 후 다시 보내주세요. (10분에 5건까지)" : "보내지 못했어요. 잠시 후 다시 시도해 주세요."); }
+  finally{ btn.disabled = false; }
 });
 
 /* ---------- 모션: 무대 3D 기울기 ---------- */

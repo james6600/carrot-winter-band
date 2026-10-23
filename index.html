@@ -272,6 +272,41 @@
     </div>
   </main>
 
+  <!-- 오류 보고 · 기능 제안 -->
+  <main id="view-feedback" class="content-page" hidden>
+    <div class="page-heading" data-reveal>
+      <div class="season-badge"><span>✦</span> MAGIC MAILBOX</div>
+      <h1>고장 난 마법이나<br><em>바라는 기능</em>을 알려주세요</h1>
+      <p>오류를 발견했거나 이런 기능이 있으면 좋겠다 싶을 때 편하게 보내주세요. 운영진이 읽고 답장을 남겨드려요.</p>
+    </div>
+    <div class="login-layout">
+      <section class="magic-card login-card" data-reveal>
+        <div class="card-icon">💌</div>
+        <div class="section-label">SEND AN OWL</div>
+        <div class="seg fb-kind" id="fb-kind" role="group" aria-label="의견 종류">
+          <button type="button" data-kind="bug" aria-pressed="true">🐞 오류 보고</button>
+          <button type="button" data-kind="idea" aria-pressed="false">💡 기능 제안</button>
+          <button type="button" data-kind="etc" aria-pressed="false">💬 기타</button>
+        </div>
+        <div class="form-stack">
+          <label class="input-field"><span>제목</span><input id="fb-title" maxlength="80" placeholder="예: 합주 시간 저장이 안 돼요"></label>
+          <label class="input-field"><span>내용</span><textarea id="fb-body" maxlength="2000" rows="6"></textarea></label>
+          <label class="input-field" id="fb-name-fld"><span>이름 <small>선택 · 답장을 받으려면 로그인해 주세요</small></span><input id="fb-name" maxlength="20" placeholder="닉네임"></label>
+          <label class="fb-check" id="fb-env-fld"><input type="checkbox" id="fb-env" checked> 브라우저·화면 정보 같이 보내기 <small>(문제 원인을 찾는 데 도움이 돼요)</small></label>
+          <input class="fb-hp" id="fb-website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div id="fb-err" class="notice error" hidden></div>
+          <button class="button primary full" id="fb-send">부엉이로 보내기 <span>→</span></button>
+        </div>
+        <p class="privacy-note">🔒 보낸 내용은 운영진만 볼 수 있어요. 비밀번호 같은 개인 정보는 적지 말아 주세요.</p>
+      </section>
+      <aside class="login-side-card fb-side" data-reveal>
+        <div class="side-spark">✦</div>
+        <h3>내가 보낸 의견</h3>
+        <div id="fb-mine"></div>
+      </aside>
+    </div>
+  </main>
+
   <!-- 대시보드 -->
   <main id="view-dash" class="content-page" hidden>
     <div class="page-heading" data-reveal>
@@ -327,6 +362,7 @@
 
   <footer class="footer">
     <span>CARROT BAND MAKER</span>
+    <button class="footer-link" id="footer-feedback">🐞 오류 보고 · 💡 기능 제안</button>
     <span>연말의 작은 마법 · 중심은 합주와 사람</span>
   </footer>
 </div>

@@ -53,6 +53,28 @@ button,input{font:inherit;color:inherit}
 .nav-user{font-size:12px;color:#8a837d;border:1px solid rgba(255,255,255,.08);border-radius:999px;padding:5px 10px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .footer{margin-top:70px;border-top:1px solid rgba(255,255,255,.08);padding:24px 0 80px;display:flex;justify-content:space-between;gap:20px;color:#817d7a;font-size:12px;letter-spacing:.04em}
 .footer span:first-child{color:#a79876;font-weight:800}
+.footer-link{background:none;border:0;padding:0;color:#a79876;font:inherit;letter-spacing:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(167,152,118,.4)}
+.footer-link:hover{color:var(--gold2)}
+
+/* ---------- 오류 보고 · 기능 제안 ---------- */
+.fb-kind{margin:2px 0 18px}
+.input-field small{color:var(--dim);font-weight:500;margin-left:6px}
+.input-field textarea{width:100%;border-radius:13px;border:1px solid rgba(255,255,255,.12);background:#0b0c10;color:#fff;padding:13px 15px;outline:none;font:inherit;line-height:1.6;resize:vertical;min-height:140px}
+.input-field textarea:focus{border-color:rgba(255,155,83,.72);box-shadow:0 0 0 3px rgba(255,123,44,.11)}
+.input-field textarea::placeholder{color:#5f5a56}
+.fb-check{display:flex;align-items:center;gap:8px;font-size:13px;color:#c8c2bc;cursor:pointer;flex-wrap:wrap}
+.fb-check input{width:17px;height:17px;accent-color:var(--orange)}
+.fb-check small{color:var(--dim)}
+.fb-hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.fb-side h3{margin-bottom:16px}
+.fb-side #fb-mine{position:relative;display:grid;gap:10px;max-height:520px;overflow:auto}
+.fb-empty{font-size:13px;margin:0}
+.fb-item{border:1px solid rgba(255,255,255,.09);background:rgba(7,8,12,.42);border-radius:15px;padding:12px 14px;display:grid;gap:7px}
+.fb-item-head{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.fb-item-head small{margin-left:auto;color:#8a837d;font-size:11px}
+.fb-item b{font-size:14px;line-height:1.45}
+.fb-reply{margin:0;font-size:12px;line-height:1.6;color:#e9dbb1;background:rgba(216,183,100,.07);border:1px solid rgba(216,183,100,.2);border-radius:11px;padding:9px 11px;white-space:pre-wrap}
+.fb-reply span{display:block;font-size:10px;font-weight:800;letter-spacing:.06em;color:#c8ab62;margin-bottom:3px}
 .mobile-nav{display:none}
 
 /* ---------- 공통 ---------- */
