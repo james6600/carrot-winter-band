@@ -399,7 +399,14 @@ function describeBand(team){
   for (let i=0;i<ms.length;i++) for (let j=i+1;j<ms.length;j++){ ts+=tasteScore(ms[i],ms[j]).score; c++; }
   const cnt = {}; ms.forEach(m=>{ if (m.style) cnt[m.style]=(cnt[m.style]||0)+1; });
   const top = Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];
+  // 전원이 안 겹쳐도 가장 많은 인원이 되는 시간대를 찾는다 (예: 5/6명)
+  const counts = new Map();
+  for (const m of ms) for (const k of (m.avail||[])) counts.set(k, (counts.get(k)||0)+1);
+  let bestN = 0; counts.forEach(v=>{ if (v>bestN) bestN = v; });
+  const bestSlots = bestN ? [...counts].filter(([,v])=>v===bestN).map(([k])=>k).sort() : [];
+  const absent = bestSlots.length ? ms.filter(m=>!(m.avail||[]).includes(bestSlots[0])).map(m=>m.id) : [];
   return { team, common, taste: c ? ts/c : 0, style: top ? top[0] : "pop",
+    best: {n:bestN, of:ms.length, slots:bestSlots, absent},
     missing: team.filter(t=>!t.m).map(t=>t.slot), unknownTime: ms.length-withA.length };
 }
 // 이 사람들로 6인 기본 편성(보컬·기타 2·베이스·드럼·키보드)을 서로 다른 사람으로 채울 수 있는지
@@ -422,15 +429,26 @@ function bandCard(b){
   const rows = b.team.map(t=> t.m
     ? '<div class="role">'+avatarHTML(t.m)+'<span class="rl">'+SLOT_LABEL[t.slot]+'</span><b>'+esc(t.m.id)+'</b>'+((t.m.parts||[]).length>1 && t.m.levels && t.m.levels[t.role] ? '<span class="lv-tag">'+t.m.levels[t.role]+'%</span>' : '')+(me && t.m.slug===me.slug?' <span class="pill orange">나</span>':'')+'</div>'
     : '<div class="role need"><span class="avatar">🔍</span><span class="rl">'+SLOT_LABEL[t.slot]+'</span><b>구하는 중</b></div>').join("");
-  const timeTxt = b.common===null ? "시간 등록 멤버 부족" : "다 같이 되는 시간 <b>"+b.common.length+"칸</b>";
-  const chips = (b.common||[]).slice(0,3).map(k=>'<span class="pill ok">'+slotLabel(k)+'</span>').join("");
+  const bt = b.best || {n:0, of:0, slots:[], absent:[]};
+  const allIn = b.common && b.common.length;
+  let timeTxt, chips = "", timeNote = "";
+  if (allIn){
+    timeTxt = "다 같이 되는 시간 <b>"+b.common.length+"칸</b>";
+    chips = b.common.slice(0,3).map(k=>'<span class="pill ok">'+slotLabel(k)+'</span>').join("");
+  } else if (bt.n>=2){
+    timeTxt = "가장 많이 겹치는 시간 <b>"+bt.n+"/"+bt.of+"명</b> · "+bt.slots.length+"칸";
+    chips = bt.slots.slice(0,3).map(k=>'<span class="pill gold">'+slotLabel(k)+'</span>').join("");
+    timeNote = bt.absent.length ? '<p class="band-note">🕰️ '+esc(slotLabel(bt.slots[0]))+'에 빠지는 사람 · '+esc(bt.absent.join(", "))+'</p>' : "";
+  } else {
+    timeTxt = b.common===null && bt.n<2 ? "시간 등록 멤버 부족" : "겹치는 시간 없음";
+  }
   const filled = b.team.filter(t=>t.m).length;
   return '<article class="band'+(b.missing.length?"":" ready")+(mine?" me":"")+'" data-tilt>'
     +'<small class="k">'+st.e+' '+(b.missing.length?"FORMING · "+filled+"/"+LINEUP.length:"READY TO JAM · 6인")+'</small>'
     +'<h4>'+esc(b.name)+'</h4><div class="roles">'+rows+'</div>'
     +'<div class="stats"><span>취향 궁합 <b>'+Math.round(b.taste*100)+'%</b></span><span>'+timeTxt+'</span>'
     +(b.unknownTime?'<span>시간 미입력 '+b.unknownTime+'명</span>':'')+'</div>'
-    +(chips?'<div class="pills">'+chips+'</div>':'')+'</article>';
+    +(chips?'<div class="pills">'+chips+'</div>':'')+timeNote+'</article>';
 }
 
 /* ---------- 합주 시간표 컴포넌트 ---------- */
