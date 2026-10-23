@@ -3,287 +3,331 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>당근 겨울밴드 매칭소</title>
-<meta name="description" content="파트와 음악 취향, 합주 가능한 시간을 모아 이번 겨울 함께할 밴드원을 찾아주는 당근 밴드 매칭 페이지">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Cinzel:wght@600;700&family=Gaegu:wght@700&display=swap">
+<title>당근 밴드 메이커</title>
+<meta name="description" content="파트와 음악 취향, 합주 가능한 시간으로 찾는 겨울 밴드원 매칭">
+<meta property="og:title" content="당근 밴드 메이커 · 이번 겨울 함께 밴드 해요">
+<meta property="og:description" content="파트와 취향, 합주 가능한 시간을 고르면 마법의 모자가 밴드를 짜드려요.">
+<meta property="og:image" content="/assets/og.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#07080c">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preload" as="image" href="/assets/stage-1536.webp" media="(min-width:701px)">
+<link rel="preload" as="image" href="/assets/stage-900.webp" media="(max-width:700px)">
 <link rel="stylesheet" href="/styles.css">
+<script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
-<canvas id="snow"></canvas>
-<div class="lights" id="lights" aria-hidden="true"></div>
+<div class="snow" aria-hidden="true"><i></i><i></i><i></i></div>
 
-<header class="site">
-  <div class="site-in">
-    <button class="brand" id="brand" aria-label="처음 화면으로">
-      <span class="logobadge" id="logo-slot"></span>
-      <span><b><em>당근</em> 겨울밴드</b><small>WINTER JAM 2026</small></span>
+<div class="site-shell">
+  <header class="topbar">
+    <button class="brand" id="brand" aria-label="당근 밴드 메이커 홈">
+      <span class="brand-mark">🥕</span><span><b>당근</b> 밴드 메이커</span>
     </button>
-    <nav class="topnav" id="topnav" aria-label="주 메뉴"></nav>
-    <span id="top-user"></span>
-  </div>
-</header>
-
-<main class="wrap">
+    <nav class="desktop-nav" id="topnav" aria-label="주요 메뉴"></nav>
+  </header>
 
   <!-- 연결 불가 -->
-  <section id="view-offline" hidden>
-    <div class="card" style="margin-top:30px;text-align:center">
-      <div class="hatwrap" id="char-offline"></div>
-      <h2 class="section" style="font-size:1.6rem;margin-top:10px">서버에 연결할 수 없어요</h2>
-      <p class="sub">잠시 후 새로고침 해주세요. 계속 안 되면 모임장에게 알려주세요.</p>
+  <main id="view-offline" class="content-page" hidden>
+    <div class="page-heading">
+      <div class="season-badge"><span>✦</span> OFFLINE</div>
+      <h1>서버에 <em>연결할 수 없어요.</em></h1>
+      <p>잠시 후 새로고침 해주세요. 계속 안 되면 모임장에게 알려주세요.</p>
     </div>
-  </section>
+  </main>
 
-  <!-- 첫 화면 + 로그인 -->
-  <section id="view-login" hidden>
-    <div class="hero">
+  <!-- 홈 -->
+  <main id="view-home" class="home-page" hidden>
+    <section class="hero-layout">
       <div class="hero-copy">
-        <p class="eyebrow">Year-end Band Matching</p>
-        <p class="sub" style="margin:0 0 6px;font-size:.95rem">이번 겨울, 같이 연주할 사람을 찾아요.</p>
-        <h1 class="display">취향이 맞는 우리,<br><span class="hl">함께 밴드 해요.</span></h1>
-        <p class="lead">연주할 파트와 좋아하는 음악, 합주 가능한 시간을 알려주면 마법의 모자가 당신의 밴드 스타일을 정하고 딱 맞는 밴드원을 묶어드려요.</p>
-        <div class="btnrow" style="max-width:440px">
-          <button class="btn btn-primary" id="cta-start">✦ 나의 밴드 취향 찾기</button>
-          <button class="btn btn-ghost" id="cta-browse">먼저 둘러보기 →</button>
+        <div class="season-badge" data-reveal><span>✦</span> YEAR-END BAND MATCHING</div>
+        <p class="kicker" data-reveal>이번 겨울, 같이 연주할 사람을 찾아요.</p>
+        <h1 data-reveal>
+          <span class="hero-title-line">취향이 맞는 우리,</span>
+          <span class="hero-title-line hero-title-accent">함께 밴드 해요.</span>
+        </h1>
+        <p class="hero-lead" data-reveal>연주할 파트와 좋아하는 음악, 합주 가능한 시간을 고르면<br class="desktop-only">
+          비슷한 취향의 밴드원을 찾아 밴드까지 짜드려요.</p>
+        <div class="hero-actions" data-reveal>
+          <button class="button primary" id="cta-start"><span>✦</span> <span id="cta-start-label">나의 밴드 취향 찾기</span></button>
+          <button class="button ghost" id="cta-browse">먼저 둘러보기 <span>→</span></button>
         </div>
-        <div class="partrow">
-          <span class="pchip">🎸 기타</span><span class="pchip">🥁 드럼</span><span class="pchip">🎵 베이스</span>
-          <span class="pchip">🎤 보컬</span><span class="pchip">🎹 키보드</span><span class="pchip">✨ 기타 악기</span>
-        </div>
-      </div>
-      <figure class="stage-card" style="margin:0">
-        <div id="stage-art"></div>
-        <figcaption class="stage-cap">
-          <span class="live">Winter Session</span>
-          <b>나랑 맞는 밴드원을 찾아보세요</b>
-        </figcaption>
-      </figure>
-    </div>
-
-    <div class="steps4">
-      <div><span class="no">01</span><div><b>파트를 고르고</b><span>이번 합주에서 맡고 싶은 악기를 골라요.</span></div></div>
-      <div><span class="no">02</span><div><b>취향을 들려주고</b><span>장르와 좋아하는 아티스트로 취향을 표현해요.</span></div></div>
-      <div><span class="no">03</span><div><b>합주 시간을 칠하고</b><span>11–12월 중 되는 시간을 달력에 칠해요.</span></div></div>
-      <div><span class="no">04</span><div><b>밴드를 만나요</b><span>취향과 시간이 맞는 사람끼리 밴드를 짜드려요.</span></div></div>
-    </div>
-
-    <div class="login-wrap" id="login-anchor">
-      <div class="card login-card">
-        <p class="eyebrow" style="margin-bottom:8px">Enter the Jam Room</p>
-        <h2 style="font-size:1.35rem;font-weight:900">간편 로그인</h2>
-        <p class="sub">회원가입 없이, 처음 정한 아이디와 비밀번호로 바로 시작돼요.</p>
-        <label class="fld">아이디 (활동명)
-          <input type="text" id="login-id" autocomplete="off" maxlength="20" placeholder="예: 페퍼민트">
-        </label>
-        <label class="fld">비밀번호
-          <input type="password" id="login-pw" maxlength="40" placeholder="간단한 비밀번호">
-        </label>
-        <p class="err" id="login-err"></p>
-        <button class="btn btn-primary btn-block" id="btn-login">입장하기 🪄</button>
-        <p class="sub" style="text-align:center;margin-top:14px">간편 인증이라 평소 쓰는 비밀번호는 쓰지 말아주세요.<br>오타로 아이디가 두 개가 되면 관리자가 합쳐줄 수 있어요.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 온보딩 -->
-  <section id="view-onboard" hidden>
-    <div class="card ob-card">
-      <div class="steps"><i id="st1"></i><i id="st2"></i><i id="st3"></i><i id="st4"></i></div>
-
-      <div id="ob-parts" hidden>
-        <div class="stephead"><span class="stepnum">1</span>
-          <div><p class="kicker">Step 1 · Part</p><h2>어떤 파트를 맡을 수 있나요?</h2></div>
-        </div>
-        <p class="sub">여러 개를 골라도 좋아요. 멀티 플레이어 환영!</p>
-        <div class="chips" id="part-chips"></div>
-        <label class="fld" id="part-etc-fld" hidden>그 외 악기 이름
-          <input type="text" id="part-etc" maxlength="20" placeholder="예: 바이올린, 색소폰, 멜로디언">
-        </label>
-        <div class="btnrow"><span style="flex:1"></span>
-          <button class="btn btn-primary" id="ob1-next" style="flex:none">다음 →</button>
+        <div class="part-quicklinks" id="part-quick" aria-label="파트별 밴드원 보기" data-reveal>
+          <button class="part-mini" data-part="guitar"><span>🎸</span>기타</button>
+          <button class="part-mini" data-part="drum"><span>🥁</span>드럼</button>
+          <button class="part-mini" data-part="bass"><span>🎵</span>베이스</button>
+          <button class="part-mini" data-part="vocal"><span>🎤</span>보컬</button>
+          <button class="part-mini" data-part="keys"><span>🎹</span>키보드</button>
+          <button class="part-mini" data-part="etc"><span>✨</span>기타 악기</button>
         </div>
       </div>
 
-      <div id="ob-genres" hidden>
-        <div class="stephead"><span class="stepnum">2</span>
-          <div><p class="kicker">Step 2 · Genre</p><h2>끌리는 장르를 골라주세요</h2></div>
-        </div>
-        <p class="sub">마음 가는 대로, 여러 개 환영이에요.</p>
-        <div class="chips" id="genre-chips"></div>
-        <div class="btnrow">
-          <button class="btn btn-ghost" id="ob2-back">← 이전</button>
-          <button class="btn btn-primary" id="ob2-next">다음 →</button>
-        </div>
-      </div>
-
-      <div id="ob-artists" hidden>
-        <div class="stephead"><span class="stepnum">3</span>
-          <div><p class="kicker">Step 3 · Artist</p><h2>최애 가수를 알려주세요</h2></div>
-        </div>
-        <p class="sub">한 팀씩 입력하고 추가를 눌러요. 마법 수정구가 장르를 알아맞혀요 🔮</p>
-        <div class="artist-row">
-          <input type="text" id="artist-input" maxlength="40" placeholder="예: Oasis, 실리카겔, 요루시카">
-          <button class="btn btn-ghost btn-sm" id="artist-add">추가</button>
-        </div>
-        <p class="status" id="artist-status"></p>
-        <div id="manual-pick" hidden>
-          <div class="notice">수정구가 흐릿하네요… 이 뮤지션의 장르를 직접 1~3개 골라주세요.</div>
-          <div class="chips" id="manual-chips"></div>
-          <div class="btnrow">
-            <button class="btn btn-ghost" id="manual-cancel">취소</button>
-            <button class="btn btn-primary" id="manual-ok">이 장르로 추가</button>
+      <div class="hero-stage" data-reveal>
+        <div class="stage-3d" id="stage-3d" aria-label="당근 밴드 무대">
+          <div class="stage-frame">
+            <div class="stage-parallax" id="stage-parallax">
+              <picture>
+                <source media="(max-width:700px)" srcset="/assets/stage-900.webp">
+                <img src="/assets/stage-1536.webp" width="1536" height="1024" alt="크리스마스 무대에서 마법사 모자를 쓴 보컬, 베이스, 드럼, 키보드로 합주하는 당근 밴드">
+              </picture>
+              <div class="fx" aria-hidden="true">
+                <i class="beam" style="--x:19.2%;--y:20%;--r:-34deg;--d:0s"></i>
+                <i class="beam" style="--x:81%;--y:21%;--r:26deg;--d:-3.5s"></i>
+                <i class="glow" style="--x:36%;--y:12.5%;--d:0s"></i>
+                <i class="glow" style="--x:55.2%;--y:14.5%;--d:-.9s"></i>
+                <i class="glow" style="--x:62.2%;--y:12.6%;--d:-1.7s"></i>
+                <i class="glow" style="--x:71.2%;--y:15.7%;--d:-.4s;--t:3.1s"></i>
+                <i class="glow" style="--x:15%;--y:22.7%;--d:-2.2s;--s:4.5%"></i>
+                <i class="glow" style="--x:85.3%;--y:26.2%;--d:-1.2s;--s:4.5%"></i>
+                <i class="glow" style="--x:19.2%;--y:20%;--d:-.6s;--s:8%;--t:3.4s"></i>
+                <i class="glow" style="--x:81%;--y:21%;--d:-2s;--s:8%;--t:3.4s"></i>
+                <i class="glow" style="--x:51.6%;--y:26.5%;--d:-1.4s;--s:4%"></i>
+                <span class="spark" style="--x:51.4%;--y:32%;--d:0s">✦</span>
+                <span class="spark" style="--x:48.5%;--y:47%;--d:-.8s;--s:11px">✦</span>
+                <span class="spark" style="--x:26.7%;--y:53%;--d:-1.6s;--s:12px">✦</span>
+                <span class="spark" style="--x:44%;--y:38%;--d:-1.1s;--s:9px">✦</span>
+                <span class="note" style="--x:22%;--d:0s">♪</span>
+                <span class="note" style="--x:44%;--d:-2.4s;--s:15px;--t:8s">♫</span>
+                <span class="note" style="--x:63%;--d:-4.6s">♪</span>
+                <span class="note" style="--x:82%;--d:-1.2s;--s:16px;--t:7.5s">♫</span>
+              </div>
+            </div>
+            <div class="stage-glare" id="stage-glare"></div>
+          </div>
+          <div class="garland" aria-hidden="true">✦ · ✦ · ✦ · ✦ · ✦ · ✦</div>
+          <div class="stage-caption">
+            <span><span class="live-dot"></span> WINTER SESSION</span>
+            <b>나랑 맞는 밴드원을 찾아보세요</b>
           </div>
         </div>
-        <div class="alist" id="artist-list"></div>
-        <div class="btnrow">
-          <button class="btn btn-ghost" id="ob3-back">← 이전</button>
-          <button class="btn btn-primary" id="ob3-next">다음 →</button>
-        </div>
       </div>
+    </section>
 
-      <div id="ob-time" hidden>
-        <div class="stephead"><span class="stepnum">4</span>
-          <div><p class="kicker">Step 4 · Jam Time</p><h2>합주 가능한 시간을 칠해주세요</h2></div>
+    <section class="feature-strip">
+      <article data-reveal><span>01</span><b>파트를 고르고</b><p>이번 합주에서 맡고 싶은 악기를 선택해요.</p></article>
+      <article data-reveal><span>02</span><b>취향을 들려주고</b><p>장르와 좋아하는 아티스트로 음악 취향을 표현해요.</p></article>
+      <article data-reveal><span>03</span><b>합주 시간을 칠하고</b><p>11–12월 중 연습할 수 있는 시간을 달력에 칠해요.</p></article>
+      <article data-reveal><span>04</span><b>밴드를 만나고</b><p>취향과 시간이 맞는 사람끼리 밴드를 짜드려요.</p></article>
+    </section>
+  </main>
+
+  <!-- 입장 -->
+  <main id="view-login" class="content-page" hidden>
+    <div class="page-heading" data-reveal>
+      <div class="season-badge"><span>✦</span> THE SORTING SESSION</div>
+      <h1>합주 메이트를 찾기 전에<br><em>먼저 입장해 주세요.</em></h1>
+      <p>회원가입 절차 없이 닉네임과 비밀번호만 정하면 시작할 수 있어요.</p>
+    </div>
+    <div class="login-layout">
+      <section class="magic-card login-card" data-reveal>
+        <div class="card-icon">🎩</div>
+        <div class="section-label">BAND PASS</div>
+        <h2>닉네임으로 입장</h2>
+        <p class="muted" style="margin:0 0 20px">처음 쓰는 닉네임이면 바로 만들어지고, 다음부터 같은 비밀번호로 다시 들어올 수 있어요.</p>
+        <div class="form-stack">
+          <label class="input-field"><span>닉네임</span><input id="login-id" autocomplete="username" maxlength="20" placeholder="예: 페퍼민트"></label>
+          <label class="input-field"><span>비밀번호</span><input id="login-pw" type="password" autocomplete="current-password" maxlength="40" placeholder="4자 이상"></label>
+          <div id="login-err" class="notice error" hidden></div>
+          <button class="button primary full" id="btn-login">입장하고 취향 고르기 <span>→</span></button>
         </div>
-        <p class="sub">11월~12월 중 연습할 수 있는 칸을 누르거나 쓱 드래그해요. 아래 빠른 선택도 있어요.</p>
-        <div class="sched" id="ob-sched"></div>
-        <div class="btnrow">
-          <button class="btn btn-ghost" id="ob4-back">← 이전</button>
-          <button class="btn btn-primary" id="ob4-done">결과 보기 ✨</button>
+        <p class="privacy-note">🔒 비밀번호 원문은 저장하지 않아요. 간편 인증이니 평소 쓰는 비밀번호는 피해주세요.<br>오타로 닉네임이 두 개가 되면 관리자가 합쳐줄 수 있어요.</p>
+      </section>
+      <aside class="login-side-card" data-reveal>
+        <div class="side-spark">✦</div>
+        <h3>이번 겨울 합주에서<br>누구를 만나게 될까요?</h3>
+        <ul>
+          <li><span>🎸</span><div><b>필요한 파트</b><small>보컬·기타·베이스·드럼을 채워 밴드로</small></div></li>
+          <li><span>🎧</span><div><b>비슷한 음악 취향</b><small>장르와 아티스트로 비교</small></div></li>
+          <li><span>🗓️</span><div><b>겹치는 합주 시간</b><small>다 같이 되는 시간을 찾아줘요</small></div></li>
+          <li><span>✨</span><div><b>마법 모자 스타일</b><small>취향을 재미있게 한 줄로</small></div></li>
+        </ul>
+        <div class="side-avatars">
+          <span class="avatar" style="background-image:url(/assets/av-wizard.webp)"></span>
+          <span class="avatar" style="background-image:url(/assets/av-bass.webp)"></span>
+          <span class="avatar" style="background-image:url(/assets/av-drum.webp)"></span>
+          <span class="avatar" style="background-image:url(/assets/av-keys.webp)"></span>
         </div>
-        <p class="err" id="ob-err"></p>
+      </aside>
+    </div>
+  </main>
+
+  <!-- 취향 등록 -->
+  <main id="view-onboard" class="content-page" hidden>
+    <div class="page-heading" data-reveal>
+      <div class="season-badge"><span>✦</span> THE SORTING SESSION</div>
+      <h1>당신의 <em>밴드 취향</em>을<br>조금 더 들려주세요.</h1>
+      <p>파트와 음악 취향은 여러 개 고를 수 있어요. 합주 가능한 시간까지 칠하면 밴드를 더 정확히 짜드려요.</p>
+    </div>
+    <section class="member-banner">
+      <div><span class="avatar" id="ob-avatar"></span><div><small>WELCOME</small><strong id="ob-name"></strong></div></div>
+      <button class="button small ghost" id="ob-logout">로그아웃</button>
+    </section>
+    <div class="preference-form">
+      <section class="magic-card preference-card" data-reveal>
+        <div class="step-title"><span>01</span><div><h2>이번에 맡고 싶은 파트</h2><p>할 수 있는 파트를 모두 골라주세요.</p></div></div>
+        <div class="choice-grid" id="part-choices"></div>
+        <label class="input-field etc-field" id="part-etc-fld" hidden><span>그 외 악기 이름</span>
+          <input id="part-etc" maxlength="20" placeholder="예: 바이올린, 색소폰, 멜로디언"></label>
+      </section>
+      <section class="magic-card preference-card" data-reveal>
+        <div class="step-title"><span>02</span><div><h2>좋아하는 음악 장르</h2><p>내 플레이리스트에 자주 나오는 장르를 여러 개 골라주세요.</p></div></div>
+        <div class="genre-grid" id="genre-choices"></div>
+      </section>
+      <section class="magic-card preference-card" data-reveal>
+        <div class="step-title"><span>03</span><div><h2>좋아하는 아티스트</h2><p>국내 락페 라인업과 빌보드 차트로 만든 약 1,000팀에서 검색돼요. 없는 가수는 마법 수정구가 장르를 맞혀요.</p></div></div>
+        <div class="artist-picker">
+          <div id="artist-list" class="artist-picker"></div>
+          <div class="artist-search-wrap">
+            <input class="text-input" id="artist-input" maxlength="40" placeholder="가수·밴드 이름을 입력하세요 (예: 실리카겔, Oasis, 요루시카)" autocomplete="off">
+            <div class="artist-results" id="artist-results"></div>
+          </div>
+          <div class="artist-search-status" id="artist-status"></div>
+          <div class="manual-box" id="manual-pick" hidden>
+            <p id="manual-msg">수정구가 흐릿하네요… 이 뮤지션의 장르를 직접 1~3개 골라주세요.</p>
+            <div class="genre-grid" id="manual-chips"></div>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <button class="button small ghost" id="manual-cancel">취소</button>
+              <button class="button small primary" id="manual-ok">이 장르로 추가</button>
+            </div>
+          </div>
+          <p class="artist-picker-help">좋아하는 순서대로 올려두세요. ↑↓로 순서를 바꿀 수 있어요.</p>
+        </div>
+      </section>
+      <section class="magic-card preference-card" data-reveal>
+        <div class="step-title"><span>04</span><div><h2>합주 가능한 시간</h2><p>11월~12월 중 연습할 수 있는 2시간 칸을 누르거나 드래그해서 칠해요.</p></div></div>
+        <div id="ob-sched"></div>
+      </section>
+      <div class="save-bar">
+        <div><span>✦</span><p><b>선택을 마쳤나요?</b><small id="save-summary">저장하면 전체 통계에서 내 취향도 함께 보여요.</small></p></div>
+        <button class="button primary" id="ob-save">취향 저장하기 <span>→</span></button>
       </div>
     </div>
-  </section>
+  </main>
 
   <!-- 내 결과 -->
-  <section id="view-result" hidden>
-    <div class="result-top">
-      <div class="style-card" id="style-card"></div>
-      <div class="card" style="margin:0">
-        <div class="card-head"><div><p class="kicker">My Band</p><h3>마법의 모자가 짜준 내 밴드</h3></div><span class="ic">🎄</span></div>
+  <main id="view-result" class="content-page" hidden>
+    <div class="page-heading" data-reveal>
+      <div class="season-badge"><span>✦</span> SORTING HAT SAYS</div>
+      <h1 id="result-title">마법의 모자가<br><em>고민 중이에요…</em></h1>
+      <p id="result-desc"></p>
+    </div>
+    <div class="result-hero">
+      <section class="magic-card sorting-card" id="sorting-card" data-reveal></section>
+      <section class="magic-card myband-card" data-reveal>
+        <div class="card-head"><div><small>MY BAND</small><h2>마법의 모자가 짜준 내 밴드</h2></div><span>🎄</span></div>
         <div id="my-band"></div>
-      </div>
+      </section>
     </div>
-    <div id="time-callout" style="margin-top:16px"></div>
-    <div class="card" style="margin-top:16px">
-      <div class="card-head"><div><p class="kicker">Matching</p><h3>취향과 시간이 통하는 멤버</h3>
-        <p class="sub">취향 60% + 겹치는 합주 시간 40%로 계산했어요.</p></div><span class="ic">🤝</span></div>
-      <div class="mates" id="mates"></div>
+    <div id="time-callout"></div>
+    <section class="magic-card match-section section-gap" data-reveal>
+      <div class="card-head"><div><small>YOUR BANDMATES</small><h2 id="mates-title">취향과 시간이 가까운 메이트</h2>
+        <p>취향(장르·아티스트·마법 모자 유형) 60% + 겹치는 합주 시간 40%</p></div><span>🪄</span></div>
+      <div id="mates"></div>
+    </section>
+    <div class="hero-actions">
+      <button class="button ghost" id="btn-edit">취향 수정하기</button>
+      <button class="button ghost" id="btn-time">합주 시간 수정</button>
+      <button class="button primary" id="btn-godash">모두의 취향 보러 가기 <span>→</span></button>
     </div>
-    <div class="btnrow">
-      <button class="btn btn-ghost" id="btn-edit">내 취향 수정</button>
-      <button class="btn btn-ghost" id="btn-time">합주 시간 수정</button>
-      <button class="btn btn-primary" id="btn-godash">모두의 음악 구경하기</button>
-    </div>
-  </section>
+  </main>
 
-  <!-- 내 합주 시간 -->
-  <section id="view-schedule" hidden>
-    <div class="dash-head">
-      <p class="eyebrow">My Jam Calendar</p>
-      <h2 class="section">언제 <span class="hl">합주할 수 있나요?</span></h2>
-      <p class="sub">2시간 단위 칸이에요. 누르거나 드래그해서 칠하고, 다 칠하면 저장을 눌러주세요.</p>
+  <!-- 합주 시간 -->
+  <main id="view-schedule" class="content-page" hidden>
+    <div class="page-heading" data-reveal>
+      <div class="season-badge"><span>✦</span> MY JAM CALENDAR</div>
+      <h1>언제 <em>합주할 수 있나요?</em></h1>
+      <p>2시간 단위 칸이에요. 누르거나 드래그해서 칠하고, 다 칠하면 저장을 눌러주세요.</p>
     </div>
-    <div class="card">
-      <div class="sched" id="my-sched"></div>
-      <div class="btnrow">
-        <button class="btn btn-ghost" id="sched-cancel">취소</button>
-        <button class="btn btn-primary" id="sched-save">저장하기</button>
-      </div>
-      <p class="err" id="sched-err"></p>
+    <section class="magic-card preference-card" data-reveal>
+      <div id="my-sched"></div>
+    </section>
+    <div class="save-bar section-gap">
+      <div><span>✦</span><p><b>시간을 다 칠했나요?</b><small id="sched-summary">겹치는 사람과 밴드를 다시 계산해 드려요.</small></p></div>
+      <div style="display:flex;gap:8px"><button class="button ghost" id="sched-cancel">취소</button><button class="button primary" id="sched-save">저장하기 <span>→</span></button></div>
     </div>
-  </section>
+  </main>
 
-  <!-- 모두의 음악 -->
-  <section id="view-dash" hidden>
-    <div class="dash-head">
-      <p class="eyebrow">Band Room Stats</p>
-      <h2 class="section">우리 모임에는<br><span class="hl">어떤 취향이 모였을까요?</span></h2>
-      <p class="sub">숫자 · 막대 · 칸 · 이름을 누르면 누가 골랐는지 바로 보여요.</p>
+  <!-- 대시보드 -->
+  <main id="view-dash" class="content-page" hidden>
+    <div class="page-heading" data-reveal>
+      <div class="season-badge"><span>✦</span> BAND ROOM STATS</div>
+      <h1>우리 모임에는<br><em>어떤 취향이 모였을까요?</em></h1>
+      <p>숫자·막대·칸을 누르면 누가 그 취향을 골랐는지 바로 볼 수 있어요.</p>
     </div>
-    <div class="statrow" id="dash-stats"></div>
+    <section class="stats-hero" id="stats-hero" data-reveal></section>
 
-    <div class="card">
-      <div class="card-head"><div><p class="kicker">Sorting Hat · Bands</p><h3>마법의 모자가 짜본 밴드</h3>
-        <p class="sub">필요한 파트를 채우면서 취향 궁합과 함께 되는 시간이 가장 잘 맞는 조합이에요.</p></div><span class="ic">🎩</span></div>
+    <section class="magic-card chart-card" data-reveal>
+      <div class="card-head"><div><small>SORTING HAT · BANDS</small><h2>마법의 모자가 짜본 밴드</h2>
+        <p>보컬·기타·베이스·드럼을 채우면서 취향 궁합과 다 같이 되는 시간이 가장 잘 맞는 조합이에요.</p></div><span>🎩</span></div>
       <div class="bands" id="dash-bands"></div>
-    </div>
+    </section>
 
-    <div class="card">
-      <div class="card-head"><div><p class="kicker">Jam Time · Click</p><h3>모두의 합주 시간표</h3>
-        <p class="sub">진할수록 많이 모일 수 있는 시간이에요. 칸을 누르면 누가 되는지, 어떤 파트가 모이는지 보여요.</p></div><span class="ic">🗓️</span></div>
+    <section class="magic-card chart-card section-gap" data-reveal>
+      <div class="card-head"><div><small>JAM TIME · CLICK</small><h2>모두의 합주 시간표</h2>
+        <p>진할수록 많이 모일 수 있는 시간이에요. 칸을 누르면 누가 되는지, 어떤 파트가 모이는지 보여요.</p></div><span>🗓️</span></div>
       <div class="heat-wrap">
         <div>
-          <div class="sched" id="dash-heat"></div>
-          <div class="heat-legend">적음 <i style="background:rgba(255,122,47,.18)"></i><i style="background:rgba(255,122,47,.45)"></i><i style="background:rgba(255,122,47,.75)"></i><i style="background:var(--accent)"></i> 많음</div>
+          <div id="dash-heat"></div>
+          <div class="heat-legend">적음 <i style="background:rgba(255,123,44,.18)"></i><i style="background:rgba(255,123,44,.45)"></i><i style="background:rgba(255,123,44,.75)"></i><i style="background:#ff7b2c"></i> 많음</div>
           <div id="slot-detail"></div>
         </div>
         <div>
-          <p class="kicker">Best Times</p>
-          <h3 style="margin-bottom:10px">가장 많이 모이는 시간</h3>
+          <div class="card-head" style="margin-bottom:12px"><div><small>BEST TIMES</small><h2>가장 많이 모이는 시간</h2></div></div>
           <div class="toplist" id="dash-top"></div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="dgrid" style="margin-top:16px">
-      <div class="card">
-        <div class="card-head"><div><p class="kicker">Parts · Click</p><h3>어떤 파트가 모였나요?</h3></div><span class="ic">🎸</span></div>
-        <div class="bars" id="dash-parts"></div>
-        <p class="sub" id="dash-need" style="margin-top:12px"></p>
-      </div>
-      <div class="card">
-        <div class="card-head"><div><p class="kicker">Genres · Click</p><h3>우리의 플레이리스트</h3></div><span class="ic">🎧</span></div>
-        <div class="bars" id="dash-genres"></div>
-      </div>
-      <div class="card">
-        <div class="card-head"><div><p class="kicker">Wizards · Click</p><h3>겨울 마법사 유형 분포</h3></div><span class="ic">🧙</span></div>
-        <div class="stylegrid" id="dash-styles"></div>
-      </div>
-      <div class="card">
-        <div class="card-head"><div><p class="kicker">Artists · Click</p><h3>가장 많이 겹친 아티스트</h3></div><span class="ic">⭐</span></div>
-        <div class="cloud" id="dash-artists"></div>
-        <div id="dash-artist-detail"></div>
-      </div>
-      <div class="card span2">
-        <div class="card-head"><div><p class="kicker">Members</p><h3>함께하는 멤버들</h3>
-          <p class="sub">카드를 누르면 그 멤버의 최애 가수와 등록한 시간이 보여요.</p></div><span class="ic">❄</span></div>
-        <div class="memgrid" id="dash-members"></div>
-      </div>
+    <div class="dashboard-grid section-gap">
+      <section class="magic-card chart-card" data-reveal>
+        <div class="card-head"><div><small>PARTS · CLICK</small><h2>어떤 파트가 모였나요?</h2><p id="dash-need"></p></div><span>🎸</span></div>
+        <div class="bar-list" id="dash-parts"></div>
+      </section>
+      <section class="magic-card chart-card" data-reveal>
+        <div class="card-head"><div><small>GENRES · CLICK</small><h2>우리의 플레이리스트</h2></div><span>🎧</span></div>
+        <div class="bar-list" id="dash-genres"></div>
+      </section>
     </div>
-  </section>
+    <section class="magic-card chart-card section-gap" data-reveal>
+      <div class="card-head"><div><small>WIZARDS · CLICK</small><h2>겨울 마법사 유형 분포</h2></div><span>🧙</span></div>
+      <div class="style-grid" id="dash-styles"></div>
+    </section>
+    <section class="magic-card chart-card section-gap" data-reveal>
+      <div class="card-head"><div><small>ARTISTS · CLICK</small><h2>가장 많이 겹친 아티스트</h2><p>같은 가수를 고른 사람끼리는 매칭 점수가 올라가요.</p></div><span>🎙️</span></div>
+      <div class="artist-bar-grid" id="dash-artists"></div>
+    </section>
+    <div id="selection-anchor"></div>
+    <div id="dash-coming"></div>
+  </main>
 
   <!-- 관리자 -->
-  <section id="view-admin" hidden>
-    <div class="dash-head">
-      <p class="eyebrow">Admin Only</p>
-      <h2 class="section">관리자의 방 🗝️</h2>
-      <p class="sub">중복 아이디 정리(이름 변경·합치기), 비밀번호 재설정, 계정 삭제를 할 수 있어요.</p>
+  <main id="view-admin" class="content-page" hidden>
+    <div class="page-heading" data-reveal>
+      <div class="season-badge"><span>✦</span> ADMIN ONLY</div>
+      <h1>관리자의 <em>방</em> 🗝️</h1>
+      <p>중복 닉네임 정리(이름 변경·합치기), 비밀번호 재설정, 계정 삭제를 할 수 있어요.</p>
     </div>
-    <div class="card">
-      <div class="tablewrap">
-        <table class="admin">
-          <thead><tr><th>ID</th><th>PART</th><th>GENRE</th><th>ARTIST</th><th>TIME</th><th>TYPE</th><th>MANAGE</th></tr></thead>
+    <section class="magic-card admin-summary" id="admin-summary"></section>
+    <section class="magic-card table-card">
+      <div class="responsive-table">
+        <table>
+          <thead><tr><th>닉네임</th><th>파트</th><th>장르</th><th>아티스트</th><th>시간</th><th>상태</th><th>관리</th></tr></thead>
           <tbody id="admin-rows"></tbody>
         </table>
       </div>
       <div id="admin-editor" hidden></div>
-      <p class="err" id="admin-err"></p>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <footer class="site">
-    <b>CARROT WINTER BAND</b>
-    <span>연말의 작은 마법 · 중심은 합주와 사람 · Merry Jamming 🎄</span>
+  <footer class="footer">
+    <span>CARROT BAND MAKER</span>
+    <span>연말의 작은 마법 · 중심은 합주와 사람</span>
   </footer>
-</main>
+</div>
 
-<nav class="tabbar" id="tabbar" aria-label="하단 메뉴"></nav>
+<nav class="mobile-nav" id="mobilenav" aria-label="모바일 메뉴"></nav>
 <div class="toast" id="toast" role="status" hidden></div>
-
 <script src="/app.js"></script>
 </body>
 </html>
