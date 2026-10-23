@@ -923,6 +923,7 @@ function renderResults(){
   box._res = res;
 }
 $("artist-input").addEventListener("input", renderResults);
+$("artist-input").addEventListener("focus", ()=>{ setTimeout(()=>{ const r = $("artist-input").getBoundingClientRect(); if (r.bottom > innerHeight-170) $("artist-input").scrollIntoView({block:"center", behavior:reduceMotion()?"auto":"smooth"}); }, 150); });
 $("artist-input").addEventListener("keydown", e=>{
   if (e.key!=="Enter") return;
   e.preventDefault();
@@ -1622,7 +1623,7 @@ $("je-end").addEventListener("change", ()=>{ jamDraft.duration = Number($("je-en
 function renderJeMembers(){
   const all = currentMembers().filter(m=>m.done || jamDraft.members.has(m.slug))
     .sort((a,b)=>(a.slug===me.slug?-1:b.slug===me.slug?1:0) || a.id.localeCompare(b.id));
-  $("je-members").innerHTML = all.map(m=>'<button type="button" class="je-m'+(jamDraft.members.has(m.slug)?" on":"")+'" data-m="'+m.slug+'"'+(m.slug===me.slug?' disabled':'')+'>'+avatarHTML(m)+'<span>'+esc(m.id)+(m.slug===me.slug?' (나)':'')+'</span><small>'+esc(memberPartsText(m, "·"))+'</small></button>').join("")
+  $("je-members").innerHTML = all.map(m=>'<button type="button" class="je-m'+(jamDraft.members.has(m.slug)?" on":"")+'" data-m="'+m.slug+'"'+(m.slug===me.slug?' disabled':'')+' title="'+esc(memberPartsText(m, " · "))+'">'+avatarHTML(m)+'<span>'+esc(m.id)+(m.slug===me.slug?' (나)':'')+'</span><small>'+(m.parts||[]).map(k=>PART[k]?PART[k].e:"").join("")+'</small></button>').join("")
     || '<p class="muted" style="margin:0">아직 취향 등록을 마친 멤버가 없어요.</p>';
   $("je-count").textContent = jamDraft.members.size+"명 (나 포함, 최대 12명)";
 }
