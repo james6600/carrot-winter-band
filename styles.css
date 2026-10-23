@@ -721,3 +721,36 @@ button,input{font:inherit;color:inherit}
 .sug-manual-row .text-input{min-height:40px;width:auto;flex:1;min-width:120px}
 .sug-manual-row select.text-input{appearance:auto}
 .sug-manual small{color:#968f88;font-size:11px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-height:18px}
+
+/* ---------- 마이 페이지: 내 합주 일정 ---------- */
+.nav-badge{display:inline-grid;place-items:center;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:#ff5a4f;color:#fff;font-size:10px;font-weight:900;margin-left:4px;font-style:normal;vertical-align:1px}
+.mobile-nav .nav-badge{position:absolute;margin:0;transform:translate(10px,-14px)}
+.mobile-nav button span{position:relative}
+.agenda-card{padding:24px;margin-bottom:18px}
+.agenda-card .card-head{margin-bottom:12px}
+.ag-group{margin-top:14px;display:grid;gap:8px}
+.ag-group .section-label{font-size:10px}
+.ag-row{display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:11px 13px;background:rgba(255,255,255,.02);cursor:pointer;transition:border-color .2s}
+.ag-row:hover{border-color:rgba(216,183,100,.35)}
+.ag-row.invite{border-color:rgba(255,155,83,.45);background:rgba(255,123,44,.06)}
+.ag-d{display:grid;text-align:center;min-width:52px}
+.ag-d b{font-size:15px;color:var(--gold2);letter-spacing:-.03em}
+.ag-d small{font-size:10px;color:#8d8680}
+.ag-main{flex:1;min-width:0;display:grid;gap:3px}
+.ag-main b{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ag-main small{font-size:11px;color:#a49d96;line-height:1.5}
+.ag-side{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.ag-rsvp{display:flex;gap:4px}
+.ag-rsvp .button.small{min-height:32px;padding:5px 9px;font-size:11px}
+.ag-empty{min-height:110px}
+.agenda-card .jam-actions{margin-top:16px}
+.je-time{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:#c8c2bc}
+.je-time .text-input{width:auto;min-width:92px;appearance:auto;min-height:46px}
+.sug-more{margin-top:12px}
+.sug-more summary{cursor:pointer;font-size:12px;color:#a79876;font-weight:800;padding:6px 0}
+.sug-more .sug-list{margin-top:8px}
+.jam-sec h2 .want{color:var(--gold2)}
+@media (max-width:560px){
+  .ag-row{flex-wrap:wrap}
+  .ag-side{width:100%;justify-content:flex-start;padding-left:64px}
+}

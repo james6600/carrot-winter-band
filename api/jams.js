@@ -17,6 +17,10 @@ function validSlot(slot, duration){
   if (h < first || h + duration > last) return false;
   return m[1] >= todayKst() && m[1] <= GLOBAL_END;
 }
+function cleanDuration(v, fallback){
+  const d = Number(v ?? fallback);
+  return Number.isFinite(d) ? Math.min(5, Math.max(1, Math.round(d))) : (fallback || 2);
+}
 async function cleanJam(input, base){
   const title = clip(input.title ?? base.title, 40);
   if (title.length < 2) throw { code: 400, error: "bad_title" };
@@ -24,9 +28,11 @@ async function cleanJam(input, base){
   const members = [...new Set([base.createdBy, ...(Array.isArray(input.members) ? input.members : base.members)]
     .map(String).filter(s => known.has(s)))].slice(0, 12);
   const songs = (Array.isArray(input.songs) ? input.songs : base.songs).map(s => clip(s, 60)).filter(Boolean).slice(0, 10);
-  const dRaw = Number(input.duration ?? base.duration);
-  const duration = Number.isFinite(dRaw) ? Math.min(5, Math.max(1, Math.round(dRaw))) : (base.duration || 2);
-  return { ...base, title, members, songs, duration,
+  const duration = cleanDuration(input.duration, base.duration);
+  // 희망 시간대: "몇 시부터 몇 시까지"의 시작 시(時). 0이면 정하지 않음.
+  const sRaw = Number(input.startHour ?? base.startHour);
+  const startHour = Number.isInteger(sRaw) && sRaw >= SLOT_HOURS[0] && sRaw + duration <= SLOT_HOURS[SLOT_HOURS.length - 1] + 2 ? sRaw : 0;
+  return { ...base, title, members, songs, duration, startHour,
     note: clip(input.note ?? base.note, 300), place: clip(input.place ?? base.place, 40) };
 }
 
@@ -42,7 +48,7 @@ export default async function handler(req, res){
 
     if (b.action === "create"){
       const base = { slug: "j_" + crypto.randomBytes(5).toString("hex"), createdBy: me.slug, members: [], songs: [],
-        note: "", place: "", duration: 2, status: "planning", fixedSlot: "", rsvp: {}, createdAt: now, updatedAt: now };
+        note: "", place: "", duration: 2, startHour: 0, status: "planning", fixedSlot: "", rsvp: {}, createdAt: now, updatedAt: now };
       const jam = await cleanJam(b.jam || {}, base);
       await putJam(jam);
       return json(res, 200, { ok: true, jam });
@@ -63,8 +69,11 @@ export default async function handler(req, res){
       return json(res, 200, { ok: true, jam: next });
     }
     if (b.action === "fix"){
-      if (!validSlot(b.slot, jam.duration)) return json(res, 400, { error: "bad_slot" });
-      const next = { ...jam, status: "fixed", fixedSlot: String(b.slot), rsvp: { [me.slug]: "yes" }, updatedAt: now };
+      // 직접 정하기에서 끝나는 시간을 바꾸면 길이도 함께 바뀐다
+      const duration = b.duration === undefined ? jam.duration : cleanDuration(b.duration, jam.duration);
+      if (!validSlot(b.slot, duration)) return json(res, 400, { error: "bad_slot" });
+      const next = { ...jam, status: "fixed", fixedSlot: String(b.slot), duration, startHour: Number(String(b.slot).split("@")[1]),
+        rsvp: { [me.slug]: "yes" }, updatedAt: now };
       await putJam(next);
       return json(res, 200, { ok: true, jam: next });
     }

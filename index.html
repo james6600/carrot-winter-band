@@ -225,13 +225,14 @@
     </div>
   </main>
 
-  <!-- 내 결과 -->
+  <!-- 마이 페이지 -->
   <main id="view-result" class="content-page" hidden>
     <div class="page-heading" data-reveal>
-      <div class="season-badge"><span>✦</span> SORTING HAT SAYS</div>
+      <div class="season-badge"><span>✦</span> MY PAGE</div>
       <h1 id="result-title">마법의 모자가<br><em>고민 중이에요…</em></h1>
       <p id="result-desc"></p>
     </div>
+    <section class="magic-card agenda-card" id="my-agenda" data-reveal></section>
     <div class="result-hero">
       <section class="magic-card sorting-card" id="sorting-card" data-reveal></section>
       <section class="magic-card myband-card" data-reveal>
@@ -320,7 +321,8 @@
         <label class="input-field"><span>모임 이름</span><input id="je-name" maxlength="40" placeholder="예: 첫눈 멜로디단 1차 합주"></label>
         <div class="input-field"><span>멤버 <small id="je-count"></small></span><div class="je-members" id="je-members"></div></div>
         <label class="input-field"><span>합주할 노래 <small>한 줄에 한 곡</small></span><textarea id="je-songs" rows="4" maxlength="700" placeholder="Creep - Radiohead&#10;Zombie - The Cranberries"></textarea></label>
-        <div class="input-field"><span>길이</span><div class="seg je-seg" id="je-dur"><button type="button" data-dur="1" aria-pressed="false">1시간</button><button type="button" data-dur="2" aria-pressed="true">2시간</button><button type="button" data-dur="3" aria-pressed="false">3시간</button><button type="button" data-dur="4" aria-pressed="false">4시간</button><button type="button" data-dur="5" aria-pressed="false">5시간</button></div></div>
+        <div class="input-field"><span>합주 시간 <small>몇 시부터 몇 시까지 (최대 5시간) · 날짜는 다음 화면에서 골라요</small></span>
+          <div class="je-time"><select class="text-input" id="je-start" aria-label="시작 시간"></select><span>부터</span><select class="text-input" id="je-end" aria-label="끝나는 시간"></select><span>까지</span></div></div>
         <label class="input-field"><span>장소 <small>선택</small></span><input id="je-place" maxlength="40" placeholder="예: 정자동 ○○합주실"></label>
         <label class="input-field"><span>메모 <small>선택</small></span><textarea id="je-note" rows="2" maxlength="300" placeholder="준비물, 연습 범위 등"></textarea></label>
         <div id="je-err" class="notice error" hidden></div>
@@ -436,7 +438,7 @@
     <h2 id="cel-title">합주 매칭 준비가<br><em>완료되었어요!</em></h2>
     <p id="cel-sub">마법의 모자가 당신과 맞는 메이트와 밴드를 찾았어요.</p>
     <div class="pills cel-stats" id="cel-stats"></div>
-    <button class="button primary full" id="cel-go">내 결과 보러 가기 <span>→</span></button>
+    <button class="button primary full" id="cel-go">마이 페이지로 가기 <span>→</span></button>
   </div>
 </div>
 <canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
