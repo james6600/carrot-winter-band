@@ -7,6 +7,7 @@ import {
   listAdmins, getAdmin, putAdmin, createFirstAdmin, deleteAdmin,
   putSession, getSession, deleteSession, deleteSessionsOf, addLog, listLogs,
   listFeedback, getFeedback, updateFeedback, deleteFeedback,
+  listJams, getJam, putJam, deleteJam,
 } from "../lib/db.js";
 import {
   hashPw, checkPw, verifyTotp, newSecret, newToken, tokenHash, otpauthUri, parseCookies, sessionCookie,
@@ -16,7 +17,7 @@ const FULL_TTL = 8 * 3600e3;      // 로그인 유지 8시간
 const STEP_TTL = 5 * 60e3;        // 비밀번호 확인 후 코드 입력까지 5분
 const MAX_FAILS = 5, LOCK_MS = 10 * 60e3;
 const SUPER_ONLY = new Set(["admins", "admin_create", "admin_role", "admin_resetpw", "admin_reset2fa", "admin_delete",
-  "member_resetpw", "member_delete", "logs", "feedback_delete"]);
+  "member_resetpw", "member_delete", "logs", "feedback_delete", "jam_delete"]);
 const FEEDBACK_STATUS = ["new", "checking", "doing", "done", "hold"];
 const DUMMY = hashPw("timing-equalizer");
 
@@ -245,6 +246,27 @@ export default async function handler(req, res){
       const reply = String(b.reply ?? f.reply).trim().slice(0, 2000);
       await updateFeedback(f.n, { status, reply, repliedBy: reply !== f.reply ? me.id : f.repliedBy });
       await log("feedback_update", "#" + f.n, status + (reply !== f.reply ? " · 답변" : ""));
+      return json(res, 200, { ok: true });
+    }
+
+    if (action === "jams_list"){
+      const names = Object.fromEntries((await listMembers()).map(m => [m.slug, m.id]));
+      return json(res, 200, { jams: (await listJams()).map(j => ({ ...j, memberNames: j.members.map(s => names[s] || "(나간 멤버)"), createdByName: names[j.createdBy] || "?" })) });
+    }
+    if (action === "jam_status" || action === "jam_delete"){
+      const j = await getJam(String(b.target || ""));
+      if (!j) return json(res, 404, { error: "no_target" });
+      if (action === "jam_delete"){
+        await deleteJam(j.slug);
+        await log("jam_delete", j.title);
+        return json(res, 200, { ok: true });
+      }
+      const status = ["planning", "canceled", "done"].includes(b.status) ? b.status : null;
+      if (!status) return json(res, 400, { error: "bad_status" });
+      const next = { ...j, status, updatedAt: new Date().toISOString() };
+      if (status === "planning"){ next.fixedSlot = ""; next.rsvp = {}; }
+      await putJam(next);
+      await log("jam_status", j.title, status);
       return json(res, 200, { ok: true });
     }
 

@@ -272,6 +272,61 @@
     </div>
   </main>
 
+  <!-- 합주 모임: 목록 + 캘린더 -->
+  <main id="view-jams" class="content-page" hidden>
+    <div class="jams-head">
+      <div class="page-heading" data-reveal>
+        <div class="season-badge"><span>✦</span> JAM SESSIONS</div>
+        <h1>함께 합주할 <em>날을 정해요</em></h1>
+        <p>모임을 만들면 멤버들이 등록한 <b>합주 시간</b>으로 가장 많이 겹치는 날짜를 제안해요. 하나를 골라 픽스하면 캘린더에 올라가요.</p>
+      </div>
+      <div id="jams-cta" data-reveal></div>
+    </div>
+    <section class="magic-card cal-card" data-reveal>
+      <div class="card-head"><div><small>CALENDAR</small><h2>전체 합주 캘린더</h2><p>확정된 합주의 날짜·시간·멤버·노래를 모두가 볼 수 있어요. 칸을 누르면 자세히 보여요.</p></div><span>🗓️</span></div>
+      <div id="jam-cal"></div>
+    </section>
+    <section class="section-gap jam-section" id="jams-planning-sec" data-reveal>
+      <div class="section-label">PLANNING</div><h2 class="jam-h2">날짜 정하는 중 ⏳</h2>
+      <div class="jam-list" id="jams-planning"></div>
+    </section>
+    <section class="section-gap jam-section" id="jams-fixed-sec" data-reveal>
+      <div class="section-label">UPCOMING</div><h2 class="jam-h2">다가오는 합주 🎸</h2>
+      <div class="jam-list" id="jams-fixed"></div>
+    </section>
+    <section class="section-gap jam-section" id="jams-past-sec" data-reveal>
+      <div class="section-label">ARCHIVE</div><h2 class="jam-h2">지난 합주 · 취소</h2>
+      <div class="jam-list" id="jams-past"></div>
+    </section>
+  </main>
+
+  <!-- 합주 모임: 상세 -->
+  <main id="view-jam" class="content-page" hidden>
+    <button class="button small ghost" id="jam-back">‹ 모임 목록</button>
+    <div id="jam-body"></div>
+  </main>
+
+  <!-- 합주 모임: 만들기 / 수정 -->
+  <main id="view-jam-edit" class="content-page" hidden>
+    <div class="page-heading">
+      <div class="season-badge"><span>✦</span> NEW JAM</div>
+      <h1 id="je-heading">새 <em>합주 모임</em></h1>
+      <p>멤버와 노래를 정해두면, 멤버들의 합주 시간으로 날짜를 제안해 드려요. 나중에 언제든 고칠 수 있어요.</p>
+    </div>
+    <section class="magic-card login-card je-card">
+      <div class="form-stack">
+        <label class="input-field"><span>모임 이름</span><input id="je-name" maxlength="40" placeholder="예: 첫눈 멜로디단 1차 합주"></label>
+        <div class="input-field"><span>멤버 <small id="je-count"></small></span><div class="je-members" id="je-members"></div></div>
+        <label class="input-field"><span>합주할 노래 <small>한 줄에 한 곡</small></span><textarea id="je-songs" rows="4" maxlength="700" placeholder="Creep - Radiohead&#10;Zombie - The Cranberries"></textarea></label>
+        <div class="input-field"><span>길이</span><div class="seg je-seg" id="je-dur"><button type="button" data-dur="2" aria-pressed="true">2시간 (한 칸)</button><button type="button" data-dur="4" aria-pressed="false">4시간 (두 칸 연속)</button></div></div>
+        <label class="input-field"><span>장소 <small>선택</small></span><input id="je-place" maxlength="40" placeholder="예: 정자동 ○○합주실"></label>
+        <label class="input-field"><span>메모 <small>선택</small></span><textarea id="je-note" rows="2" maxlength="300" placeholder="준비물, 연습 범위 등"></textarea></label>
+        <div id="je-err" class="notice error" hidden></div>
+        <div class="je-actions"><button class="button ghost" id="je-cancel">취소</button><button class="button primary" id="je-save">저장하기 <span>→</span></button></div>
+      </div>
+    </section>
+  </main>
+
   <!-- 오류 보고 · 기능 제안 -->
   <main id="view-feedback" class="content-page" hidden>
     <div class="page-heading" data-reveal>

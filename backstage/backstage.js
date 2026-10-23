@@ -16,6 +16,7 @@ const ACTION_NAME = {
   admin_create:"관리자 추가", admin_role:"권한 변경", admin_resetpw:"관리자 비번 재설정",
   admin_reset2fa:"2단계 초기화", admin_delete:"관리자 삭제",
   feedback_update:"의견 처리", feedback_delete:"의견 삭제",
+  jam_status:"모임 상태 변경", jam_delete:"모임 삭제",
 };
 const ERR = {
   auth:"아이디 또는 비밀번호가 맞지 않아요.", proof:"예전 admin 계정 비밀번호가 맞지 않아요.",
@@ -150,6 +151,7 @@ bindForm("f-changepw", async (v, f)=>{
 const TABS = [
   {k:"members", t:"👥 회원 관리"},
   {k:"schedule", t:"🗓️ 일정 조율"},
+  {k:"jams", t:"🎪 합주 모임"},
   {k:"feedback", t:"💌 의견함"},
   {k:"admins", t:"🛡️ 관리자", sup:true},
   {k:"logs", t:"📜 활동 기록", sup:true},
@@ -173,6 +175,7 @@ async function openTab(k){
     if (k === "admins") await loadAdmins();
     if (k === "logs") await loadLogs();
     if (k === "feedback") await loadFeedback();
+    if (k === "jams") await loadJams();
   } catch (e){ toast(errText(e)); }
 }
 async function loadMembers(){
@@ -375,6 +378,35 @@ $("a-rows").addEventListener("click", e=>{
   if (b.dataset.aa === "delete")
     dialog('<b>' + name + ' 관리자를 삭제할까요?</b><p class="muted bs-small">확인하려면 아이디를 그대로 입력하세요.</p><input class="text-input" name="confirm" required autocomplete="off" placeholder="' + esc(a.id) + '">',
       async v=>{ if (v.confirm.trim() !== a.id) throw "아이디가 일치하지 않아요."; await api("admin_delete", {target:a.id}); await done("관리자를 삭제했어요"); });
+});
+
+/* 합주 모임 */
+const JAM_STATUS = {planning:["날짜 정하는 중", "gold"], fixed:["확정", "ok"], done:["끝남", ""], canceled:["취소", "bad"]};
+let jams = [];
+async function loadJams(){ jams = (await api("jams_list")).jams; renderJams(); }
+function renderJams(){
+  $("j-rows").innerHTML = jams.length ? jams.map(j => {
+    const [st, cls] = JAM_STATUS[j.status] || JAM_STATUS.planning;
+    const acts = (j.status === "canceled" ? '<button class="button small ghost" data-j="' + j.slug + '" data-ja="planning">다시 열기</button>'
+      : '<button class="button small ghost" data-j="' + j.slug + '" data-ja="canceled">취소</button>')
+      + (isSuper() ? '<button class="button small danger" data-j="' + j.slug + '" data-ja="delete">삭제</button>' : "");
+    return '<tr><td><b>' + esc(j.title) + '</b>' + (j.place ? '<br><small class="muted">📍 ' + esc(j.place) + '</small>' : '') + '</td>'
+      + '<td><span class="pill ' + cls + '">' + st + '</span></td>'
+      + '<td>' + (j.fixedSlot ? slotText(j.fixedSlot) + ' (' + j.duration + 'h)' : '—') + '</td>'
+      + '<td>' + esc(j.memberNames.join(", ")) + '</td>'
+      + '<td>' + esc(j.songs.join(", ")) + '</td>'
+      + '<td>' + esc(j.createdByName) + '<br><small class="muted">' + when(j.createdAt) + '</small></td>'
+      + '<td><div class="row-actions">' + acts + '</div></td></tr>';
+  }).join("") : '<tr><td colspan="7" class="muted">아직 모임이 없어요.</td></tr>';
+}
+$("j-rows").addEventListener("click", e=>{
+  const b = e.target.closest("[data-ja]"); if (!b) return;
+  const j = jams.find(x => x.slug === b.dataset.j); if (!j) return;
+  if (b.dataset.ja === "delete")
+    return dialog('<b>「' + esc(j.title) + '」 모임을 지울까요?</b><p class="muted bs-small">되돌릴 수 없어요. 보통은 취소로 충분해요.</p>',
+      async ()=>{ await api("jam_delete", {target:j.slug}); toast("지웠어요"); await loadJams(); }, "삭제");
+  dialog('<b>「' + esc(j.title) + '」 ' + (b.dataset.ja === "canceled" ? "모임을 취소할까요?" : "모임을 다시 열까요?") + '</b><p class="muted bs-small">' + (b.dataset.ja === "canceled" ? "캘린더에서 내려가고 멤버들에게 취소로 보여요." : "다시 날짜 정하는 중 상태가 돼요.") + '</p>',
+    async ()=>{ await api("jam_status", {target:j.slug, status:b.dataset.ja}); toast("바꿨어요"); await loadJams(); });
 });
 
 /* 의견함 */
