@@ -714,3 +714,10 @@ button,input{font:inherit;color:inherit}
 .tpref small{color:var(--dim);font-size:11px}
 .tpref-chips{display:flex;flex-wrap:wrap;gap:6px}
 .tpref-chips .genre-chip{font-size:13px;padding:9px 14px}
+
+.sug-manual{margin-top:14px;border:1px dashed rgba(216,183,100,.3);border-radius:14px;padding:12px 14px;display:grid;gap:8px}
+.sug-manual b{font-size:13px}
+.sug-manual-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.sug-manual-row .text-input{min-height:40px;width:auto;flex:1;min-width:120px}
+.sug-manual-row select.text-input{appearance:auto}
+.sug-manual small{color:#968f88;font-size:11px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-height:18px}

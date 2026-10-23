@@ -9,11 +9,12 @@ const RSVP = ["yes", "no", "maybe"];
 const clip = (v, n) => String(v ?? "").trim().slice(0, n);
 const todayKst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
 
+// 시작은 10~23시 어느 시(時)든 되고, 끝나는 시간이 24시를 넘지 않아야 한다. 다른 모임과 겹치는 건 막지 않는다(화면에서 알림만).
 function validSlot(slot, duration){
   const m = /^(\d{4}-\d{2}-\d{2})@(\d{2})$/.exec(String(slot || ""));
   if (!m) return false;
-  const h = Number(m[2]);
-  if (!SLOT_HOURS.includes(h) || (duration === 4 && h + 2 > SLOT_HOURS[SLOT_HOURS.length - 1])) return false;
+  const h = Number(m[2]), first = SLOT_HOURS[0], last = SLOT_HOURS[SLOT_HOURS.length - 1] + 2;
+  if (h < first || h + duration > last) return false;
   return m[1] >= todayKst() && m[1] <= GLOBAL_END;
 }
 async function cleanJam(input, base){
@@ -23,7 +24,8 @@ async function cleanJam(input, base){
   const members = [...new Set([base.createdBy, ...(Array.isArray(input.members) ? input.members : base.members)]
     .map(String).filter(s => known.has(s)))].slice(0, 12);
   const songs = (Array.isArray(input.songs) ? input.songs : base.songs).map(s => clip(s, 60)).filter(Boolean).slice(0, 10);
-  const duration = Number(input.duration ?? base.duration) === 4 ? 4 : 2;
+  const dRaw = Number(input.duration ?? base.duration);
+  const duration = Number.isFinite(dRaw) ? Math.min(5, Math.max(1, Math.round(dRaw))) : (base.duration || 2);
   return { ...base, title, members, songs, duration,
     note: clip(input.note ?? base.note, 300), place: clip(input.place ?? base.place, 40) };
 }
