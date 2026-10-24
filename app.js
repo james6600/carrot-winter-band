@@ -1483,25 +1483,35 @@ function jamCard(j){
     +(j.songs.length?'<p class="jam-songs">🎵 '+esc(j.songs.slice(0,3).join(" · "))+(j.songs.length>3?' 외 '+(j.songs.length-3)+'곡':'')+'</p>':'')
     +'</article>';
 }
-let jamsTab = "jams";
-$("jams-tabs").addEventListener("click", e=>{ const b = e.target.closest("[data-jt]"); if (!b) return; jamsTab = b.dataset.jt; renderJams(); });
+// 옆 칸 목록은 3개까지 보여주고 나머지는 "더 보기"로 편다
+const boardOpen = new Set();
+function moreList(key, items, render){
+  const n = boardOpen.has(key) ? items.length : 3;
+  return items.slice(0, n).map(render).join("") + (items.length > 3 ? '<button type="button" class="button small ghost board-more" data-more-list="'+key+'">'+(boardOpen.has(key) ? "접기" : "+ "+(items.length-3)+"개 더 보기")+'</button>' : "");
+}
+document.addEventListener("click", e=>{ const b = e.target.closest("[data-more-list]"); if (!b) return; const k = b.dataset.moreList; boardOpen.has(k) ? boardOpen.delete(k) : boardOpen.add(k); renderJams(); });
+// 합주 모임 화면: 캘린더 + 모임 | 제안을 한 화면에. "props"로 들어오면 제안 칸으로 스크롤한다.
+let jamsTab = "";
 function renderJams(){
-  for (const b of $("jams-tabs").querySelectorAll("button")) b.setAttribute("aria-pressed", b.dataset.jt===jamsTab);
-  $("jt-jams").hidden = jamsTab!=="jams"; $("jt-props").hidden = jamsTab!=="props"; $("jt-cal").hidden = jamsTab!=="cal";
-  $("jams-cta").innerHTML = jamsTab==="cal" ? ''
-    : me ? '<button class="button primary" id="'+(jamsTab==="props"?"props-new":"jams-new")+'">'+(jamsTab==="props"?"+ 합주 제안 올리기":"+ 새 모임 만들기")+'</button>'
-    : '<button class="button ghost" id="jams-login">'+(jamsTab==="props"?"제안·신청하려면 입장해 주세요 →":"모임을 만들려면 입장해 주세요 →")+'</button>';
+  $("jams-cta").innerHTML = me
+    ? '<button class="button primary" id="jams-new">+ 새 모임 만들기</button><button class="button ghost" id="props-new">📣 합주 제안 올리기</button>'
+    : '<button class="button ghost" id="jams-login">모임을 만들거나 제안하려면 입장해 주세요 →</button>';
+  $("jams-new-2").hidden = $("props-new-2").hidden = !me;
   renderCal(); renderProps();
+  if (jamsTab==="props"){ jamsTab = ""; setTimeout(()=>$("props-sec").scrollIntoView({behavior:reduceMotion()?"auto":"smooth", block:"start"}), 80); }
   const groups = {planning:[], fixed:[], past:[]};
   for (const j of jamsCache){ const p = jamPhase(j); (groups[p==="canceled"?"past":p]).push(j); }
   groups.planning.sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
   groups.fixed.sort((a,b)=>a.fixedSlot.localeCompare(b.fixedSlot));
   groups.past.sort((a,b)=>(b.fixedSlot||b.updatedAt).localeCompare(a.fixedSlot||a.updatedAt));
   const empty = t => '<div class="empty-state"><span>☾</span><p>'+t+'</p></div>';
-  $("jams-planning").innerHTML = groups.planning.length ? groups.planning.map(jamCard).join("") : empty(me ? "아직 없어요. 새 모임을 만들어 보세요 🥕" : "아직 계획 중인 모임이 없어요.");
-  $("jams-fixed").innerHTML = groups.fixed.length ? groups.fixed.map(jamCard).join("") : empty("확정된 합주가 생기면 여기와 캘린더에 떠요.");
+  $("jams-planning").innerHTML = groups.planning.length ? moreList("planning", groups.planning, jamCard) : empty(me ? "아직 없어요. 새 모임을 만들어 보세요 🥕" : "아직 계획 중인 모임이 없어요.");
+  $("jams-fixed").innerHTML = groups.fixed.length ? moreList("fixed", groups.fixed, jamCard) : empty("확정된 합주가 생기면 여기와 캘린더에 떠요.");
   $("jams-past-sec").hidden = !groups.past.length;
   $("jams-past").innerHTML = groups.past.map(jamCard).join("");
+  const closedProps = propsCache.filter(p=>!p.showSlug && p.status!=="open").length;
+  $("jams-archive").hidden = !groups.past.length && !closedProps;
+  $("archive-count").textContent = (groups.past.length+closedProps)+"개";
 }
 function renderCal(){
   if (!calMonth) calMonth = (TODAY < GLOBAL_START ? GLOBAL_START : TODAY > GLOBAL_END ? GLOBAL_END : TODAY).slice(0,7);
@@ -1531,8 +1541,8 @@ $("jam-cal").addEventListener("click", e=>{
   calMonth = d.getFullYear()+"-"+pad2(d.getMonth()+1); renderCal();
 });
 document.addEventListener("click", e=>{
-  const nb = e.target.closest("#jams-new, #jams-login, #props-new");
-  if (nb){ return goTo(nb.id==="jams-new" ? "view-jam-edit" : nb.id==="props-new" ? "view-prop-edit" : "view-login"); }
+  const nb = e.target.closest("#jams-new, #jams-new-2, #jams-login, #props-new, #props-new-2");
+  if (nb){ return goTo(nb.id.startsWith("jams-new") ? "view-jam-edit" : nb.id.startsWith("props-new") ? "view-prop-edit" : "view-login"); }
   const pc = e.target.closest("[data-prop]");
   if (pc){ propOpen = pc.dataset.prop; goTo("view-prop"); return; }
   const fb = e.target.closest("[data-jam-band]");
@@ -1684,7 +1694,7 @@ function renderProps(){
   const general = propsCache.filter(p=>!p.showSlug);   // 공연 팀 모집은 공연 화면에서
   const open = general.filter(p=>p.status==="open"), rest = general.filter(p=>p.status!=="open");
   const empty = t => '<div class="empty-state"><span>📣</span><p>'+t+'</p></div>';
-  $("props-open").innerHTML = open.length ? open.map(propCard).join("") : empty(me ? "아직 제안이 없어요. 하고 싶은 합주를 먼저 올려보세요!" : "아직 모집 중인 제안이 없어요.");
+  $("props-open").innerHTML = open.length ? moreList("props", open, propCard) : empty(me ? "아직 제안이 없어요. 하고 싶은 합주를 먼저 올려보세요!" : "아직 모집 중인 제안이 없어요.");
   $("props-closed-sec").hidden = !rest.length;
   $("props-closed").innerHTML = rest.map(propCard).join("");
 }

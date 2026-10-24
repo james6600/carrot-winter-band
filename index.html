@@ -282,42 +282,34 @@
       <div class="page-heading" data-reveal>
         <div class="season-badge"><span>✦</span> JAM SESSIONS</div>
         <h1>함께 합주할 <em>날을 정해요</em></h1>
-        <p>모임을 만들면 멤버들이 등록한 <b>합주 시간</b>으로 가장 많이 겹치는 날짜를 제안해요. 하나를 골라 픽스하면 캘린더에 올라가요.</p>
+        <p>확정된 합주는 캘린더에서 모두 볼 수 있어요. 멤버가 정해졌으면 <b>모임</b>을 만들어 날짜를 잡고, 아직 사람을 구한다면 <b>합주 제안</b>을 올려 모아보세요.</p>
       </div>
-      <div id="jams-cta" data-reveal></div>
+      <div class="jams-cta" id="jams-cta" data-reveal></div>
     </div>
-    <div class="seg jams-tabs" id="jams-tabs" role="tablist"><button data-jt="jams" aria-pressed="true">🎪 모임</button><button data-jt="props" aria-pressed="false">📣 합주 제안</button><button data-jt="cal" aria-pressed="false">🗓️ 캘린더</button></div>
-    <div id="jt-props" hidden>
-      <section class="jam-section" id="props-open-sec">
-        <div class="section-label">OPEN</div><h2 class="jam-h2">모집 중인 제안 📣</h2>
-        <p class="muted jam-lead">"이런 합주 하고 싶어요" 글을 올리면 관심 있는 사람이 파트를 골라 신청해요. 사람이 모이면 제안자가 모임으로 만들어요.</p>
-        <div class="jam-list" id="props-open"></div>
-      </section>
-      <section class="section-gap jam-section" id="props-closed-sec">
-        <div class="section-label">ARCHIVE</div><h2 class="jam-h2">모임이 됐거나 닫힌 제안</h2>
-        <div class="jam-list" id="props-closed"></div>
-      </section>
-    </div>
-    <div id="jt-cal" hidden>
+    <div class="jams-layout">
     <section class="magic-card cal-card" data-reveal>
       <div class="card-head"><div><small>CALENDAR</small><h2>전체 합주 캘린더</h2><p>확정된 합주의 날짜·시간·멤버·노래를 모두가 볼 수 있어요. 칸을 누르면 자세히 보여요.</p></div><span>🗓️</span></div>
       <div id="jam-cal"></div>
     </section>
+    <div class="jams-board jams-side">
+      <section class="magic-card board-col" id="jams-sec" data-reveal>
+        <div class="card-head"><div><small>JAMS</small><h2>🎪 합주 모임</h2><p>멤버가 정해진 모임이에요. 날짜를 정하고 참석을 모아요.</p></div><button class="button small ghost board-new" id="jams-new-2" hidden>+ 새 모임</button></div>
+        <div class="board-sub" id="jams-fixed-sec"><div class="section-label">UPCOMING · 다가오는 합주</div><div class="jam-list board-list" id="jams-fixed"></div></div>
+        <div class="board-sub" id="jams-planning-sec"><div class="section-label">PLANNING · 날짜 정하는 중</div><div class="jam-list board-list" id="jams-planning"></div></div>
+      </section>
+      <section class="magic-card board-col" id="props-sec" data-reveal>
+        <div class="card-head"><div><small>PROPOSALS</small><h2>📣 합주 제안</h2><p>"이런 합주 하고 싶어요" 모집 글이에요. 파트를 골라 신청하면 함께해요.</p></div><button class="button small ghost board-new" id="props-new-2" hidden>+ 제안</button></div>
+        <div class="board-sub" id="props-open-sec"><div class="section-label">OPEN · 모집 중</div><div class="jam-list board-list" id="props-open"></div></div>
+      </section>
     </div>
-    <div id="jt-jams">
-    <section class="jam-section" id="jams-planning-sec" data-reveal>
-      <div class="section-label">PLANNING</div><h2 class="jam-h2">날짜 정하는 중 ⏳</h2>
-      <div class="jam-list" id="jams-planning"></div>
-    </section>
-    <section class="section-gap jam-section" id="jams-fixed-sec" data-reveal>
-      <div class="section-label">UPCOMING</div><h2 class="jam-h2">다가오는 합주 🎸</h2>
-      <div class="jam-list" id="jams-fixed"></div>
-    </section>
-    <section class="section-gap jam-section" id="jams-past-sec" data-reveal>
-      <div class="section-label">ARCHIVE</div><h2 class="jam-h2">지난 합주 · 취소</h2>
-      <div class="jam-list" id="jams-past"></div>
-    </section>
     </div>
+    <details class="jams-archive section-gap" id="jams-archive">
+      <summary>📼 지난 합주 · 닫힌 제안 <small id="archive-count"></small></summary>
+      <div class="jams-board">
+        <div id="jams-past-sec"><div class="section-label">지난 합주 · 취소</div><div class="jam-list board-list" id="jams-past"></div></div>
+        <div id="props-closed-sec"><div class="section-label">모임이 됐거나 닫힌 제안</div><div class="jam-list board-list" id="props-closed"></div></div>
+      </div>
+    </details>
   </main>
 
   <!-- 공연: 목록 -->

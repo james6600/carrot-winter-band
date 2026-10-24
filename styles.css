@@ -879,3 +879,36 @@ button,input{font:inherit;color:inherit}
 .pa-row select.text-input{width:auto;min-height:36px;appearance:auto;font-size:12px}
 .invited{font-size:11px}
 .je-search{min-height:42px;margin-bottom:6px}
+
+/* ---------- 합주 모임: 캘린더 + 모임 | 제안 ---------- */
+.jams-cta{display:flex;gap:8px;flex-wrap:wrap}
+.jams-board{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.board-col{padding:22px}
+.board-col .card-head{margin-bottom:12px}
+.board-col .card-head h2{font-size:22px}
+.board-new{flex:none}
+.board-sub + .board-sub{margin-top:16px}
+.board-sub .section-label{font-size:10px;margin-bottom:8px}
+.board-list{grid-template-columns:1fr}
+.board-list .empty-state{min-height:96px;border:1px dashed rgba(255,255,255,.08);border-radius:14px}
+.jams-archive{border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px 18px;background:rgba(255,255,255,.015)}
+.jams-archive summary{cursor:pointer;font-weight:800;font-size:14px;color:#c8c2bc}
+.jams-archive summary small{color:#8d8680;font-weight:600;margin-left:4px}
+.jams-archive[open] summary{margin-bottom:14px}
+.jams-archive .section-label{font-size:10px;margin-bottom:8px}
+@media (max-width:900px){ .jams-board{grid-template-columns:1fr} }
+@media (max-width:560px){ .board-col{padding:16px} .jams-cta .button{flex:1} }
+
+.jams-layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(330px,.85fr);gap:18px;align-items:start}
+.jams-side{grid-template-columns:1fr}
+.jams-layout .cal-card{position:sticky;top:16px}
+@media (max-width:1000px){ .jams-layout{grid-template-columns:1fr} .jams-layout .cal-card{position:static} .jams-side{grid-template-columns:1fr 1fr} }
+@media (max-width:900px){ .jams-side{grid-template-columns:1fr} }
+
+/* 옆 칸 카드는 간단하게 */
+.jams-side .jam-card{padding:13px 14px;gap:5px}
+.jams-side .jam-card h4{font-size:15px}
+.jams-side .jam-card .jam-people,.jams-side .jam-card .jam-songs,.jams-side .jam-card .prop-body{display:none}
+.jams-side .jam-card .pills .pill{font-size:9px;padding:3px 6px}
+.board-list{gap:8px}
+.board-more{width:100%}
