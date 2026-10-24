@@ -16,7 +16,9 @@ function cleanProposal(input, base){
   const want = {};
   const src = input.want && typeof input.want === "object" ? input.want : base.want;
   for (const k of PART_KEYS){ const n = Math.round(Number(src[k]) || 0); if (n > 0) want[k] = Math.min(5, n); }
-  return { ...base, title, body, songs, want, whenText: clip(input.whenText ?? base.whenText, 60) };
+  // 제안자 본인이 맡을 파트 (모집 인원과 별도)
+  const ownerPart = PART_KEYS.includes(input.ownerPart) ? input.ownerPart : (base.ownerPart || "");
+  return { ...base, title, body, songs, want, ownerPart, whenText: clip(input.whenText ?? base.whenText, 60) };
 }
 // 파트 정원: 모집 파트를 정하지 않았으면 무제한, 정했으면 그 파트 인원(정하지 않은 파트는 0 → 대기)
 const capOf = (p, part) => Object.keys(p.want || {}).length ? (p.want[part] || 0) : Infinity;
@@ -52,7 +54,8 @@ export default async function handler(req, res){
 
     if (b.action === "create"){
       const base = { slug: "p_" + crypto.randomBytes(5).toString("hex"), body: "", songs: [], want: {}, whenText: "",
-        createdBy: me.slug, status: "open", jamSlug: "", interest: [], applicants: {}, accepting: true, showSlug: "", team: {}, createdAt: now, updatedAt: now };
+        createdBy: me.slug, status: "open", jamSlug: "", interest: [], applicants: {}, accepting: true, showSlug: "", team: {},
+        ownerPart: (me.parts || [])[0] || "", createdAt: now, updatedAt: now };
       const input = b.proposal || {};
       let show = null;
       if (input.showSlug){
@@ -122,7 +125,7 @@ export default async function handler(req, res){
       if (!show) return json(res, 400, { error: "not_team" });
       if (p.status !== "open") return json(res, 400, { error: "closed" });
       if (show.status === "confirmed" || show.status === "done") return json(res, 400, { error: "show_locked" });
-      const ownerPart = PART_KEYS.includes(b.ownerPart) ? b.ownerPart : ((me.parts || [])[0] || "etc");
+      const ownerPart = PART_KEYS.includes(b.ownerPart) ? b.ownerPart : (p.ownerPart || (me.parts || [])[0] || "etc");
       const members = [{ slug: me.slug, part: ownerPart }, ...inMembers(p).map(([s, a]) => ({ slug: s, part: a.part }))];
       const next = { ...p, status: "team", team: { members, at: now } };
       await putProposal({ ...next, updatedAt: now });

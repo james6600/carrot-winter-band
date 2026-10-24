@@ -1652,6 +1652,7 @@ async function jamAct(action, extra, msg){
 let propsCache = [], propOpen = null, propDraft = null;
 const PROP_STATUS = {open:["모집 중","ok"], converted:["모임이 됐어요","orange"], closed:["닫힘",""], team:["공연팀 확정","orange"]};
 const appState = a => a && a.state==="wait" ? "wait" : "in";
+const ownerPartLabel = p => p.ownerPart && PART[p.ownerPart] ? PART[p.ownerPart].e+' '+PART[p.ownerPart].n : "";
 // 파트별 대기 줄 (신청 순서)
 function waitList(p){ return Object.entries(p.applicants||{}).filter(([,a])=>appState(a)==="wait").sort((x,y)=>x[1].at.localeCompare(y[1].at)); }
 function waitRank(p, slug){ const a = p.applicants[slug]; if (!a || appState(a)!=="wait") return 0; return waitList(p).filter(([,x])=>x.part===a.part).findIndex(([sl])=>sl===slug)+1; }
@@ -1671,7 +1672,7 @@ function propCard(p){
   return '<article class="jam-card prop'+(mine?" me":"")+'" data-prop="'+p.slug+'" data-tilt>'
     +'<div class="jam-top"><span class="pill '+cls+'">'+st+'</span>'+(unreadOf(p.slug)?'<span class="pill orange">💬 새 글 '+unreadOf(p.slug)+'</span>':'')+(p.status==="open"&&!p.accepting?'<span class="pill">🔒 사람 안 받는 중</span>':propFull(p)&&p.status==="open"?'<span class="pill gold">정원 마감'+(waits?' · 대기 '+waits:'')+'</span>':'')+(mine==="owner"?'<span class="pill orange">내 제안</span>':mine==="applied"?'<span class="pill orange">신청함</span>':mine==="wait"?'<span class="pill orange">대기 중</span>':mine==="interest"?'<span class="pill">관심</span>':'')+'<small>👀 '+p.interest.length+' · 🙋 '+apps+(waits?' · ⏳ '+waits:'')+'</small></div>'
     +'<h4>'+esc(p.title)+'</h4>'
-    +'<p class="jam-when">'+(p.whenText?'🗓️ '+esc(p.whenText)+' · ':'')+'🗝️ '+esc(by?by.id:"?")+'</p>'
+    +'<p class="jam-when">'+(p.whenText?'🗓️ '+esc(p.whenText)+' · ':'')+'🗝️ '+esc(by?by.id:"?")+(p.ownerPart?' ('+ownerPartLabel(p)+')':'')+'</p>'
     +(wantRows(p).length?'<div class="pills">'+wantRows(p).map(w=>'<span class="pill '+(w.who.length>=w.need?"ok":"")+'">'+PART[w.part].e+' '+PART[w.part].n+' '+w.who.length+'/'+w.need+'</span>').join("")+'</div>':'')
     +(p.body?'<p class="jam-songs prop-body">'+esc(p.body.length>90?p.body.slice(0,90)+"…":p.body)+'</p>':'')
     +'</article>';
@@ -1728,7 +1729,7 @@ function renderProp(){
   $("prop-body").innerHTML = '<div class="page-heading jam-heading"><div class="season-badge"><span>✦</span> '+(isTeam?"TEAM RECRUIT":"JAM PROPOSAL")+'</div><h1>'+esc(p.title)+'</h1>'
     +'<div class="pills"><span class="pill '+cls+'">'+st+'</span>'+(sh?'<button class="pill pill-link" data-pact="goshow">🎤 '+esc(sh.title)+'</button>':'')
     +(p.status==="open"&&!p.accepting?'<span class="pill">🔒 사람 안 받는 중</span>':full&&p.status==="open"?'<span class="pill gold">정원 마감'+(waits.length?' · 대기 '+waits.length:'')+'</span>':'')
-    +'<span class="pill'+(owner?' orange':'')+'">🗝️ '+esc(by?by.id:"?")+(owner?' (나)':'')+'</span>'+(p.whenText?'<span class="pill">🗓️ '+esc(p.whenText)+'</span>':'')+'</div>'
+    +'<span class="pill'+(owner?' orange':'')+'">🗝️ '+esc(by?by.id:"?")+(owner?' (나)':'')+(p.ownerPart?' · '+ownerPartLabel(p):'')+'</span>'+(p.whenText?'<span class="pill">🗓️ '+esc(p.whenText)+'</span>':'')+'</div>'
     +'<div class="jam-actions share-row"><button class="button small '+(owner?"primary":"ghost")+'" data-pact="share">🔗 링크로 초대하기</button><small class="muted">카톡·당근 채팅 등에 붙여넣으면 이 '+(isTeam?"팀 모집":"제안")+'으로 바로 들어와요</small></div></div>'
     +'<div class="jam-layout"><div>'
     +'<section class="magic-card jam-sec"><div class="card-head"><div><small>ABOUT</small><h2>'+(isTeam?"어떤 팀인가요?":"어떤 합주인가요?")+'</h2></div><span>'+(isTeam?"🎤":"📣")+'</span></div>'
@@ -1738,10 +1739,11 @@ function renderProp(){
     +'<div id="chat-mount"></div>'
     +'</div><aside>'
     +'<section class="magic-card jam-sec"><div class="card-head"><div><small>PARTS</small><h2>모집 파트</h2></div><span>🎸</span></div>'
+    +(p.ownerPart?'<div class="pw-row ok owner-row"><b>'+ownerPartLabel(p)+'</b><span class="pill orange">제안자</span><small>'+esc(by?by.id:"?")+(owner?' (나)':'')+'</small></div>':'')
     +(rows.length ? '<div class="prop-want">'+rows.map(w=>'<div class="pw-row'+(w.who.length>=w.need?" ok":"")+'"><b>'+PART[w.part].e+' '+PART[w.part].n+'</b><span class="pill '+(w.who.length>=w.need?"ok":"gold")+'">'+w.who.length+'/'+w.need+(w.wait?' · 대기 '+w.wait:'')+'</span><small>'+(w.who.length?esc(w.who.map(sl=>person(sl).id).join(", ")):"아직 없어요")+'</small></div>').join("")+'</div>' : '<p class="muted" style="margin:0">파트를 정하지 않은 제안이에요. 누구나 신청할 수 있어요.</p>')
     +'</section>'
-    +'<section class="magic-card jam-sec section-gap"><div class="card-head"><div><small>PEOPLE</small><h2>멤버 '+ins.length+(waits.length?' · 대기 '+waits.length:'')+' · 관심 '+p.interest.length+'</h2></div><span>🥕</span></div>'
-    +(ins.length?'<div class="jam-chips">'+ins.map(chip).join("")+'</div>':'<p class="muted bs-small" style="margin:0 0 8px">아직 들어온 사람이 없어요.</p>')
+    +'<section class="magic-card jam-sec section-gap"><div class="card-head"><div><small>PEOPLE</small><h2>멤버 '+(ins.length+1)+(waits.length?' · 대기 '+waits.length:'')+' · 관심 '+p.interest.length+'</h2></div><span>🥕</span></div>'
+    +'<div class="jam-chips"><span class="jam-chip'+(owner?" me":"")+'">'+avatarHTML(by||{parts:[p.ownerPart]})+'<b>'+esc(by?by.id:"?")+'</b><small class="r yes">🗝️ '+(p.ownerPart?ownerPartLabel(p):"제안자")+'</small></span>'+ins.map(chip).join("")+'</div>'
     +(waits.length?'<div class="section-label" style="margin:14px 0 8px">⏳ 대기 (순서대로 들어와요)</div><div class="jam-chips">'+waits.map(chip).join("")+'</div>':'')
     +(p.interest.length?'<p class="jam-note">👀 '+esc(p.interest.map(sl=>person(sl).id).join(", "))+'</p>':'')
     +'</section></aside></div>';
@@ -1940,7 +1942,7 @@ $("prop-body").addEventListener("click", async e=>{
     box.hidden = false;
     box.innerHTML = '<div class="row-edit"><b>공연팀으로 확정할까요?</b><p class="muted bs-small">지금 들어와 있는 멤버로 팀이 만들어지고 공연 라인업에 올라가요. 대기 중인 사람은 빠져요.</p>'
       +'<div class="jam-chips">'+ins.map(([sl,x])=>{ const m = all.find(y=>y.slug===sl)||{slug:sl,id:"?",parts:[]}; return '<span class="jam-chip">'+avatarHTML(m)+'<b>'+esc(m.id)+'</b><small class="r">'+PART[x.part].e+' '+PART[x.part].n+'</small></span>'; }).join("")+'</div>'
-      +'<div class="sug-manual-row"><span class="bs-small">내 파트</span><select class="text-input" id="team-owner-part">'+opts.map(k=>'<option value="'+k+'">'+PART[k].e+' '+PART[k].n+'</option>').join("")+'</select></div>'
+      +'<div class="sug-manual-row"><span class="bs-small">내 파트</span><select class="text-input" id="team-owner-part">'+opts.map(k=>'<option value="'+k+'"'+(k===p.ownerPart?" selected":"")+'>'+PART[k].e+' '+PART[k].n+'</option>').join("")+'</select></div>'
       +'<div class="jam-actions"><button class="button small ghost" data-pact="convert-cancel">취소</button><button class="button small primary" data-pact="team">🎤 공연팀 확정</button></div></div>';
     box.scrollIntoView({behavior:reduceMotion()?"auto":"smooth", block:"center"});
     return;
@@ -1990,8 +1992,9 @@ async function propAct(action, extra, msg){
 /* 제안 올리기 · 수정 */
 function openPropEdit(p, showSlug){
   if (!me) return goTo("view-login");
-  propDraft = p ? {slug:p.slug, want:{...p.want}, showSlug:p.showSlug||""} : {slug:null, want:{vocal:1, guitar:1, bass:1, drum:1}, showSlug:showSlug||""};
-  if (!p){ for (const k of (me.data.parts||[])) delete propDraft.want[k]; }   // 내 파트는 빼고 시작
+  const mine0 = (me.data.parts||[])[0] || "vocal";
+  propDraft = p ? {slug:p.slug, want:{...p.want}, showSlug:p.showSlug||"", ownerPart:p.ownerPart||mine0} : {slug:null, want:{vocal:1, guitar:1, bass:1, drum:1}, showSlug:showSlug||"", ownerPart:mine0};
+  if (!p) delete propDraft.want[propDraft.ownerPart];   // 내 파트는 빼고 시작
   const team = !!propDraft.showSlug, sh = team ? showsCache.find(x=>x.slug===propDraft.showSlug) : null;
   $("pe-heading").innerHTML = team ? (p ? '공연팀 <em>수정</em>' : '공연팀 <em>모집하기</em>') : p ? '제안 <em>수정</em>' : '합주 <em>제안 올리기</em>';
   $("pe-title-label").textContent = team ? "팀명" : "제목";
@@ -2003,10 +2006,24 @@ function openPropEdit(p, showSlug){
   $("pe-songs").value = p ? p.songs.join("\n") : ""; $("pe-when").value = p ? p.whenText : "";
   $("pe-save").innerHTML = (p ? "저장하기" : "올리기")+' <span>→</span>';
   $("pe-err").hidden = true;
-  renderPeWant();
+  renderPeMine(); renderPeWant();
   show("view-prop-edit");
   setTimeout(()=>$("pe-title").focus(), 150);
 }
+function renderPeMine(){
+  const myParts = me.data.parts||[], opts = [...myParts, ...PARTS.map(k=>k.k).filter(k=>!myParts.includes(k))];
+  $("pe-mine").innerHTML = opts.map(k=>'<button type="button" class="genre-chip" data-mine="'+k+'" aria-pressed="'+(propDraft.ownerPart===k)+'">'+PART[k].e+' '+PART[k].n+(myParts.includes(k)?'':' ')+'</button>').join("");
+}
+$("pe-mine").addEventListener("click", e=>{
+  const b = e.target.closest("[data-mine]"); if (!b) return;
+  const prev = propDraft.ownerPart; propDraft.ownerPart = b.dataset.mine;
+  // 새로 고른 내 파트를 모집 인원에서 하나 빼고, 놓은 파트는 하나 채워 둔다 (새 제안일 때만)
+  if (!propDraft.slug && prev !== propDraft.ownerPart){
+    if (propDraft.want[propDraft.ownerPart]){ propDraft.want[propDraft.ownerPart]--; if (!propDraft.want[propDraft.ownerPart]) delete propDraft.want[propDraft.ownerPart]; }
+    if (prev && ["vocal","guitar","bass","drum"].includes(prev) && !propDraft.want[prev]) propDraft.want[prev] = 1;
+  }
+  renderPeMine(); renderPeWant();
+});
 function renderPeWant(){
   $("pe-want").innerHTML = PARTS.map(k=>{ const n = propDraft.want[k.k]||0;
     return '<div class="pw-edit'+(n?" on":"")+'"><b>'+k.e+' '+k.n+'</b><div class="pw-step"><button type="button" data-pw="'+k.k+'" data-d="-1" aria-label="줄이기"'+(n?"":" disabled")+'>−</button><span>'+n+'명</span><button type="button" data-pw="'+k.k+'" data-d="1" aria-label="늘리기"'+(n>=5?" disabled":"")+'>+</button></div></div>'; }).join("");
@@ -2024,7 +2041,7 @@ $("pe-save").addEventListener("click", async ()=>{
   if (title.length<2) return fail("제목을 2자 이상 적어주세요.");
   if (title.length<2 && propDraft.showSlug) return fail("팀명을 2자 이상 적어주세요.");
   if (body.length<5) return fail("어떤 "+(propDraft.showSlug?"팀":"합주")+"인지 5자 이상 적어주세요.");
-  const proposal = {title, body, want:propDraft.want, songs:$("pe-songs").value.split("\n").map(x=>x.trim()).filter(Boolean), whenText:propDraft.showSlug ? "" : $("pe-when").value.trim(), showSlug:propDraft.showSlug||undefined};
+  const proposal = {title, body, want:propDraft.want, ownerPart:propDraft.ownerPart, songs:$("pe-songs").value.split("\n").map(x=>x.trim()).filter(Boolean), whenText:propDraft.showSlug ? "" : $("pe-when").value.trim(), showSlug:propDraft.showSlug||undefined};
   const btn = $("pe-save"); btn.disabled = true; err.hidden = true;
   try{
     const d = await api("proposals", propDraft.slug ? {id:me.id, token:me.token, action:"update", target:propDraft.slug, proposal} : {id:me.id, token:me.token, action:"create", proposal});
