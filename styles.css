@@ -863,3 +863,6 @@ button,input{font:inherit;color:inherit}
 
 .pe-mine{display:flex;flex-wrap:wrap;gap:6px}
 .owner-row{border-color:rgba(255,155,83,.35)!important;background:rgba(255,123,44,.06)!important}
+
+.pw-edit.mine{border-color:rgba(216,183,100,.55);background:rgba(216,183,100,.08)}
+.pw-edit b small{display:block;font-size:10px;color:#e7cf87;font-weight:700;margin-top:2px}

@@ -1660,7 +1660,7 @@ const isPropOwner = p => !!me && p.createdBy===me.slug;
 // 모집 파트별 현황: 필요 인원과 그 파트로 신청한 사람
 function wantRows(p){
   const apps = Object.entries(p.applicants||{});
-  return PARTS.filter(k=>p.want[k.k]).map(k=>({part:k.k, need:p.want[k.k], who:apps.filter(([,a])=>a.part===k.k && appState(a)==="in").map(([s])=>s),
+  return PARTS.filter(k=>p.want[k.k]).map(k=>({part:k.k, need:p.want[k.k], who:[...(p.ownerPart===k.k?[p.createdBy]:[]), ...apps.filter(([,a])=>a.part===k.k && appState(a)==="in").map(([s])=>s)],
     wait:apps.filter(([,a])=>a.part===k.k && appState(a)==="wait").length}));
 }
 const propFull = p => { const w = wantRows(p); return w.length>0 && w.every(x=>x.who.length>=x.need); };
@@ -1739,8 +1739,8 @@ function renderProp(){
     +'<div id="chat-mount"></div>'
     +'</div><aside>'
     +'<section class="magic-card jam-sec"><div class="card-head"><div><small>PARTS</small><h2>모집 파트</h2></div><span>🎸</span></div>'
-    +(p.ownerPart?'<div class="pw-row ok owner-row"><b>'+ownerPartLabel(p)+'</b><span class="pill orange">제안자</span><small>'+esc(by?by.id:"?")+(owner?' (나)':'')+'</small></div>':'')
-    +(rows.length ? '<div class="prop-want">'+rows.map(w=>'<div class="pw-row'+(w.who.length>=w.need?" ok":"")+'"><b>'+PART[w.part].e+' '+PART[w.part].n+'</b><span class="pill '+(w.who.length>=w.need?"ok":"gold")+'">'+w.who.length+'/'+w.need+(w.wait?' · 대기 '+w.wait:'')+'</span><small>'+(w.who.length?esc(w.who.map(sl=>person(sl).id).join(", ")):"아직 없어요")+'</small></div>').join("")+'</div>' : '<p class="muted" style="margin:0">파트를 정하지 않은 제안이에요. 누구나 신청할 수 있어요.</p>')
+    +(p.ownerPart && !rows.some(w=>w.part===p.ownerPart)?'<div class="pw-row ok owner-row"><b>'+ownerPartLabel(p)+'</b><span class="pill orange">제안자</span><small>'+esc(by?by.id:"?")+(owner?' (나)':'')+'</small></div>':'')
+    +(rows.length ? '<div class="prop-want">'+rows.map(w=>'<div class="pw-row'+(w.who.length>=w.need?" ok":"")+'"><b>'+PART[w.part].e+' '+PART[w.part].n+'</b><span class="pill '+(w.who.length>=w.need?"ok":"gold")+'">'+w.who.length+'/'+w.need+(w.wait?' · 대기 '+w.wait:'')+'</span><small>'+(w.who.length?w.who.map(sl=>esc(person(sl).id)+(sl===p.createdBy?" 🗝️":"")).join(", "):"아직 없어요")+'</small></div>').join("")+'</div>' : '<p class="muted" style="margin:0">파트를 정하지 않은 제안이에요. 누구나 신청할 수 있어요.</p>')
     +'</section>'
     +'<section class="magic-card jam-sec section-gap"><div class="card-head"><div><small>PEOPLE</small><h2>멤버 '+(ins.length+1)+(waits.length?' · 대기 '+waits.length:'')+' · 관심 '+p.interest.length+'</h2></div><span>🥕</span></div>'
     +'<div class="jam-chips"><span class="jam-chip'+(owner?" me":"")+'">'+avatarHTML(by||{parts:[p.ownerPart]})+'<b>'+esc(by?by.id:"?")+'</b><small class="r yes">🗝️ '+(p.ownerPart?ownerPartLabel(p):"제안자")+'</small></span>'+ins.map(chip).join("")+'</div>'
@@ -1994,7 +1994,7 @@ function openPropEdit(p, showSlug){
   if (!me) return goTo("view-login");
   const mine0 = (me.data.parts||[])[0] || "vocal";
   propDraft = p ? {slug:p.slug, want:{...p.want}, showSlug:p.showSlug||"", ownerPart:p.ownerPart||mine0} : {slug:null, want:{vocal:1, guitar:1, bass:1, drum:1}, showSlug:showSlug||"", ownerPart:mine0};
-  if (!p) delete propDraft.want[propDraft.ownerPart];   // 내 파트는 빼고 시작
+  if (!propDraft.want[propDraft.ownerPart]) propDraft.want[propDraft.ownerPart] = 1;   // 내 파트는 나로 1명 채워져 있다
   const team = !!propDraft.showSlug, sh = team ? showsCache.find(x=>x.slug===propDraft.showSlug) : null;
   $("pe-heading").innerHTML = team ? (p ? '공연팀 <em>수정</em>' : '공연팀 <em>모집하기</em>') : p ? '제안 <em>수정</em>' : '합주 <em>제안 올리기</em>';
   $("pe-title-label").textContent = team ? "팀명" : "제목";
@@ -2016,21 +2016,17 @@ function renderPeMine(){
 }
 $("pe-mine").addEventListener("click", e=>{
   const b = e.target.closest("[data-mine]"); if (!b) return;
-  const prev = propDraft.ownerPart; propDraft.ownerPart = b.dataset.mine;
-  // 새로 고른 내 파트를 모집 인원에서 하나 빼고, 놓은 파트는 하나 채워 둔다 (새 제안일 때만)
-  if (!propDraft.slug && prev !== propDraft.ownerPart){
-    if (propDraft.want[propDraft.ownerPart]){ propDraft.want[propDraft.ownerPart]--; if (!propDraft.want[propDraft.ownerPart]) delete propDraft.want[propDraft.ownerPart]; }
-    if (prev && ["vocal","guitar","bass","drum"].includes(prev) && !propDraft.want[prev]) propDraft.want[prev] = 1;
-  }
+  propDraft.ownerPart = b.dataset.mine;
+  if (!propDraft.want[propDraft.ownerPart]) propDraft.want[propDraft.ownerPart] = 1;   // 내 파트는 최소 1명(나)
   renderPeMine(); renderPeWant();
 });
 function renderPeWant(){
-  $("pe-want").innerHTML = PARTS.map(k=>{ const n = propDraft.want[k.k]||0;
-    return '<div class="pw-edit'+(n?" on":"")+'"><b>'+k.e+' '+k.n+'</b><div class="pw-step"><button type="button" data-pw="'+k.k+'" data-d="-1" aria-label="줄이기"'+(n?"":" disabled")+'>−</button><span>'+n+'명</span><button type="button" data-pw="'+k.k+'" data-d="1" aria-label="늘리기"'+(n>=5?" disabled":"")+'>+</button></div></div>'; }).join("");
+  $("pe-want").innerHTML = PARTS.map(k=>{ const n = propDraft.want[k.k]||0, mine = propDraft.ownerPart===k.k;
+    return '<div class="pw-edit'+(n?" on":"")+(mine?" mine":"")+'"><b>'+k.e+' '+k.n+(mine?' <small>나 포함 · '+(n-1)+'명 모집</small>':'')+'</b><div class="pw-step"><button type="button" data-pw="'+k.k+'" data-d="-1" aria-label="줄이기"'+(n>(mine?1:0)?"":" disabled")+'>−</button><span>'+n+'명</span><button type="button" data-pw="'+k.k+'" data-d="1" aria-label="늘리기"'+(n>=5?" disabled":"")+'>+</button></div></div>'; }).join("");
 }
 $("pe-want").addEventListener("click", e=>{
   const b = e.target.closest("[data-pw]"); if (!b || b.disabled) return;
-  const k = b.dataset.pw, n = Math.min(5, Math.max(0, (propDraft.want[k]||0) + Number(b.dataset.d)));
+  const k = b.dataset.pw, n = Math.min(5, Math.max(propDraft.ownerPart===k ? 1 : 0, (propDraft.want[k]||0) + Number(b.dataset.d)));
   if (n) propDraft.want[k] = n; else delete propDraft.want[k];
   renderPeWant();
 });

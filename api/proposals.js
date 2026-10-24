@@ -18,10 +18,13 @@ function cleanProposal(input, base){
   for (const k of PART_KEYS){ const n = Math.round(Number(src[k]) || 0); if (n > 0) want[k] = Math.min(5, n); }
   // 제안자 본인이 맡을 파트 (모집 인원과 별도)
   const ownerPart = PART_KEYS.includes(input.ownerPart) ? input.ownerPart : (base.ownerPart || "");
+  // 모집 인원은 제안자를 포함한 전체 인원이다. 파트를 정한 제안이면 제안자 파트는 최소 1명.
+  if (ownerPart && Object.keys(want).length && !want[ownerPart]) want[ownerPart] = 1;
   return { ...base, title, body, songs, want, ownerPart, whenText: clip(input.whenText ?? base.whenText, 60) };
 }
 // 파트 정원: 모집 파트를 정하지 않았으면 무제한, 정했으면 그 파트 인원(정하지 않은 파트는 0 → 대기)
-const capOf = (p, part) => Object.keys(p.want || {}).length ? (p.want[part] || 0) : Infinity;
+// 다른 사람이 들어올 수 있는 자리: 그 파트 모집 인원에서 제안자 자리(제안자 파트면 1)를 뺀 수
+const capOf = (p, part) => Object.keys(p.want || {}).length ? Math.max(0, (p.want[part] || 0) - (p.ownerPart === part ? 1 : 0)) : Infinity;
 const stateOf = a => a.state === "wait" ? "wait" : "in";
 // 파트마다 먼저 신청한 순서대로 정원까지 'in', 나머지는 'wait'. 누가 나가거나 정원이 늘면 대기 1번이 들어온다.
 function rebalance(p){
@@ -38,7 +41,7 @@ function rebalance(p){
 }
 const inMembers = p => Object.entries(p.applicants || {}).filter(([, a]) => stateOf(a) === "in");
 export const proposalFull = p => Object.keys(p.want || {}).length > 0
-  && Object.entries(p.want).every(([part, n]) => inMembers(p).filter(([, a]) => a.part === part).length >= n);
+  && Object.entries(p.want).every(([part, n]) => inMembers(p).filter(([, a]) => a.part === part).length + (p.ownerPart === part ? 1 : 0) >= n);
 
 export default async function handler(req, res){
   res.setHeader("cache-control", "no-store");
