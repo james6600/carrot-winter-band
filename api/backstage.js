@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 // 관리자(backstage) API: 아이디·비밀번호 → Authenticator 6자리 코드 → 8시간 세션(HttpOnly 쿠키).
 // 최고 관리자(super)는 모든 권한, 서브 관리자(sub)는 일반 회원 일정 조율과 닉네임 정리만.
 import QRCode from "qrcode";
@@ -10,7 +11,9 @@ import {
   listJams, getJam, putJam, deleteJam,
   listProposals, getProposal, putProposal, deleteProposal,
   listReports, updateReport, getMessage, hideMessage, setBan, deleteBan, listBans,
+  listShows, getShow, putShow, deleteShow,
 } from "../lib/db.js";
+import { SHOW_STATUS } from "../lib/shows.js";
 import {
   hashPw, checkPw, verifyTotp, newSecret, newToken, tokenHash, otpauthUri, parseCookies, sessionCookie,
 } from "../lib/admin-auth.js";
@@ -19,7 +22,7 @@ const FULL_TTL = 8 * 3600e3;      // 로그인 유지 8시간
 const STEP_TTL = 5 * 60e3;        // 비밀번호 확인 후 코드 입력까지 5분
 const MAX_FAILS = 5, LOCK_MS = 10 * 60e3;
 const SUPER_ONLY = new Set(["admins", "admin_create", "admin_role", "admin_resetpw", "admin_reset2fa", "admin_delete",
-  "member_resetpw", "member_delete", "logs", "feedback_delete", "jam_delete", "proposal_delete"]);
+  "member_resetpw", "member_delete", "logs", "feedback_delete", "jam_delete", "proposal_delete", "show_delete"]);
 const FEEDBACK_STATUS = ["new", "checking", "doing", "done", "hold"];
 const DUMMY = hashPw("timing-equalizer");
 
@@ -255,6 +258,67 @@ export default async function handler(req, res){
       const names = Object.fromEntries((await listMembers()).map(m => [m.slug, m.id]));
       return json(res, 200, { jams: (await listJams()).map(j => ({ ...j, memberNames: j.members.map(s => names[s] || "(나간 멤버)"), createdByName: names[j.createdBy] || "?" })) });
     }
+    /* ----- 공연 ----- */
+    if (action === "shows_list"){
+      const names = Object.fromEntries((await listMembers()).map(m => [m.slug, m.id]));
+      const props = await listProposals();
+      const shows = (await listShows()).map(s => ({ ...s,
+        participantNames: s.participants.map(x => names[x] || "?"),
+        teams: s.teamOrder.map(slug => props.find(p => p.slug === slug)).filter(Boolean).map(p => ({ slug: p.slug, name: p.title, songs: p.songs,
+          members: (p.team.members || []).map(m => ({ ...m, id: names[m.slug] || "?" })), owner: names[p.createdBy] || "?" })),
+        recruiting: props.filter(p => p.showSlug === s.slug && p.status === "open").map(p => ({ slug: p.slug, name: p.title, owner: names[p.createdBy] || "?",
+          count: Object.values(p.applicants).filter(a => a.state !== "wait").length + 1 })) }));
+      return json(res, 200, { shows });
+    }
+    if (action === "show_save"){
+      const v = b.show || {};
+      const clip = (x, n) => String(x ?? "").trim().slice(0, n);
+      const dateOk = x => !x || /^\d{4}-\d{2}-\d{2}$/.test(x);
+      const title = clip(v.title, 60);
+      if (title.length < 2) return json(res, 400, { error: "bad_title" });
+      const date = clip(v.date, 10), rs = clip(v.recruitStart, 10), re = clip(v.recruitEnd, 10);
+      if (!dateOk(date) || !dateOk(rs) || !dateOk(re)) return json(res, 400, { error: "bad_date" });
+      if (rs && re && rs > re) return json(res, 400, { error: "bad_period" });
+      const now = new Date().toISOString();
+      const prev = b.target ? await getShow(String(b.target)) : null;
+      if (b.target && !prev) return json(res, 404, { error: "no_target" });
+      const show = { ...(prev || { slug: "s_" + crypto.randomBytes(5).toString("hex"), status: "recruiting", participants: [], teamOrder: [], createdBy: me.id, createdAt: now }),
+        title, date, timeText: clip(v.timeText, 30), venue: clip(v.venue, 60), description: clip(v.description, 2000),
+        recruitStart: rs, recruitEnd: re, maxTeams: Math.min(50, Math.max(0, Math.round(Number(v.maxTeams) || 0))), updatedAt: now };
+      await putShow(show);
+      await log(prev ? "show_update" : "show_create", title);
+      return json(res, 200, { ok: true, show });
+    }
+    if (action === "show_status" || action === "show_order" || action === "show_team_remove" || action === "show_delete"){
+      const show = await getShow(String(b.target || ""));
+      if (!show) return json(res, 404, { error: "no_target" });
+      const now = new Date().toISOString();
+      if (action === "show_delete"){
+        await deleteShow(show.slug);
+        await log("show_delete", show.title);
+        return json(res, 200, { ok: true });
+      }
+      if (action === "show_status"){
+        if (!SHOW_STATUS.includes(b.status)) return json(res, 400, { error: "bad_status" });
+        await putShow({ ...show, status: b.status, updatedAt: now });
+        await log("show_status", show.title, b.status);
+        return json(res, 200, { ok: true });
+      }
+      if (action === "show_order"){
+        const order = (Array.isArray(b.order) ? b.order : []).map(String).filter(s => show.teamOrder.includes(s));
+        if (order.length !== show.teamOrder.length) return json(res, 400, { error: "bad_order" });
+        await putShow({ ...show, teamOrder: order, updatedAt: now });
+        await log("show_order", show.title);
+        return json(res, 200, { ok: true });
+      }
+      // 공연에서 팀 빼기: 팀 확정을 풀고 다시 모집 중으로 돌린다
+      const p = await getProposal(String(b.team || ""));
+      await putShow({ ...show, teamOrder: show.teamOrder.filter(s => s !== String(b.team || "")), updatedAt: now });
+      if (p && p.status === "team") await putProposal({ ...p, status: "closed", team: {}, updatedAt: now });
+      await log("show_team_remove", show.title, p ? p.title : "");
+      return json(res, 200, { ok: true });
+    }
+
     if (action === "reports_list"){
       const names = Object.fromEntries((await listMembers()).map(m => [m.slug, m.id]));
       const titles = Object.fromEntries((await listProposals()).map(p => [p.slug, p.title]));

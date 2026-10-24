@@ -19,6 +19,7 @@ const ACTION_NAME = {
   feedback_update:"의견 처리", feedback_delete:"의견 삭제",
   jam_status:"모임 상태 변경", jam_delete:"모임 삭제",
   proposal_status:"제안 상태 변경", proposal_delete:"제안 삭제",
+  show_create:"공연 열기", show_update:"공연 수정", show_status:"공연 상태 변경", show_order:"공연 순서 변경", show_team_remove:"공연에서 팀 빼기", show_delete:"공연 삭제",
   chat_hide:"채팅 메시지 가림", chat_unhide:"채팅 가림 해제", chat_ban:"채팅 정지", chat_unban:"채팅 정지 해제",
 };
 const ERR = {
@@ -27,7 +28,8 @@ const ERR = {
   bad_id:"아이디는 영문 소문자·숫자·_ 3~20자예요.", bad_pw:"비밀번호는 10자 이상이고, 이전 비밀번호와 달라야 해요.",
   exists:"이미 있는 관리자 아이디예요.", self:"내 계정은 여기서 바꿀 수 없어요.", role:"최고 관리자만 할 수 있어요.",
   session:"로그인이 만료됐어요. 다시 로그인해 주세요.", stage:"처음부터 다시 로그인해 주세요.",
-  already:"이미 설정이 끝났어요. 새로고침 해주세요.", no_target:"대상을 찾을 수 없어요. 새로고침 해주세요.",
+  already:"이미 설정이 끝났어요. 새로고침 해주세요.",
+  bad_title:"이름을 2자 이상 적어주세요.", bad_date:"날짜 형식이 맞지 않아요.", bad_period:"모집 시작일이 끝나는 날보다 늦어요.", no_target:"대상을 찾을 수 없어요. 새로고침 해주세요.",
 };
 
 /* ---------- 유틸 ---------- */
@@ -154,6 +156,7 @@ bindForm("f-changepw", async (v, f)=>{
 const TABS = [
   {k:"members", t:"👥 회원 관리"},
   {k:"schedule", t:"🗓️ 일정 조율"},
+  {k:"shows", t:"🎤 공연"},
   {k:"jams", t:"🎪 합주 모임"},
   {k:"feedback", t:"💌 의견함"},
   {k:"reports", t:"🚨 신고함"},
@@ -181,6 +184,7 @@ async function openTab(k){
     if (k === "logs") await loadLogs();
     if (k === "feedback") await loadFeedback();
     if (k === "jams") await loadJams();
+    if (k === "shows") await loadShows();
     if (k === "reports"){ if (!members.length) await loadMembers(); await loadReports(); }
   } catch (e){ toast(errText(e)); }
 }
@@ -488,6 +492,66 @@ $("f-list").addEventListener("click", async e=>{
     toast("#" + n + " 저장했어요"); await loadFeedback();
   } catch (err){ toast(errText(err)); }
   finally { b.disabled = false; }
+});
+
+/* 공연 */
+const SHOW_STATUS = {recruiting:["팀 모집 중","ok"], closed:["모집 마감","gold"], confirmed:["공연 확정 · 라인업 공개","orange"], done:["지난 공연 (아카이브)",""]};
+const SHOW_STATUS_BTN = {recruiting:"📝 팀 모집 중", closed:"⏸ 모집 마감", confirmed:"🎤 공연 확정", done:"📼 지난 공연"};
+const PART_ABBR = {vocal:"V", guitar:"G", bass:"B", drum:"D", keys:"K", etc:"E"};
+let shows = [];
+async function loadShows(){ shows = (await api("shows_list")).shows; renderShows(); }
+function renderShows(){
+  $("sh-list").innerHTML = shows.length ? shows.map(sh => {
+    const [st, cls] = SHOW_STATUS[sh.status] || SHOW_STATUS.recruiting;
+    return '<article class="bs-fb" data-sh="' + sh.slug + '">'
+      + '<div class="bs-fb-head"><span class="pill ' + cls + '">' + st + '</span><small>' + esc(sh.date || "날짜 미정") + (sh.timeText ? " " + esc(sh.timeText) : "") + (sh.venue ? " · " + esc(sh.venue) : "") + '</small></div>'
+      + '<h3>' + esc(sh.title) + '</h3>'
+      + '<p class="bs-small muted">팀 모집 ' + esc(sh.recruitStart || "?") + ' ~ ' + esc(sh.recruitEnd || "?") + ' · 최대 ' + (sh.maxTeams || "제한 없음") + (sh.maxTeams ? "팀" : "") + ' · 참여 ' + sh.participants.length + '명 · 확정 팀 ' + sh.teams.length + ' · 모집 중 ' + sh.recruiting.length + '</p>'
+      + '<div class="bs-fb-actions">' + Object.entries(SHOW_STATUS_BTN).map(([k, t]) => '<button class="button small ' + (k === sh.status ? "primary" : "ghost") + '" data-sha="status" data-st="' + k + '">' + t + '</button>').join("") + '</div>'
+      + '<div class="bs-fb-actions"><button class="button small ghost" data-sha="edit">✏️ 정보 수정</button><a class="button small ghost" href="/?show=' + sh.slug + '" target="_blank" rel="noopener">공개 페이지 ↗</a>' + (isSuper() ? '<button class="button small danger" data-sha="delete">삭제</button>' : '') + '</div>'
+      + '<div class="section-label" style="margin-top:8px">공연 순서 (확정 팀)</div>'
+      + (sh.teams.length ? '<ol class="bs-lineup">' + sh.teams.map((t, i) => '<li><b>' + (i + 1) + '. ' + esc(t.name) + '</b> <small class="muted">' + esc(t.members.map(m => (PART_ABBR[m.part] || "E") + ":" + m.id).join(" · ")) + '</small>'
+          + (t.songs.length ? '<br><small class="muted">🎵 ' + esc(t.songs.join(" / ")) + '</small>' : '')
+          + '<span class="bs-lineup-btns"><button class="button small ghost" data-sha="up" data-i="' + i + '"' + (i ? "" : " disabled") + '>↑</button><button class="button small ghost" data-sha="down" data-i="' + i + '"' + (i < sh.teams.length - 1 ? "" : " disabled") + '>↓</button><button class="button small danger" data-sha="remove" data-team="' + t.slug + '">빼기</button></span></li>').join("") + '</ol>'
+        : '<p class="muted bs-small" style="margin:0">아직 확정된 팀이 없어요.</p>')
+      + (sh.recruiting.length ? '<p class="bs-small muted" style="margin:6px 0 0">📣 모집 중: ' + esc(sh.recruiting.map(r => r.name + "(" + r.owner + ", " + r.count + "명)").join(", ")) + '</p>' : '')
+      + '</article>';
+  }).join("") : '<p class="muted">아직 연 공연이 없어요.</p>';
+}
+function showForm(sh){
+  const v = sh || {};
+  dialog('<b>' + (sh ? "공연 정보 수정" : "새 공연 열기") + '</b>'
+    + '<input class="text-input" name="title" maxlength="60" required placeholder="공연 이름 (예: 제2회 분당 당근 ROCK 페스티벌)" value="' + esc(v.title || "") + '">'
+    + '<div class="bs-grid3"><input class="text-input" type="date" name="date" value="' + esc(v.date || "") + '" aria-label="공연 날짜"><input class="text-input" name="timeText" maxlength="30" placeholder="시간 (예: 17:00 ~ 19:30)" value="' + esc(v.timeText || "") + '"><input class="text-input" name="venue" maxlength="60" placeholder="장소" value="' + esc(v.venue || "") + '"></div>'
+    + '<textarea class="text-input bs-ta" name="description" maxlength="2000" rows="4" placeholder="공연 소개 · 참가 안내 (팀당 곡 수, 장비 등)">' + esc(v.description || "") + '</textarea>'
+    + '<p class="bs-small muted">팀 모집 기간 (이 기간에만 팀을 만들고 신청할 수 있어요)</p>'
+    + '<div class="bs-grid3"><input class="text-input" type="date" name="recruitStart" value="' + esc(v.recruitStart || "") + '" aria-label="모집 시작"><input class="text-input" type="date" name="recruitEnd" value="' + esc(v.recruitEnd || "") + '" aria-label="모집 끝"><input class="text-input" type="number" name="maxTeams" min="0" max="50" placeholder="최대 팀 수 (0=제한 없음)" value="' + (v.maxTeams || "") + '"></div>',
+    async f=>{ await api("show_save", {target:sh ? sh.slug : undefined, show:f}); toast(sh ? "고쳤어요" : "공연을 열었어요 🎤"); await loadShows(); }, sh ? "저장" : "열기").classList.add("wide");
+}
+$("sh-new").addEventListener("click", ()=>showForm(null));
+$("sh-list").addEventListener("click", async e=>{
+  const b = e.target.closest("[data-sha]"); if (!b) return;
+  const sh = shows.find(x => x.slug === b.closest("[data-sh]").dataset.sh); if (!sh) return;
+  const a = b.dataset.sha;
+  try {
+    if (a === "edit") return showForm(sh);
+    if (a === "delete") return dialog('<b>「' + esc(sh.title) + '」 공연을 지울까요?</b><p class="muted bs-small">팀 모집 글은 남지만 공연과의 연결이 끊겨요. 끝난 공연은 지우지 말고 "지난 공연"으로 두면 아카이브에 남아요.</p>',
+      async ()=>{ await api("show_delete", {target:sh.slug}); toast("지웠어요"); await loadShows(); }, "삭제");
+    if (a === "status"){
+      if (b.dataset.st === "confirmed" && !confirm("공연 확정으로 바꾸면 라인업이 공개되고, 팀은 더 이상 바꿀 수 없어요(운영진은 가능). 바꿀까요?")) return;
+      await api("show_status", {target:sh.slug, status:b.dataset.st}); toast("바꿨어요");
+    }
+    if (a === "up" || a === "down"){
+      const order = sh.teams.map(t => t.slug), i = Number(b.dataset.i), j = a === "up" ? i - 1 : i + 1;
+      [order[i], order[j]] = [order[j], order[i]];
+      await api("show_order", {target:sh.slug, order});
+    }
+    if (a === "remove"){
+      if (!confirm("이 팀을 공연에서 뺄까요? 팀 모집 글은 '닫힘'으로 바뀌어요.")) return;
+      await api("show_team_remove", {target:sh.slug, team:b.dataset.team}); toast("뺐어요");
+    }
+    await loadShows();
+  } catch (err){ toast(errText(err)); }
 });
 
 /* 신고함 */

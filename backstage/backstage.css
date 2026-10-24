@@ -83,3 +83,11 @@ select.text-input{appearance:auto}
 .bs-fb-actions select{max-width:140px;min-height:38px}
 
 .bs-clamp{max-width:320px;max-height:3.2em;overflow:hidden;font-size:12px;line-height:1.6;color:#cfc8c0;white-space:pre-wrap}
+
+/* 공연 */
+.bs-lineup{margin:0;padding-left:0;list-style:none;display:grid;gap:6px}
+.bs-lineup li{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px 12px;font-size:13px;line-height:1.5;position:relative;padding-right:150px}
+.bs-lineup-btns{position:absolute;right:8px;top:8px;display:flex;gap:4px}
+.bs-lineup-btns .button.small{min-height:30px;padding:4px 9px}
+.bs-ta{min-height:96px;padding:12px 15px;resize:vertical;font:inherit;line-height:1.6}
+@media (max-width:700px){ .bs-lineup li{padding-right:12px} .bs-lineup-btns{position:static;margin-top:6px} }

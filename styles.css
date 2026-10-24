@@ -798,3 +798,65 @@ button,input{font:inherit;color:inherit}
 .chat-form .button{min-height:46px;padding-inline:16px;white-space:nowrap}
 .chat-notice{margin:10px 0 0;font-size:11px;color:#746f6b;line-height:1.6}
 @media (max-width:560px){ .chat-log{height:300px} }
+
+/* ---------- 제안: 공유·대기·사람 받기 ---------- */
+.share-row{margin-top:14px;align-items:center}
+.share-row small{font-size:11px}
+.pill-link{cursor:pointer;background:rgba(255,123,44,.12);border-color:rgba(255,155,83,.35);color:#ffc29a;font:inherit;font-size:10px;font-weight:700}
+.switch-row{display:flex;align-items:center;gap:12px;margin-top:16px;padding:12px 14px;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:rgba(255,255,255,.02);cursor:pointer}
+.switch-row>span:last-child{display:grid;gap:2px}
+.switch-row b{font-size:14px}
+.switch-row small{font-size:11px;color:#968f88;line-height:1.5}
+.switch{position:relative;width:46px;height:26px;flex:none}
+.switch input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.switch i{position:absolute;inset:0;border-radius:999px;background:#2a2b33;border:1px solid rgba(255,255,255,.14);transition:.2s;pointer-events:none}
+.switch i::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#bbb;transition:.2s}
+.switch input:checked + i{background:linear-gradient(135deg,var(--orange),#ff9149);border-color:transparent}
+.switch input:checked + i::after{left:23px;background:#fff}
+.switch input:focus-visible + i{outline:2px solid var(--orange2);outline-offset:2px}
+.jam-chip.wait{border-style:dashed;opacity:.85}
+.wait-n{font-style:normal;font-size:10px;font-weight:900;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:rgba(216,183,100,.18);color:#e7cf87;flex:none}
+.chip-x{background:none;border:0;color:#7d7771;cursor:pointer;font-size:12px;padding:2px 4px;border-radius:6px}
+.chip-x:hover{color:#ffb3bb;background:rgba(160,55,67,.18)}
+
+/* ---------- 공연 ---------- */
+.show-list{display:grid;gap:12px}
+.show-card{display:flex;gap:16px;align-items:stretch;border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:16px 18px;background:linear-gradient(135deg,#171319,#121a26);cursor:pointer;transition:border-color .2s}
+.show-card:hover{border-color:rgba(255,155,83,.45)}
+.show-card.past{background:linear-gradient(135deg,#121319,#141418);opacity:.9}
+.sc-date{min-width:70px;display:grid;place-content:center;text-align:center;border-right:1px solid rgba(255,255,255,.08);padding-right:14px}
+.sc-date b{font-size:26px;letter-spacing:-.05em;color:var(--orange2)}
+.sc-date small{font-size:10px;color:#8d8680}
+.sc-main{flex:1;min-width:0;display:grid;gap:6px}
+.sc-main h4{margin:0;font-size:20px;letter-spacing:-.04em}
+#show-back{margin-bottom:18px}
+.show-hero{padding:30px;background:radial-gradient(circle at 85% 10%,rgba(255,123,44,.22),transparent 40%),linear-gradient(160deg,#1a1420,#101722)}
+.sh-kicker{color:var(--orange2);font-size:12px;font-weight:900;letter-spacing:.14em}
+.show-hero h1{font-size:clamp(34px,6vw,62px);line-height:1.04;letter-spacing:-.055em;margin:10px 0 12px}
+.sh-desc{color:#c8c2bc;font-size:15px;line-height:1.7;margin:0 0 14px;white-space:pre-wrap;max-width:720px}
+.sh-pills{margin-bottom:6px}
+.sh-pills .pill{font-size:11px;padding:6px 10px}
+.lineup{display:grid;gap:12px}
+.lineup-team{display:flex;gap:16px;border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:18px;background:linear-gradient(160deg,#16171d,#121318)}
+.lt-num{width:46px;height:46px;flex:none;border-radius:14px;display:grid;place-items:center;font-size:22px;font-weight:900;background:linear-gradient(135deg,var(--orange),#ff9149);color:#241006}
+.lt-main{flex:1;min-width:0}
+.lt-main>small{color:var(--orange2);font-size:11px;font-weight:800}
+.lt-main h3{margin:2px 0 6px;font-size:22px;letter-spacing:-.04em}
+.lt-members{margin:0;font-size:12px;color:#a49d96;line-height:1.7}
+.lt-members b{color:#e4ddd4;font-weight:700}
+.lt-songs{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px}
+.lt-songs li{display:flex;gap:12px;align-items:center;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:9px 12px;background:rgba(255,255,255,.02)}
+.lt-songs i{font-style:normal;font-size:11px;font-weight:900;color:#8d8680;min-width:20px}
+.lt-songs span{display:grid}
+.lt-songs b{font-size:14px}
+.lt-songs small{font-size:11px;color:#8d8680}
+.show-people{gap:8px 14px;font-size:13px}
+.show-people .avatar{width:26px;height:26px}
+@media (max-width:560px){
+  .show-hero{padding:22px}
+  .show-card{padding:14px}
+  .sc-date{min-width:54px;padding-right:10px}
+  .sc-date b{font-size:20px}
+  .lineup-team{padding:14px;gap:12px}
+  .lt-num{width:38px;height:38px;font-size:18px}
+}

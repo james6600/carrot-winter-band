@@ -5,7 +5,8 @@ import { getMember, getProposal, listProposals, addMessage, listMessages, getMes
 import { findBadWord, maskPII, aiCheck } from "../lib/chat-filter.js";
 
 const MAX_LEN = 300, PER_10MIN = 30, MIN_GAP_MS = 1000;
-const roleOf = (p, slug) => p.createdBy === slug ? "owner" : p.applicants[slug] ? "applicant" : p.interest.includes(slug) ? "interest" : "";
+// 대기(후보) 중인 신청자는 읽기만, 정원 안에 들어온 신청자부터 쓸 수 있다
+const roleOf = (p, slug) => p.createdBy === slug ? "owner" : p.applicants[slug] ? (p.applicants[slug].state === "wait" ? "wait" : "applicant") : p.interest.includes(slug) ? "interest" : "";
 const publicMsg = m => ({ n: m.n, authorSlug: m.authorSlug, authorId: m.hidden ? "" : m.authorId, body: m.hidden ? "" : m.body, at: m.at, hidden: m.hidden });
 
 export default async function handler(req, res){
@@ -38,7 +39,7 @@ export default async function handler(req, res){
     }
 
     if (b.action === "send"){
-      if (!canWrite) return json(res, 403, { error: ban ? "banned" : role === "interest" ? "read_only" : "closed", until: ban ? ban.until : undefined });
+      if (!canWrite) return json(res, 403, { error: ban ? "banned" : role === "interest" || role === "wait" ? "read_only" : "closed", until: ban ? ban.until : undefined });
       let body = String(b.body || "").replace(/\s+/g, " ").trim();
       if (!body) return json(res, 400, { error: "empty" });
       if (body.length > MAX_LEN) return json(res, 400, { error: "too_long" });

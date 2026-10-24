@@ -253,6 +253,7 @@
     </section>
     <div class="hero-actions">
       <button class="button ghost" id="btn-edit">취향 수정하기</button>
+      <button class="button ghost" id="btn-logout">🚪 나가기</button>
       <button class="button ghost" id="btn-time">합주 시간 수정</button>
       <button class="button primary" id="btn-godash">모두의 취향 보러 가기 <span>→</span></button>
     </div>
@@ -319,6 +320,23 @@
     </div>
   </main>
 
+  <!-- 공연: 목록 -->
+  <main id="view-shows" class="content-page" hidden>
+    <div class="page-heading" data-reveal>
+      <div class="season-badge"><span>✦</span> LIVE STAGE</div>
+      <h1>무대에 <em>함께 서요</em></h1>
+      <p>운영진이 공연을 열면 '참여합니다'를 누르고 팀을 모아 참가해요. 공연이 확정되면 팀·멤버·셋리스트가 공개되고, 지난 공연은 아카이브에 남아요.</p>
+    </div>
+    <section class="jam-section"><div class="section-label">NOW</div><h2 class="jam-h2">진행 중인 공연 🎤</h2><div class="show-list" id="shows-now"></div></section>
+    <section class="section-gap jam-section" id="shows-past-sec"><div class="section-label">ARCHIVE</div><h2 class="jam-h2">지난 공연 아카이브 📼</h2><div class="show-list" id="shows-past"></div></section>
+  </main>
+
+  <!-- 공연: 상세 -->
+  <main id="view-show" class="content-page" hidden>
+    <button class="button small ghost" id="show-back">‹ 공연 목록</button>
+    <div id="show-body"></div>
+  </main>
+
   <!-- 합주 제안: 상세 -->
   <main id="view-prop" class="content-page" hidden>
     <button class="button small ghost" id="prop-back">‹ 합주 제안</button>
@@ -334,11 +352,11 @@
     </div>
     <section class="magic-card login-card je-card">
       <div class="form-stack">
-        <label class="input-field"><span>제목</span><input id="pe-title" maxlength="40" placeholder="예: 겨울 브릿팝 카피 밴드 모집"></label>
+        <label class="input-field"><span id="pe-title-label">제목</span><input id="pe-title" maxlength="40" placeholder="예: 겨울 브릿팝 카피 밴드 모집"></label>
         <label class="input-field"><span>어떤 합주인가요?</span><textarea id="pe-body" rows="5" maxlength="1000" placeholder="하고 싶은 음악, 분위기, 실력 기준, 자주 모일 수 있는지 등을 자유롭게 적어주세요."></textarea></label>
         <div class="input-field"><span>모집 파트 <small>필요한 인원을 정해요</small></span><div class="pe-want" id="pe-want"></div></div>
-        <label class="input-field"><span>하고 싶은 곡 <small>선택 · 한 줄에 한 곡</small></span><textarea id="pe-songs" rows="3" maxlength="700" placeholder="Wonderwall - Oasis&#10;Creep - Radiohead"></textarea></label>
-        <label class="input-field"><span>희망 시기 <small>선택</small></span><input id="pe-when" maxlength="60" placeholder="예: 11월 주말 저녁, 격주 1회"></label>
+        <label class="input-field"><span id="pe-songs-label">하고 싶은 곡 <small>선택 · 한 줄에 한 곡</small></span><textarea id="pe-songs" rows="3" maxlength="700" placeholder="Wonderwall - Oasis&#10;Creep - Radiohead"></textarea></label>
+        <label class="input-field" id="pe-when-fld"><span>희망 시기 <small>선택</small></span><input id="pe-when" maxlength="60" placeholder="예: 11월 주말 저녁, 격주 1회"></label>
         <div id="pe-err" class="notice error" hidden></div>
         <div class="je-actions"><button class="button ghost" id="pe-cancel">취소</button><button class="button primary" id="pe-save">올리기 <span>→</span></button></div>
       </div>
