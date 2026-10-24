@@ -143,6 +143,8 @@ function errText(e){
   if (e && e.error==="too_long") return "300자까지만 보낼 수 있어요.";
   if (e && e.error==="bad_part") return "파트를 골라주세요.";
   if (e && e.error==="not_accepting") return "제안자가 지금은 사람을 받지 않아요.";
+  if (e && e.error==="part_full") return "그 파트 자리가 다 찼어요. 모집 인원을 늘리거나 다른 파트로 넣어주세요.";
+  if (e && e.error==="already") return "이미 들어와 있는 사람이에요.";
   if (e && e.error==="recruit_closed") return "공연 팀 모집 기간이 아니에요.";
   if (e && e.error==="show_locked") return "공연이 확정돼서 팀을 바꿀 수 없어요. 운영진에게 문의해 주세요.";
   if (e && e.error==="reserved") return "운영용으로 예약된 이름이에요. 다른 닉네임을 써주세요.";
@@ -1063,8 +1065,9 @@ function renderAgenda(){
   const applied = propsCache.filter(p=>(p.status==="open" || unreadOf(p.slug)) && p.applicants[me.slug]);
   const prow = (p, side) => '<div class="ag-row'+(unreadOf(p.slug)?" invite":"")+'" data-prop="'+p.slug+'"><div class="ag-d"><b>📣</b><small>제안</small></div><div class="ag-main"><b>'+esc(p.title)+'</b><small>'+(p.whenText?'🗓️ '+esc(p.whenText)+' · ':'')+'신청 '+Object.keys(p.applicants).length+' · 관심 '+p.interest.length+(unreadOf(p.slug)?' · <b style="color:#ffc29a">💬 새 글 '+unreadOf(p.slug)+'</b>':'')+'</small></div><div class="ag-side">'+side+'</div></div>';
   if (myProps.length) html += '<div class="ag-group"><div class="section-label">📣 내 합주 제안</div>'+myProps.map(p=>prow(p, propFull(p)?'<span class="pill gold">파트 다 모임 · 모임 만들기</span>':'<span class="pill">모집 중</span>')).join("")+'</div>';
-  if (applied.length) html += '<div class="ag-group"><div class="section-label">🙋 신청한 제안</div>'+applied.map(p=>{ const a = p.applicants[me.slug];
-      return prow(p, appState(a)==="wait" ? '<span class="pill gold">⏳ '+PART[a.part].n+' 대기 '+waitRank(p, me.slug)+'번</span>' : '<span class="pill orange">'+PART[a.part].e+' '+PART[a.part].n+'로 신청</span>'); }).join("")+'</div>';
+  if (applied.length) html += '<div class="ag-group"><div class="section-label">🙋 신청한 · 초대받은 제안</div>'+applied.map(p=>{ const a = p.applicants[me.slug];
+      return prow(p, appState(a)==="wait" ? '<span class="pill gold">⏳ '+PART[a.part].n+' 대기 '+waitRank(p, me.slug)+'번</span>'
+        : a.invited ? '<span class="pill orange">🤝 '+PART[a.part].e+' '+PART[a.part].n+'로 초대됨</span>' : '<span class="pill orange">'+PART[a.part].e+' '+PART[a.part].n+'로 신청</span>'); }).join("")+'</div>';
   if (!invites.length && !upcoming.length && !planning.length && !myProps.length && !applied.length)
     html += '<div class="empty-state ag-empty"><span>🎪</span><p>합주 모임에서 멤버를 모아 첫 합주를 만들어 보세요.<br>누군가 나를 모임에 넣으면 여기에 초대가 떠요.</p></div>';
   html += '<div class="jam-actions"><button class="button small ghost" data-v="view-jams">🎪 합주 모임 전체 보기</button>'+(activeAvail(me.data.avail).length?'':'<button class="button small ghost" data-v="view-schedule">🗓️ 내 합주 시간 등록하기</button>')+'</div>';
@@ -1707,7 +1710,9 @@ function renderProp(){
       +'<div class="jam-actions">'
       +(p.status==="open" ? (isTeam ? '<button class="button small primary" data-pact="team-ui"'+(sh&&(sh.status==="confirmed"||sh.status==="done")?" disabled":"")+'>🎤 이 멤버로 공연팀 확정</button>' : '<button class="button small primary" data-pact="convert-ui">🎪 모임으로 만들기</button>')
           +'<button class="button small ghost" data-pact="close">다음에 해요 (닫기)</button>' : '<button class="button small ghost" data-pact="reopen">다시 모집하기</button>')
-      +'<button class="button small ghost" data-pact="edit">✏️ 수정</button><button class="button small danger" data-pact="delete">삭제</button></div><div id="prop-convert" hidden></div>';
+      +'<button class="button small ghost" data-pact="edit">✏️ 수정</button><button class="button small danger" data-pact="delete">삭제</button></div><div id="prop-convert" hidden></div>'
+      +(p.status==="open" ? '<div class="prop-add"><b>🤝 미리 약속한 멤버 넣기</b><small>같이 하기로 이미 이야기한 사람을 닉네임으로 찾아 바로 넣어요. 사람 받기를 꺼도 넣을 수 있어요.</small>'
+        +'<input class="text-input" id="prop-add-q" maxlength="20" placeholder="🔍 닉네임 검색" autocomplete="off"><div class="prop-add-results" id="prop-add-results"></div></div>' : '');
   } else if (p.status==="open"){
     const myParts = (me.data.parts||[]), opts = [...myParts, ...PARTS.map(k=>k.k).filter(k=>!myParts.includes(k))];
     const left = k => { const w = rows.find(x=>x.part===k); return !Object.keys(p.want).length ? " (모집 중)" : w ? (w.who.length<w.need ? " (자리 "+(w.need-w.who.length)+")" : " (마감 · 대기)") : " (대기)"; };
@@ -1723,7 +1728,7 @@ function renderProp(){
       +'<div class="jam-actions"><button class="button small '+(p.interest.includes(me.slug)?"primary":"ghost")+'" data-pact="interest">'+(p.interest.includes(me.slug)?"👀 관심 있어요 ✓":"👀 관심 있어요")+'</button></div></div>';
   } else act = '<p class="jam-note">지금은 모집하지 않는 제안이에요.</p>';
   const chip = ([sl,a], i) => { const m = person(sl), wait = appState(a)==="wait";
-    return '<span class="jam-chip'+(me&&sl===me.slug?" me":"")+(wait?" wait":"")+'">'+(wait?'<i class="wait-n">'+(i+1)+'</i>':'')+avatarHTML(m)+'<b>'+esc(m.id)+'</b><small class="r">'+PART[a.part].e+' '+PART[a.part].n+'</small>'
+    return '<span class="jam-chip'+(me&&sl===me.slug?" me":"")+(wait?" wait":"")+'">'+(wait?'<i class="wait-n">'+(i+1)+'</i>':'')+avatarHTML(m)+'<b>'+esc(m.id)+(a.invited?' <small class="invited">🤝</small>':'')+'</b><small class="r">'+PART[a.part].e+' '+PART[a.part].n+'</small>'
       +(owner && (p.status==="open") ? '<button type="button" class="chip-x" data-pact="remove" data-who="'+sl+'" title="내보내기" aria-label="'+esc(m.id)+' 내보내기">✕</button>' : '')+'</span>'; };
 
   $("prop-body").innerHTML = '<div class="page-heading jam-heading"><div class="season-badge"><span>✦</span> '+(isTeam?"TEAM RECRUIT":"JAM PROPOSAL")+'</div><h1>'+esc(p.title)+'</h1>'
@@ -1935,6 +1940,13 @@ $("prop-body").addEventListener("click", async e=>{
   if (a==="gojam"){ jamOpen = p.jamSlug; return goTo("view-jam"); }
   if (a==="goshow"){ showOpen = p.showSlug; return goTo("view-show"); }
   if (a==="share") return shareLink("p", p.slug, p.title);
+  if (a==="add"){
+    const row = b.closest("[data-add]"), q = $("prop-add-q").value;
+    const who = currentMembers().find(m=>m.slug===row.dataset.add);
+    await propAct("add", {member:row.dataset.add, part:row.querySelector("select").value}, "'"+(who?who.id:"")+"'을(를) 넣었어요 🤝");
+    const input = $("prop-add-q"); if (input){ input.value = q; renderPropAdd(); input.focus(); }
+    return;
+  }
   if (a==="remove"){ const m = currentMembers().find(x=>x.slug===b.dataset.who); if (confirm("'"+(m?m.id:"이 사람")+"'을(를) 내보낼까요? 같은 파트 대기 1번이 자동으로 들어와요.")) propAct("remove", {member:b.dataset.who}, "내보냈어요"); return; }
   if (a==="team-ui"){
     const box = $("prop-convert"), all = currentMembers(), ins = Object.entries(p.applicants||{}).filter(([,x])=>appState(x)==="in");
@@ -1978,6 +1990,24 @@ $("prop-body").addEventListener("click", async e=>{
   }
 });
 $("prop-body").addEventListener("click", e=>{ const b = e.target.closest("#prop-convert .je-m"); if (b) b.classList.toggle("on"); });
+// 미리 약속한 멤버 찾기
+function renderPropAdd(){
+  const p = propsCache.find(x=>x.slug===propOpen), box = $("prop-add-results"), q = norm(($("prop-add-q")||{}).value||"");
+  if (!p || !box) return;
+  if (!q){ box.innerHTML = ""; return; }
+  const rows = wantRows(p);
+  const list = currentMembers().filter(m=>m.slug!==p.createdBy && norm(m.id).includes(q)
+    && !(p.applicants[m.slug] && appState(p.applicants[m.slug])==="in")).slice(0, 8);
+  box.innerHTML = list.length ? list.map(m=>{
+    const mp = m.parts||[], opts = [...mp, ...PARTS.map(k=>k.k).filter(k=>!mp.includes(k))];
+    const seat = k => { if (!Object.keys(p.want).length) return ""; const w = rows.find(x=>x.part===k); return w ? (w.who.length<w.need ? " · 자리 "+(w.need-w.who.length) : " · 마감") : " · 모집 안 함"; };
+    const firstOpen = opts.find(k=>{ const w = rows.find(x=>x.part===k); return !Object.keys(p.want).length || (w && w.who.length<w.need); }) || opts[0];
+    return '<div class="pa-row" data-add="'+m.slug+'">'+avatarHTML(m)+'<b>'+esc(m.id)+(p.applicants[m.slug]?' <small class="muted">(대기 중)</small>':'')+'</b>'
+      +'<select class="text-input">'+opts.map(k=>'<option value="'+k+'"'+(k===firstOpen?" selected":"")+'>'+PART[k].e+' '+PART[k].n+seat(k)+'</option>').join("")+'</select>'
+      +'<button class="button small primary" data-pact="add">넣기</button></div>';
+  }).join("") : '<p class="muted bs-small" style="margin:0">찾는 닉네임이 없어요. 아직 입장한 적 없는 사람이면 링크로 먼저 초대해 주세요.</p>';
+}
+$("prop-body").addEventListener("input", e=>{ if (e.target.id==="prop-add-q") renderPropAdd(); });
 $("prop-body").addEventListener("change", e=>{ if (e.target.id==="prop-accepting") propAct("accepting", {value:e.target.checked}, e.target.checked ? "다시 사람을 받아요 🙋" : "새 신청을 받지 않아요 🔒"); });
 async function propAct(action, extra, msg){
   if (!me) return goTo("view-login");
@@ -2059,6 +2089,7 @@ function openJamEdit(j, preset){
   $("je-name").value = jamDraft.title; $("je-songs").value = jamDraft.songs;
   $("je-place").value = jamDraft.place; $("je-note").value = jamDraft.note;
   $("je-err").hidden = true;
+  $("je-search").value = "";
   renderJeTime(); renderJeMembers();
   show("view-jam-edit");
   setTimeout(()=>$("je-name").focus(), 150);
@@ -2075,12 +2106,15 @@ function renderJeTime(){
 $("je-start").addEventListener("change", ()=>{ jamDraft.startHour = Number($("je-start").value); renderJeTime(); });
 $("je-end").addEventListener("change", ()=>{ jamDraft.duration = Number($("je-end").value) - jamDraft.startHour; });
 function renderJeMembers(){
-  const all = currentMembers().filter(m=>m.done || jamDraft.members.has(m.slug))
-    .sort((a,b)=>(a.slug===me.slug?-1:b.slug===me.slug?1:0) || a.id.localeCompare(b.id));
+  const q = norm($("je-search").value||"");
+  // 이미 고른 사람은 검색과 상관없이 항상 보이고, 나머지는 검색어로 거른다 (검색하면 취향 등록 전인 사람도 찾을 수 있다)
+  const all = currentMembers().filter(m=>jamDraft.members.has(m.slug) || (q ? norm(m.id).includes(q) : m.done))
+    .sort((a,b)=>(a.slug===me.slug?-1:b.slug===me.slug?1:0) || (jamDraft.members.has(b.slug)-jamDraft.members.has(a.slug)) || a.id.localeCompare(b.id));
   $("je-members").innerHTML = all.map(m=>'<button type="button" class="je-m'+(jamDraft.members.has(m.slug)?" on":"")+'" data-m="'+m.slug+'"'+(m.slug===me.slug?' disabled':'')+' title="'+esc(memberPartsText(m, " · "))+'">'+avatarHTML(m)+'<span>'+esc(m.id)+(m.slug===me.slug?' (나)':'')+'</span><small>'+(m.parts||[]).map(k=>PART[k]?PART[k].e:"").join("")+'</small></button>').join("")
-    || '<p class="muted" style="margin:0">아직 취향 등록을 마친 멤버가 없어요.</p>';
+    || '<p class="muted" style="margin:0">'+(q?"찾는 닉네임이 없어요.":"아직 취향 등록을 마친 멤버가 없어요.")+'</p>';
   $("je-count").textContent = jamDraft.members.size+"명 (나 포함, 최대 12명)";
 }
+$("je-search").addEventListener("input", renderJeMembers);
 $("je-members").addEventListener("click", e=>{
   const b = e.target.closest("[data-m]"); if (!b || b.disabled) return;
   const s = b.dataset.m;

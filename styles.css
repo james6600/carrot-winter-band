@@ -866,3 +866,16 @@ button,input{font:inherit;color:inherit}
 
 .pw-edit.mine{border-color:rgba(216,183,100,.55);background:rgba(216,183,100,.08)}
 .pw-edit b small{display:block;font-size:10px;color:#e7cf87;font-weight:700;margin-top:2px}
+
+/* 미리 약속한 멤버 넣기 */
+.prop-add{margin-top:14px;border:1px dashed rgba(216,183,100,.35);border-radius:14px;padding:12px 14px;display:grid;gap:8px}
+.prop-add>b{font-size:13px}
+.prop-add>small{font-size:11px;color:#968f88;line-height:1.5}
+.prop-add .text-input{min-height:42px}
+.prop-add-results{display:grid;gap:6px}
+.pa-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:7px 9px;background:rgba(255,255,255,.02)}
+.pa-row .avatar{width:28px;height:28px}
+.pa-row b{flex:1;min-width:80px;font-size:13px}
+.pa-row select.text-input{width:auto;min-height:36px;appearance:auto;font-size:12px}
+.invited{font-size:11px}
+.je-search{min-height:42px;margin-bottom:6px}

@@ -76,7 +76,7 @@ export default async function handler(req, res){
     let p = await getProposal(String(b.target || ""));
     if (!p) return json(res, 404, { error: "no_target" });
     const owner = p.createdBy === me.slug;
-    const OWNER_ONLY = new Set(["update", "accepting", "remove", "convert", "team", "close", "reopen", "delete"]);
+    const OWNER_ONLY = new Set(["update", "accepting", "add", "remove", "convert", "team", "close", "reopen", "delete"]);
     if (OWNER_ONLY.has(b.action) && !owner) return json(res, 403, { error: "not_owner" });
     const show = p.showSlug ? await getShow(p.showSlug) : null;
     const save = async next => { next = { ...next, updatedAt: now }; await putProposal(next); return json(res, 200, { ok: true, proposal: next }); };
@@ -100,6 +100,22 @@ export default async function handler(req, res){
       const entry = prev && prev.part === part ? prev : { part, at: now, state: "wait" };
       const next = rebalance({ ...p, applicants: { ...p.applicants, [me.slug]: entry } });
       await joinShow(show);
+      return save(next);
+    }
+    // 미리 같이 하기로 한 사람: 제안자가 닉네임으로 찾아 바로 넣는다 (사람 받기·모집 기간과 상관없이, 자리가 있을 때)
+    if (b.action === "add"){
+      if (p.status !== "open") return json(res, 400, { error: "closed" });
+      const who = await getMember(String(b.member || ""));
+      if (!who) return json(res, 404, { error: "no_member" });
+      if (who.slug === p.createdBy) return json(res, 400, { error: "self" });
+      if (p.applicants[who.slug] && stateOf(p.applicants[who.slug]) === "in") return json(res, 400, { error: "already" });
+      const part = PART_KEYS.includes(b.part) ? b.part : "";
+      if (!part) return json(res, 400, { error: "bad_part" });
+      const taken = inMembers(p).filter(([s, a]) => a.part === part && s !== who.slug).length;
+      if (taken >= capOf(p, part)) return json(res, 400, { error: "part_full" });
+      // 대기 중이던 사람이면 대기에서 꺼내 바로 넣는다
+      const next = rebalance({ ...p, applicants: { ...p.applicants, [who.slug]: { part, at: now, state: "in", invited: true } } });
+      if (show) await putShow({ ...show, participants: [...new Set([...show.participants, who.slug])], updatedAt: now });
       return save(next);
     }
     if (b.action === "unapply" || b.action === "remove"){
