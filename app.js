@@ -1176,7 +1176,9 @@ function renderResult(animate){
       +'<div><div class="section-label">MY MUSIC TYPE</div><h2>'+st.e+' '+esc(st.n)+'</h2>'
       +'<p>잘 맞는 유형은 <b style="color:var(--text)">'+esc(st.mate)+'</b>예요.</p>'
       +'<div class="pills">'+parts.map(p=>'<span class="pill orange">'+esc(p)+'</span>').join("")
-      +(me.data.genres||[]).slice(0,5).map(k=>'<span class="pill gold">'+esc(GENRE_NAME[k]||k)+'</span>').join("")+'</div></div>';
+      +(me.data.genres||[]).slice(0,5).map(k=>'<span class="pill gold">'+esc(GENRE_NAME[k]||k)+'</span>').join("")+'</div></div>'
+      +'<div class="sc-badges" id="sc-badges"></div>';
+    renderMyBadges();
   };
   if (animate && !reduceMotion()){
     $("result-title").innerHTML = '취향을<br><em>맞춰보는 중이에요…</em>';
@@ -1184,7 +1186,7 @@ function renderResult(animate){
     card.innerHTML = '<div class="hat-avatar thinking" style="background-image:url(/assets/emo/rere-think.webp)"></div><div><div class="section-label">MATCHING…</div><h2>음… 어디 보자…</h2><p>레레가 당신의 플레이리스트를 들어보는 중이에요.</p></div>';
     setTimeout(fill, 1700);
   } else fill();
-  renderMyInfo(); renderMyBadges(); renderMyBand(); renderMates();
+  renderMyInfo(); renderMyBand(); renderMates();
 }
 // 마이 페이지 맨 아래 '내 정보': 처음 설정 때 등록한 취향과 합주 시간을 보여주고 여기서 고친다
 function renderMyInfo(){
@@ -2593,10 +2595,10 @@ function renderRank(){
 }
 $("rank-range").addEventListener("click", e=>{ const b = e.target.closest("[data-range]"); if (!b) return; rankRange = b.dataset.range; renderRank(); });
 
-// 마이 페이지: 내 포인트 · 뱃지 · 받은 칭찬
+// 마이 페이지: 내 포인트 · 뱃지 · 받은 칭찬 (음악 타입 카드 아래쪽 빈자리에)
 let myReviews = null, myReviewsAt = 0;
 function renderMyBadges(){
-  const box = $("my-badges"); if (!box || !me) return;
+  const box = $("sc-badges"); if (!box || !me) return;
   if (!myReviews || Date.now()-myReviewsAt > 60000){ myReviewsAt = Date.now();
     api("reviews", {action:"mine", id:me.id, token:me.token}).then(d=>{ myReviews = d.reviews||[]; renderMyBadges(); }).catch(()=>{}); }
   const mine = from => scoreBoard(from).find(r=>r.slug===me.slug) || {join:0, manner:0, jams:0, written:0, tags:{}, mates:new Set()};
@@ -2606,18 +2608,18 @@ function renderMyBadges(){
   const tagCnt = Object.entries(all.tags).sort((a,b)=>b[1]-a[1]);
   const notes = (myReviews||[]).filter(v=>v.note).slice(0,4);
   const nameOf = s => (currentMembers().find(m=>m.slug===s)||{}).id || "?";
-  box.innerHTML = '<div class="card-head"><div><small>MY BADGES · POINTS</small><h2>🏅 내 뱃지 · 포인트</h2><p>합주에 참여하고 후기를 남기면 포인트와 뱃지가 쌓여요.</p></div><button class="button small ghost" data-v="view-rank">🏆 랭킹 보기</button></div>'
+  box.innerHTML = '<div class="sc-head"><div class="section-label">MY BADGES · POINTS</div><button class="pill-link" data-v="view-rank">🏆 랭킹 보기 →</button></div>'
     +'<div class="pt-grid"><div class="pt-cell"><small>이번 주</small><b>'+wk.join+'</b><span>참여 포인트</span></div><div class="pt-cell"><small>이번 주</small><b>'+wk.manner+'</b><span>매너 포인트</span></div>'
     +'<div class="pt-cell"><small>이번 달</small><b>'+mo.join+'</b><span>참여 포인트</span></div><div class="pt-cell"><small>이번 달</small><b>'+mo.manner+'</b><span>매너 포인트</span></div></div>'
-    +'<div class="section-label rv-h">🏅 내 뱃지</div><div class="my-badge-row">'
+    +'<div class="sc-sub">🏅 내 뱃지</div><div class="my-badge-row">'
     +(titles.length||miles.length ? titles.map(b=>'<span class="my-badge title" title="'+esc(b.d)+'">'+b.e+' '+esc(b.n)+'</span>').join("")+miles.map(x=>'<span class="my-badge">'+x.e+' '+x.n+'</span>').join("")
       : '<span class="muted">아직 뱃지가 없어요. 첫 합주를 마치면 🎈 첫 합주 뱃지를 받아요!</span>')+'</div>'
-    +'<div class="section-label rv-h">💐 받은 칭찬</div>'
+    +'<div class="sc-sub">💐 받은 칭찬</div>'
     +(tagCnt.length ? '<div class="pills">'+tagCnt.map(([t,c])=>'<span class="pill orange">'+PRAISE_OF[t].e+' '+PRAISE_OF[t].n+' ×'+c+'</span>').join("")+'</div>'
-      +notes.map(v=>'<p class="rv-note">“'+esc(v.note)+'” <small>— '+esc(nameOf(v.from))+(v.jamTitle?' · '+esc(v.jamTitle):'')+'</small></p>').join("")
+      +notes.slice(0,2).map(v=>'<p class="rv-note">“'+esc(v.note)+'” <small>— '+esc(nameOf(v.from))+(v.jamTitle?' · '+esc(v.jamTitle):'')+'</small></p>').join("")
       : '<p class="muted" style="margin:0;font-size:13px">합주를 마치면 함께한 멤버들이 칭찬을 남겨줄 거예요.</p>');
 }
-$("my-badges").addEventListener("click", e=>{ const b = e.target.closest("[data-v]"); if (b) goTo(b.dataset.v); });
+$("sorting-card").addEventListener("click", e=>{ const b = e.target.closest("[data-v]"); if (b) goTo(b.dataset.v); });
 
 /* ---------- 오류 보고 · 기능 제안 ---------- */
 const FB_KIND = {bug:"🐞 오류", idea:"💡 제안", etc:"💬 기타"};

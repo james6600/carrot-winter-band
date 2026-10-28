@@ -1079,8 +1079,6 @@ button,input{font:inherit;color:inherit}
 .badge-cell small{font-size:11px;color:var(--dim);line-height:1.5}
 .badge-cell p{margin:6px 0 0;font-size:13px;font-weight:700}
 .badge-cell p em{font-style:normal;color:var(--accent-text);margin-left:4px}
-.my-badges{padding:24px}
-@media (max-width:640px){.my-badges{padding:20px}}
 .pt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 @media (max-width:640px){.pt-grid{grid-template-columns:repeat(2,1fr)}}
 .pt-cell{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--panel);display:grid;gap:2px}
@@ -1090,4 +1088,12 @@ button,input{font:inherit;color:inherit}
 .my-badge-row{display:flex;flex-wrap:wrap;gap:6px}
 .my-badge{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel)}
 .my-badge.title{border-color:transparent;background:linear-gradient(135deg,var(--orange),var(--brand2));color:#fff}
-.my-badges .card-head .button{white-space:nowrap;flex:none}
+
+/* 음악 타입 카드 안의 내 뱃지 · 포인트 */
+.sc-badges{grid-column:1/-1;border-top:1px solid var(--line);padding-top:18px;text-align:left;width:100%}
+.sc-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.sc-sub{font-size:12px;font-weight:800;color:var(--muted);margin:14px 0 8px}
+.sc-badges .pt-grid{gap:6px}
+.sc-badges .pt-cell{padding:10px}
+.sc-badges .pt-cell b{font-size:20px}
+.sc-badges .pills{margin-top:0;justify-content:flex-start}
