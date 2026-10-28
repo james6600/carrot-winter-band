@@ -1624,17 +1624,22 @@ function renderJam(){
   if (phase==="planning"){
     const sugRow = (s, i) => {
       const missing = people.filter(m=>!s.who.some(w=>w.slug===m.slug)).map(m=>m.id);
-      return '<div class="sug-row'+(s.n===people.length?" full":"")+'"><div class="sug-main"><b>'+(i===0?'👑 ':'')+jamSlotLabel(j, s.slot)+'</b><small><span class="pill '+(s.n===people.length?"ok":"gold")+'">'+s.n+'/'+people.length+'명</span>'+(missing.length?' 빠짐: '+esc(missing.join(", ")):' 전원 가능!')+'</small></div>'
+      return '<div class="sug-row'+(s.n===people.length?" full":"")+'"><div class="sug-main"><b>'+(i===0?'👑 ':'')+jamSlotLabel(j, s.slot)+(i<0 && j.startHour?' <span class="pill sug-alt">다른 시간</span>':'')+'</b><small><span class="pill '+(s.n===people.length?"ok":"gold")+'">'+s.n+'/'+people.length+'명</span>'+(missing.length?' 빠짐: '+esc(missing.join(", ")):' 전원 가능!')+'</small></div>'
         +(owner?'<button class="button small primary" data-fix="'+s.slot+'">픽스</button>':'')+'</div>';
     };
     const sug = jamBest(j);
     const picked = jamDays(j).length>0;
-    const others = j.startHour ? jamSuggest(j).filter(s=>Number(s.slot.split("@")[1])!==j.startHour).slice(0,6) : [];
+    // 희망 시간이 아닌 다른 시작 시간에 되는 때. 희망 시간 최고 인원 이상 모이는 것만, 많이 모이는 순으로 바로 보여준다
+    const bestN = sug.reduce((x,s)=>Math.max(x, s.n), 0);
+    const others = j.startHour ? jamSuggest(j).filter(s=>Number(s.slot.split("@")[1])!==j.startHour && s.n>=Math.max(2, bestN)) : [];
+    const moreN = others.some(s=>s.n>bestN);
     const want = j.startHour ? j.startHour+'–'+(j.startHour+j.duration)+'시' : '';
     main += '<section class="magic-card jam-sec"><div class="card-head"><div><small>'+(picked?'PICKED DAYS':'SUGGESTED')+'</small><h2>'+(picked?(jamDays(j).length>1?'고른 날짜 후보':'고른 날짜')+(want?' · <b class="want">'+want+'</b>':''):want?'<b class="want">'+want+'</b>에 되는 날':'이런 시간은 어때요?')+'</h2><p>'+(picked?'멤버들이 칠한 합주 시간으로 몇 명이 되는지 보여줘요. ':'멤버들이 등록한 합주 시간에서 많이 겹치는 순서예요. ')+(owner?'하나를 골라 픽스하면 캘린더에 올라가요.':'날짜는 만든 사람('+esc(creator?creator.id:"?")+')이 정해요.')+'</p></div><span>✨</span></div>'
       + (sug.length ? '<div class="sug-list">'+sug.slice(0,8).map(sugRow).join("")+'</div>'
         : '<div class="empty-state"><span>⏳</span><p>'+(want?'아직 '+want+'에 두 명 이상 되는 날이 없어요.':'두 명 이상 합주 시간을 등록하면 제안이 떠요.')+'</p></div>')
-      + (others.length ? '<details class="sug-more"><summary>다른 시간도 괜찮다면 · '+others.length+'개 더</summary><div class="sug-list">'+others.map((s,i)=>sugRow(s, -1)).join("")+'</div></details>' : '')
+      + (others.length ? '<div class="sug-other"><div class="sug-other-h"><b>⏰ 다른 시간이라면 '+(moreN?'더 많이 모여요':'이만큼 돼요')+'</b><small>'+esc(want)+' 말고도 '+(moreN?'멤버가 더 많이':'같은 인원이')+' 되는 시간이에요. '+(owner?'괜찮으면 여기서 바로 픽스해요.':'만든 사람이 고를 수 있어요.')+'</small></div>'
+          +'<div class="sug-list">'+others.slice(0,4).map(s=>sugRow(s, -1)).join("")+'</div>'
+          +(others.length>4 ? '<details class="sug-more"><summary>다른 시간 '+(others.length-4)+'개 더 보기</summary><div class="sug-list">'+others.slice(4,16).map(s=>sugRow(s, -1)).join("")+'</div></details>' : '')+'</div>' : '')
       + (owner ? '<div class="sug-manual"><b>직접 정하기</b><div class="sug-manual-row"><input type="date" id="jm-date" class="text-input" min="'+(TODAY>GLOBAL_START?TODAY:GLOBAL_START)+'" max="'+GLOBAL_END+'" value="'+(sug.length?sug[0].slot.slice(0,10):jamDays(j)[0]||(TODAY>GLOBAL_START?TODAY:GLOBAL_START))+'">'
           +'<select id="jm-hour" class="text-input">'+hourOptions(JAM_FIRST, JAM_LAST-1, j.startHour||(sug.length?Number(sug[0].slot.split("@")[1]):19))+'</select><span>부터</span>'
           +'<select id="jm-end" class="text-input"></select><span>까지</span>'
