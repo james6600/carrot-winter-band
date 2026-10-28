@@ -147,7 +147,7 @@ function errText(e){
   if (e && e.error==="jam_full") return "모임 인원이 다 찼어요. 만든 사람에게 문의해 주세요.";
   if (e && e.error==="cap_low") return "지금 멤버 수보다 인원을 적게 할 수 없어요.";
   if (e && e.error==="no_invite") return "초대가 취소됐거나 이미 응답했어요.";
-  if (e && e.error==="too_many_invites") return "응답 기다리는 초대가 너무 많아요 (30명까지).";
+  if (e && e.error==="too_many_invites") return "응답 기다리는 초대가 너무 많아요. 응답을 받은 뒤 더 초대해 주세요.";
   if (e && e.error==="already") return "이미 들어와 있는 사람이에요.";
   if (e && e.error==="recruit_closed") return "공연 팀 모집 기간이 아니에요.";
   if (e && e.error==="show_locked") return "공연이 확정돼서 팀을 바꿀 수 없어요. 운영진에게 문의해 주세요.";
@@ -1723,6 +1723,22 @@ $("jam-body").addEventListener("click", async e=>{
   if (a==="cancel"){ if (confirm("'"+j.title+"' 모임을 취소할까요? 캘린더에서 내려가요.")) jamAct("status", {status:"canceled"}, "모임을 취소했어요"); return; }
   if (a==="delete"){ if (confirm("'"+j.title+"' 모임을 완전히 지울까요? 되돌릴 수 없어요.")) jamAct("delete", {}, "모임을 지웠어요"); }
 });
+// 전에 같은 합주 모임(취소된 것 제외)에 있었던 사람: 함께한 횟수 → 최근 순
+function pastMates(){
+  const all = currentMembers(), by = new Map();
+  for (const j of jamsCache){
+    if (j.status==="canceled" || !j.members.includes(me.slug)) continue;
+    const when = (j.fixedSlot||"").slice(0,10) || j.updatedAt.slice(0,10);
+    for (const s of j.members){
+      if (s===me.slug) continue;
+      const x = by.get(s) || {n:0, when:""};
+      x.n++; if (when > x.when) x.when = when;
+      by.set(s, x);
+    }
+  }
+  return [...by].map(([s,x])=>({m:all.find(m=>m.slug===s), n:x.n, when:x.when})).filter(x=>x.m)
+    .sort((a,b)=>b.n-a.n || b.when.localeCompare(a.when)).map(x=>({...x, last:dayLabel(x.when)}));
+}
 // 직접 초대: 닉네임으로 검색해서 초대장을 보낸다 (수백 명이어도 검색해서 고르게)
 function openInvitePick(){ $("jp-q").value = ""; renderInvitePick(); $("jam-pick").hidden = false; setTimeout(()=>$("jp-q").focus(), 100); }
 function renderInvitePick(){
@@ -1730,7 +1746,14 @@ function renderInvitePick(){
   const q = norm($("jp-q").value||""), inv = j.invites||{};
   const left = capOf(j) - j.members.length;
   $("jp-desc").textContent = "닉네임으로 찾아서 초대해요. 상대 마이 페이지에 초대가 떠요. (남은 자리 "+left+"명)";
-  if (!q){ $("jp-list").innerHTML = '<p class="muted jp-empty">닉네임을 한 글자 이상 입력해 주세요.</p>'; return; }
+  if (!q){
+    const rec = pastMates().filter(x=>!j.members.includes(x.m.slug) && !inv[x.m.slug]).slice(0, 8);
+    $("jp-list").innerHTML = rec.length
+      ? '<div class="section-label jp-rec-h">🥕 전에 함께한 사람</div>'+rec.map(({m,n,last})=>'<div class="jp-row">'+avatarHTML(m)+'<div><b>'+esc(m.id)+'</b><small>함께한 모임 '+n+'번 · 최근 '+esc(last)+' · '+esc(memberPartsText(m))+'</small></div><button class="button small primary" data-inv="'+m.slug+'">초대</button></div>').join("")
+        +'<p class="muted jp-empty">다른 사람은 위에서 닉네임으로 찾아요.</p>'
+      : '<p class="muted jp-empty">닉네임을 한 글자 이상 입력해 주세요.<br>같이 합주 모임을 한 사람이 생기면 여기에 추천해 드려요.</p>';
+    return;
+  }
   const found = currentMembers().filter(m=>m.slug!==me.slug && norm(m.id).includes(q))
     .sort((a,b)=>(norm(a.id).startsWith(q)?0:1)-(norm(b.id).startsWith(q)?0:1) || a.id.localeCompare(b.id)).slice(0, 10);
   $("jp-list").innerHTML = found.map(m=>{
@@ -2222,8 +2245,10 @@ function openJamEdit(j, preset){
   $("je-name").value = jamDraft.title; $("je-songs").value = jamDraft.songs;
   $("je-place").value = jamDraft.place; $("je-note").value = jamDraft.note;
   $("je-err").hidden = true;
-  let co = ""; for (let n=jamDraft.minCap; n<=12; n++) co += '<option value="'+n+'"'+(n===jamDraft.cap?" selected":"")+'>'+n+'</option>';
-  $("je-cap").innerHTML = co;
+  const etc = jamDraft.cap > 10;
+  let co = ""; for (let n=jamDraft.minCap; n<=10; n++) co += '<option value="'+n+'"'+(!etc && n===jamDraft.cap?" selected":"")+'>'+n+'</option>';
+  $("je-cap").innerHTML = co + '<option value="etc"'+(etc?" selected":"")+'>기타 (직접 입력)</option>';
+  $("je-cap-etc").min = Math.max(11, jamDraft.minCap); $("je-cap-etc").value = etc ? jamDraft.cap : ""; $("je-cap-etc").hidden = !etc;
   $("je-cap-hint").innerHTML = jamDraft.invites.length ? '저장하면 이 밴드 멤버 <b>'+jamDraft.invites.length+'명</b>에게 초대가 가요. 수락하면 들어와요.'
     : j ? '지금 멤버 '+j.members.length+'명 · 그보다 적게는 못 줄여요.' : '멤버는 모임을 만든 뒤 <b>🔗 초대 링크</b>를 보내거나 <b>🙋 직접 초대하기</b>로 모아요. 초대받은 사람은 마이 페이지에서 수락하면 들어와요.';
   $("je-date").min = TODAY>GLOBAL_START ? TODAY : GLOBAL_START; $("je-date").max = GLOBAL_END; $("je-date").value = "";
@@ -2252,6 +2277,16 @@ $("je-date").addEventListener("change", ()=>{
   jamDraft.days.add(v); $("je-date").value = ""; renderJeDays();
 });
 $("je-days").addEventListener("click", e=>{ const b = e.target.closest("[data-day]"); if (!b) return; jamDraft.days.delete(b.dataset.day); renderJeDays(); });
+$("je-cap").addEventListener("change", ()=>{
+  const etc = $("je-cap").value==="etc"; $("je-cap-etc").hidden = !etc;
+  if (etc){ if (!$("je-cap-etc").value) $("je-cap-etc").value = Math.max(11, jamDraft.minCap); $("je-cap-etc").focus(); }
+});
+// 저장할 인원: 목록 값 또는 직접 입력 값 (11~50). 잘못되면 null
+function jeCapValue(){
+  if ($("je-cap").value!=="etc") return Number($("je-cap").value);
+  const n = Math.round(Number($("je-cap-etc").value));
+  return Number.isFinite(n) && n>=Math.max(11, jamDraft.minCap) && n<=50 ? n : null;
+}
 $("je-start").addEventListener("change", ()=>{ jamDraft.startHour = Number($("je-start").value); renderJeTime(); });
 $("je-end").addEventListener("change", ()=>{ jamDraft.duration = Number($("je-end").value) - jamDraft.startHour; });
 $("je-cancel").addEventListener("click", ()=>{ if (jamDraft.slug){ jamOpen = jamDraft.slug; goTo("view-jam"); } else goTo("view-jams"); });
@@ -2259,7 +2294,9 @@ $("je-save").addEventListener("click", async ()=>{
   const err = $("je-err"), fail = t=>{ err.textContent = t; err.hidden = false; };
   const title = $("je-name").value.trim();
   if (title.length<2) return fail("모임 이름을 2자 이상 적어주세요.");
-  const jam = {title, cap:Number($("je-cap").value)||jamDraft.cap, invites:jamDraft.invites, songs:$("je-songs").value.split("\n").map(x=>x.trim()).filter(Boolean),
+  const cap = jeCapValue();
+  if (!cap) return fail("인원을 "+Math.max(11, jamDraft.minCap)+"~50명 사이로 적어주세요.");
+  const jam = {title, cap, invites:jamDraft.invites, songs:$("je-songs").value.split("\n").map(x=>x.trim()).filter(Boolean),
     duration:jamDraft.duration, startHour:jamDraft.startHour, days:[...jamDraft.days].sort(), place:$("je-place").value.trim(), note:$("je-note").value.trim()};
   const btn = $("je-save"); btn.disabled = true; err.hidden = true;
   try{

@@ -397,7 +397,7 @@
         <div class="input-field"><span>합주 시간 <small>몇 시부터 몇 시까지 (최대 5시간)</small></span>
           <div class="je-time"><select class="text-input" id="je-start" aria-label="시작 시간"></select><span>부터</span><select class="text-input" id="je-end" aria-label="끝나는 시간"></select><span>까지</span></div></div>
         <div class="input-field"><span>인원 <small>나 포함 · 다 차면 더 들어올 수 없어요</small></span>
-          <div class="je-time"><select class="text-input" id="je-cap" aria-label="인원"></select><span>명</span></div>
+          <div class="je-time"><select class="text-input" id="je-cap" aria-label="인원"></select><input type="number" class="text-input je-cap-etc" id="je-cap-etc" min="11" max="50" inputmode="numeric" placeholder="11~50" aria-label="인원 직접 입력" hidden><span>명</span></div>
           <small class="je-hint" id="je-cap-hint">멤버는 모임을 만든 뒤 <b>🔗 초대 링크</b>를 보내거나 <b>🙋 직접 초대하기</b>로 모아요. 초대받은 사람은 마이 페이지에서 수락하면 들어와요.</small></div>
         <label class="input-field"><span>합주할 노래 <small>한 줄에 한 곡</small></span><textarea id="je-songs" rows="4" maxlength="700" placeholder="Creep - Radiohead&#10;Zombie - The Cranberries"></textarea></label>
         <label class="input-field"><span>장소 <small>선택</small></span><input id="je-place" maxlength="40" placeholder="예: 정자동 ○○합주실"></label>

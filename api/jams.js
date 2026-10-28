@@ -1,7 +1,7 @@
 // 합주 모임: 멤버·노래·장소를 정하고, 멤버들의 합주 가능 시간으로 날짜를 제안받아 확정(픽스)한다.
 // 목록(GET)은 누구나, 만들기는 로그인한 멤버, 날짜 픽스·수정·취소·삭제는 만든 사람만, 참석 응답은 멤버.
 // 멤버는 만든 뒤에 모은다: 초대 링크로 스스로 참여(join)하거나, 만든 사람이 직접 초대(invite)하면 마이 페이지에서 수락(accept)한다.
-// 인원(cap)은 만든 사람 포함 2~12명.
+// 인원(cap)은 만든 사람 포함 2~50명 (화면에서는 10명까지 고르고, 그 이상은 직접 입력).
 import crypto from "node:crypto";
 import { json, readBody, memberSlug, SLOT_HOURS, GLOBAL_END } from "../lib/util.js";
 import { getMember, listMembers, listJams, getJam, putJam, deleteJam } from "../lib/db.js";
@@ -30,7 +30,7 @@ async function cleanJam(input, base){
   // 멤버는 여기서 바꾸지 않는다 (참여·수락·내보내기로만)
   const members = [...new Set([base.createdBy, ...base.members])];
   const cRaw = Math.round(Number(input.cap ?? capOf(base)));
-  const cap = Number.isFinite(cRaw) ? Math.min(12, Math.max(2, cRaw)) : 12;
+  const cap = Number.isFinite(cRaw) ? Math.min(50, Math.max(2, cRaw)) : 12;
   if (cap < members.length) throw { code: 400, error: "cap_low" };
   const songs = (Array.isArray(input.songs) ? input.songs : base.songs).map(s => clip(s, 60)).filter(Boolean).slice(0, 10);
   const duration = cleanDuration(input.duration, base.duration);
@@ -102,7 +102,7 @@ export default async function handler(req, res){
       const known = new Set((await listMembers()).map(m => m.slug));
       const targets = (Array.isArray(b.targets) ? b.targets : [b.targets]).map(String)
         .filter(s => known.has(s) && !jam.members.includes(s) && !invites[s]);
-      if (Object.keys(invites).length + targets.length > 30) return json(res, 400, { error: "too_many_invites" });
+      if (Object.keys(invites).length + targets.length > Math.max(30, capOf(jam))) return json(res, 400, { error: "too_many_invites" });
       for (const s of targets) invites[s] = { by: me.slug, at: now };
       const next = { ...jam, invites, updatedAt: now };
       await putJam(next);
