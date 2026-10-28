@@ -359,6 +359,27 @@
   <main id="view-jam" class="content-page" hidden>
     <button class="button small ghost" id="jam-back">‹ 모임 목록</button>
     <div id="jam-body"></div>
+    <div class="invite-pick-wrap" id="jam-pick" hidden>
+      <section class="magic-card invite-pick" role="dialog" aria-label="직접 초대하기">
+        <div class="card-head"><div><small>INVITE</small><h2>직접 초대하기</h2><p id="jp-desc">닉네임으로 찾아서 초대해요. 상대 마이 페이지에 초대가 떠요.</p></div><button class="button small ghost" id="jp-close">닫기</button></div>
+        <input class="text-input" id="jp-q" maxlength="20" placeholder="🔍 닉네임 검색 (한 글자 이상)" autocomplete="off">
+        <div class="jp-list" id="jp-list"></div>
+      </section>
+    </div>
+    <div class="invite-pick-wrap" id="jam-pick" hidden>
+      <section class="magic-card invite-pick" role="dialog" aria-label="직접 초대하기">
+        <div class="card-head"><div><small>INVITE</small><h2>직접 초대하기</h2><p id="jp-desc">닉네임으로 찾아서 초대해요. 상대 마이 페이지에 초대가 떠요.</p></div><button class="button small ghost" id="jp-close">닫기</button></div>
+        <input class="text-input" id="jp-q" maxlength="20" placeholder="🔍 닉네임 검색 (한 글자 이상)" autocomplete="off">
+        <div class="jp-list" id="jp-list"></div>
+      </section>
+    </div>
+    <div class="invite-pick-wrap" id="jam-pick" hidden>
+      <section class="magic-card invite-pick" role="dialog" aria-label="직접 초대하기">
+        <div class="card-head"><div><small>INVITE</small><h2>직접 초대하기</h2><p id="jp-desc">닉네임으로 찾아서 초대해요. 상대 마이 페이지에 초대가 떠요.</p></div><button class="button small ghost" id="jp-close">닫기</button></div>
+        <input class="text-input" id="jp-q" maxlength="20" placeholder="🔍 닉네임 검색 (한 글자 이상)" autocomplete="off">
+        <div class="jp-list" id="jp-list"></div>
+      </section>
+    </div>
   </main>
 
   <!-- 합주 모임: 만들기 / 수정 -->
@@ -366,7 +387,7 @@
     <div class="page-heading">
       <div class="season-badge"><span>✦</span> NEW JAM</div>
       <h1 id="je-heading">새 <em>합주 모임</em></h1>
-      <p>날짜·시간과 노래를 정하고 만든 다음, 초대 링크를 보내 멤버를 모아요. 가입 안 한 친구도 링크로 바로 들어올 수 있어요.</p>
+      <p>날짜·시간과 인원을 정해 모임을 먼저 만들고, 초대 링크나 직접 초대로 멤버를 모아요. 가입 안 한 친구도 링크로 바로 들어올 수 있어요.</p>
     </div>
     <section class="magic-card login-card je-card">
       <div class="form-stack">
@@ -375,8 +396,9 @@
           <div class="je-days"><input type="date" class="text-input" id="je-date" aria-label="날짜 고르기"><div class="pills" id="je-days"></div></div></div>
         <div class="input-field"><span>합주 시간 <small>몇 시부터 몇 시까지 (최대 5시간)</small></span>
           <div class="je-time"><select class="text-input" id="je-start" aria-label="시작 시간"></select><span>부터</span><select class="text-input" id="je-end" aria-label="끝나는 시간"></select><span>까지</span></div></div>
-        <div class="input-field"><span>멤버 <small id="je-count"></small></span><input class="text-input je-search" id="je-search" maxlength="20" placeholder="🔍 닉네임으로 찾기" autocomplete="off"><div class="je-members" id="je-members"></div>
-          <small class="je-hint">🔗 아직 가입 안 한 친구는 모임을 만든 뒤 <b>초대 링크</b>로 불러요. 링크를 누르면 닉네임만 정하고 바로 들어와요.</small></div>
+        <div class="input-field"><span>인원 <small>나 포함 · 다 차면 더 들어올 수 없어요</small></span>
+          <div class="je-time"><select class="text-input" id="je-cap" aria-label="인원"></select><span>명</span></div>
+          <small class="je-hint" id="je-cap-hint">멤버는 모임을 만든 뒤 <b>🔗 초대 링크</b>를 보내거나 <b>🙋 직접 초대하기</b>로 모아요. 초대받은 사람은 마이 페이지에서 수락하면 들어와요.</small></div>
         <label class="input-field"><span>합주할 노래 <small>한 줄에 한 곡</small></span><textarea id="je-songs" rows="4" maxlength="700" placeholder="Creep - Radiohead&#10;Zombie - The Cranberries"></textarea></label>
         <label class="input-field"><span>장소 <small>선택</small></span><input id="je-place" maxlength="40" placeholder="예: 정자동 ○○합주실"></label>
         <label class="input-field"><span>메모 <small>선택</small></span><textarea id="je-note" rows="2" maxlength="300" placeholder="준비물, 연습 범위 등"></textarea></label>
