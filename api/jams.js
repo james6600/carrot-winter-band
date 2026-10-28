@@ -3,7 +3,7 @@
 // 멤버는 만든 뒤에 모은다: 초대 링크로 스스로 참여(join)하거나, 만든 사람이 직접 초대(invite)하면 마이 페이지에서 수락(accept)한다.
 // 인원(cap)은 만든 사람 포함 2~50명 (화면에서는 10명까지 고르고, 그 이상은 직접 입력).
 import crypto from "node:crypto";
-import { json, readBody, memberSlug, SLOT_HOURS, farEnd } from "../lib/util.js";
+import { json, readBody, memberSlug, SLOT_HOURS, farEnd, cleanRegions } from "../lib/util.js";
 import { getMember, listMembers, listJams, getJam, putJam, deleteJam } from "../lib/db.js";
 
 const STATUS = ["planning", "fixed", "done", "canceled"];
@@ -41,7 +41,10 @@ async function cleanJam(input, base){
   const today = todayKst();
   const days = [...new Set((Array.isArray(input.days) ? input.days : base.days || []).map(String)
     .filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d) && d >= today && d <= farEnd()))].sort().slice(0, 14);
-  return { ...base, title, members, cap, songs, duration, startHour, days,
+  // 합주 지역 (예: "성남시 분당구"): 꼭 고른다
+  const region = cleanRegions([input.region ?? base.region ?? ""])[0] || "";
+  if (!region) throw { code: 400, error: "bad_region" };
+  return { ...base, title, members, cap, region, songs, duration, startHour, days,
     note: clip(input.note ?? base.note, 300), place: clip(input.place ?? base.place, 40) };
 }
 
@@ -57,7 +60,7 @@ export default async function handler(req, res){
 
     if (b.action === "create"){
       const base = { slug: "j_" + crypto.randomBytes(5).toString("hex"), createdBy: me.slug, members: [], songs: [],
-        note: "", place: "", duration: 2, startHour: 0, days: [], cap: 12, invites: {}, status: "planning", fixedSlot: "", rsvp: {}, createdAt: now, updatedAt: now };
+        note: "", place: "", duration: 2, startHour: 0, days: [], cap: 12, invites: {}, region: "", status: "planning", fixedSlot: "", rsvp: {}, createdAt: now, updatedAt: now };
       const jam = await cleanJam(b.jam || {}, base);
       // '이 밴드로 모임 만들기'처럼 미리 정한 사람은 초대장으로 보낸다
       const known = new Set((await listMembers()).map(m => m.slug));

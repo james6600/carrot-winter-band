@@ -218,7 +218,8 @@ export default async function handler(req, res){
             const avail = [...new Set([...(existing.avail||[]), ...(target.avail||[])])].sort();
             const levels = { ...(target.levels||{}) };
             for (const [k, v] of Object.entries(existing.levels||{})) levels[k] = Math.max(v, levels[k]||0);
-            await putMember({ ...existing, parts, genres, artists, avail, levels,
+            const regions = [...new Set([...(existing.regions||[]), ...(target.regions||[])])].slice(0, 5);
+            await putMember({ ...existing, parts, genres, artists, avail, levels, regions,
               partEtc: existing.partEtc || target.partEtc || "",
               done: !!(existing.done || target.done),
               style: computeStyle(genres, artists), updatedAt: now });

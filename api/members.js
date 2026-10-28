@@ -1,4 +1,4 @@
-import { json, readBody, memberSlug, strip, isReservedId, GENRE_KEYS, PART_KEYS, computeStyle, cleanAvail, cleanLevels, cleanTimePref } from "../lib/util.js";
+import { json, readBody, memberSlug, strip, isReservedId, GENRE_KEYS, PART_KEYS, computeStyle, cleanAvail, cleanLevels, cleanTimePref, cleanRegions } from "../lib/util.js";
 import { getMember, putMember, listMembers } from "../lib/db.js";
 
 export default async function handler(req, res){
@@ -15,12 +15,13 @@ export default async function handler(req, res){
     if (!me || me.pw !== b.token || isReservedId(id)) return json(res, 401, { error: "auth" });
     const now = new Date().toISOString();
 
-    // 합주 가능 시간·선호 시간대만 갱신
+    // 합주 가능 시간·선호 시간대·선호 지역만 갱신
     if (!b.profile){
-      if (b.avail === undefined && b.timePref === undefined) return json(res, 400, { error: "empty" });
+      if (b.avail === undefined && b.timePref === undefined && b.regions === undefined) return json(res, 400, { error: "empty" });
       const updated = { ...me, updatedAt: now,
         avail: b.avail === undefined ? (me.avail || []) : cleanAvail(b.avail),
-        timePref: b.timePref === undefined ? (me.timePref || []) : cleanTimePref(b.timePref) };
+        timePref: b.timePref === undefined ? (me.timePref || []) : cleanTimePref(b.timePref),
+        regions: b.regions === undefined ? (me.regions || []) : cleanRegions(b.regions) };
       await putMember(updated);
       return json(res, 200, { ok: true, member: strip(updated) });
     }
@@ -43,6 +44,7 @@ export default async function handler(req, res){
       avail: p.avail === undefined ? (me.avail || []) : cleanAvail(p.avail),
       levels: cleanLevels(p.levels, parts),
       timePref: p.timePref === undefined ? (me.timePref || []) : cleanTimePref(p.timePref),
+      regions: p.regions === undefined ? (me.regions || []) : cleanRegions(p.regions),
       updatedAt: now,
     };
     await putMember(updated);

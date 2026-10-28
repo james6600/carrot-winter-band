@@ -1020,3 +1020,20 @@ button,input{font:inherit;color:inherit}
 
 /* 의견 화면: 라벨과 종류 탭이 겹치지 않게 (.seg 의 위쪽 -6px 여백을 되돌린다) */
 .seg.fb-kind{margin:10px 0 18px}
+
+/* 선호 합주 지역 고르기 (색은 변수라 화이트·나이트 공통) */
+.region-pick{margin-bottom:18px;padding:14px 16px;border:1px solid var(--line);background:var(--panel);border-radius:16px}
+.region-pick p{margin:0 0 10px;font-size:14px;display:flex;flex-direction:column;gap:2px}
+.region-pick p small{color:var(--dim);font-size:11px}
+.region-mine{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;min-height:26px;align-items:center}
+.region-mine .muted{font-size:12px}
+.region-on{cursor:pointer;font-size:12px;padding:6px 10px}
+.region-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.region-tabs button{border:1px solid var(--line);background:none;color:var(--muted);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:800;cursor:pointer}
+.region-tabs button[aria-selected=true]{background:linear-gradient(135deg,var(--orange),var(--brand2));border-color:transparent;color:#fff}
+.region-chips{display:flex;flex-wrap:wrap;gap:6px;max-height:210px;overflow:auto}
+.region-chips .genre-chip{font-size:12px;padding:7px 12px}
+
+/* 합주 모임 지역 */
+.jam-region{font-weight:800;color:var(--accent-text)}
+.near-hint{margin:2px 0 6px;font-size:12px;line-height:1.6}

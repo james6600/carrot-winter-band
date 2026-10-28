@@ -92,6 +92,35 @@ function mountTimePref(root, set, onChange){
   root.onclick = e=>{ const b = e.target.closest("[data-tp]"); if (!b) return; const k = b.dataset.tp; set.has(k) ? set.delete(k) : set.add(k); draw(); if (onChange) onChange(); };
   draw();
 }
+/* ---------- 선호 합주 지역 (서버 lib/util.js cleanRegions: 최대 5곳) ---------- */
+const REGION_GROUPS = [
+  {k:"서울", items:["강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"].map(x=>"서울 "+x)},
+  {k:"경기", items:["성남시 분당구","성남시 수정구","성남시 중원구","수원시 영통구","수원시 팔달구","수원시 장안구","수원시 권선구","용인시 수지구","용인시 기흥구","용인시 처인구","고양시 일산동구","고양시 일산서구","고양시 덕양구","안양시 동안구","안양시 만안구","안산시 단원구","안산시 상록구",
+    "부천시","화성시","남양주시","평택시","의정부시","시흥시","파주시","김포시","광명시","광주시","군포시","하남시","오산시","이천시","안성시","의왕시","양주시","구리시","포천시","여주시","동두천시","과천시","가평군","양평군","연천군"]},
+  {k:"인천", items:["중구","동구","미추홀구","연수구","남동구","부평구","계양구","서구","강화군","옹진군"].map(x=>"인천 "+x)},
+  {k:"그 외", items:["부산","대구","대전","광주","울산","세종","강원","충북","충남","전북","전남","경북","경남","제주"]},
+];
+const REGION_MAX = 5;
+let regionTab = "서울";
+function mountRegions(root, set, onChange){
+  const draw = ()=>{
+    const g = REGION_GROUPS.find(x=>x.k===regionTab) || REGION_GROUPS[0];
+    root.innerHTML = '<div class="region-pick"><p><b>📍 선호 합주 지역을 선택해 주세요!</b><small>자주 가는 합주실 근처로 골라주세요 · 최대 '+REGION_MAX+'곳</small></p>'
+      +'<div class="region-mine">'+([...set].map(r=>'<button type="button" class="pill orange region-on" data-rg-del="'+esc(r)+'" aria-label="'+esc(r)+' 빼기">📍 '+esc(r)+' ✕</button>').join("") || '<span class="muted">아직 고른 지역이 없어요.</span>')+'</div>'
+      +'<div class="region-tabs" role="tablist">'+REGION_GROUPS.map(x=>'<button type="button" role="tab" data-rg-tab="'+x.k+'" aria-selected="'+(x.k===g.k)+'">'+x.k+'</button>').join("")+'</div>'
+      +'<div class="region-chips">'+g.items.map(r=>{ const lab = r.startsWith(g.k+" ") ? r.slice(g.k.length+1) : r;
+        return '<button type="button" class="genre-chip" data-rg="'+esc(r)+'" aria-pressed="'+set.has(r)+'">'+esc(lab)+'</button>'; }).join("")+'</div></div>';
+  };
+  root.onclick = e=>{
+    const t = e.target.closest("[data-rg-tab]"); if (t){ regionTab = t.dataset.rgTab; return draw(); }
+    const d = e.target.closest("[data-rg-del]"); if (d){ set.delete(d.dataset.rgDel); draw(); if (onChange) onChange(); return; }
+    const b = e.target.closest("[data-rg]"); if (!b) return;
+    const r = b.dataset.rg;
+    if (set.has(r)) set.delete(r); else if (set.size>=REGION_MAX) return toast("지역은 "+REGION_MAX+"곳까지 고를 수 있어요"); else set.add(r);
+    draw(); if (onChange) onChange();
+  };
+  draw();
+}
 const activeAvail = list => (list||[]).filter(k=>inRange(String(k).slice(0,10)));
 const slotKey = (day,h) => day+"@"+String(h).padStart(2,"0");
 function slotLabel(k){
@@ -149,6 +178,7 @@ function errText(e){
   if (e && e.error==="not_accepting") return "제안자가 지금은 사람을 받지 않아요.";
   if (e && e.error==="part_full") return "그 파트 자리가 다 찼어요. 모집 인원을 늘리거나 다른 파트로 넣어주세요.";
   if (e && e.error==="jam_full") return "모임 인원이 다 찼어요. 만든 사람에게 문의해 주세요.";
+  if (e && e.error==="bad_region") return "합주 지역을 골라주세요.";
   if (e && e.error==="cap_low") return "지금 멤버 수보다 인원을 적게 할 수 없어요.";
   if (e && e.error==="no_invite") return "초대가 취소됐거나 이미 응답했어요.";
   if (e && e.error==="too_many_invites") return "응답 기다리는 초대가 너무 많아요. 응답을 받은 뒤 더 초대해 주세요.";
@@ -192,7 +222,7 @@ const artistMap = new Map();   // norm(name|alias) -> {name, genres}
 let artistIndex = [];          // [{name, genres, aliases, keys}]
 let draft = null;
 let currentView = "";
-let schedDraft = null, schedPref = null;
+let schedDraft = null, schedPref = null, schedRegions = null;
 let sel = null;                // 대시보드 선택: {type, key}
 const VIEWS = ["view-offline","view-home","view-login","view-onboard","view-result","view-schedule","view-dash","view-feedback","view-jams","view-jam","view-jam-edit","view-prop","view-prop-edit","view-shows","view-show"];
 
@@ -399,6 +429,7 @@ function commonSlots(a,b){
   const sb = new Set(b.avail);
   return a.avail.filter(k=>sb.has(k));
 }
+const sameRegions = (a,b) => { const s = new Set(b.regions||[]); return (a.regions||[]).filter(r=>s.has(r)); };
 function mateScore(a,b){
   const t = tasteScore(a,b), common = commonSlots(a,b);
   const timeFit = common===null ? null : Math.min(1, common.length/6);
@@ -698,6 +729,7 @@ function startOnboarding(){
     artists:(d.artists||[]).map(a=>({name:a.name, genres:[...(a.genres||[])]})),
     avail:new Set(activeAvail(d.avail)),
     timePref:new Set(d.timePref||[]),
+    regions:new Set(d.regions||[]),
     main:(d.parts||[])[0] || null,
     levels:Object.fromEntries((d.parts||[]).map(p=>[p, lvlOf(d,p)])),
   };
@@ -708,6 +740,7 @@ function startOnboarding(){
   $("part-etc-fld").hidden = !draft.parts.includes("etc");
   $("artist-input").value = ""; $("artist-results").innerHTML = ""; $("artist-status").textContent = "";
   $("manual-pick").hidden = true;
+  mountRegions($("ob-region"), draft.regions);
   mountTimePref($("ob-tpref"), draft.timePref);
   mountEditor($("ob-sched"), draft.avail, updateSaveSummary);
   obMax = d.done ? 4 : 1;
@@ -860,7 +893,7 @@ async function completeOnboarding(){
   const btn = $("ob-next"); btn.disabled = true;
   try{
     const d = await api("members", {id:me.id, token:me.token, profile:{
-      parts:[draft.main, ...draft.parts.filter(p=>p!==draft.main)].filter(Boolean), partEtc:draft.partEtc, genres:draft.genres, artists:draft.artists, avail:[...draft.avail], levels:draft.levels, timePref:[...draft.timePref],
+      parts:[draft.main, ...draft.parts.filter(p=>p!==draft.main)].filter(Boolean), partEtc:draft.partEtc, genres:draft.genres, artists:draft.artists, avail:[...draft.avail], levels:draft.levels, timePref:[...draft.timePref], regions:[...draft.regions],
     }});
     me.data = d.member;
     loadMembers();
@@ -1087,7 +1120,7 @@ function renderAgenda(){
   const planning = mine.filter(j=>jamPhase(j)==="planning").sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt));
   const all = currentMembers(), nameOf = sl => (all.find(m=>m.slug===sl)||{}).id || "?";
   const row = (j, extra, cls) => '<div class="ag-row'+(cls?" "+cls:"")+'" data-jam="'+j.slug+'"><div class="ag-d">'+(j.fixedSlot?'<b>D'+dDay(j.fixedSlot.slice(0,10))+'</b><small>'+dayLabel(j.fixedSlot.slice(0,10))+'</small>':'<b>⏳</b><small>미정</small>')+'</div>'
-    +'<div class="ag-main"><b>'+esc(j.title)+'</b><small>'+(j.fixedSlot?jamSlotLabel(j):(jamDays(j).length?'📅 '+esc(daysText(j)):'날짜 정하는 중')+(j.startHour?' · 희망 '+j.startHour+'–'+(j.startHour+j.duration)+'시':''))+(j.place?' · 📍 '+esc(j.place):'')+' · '+j.members.length+'명'+(j.createdBy!==me.slug?' · 🗝️ '+esc(nameOf(j.createdBy)):' · 내가 만든 모임')+(unreadOf(j.slug)?' · <b style="color:var(--accent-text)">💬 새 글 '+unreadOf(j.slug)+'</b>':'')+'</small></div>'
+    +'<div class="ag-main"><b>'+esc(j.title)+'</b><small>'+(j.fixedSlot?jamSlotLabel(j):(jamDays(j).length?'📅 '+esc(daysText(j)):'날짜 정하는 중')+(j.startHour?' · 희망 '+j.startHour+'–'+(j.startHour+j.duration)+'시':''))+(j.region?' · 📍 '+esc(j.region):'')+(j.place?' · 🏠 '+esc(j.place):'')+' · '+j.members.length+'명'+(j.createdBy!==me.slug?' · 🗝️ '+esc(nameOf(j.createdBy)):' · 내가 만든 모임')+(unreadOf(j.slug)?' · <b style="color:var(--accent-text)">💬 새 글 '+unreadOf(j.slug)+'</b>':'')+'</small></div>'
     +'<div class="ag-side">'+extra+'</div></div>';
   const jinv = myJamInvites();
   let html = '<div class="card-head"><div><small>MY SCHEDULE</small><h2>내 합주 일정</h2><p>'+(invites.length+jinv.length?'응답을 기다리는 초대가 <b>'+(invites.length+jinv.length)+'개</b> 있어요.':upcoming.length?'다가오는 합주 '+upcoming.length+'개':'아직 예정된 합주가 없어요.')+'</p></div><span>📅</span></div>';
@@ -1160,8 +1193,9 @@ function renderMyInfo(){
     +row("장르", (d.genres||[]).length ? '<div class="pills">'+d.genres.map(k=>'<span class="pill gold">'+esc(GENRE_NAME[k]||k)+'</span>').join("")+'</div>' : none("아직 없어요"))
     +row("아티스트", arts.length ? '<div class="pills">'+arts.slice(0,10).map(a=>'<span class="pill">'+esc(a.name)+'</span>').join("")+(arts.length>10?'<span class="pill">+'+(arts.length-10)+'팀</span>':'')+'</div>' : none("아직 없어요"))
     +'</div>'
-    +'<div class="info-group'+(n?'':' need')+'"><div class="info-title"><b>🗓️ 합주 가능 시간</b><button class="button small '+(n?'ghost':'primary')+'" data-go="view-schedule">'+(n?'시간 수정':'시간 칠하기 →')+'</button></div>'
+    +'<div class="info-group'+(n?'':' need')+'"><div class="info-title"><b>🗓️ 합주 가능 시간 · 지역</b><button class="button small '+(n?'ghost':'primary')+'" data-go="view-schedule">'+(n?'시간·지역 수정':'시간 칠하기 →')+'</button></div>'
     +row("칠한 시간", n ? '<b>'+n+'칸</b> ('+(n*2)+'시간)' : none("아직 칠하지 않았어요. 칠하면 시간이 맞는 사람끼리 밴드를 더 정확히 묶어드려요."))
+    +row("선호 지역", (d.regions||[]).length ? '<div class="pills">'+d.regions.map(r=>'<span class="pill orange">📍 '+esc(r)+'</span>').join("")+'</div>' : none("고르지 않았어요"))
     +row("주로 편한 때", (d.timePref||[]).length ? '<div class="pills">'+d.timePref.map(k=>'<span class="pill ok">'+esc(tprefLabel(k))+'</span>').join("")+'</div>' : none("고르지 않았어요"))
     +'</div>';
 }
@@ -1246,6 +1280,7 @@ function renderMates(){
       +(s.sharedGenres.length ? '<span>✦ 취향 결 · '+esc(s.sharedGenres.slice(0,3).map(g=>GENRE_NAME[g]).join(" · "))+'</span>' : '')
       +(mateMode==="taste" && m.style===meNow.style ? '<span>🎧 같은 음악 타입</span>' : '')
       +(mateMode==="taste" ? '' : time)
+      +(sameRegions(meNow, m).length ? '<span class="time">📍 같은 지역 · '+esc(sameRegions(meNow, m).slice(0,2).join(" · "))+'</span>' : '')
       +'<span>🎸 파트 · '+esc(memberPartsText(m))+'</span>'
       +(lack.length ? '<span class="need">🧩 내게 없는 파트 · '+lack.map(p=>PART[p].n).join(" · ")+'</span>' : '')
       +'</div></article>';
@@ -1269,6 +1304,8 @@ $("btn-godash").addEventListener("click", ()=>goTo("view-dash"));
 function openSchedule(){
   schedDraft = new Set(activeAvail(me.data.avail));
   schedPref = new Set(me.data.timePref||[]);
+  schedRegions = new Set(me.data.regions||[]);
+  mountRegions($("my-region"), schedRegions);
   mountTimePref($("my-tpref"), schedPref);
   mountEditor($("my-sched"), schedDraft, ()=>{ $("sched-summary").innerHTML = availSummary(schedDraft); });
   show("view-schedule");
@@ -1277,7 +1314,7 @@ $("sched-cancel").addEventListener("click", ()=>goTo("view-result"));
 $("sched-save").addEventListener("click", async ()=>{
   const btn = $("sched-save"); btn.disabled = true;
   try{
-    const d = await api("members", {id:me.id, token:me.token, avail:[...schedDraft], timePref:[...schedPref]});
+    const d = await api("members", {id:me.id, token:me.token, avail:[...schedDraft], timePref:[...schedPref], regions:[...schedRegions]});
     me.data = d.member;
     toast("합주 시간을 저장했어요 🍂");
     loadMembers();
@@ -1324,6 +1361,12 @@ function renderDash(fresh){
   const rare = CORE.slice().sort((a,b)=>partCount[a]-partCount[b])[0];
   $("dash-need").textContent = done.length ? "지금 제일 귀한 파트: "+PART[rare].n+" — 주변에 연주자가 있다면 모셔와요!" : "";
 
+  const rCount = {}; let rAnswered = 0;
+  for (const m of done){ const rs = m.regions||[]; if (rs.length) rAnswered++; for (const r of rs) rCount[r] = (rCount[r]||0)+1; }
+  const rTop = Object.entries(rCount).sort((a,b)=>b[1]-a[1] || a[0].localeCompare(b[0])).slice(0, 8);
+  const maxR = Math.max(1, ...rTop.map(x=>x[1]));
+  $("dash-region").innerHTML = rTop.map(([r,c])=>barRow("region:"+r, "📍 "+r, c, maxR, "")).join("") || '<div class="empty-state">'+emo("papa-blank")+'<p>아직 선호 지역을 고른 사람이 없어요.</p></div>';
+  $("dash-region-note").textContent = rAnswered ? rAnswered+"명이 골랐어요. 많이 고른 지역 순서예요." : "합주 시간 화면에서 선호 지역을 고를 수 있어요.";
   const tCount={}; for (const t of TIME_PREF) tCount[t.k]=0;
   let answered = 0;
   for (const m of done){ const tp = m.timePref||[]; if (tp.length) answered++; for (const k of tp) if (k in tCount) tCount[k]++; }
@@ -1369,6 +1412,7 @@ function renderSelection(all, artistAgg){
   let title = "", list = [];
   if (sel.type==="all"){ title = "참여자 전체"; list = done; }
   else if (sel.type==="part"){ title = partLabel(sel.key)+" 선택자"; list = done.filter(m=>(m.parts||[]).includes(sel.key)); }
+  else if (sel.type==="region"){ title = "📍 "+sel.key+"에서 합주하고 싶은 사람"; list = done.filter(m=>(m.regions||[]).includes(sel.key)); }
   else if (sel.type==="tpref"){ title = tprefLabel(sel.key)+"이 편한 사람"; list = done.filter(m=>(m.timePref||[]).includes(sel.key)); }
   else if (sel.type==="genre"){ title = (GENRE_NAME[sel.key]||sel.key)+" 선택자"; list = done.filter(m=>(m.genres||[]).includes(sel.key)); }
   else if (sel.type==="style"){ const s = STYLES[sel.key]||STYLES.pop; title = s.e+" "+s.n; list = done.filter(m=>m.style===sel.key); }
@@ -1445,6 +1489,8 @@ function jamPhase(j){
 const jamStatus = j => JAM_STATUS[jamPhase(j)==="past" ? "done" : j.status];
 const isJamMember = j => !!me && (j.members.includes(me.slug) || j.createdBy===me.slug);
 const capOf = j => j.cap || 12;
+// 이 모임 지역이 내 선호 지역인지
+const myRegion = j => !!me && !!j.region && (me.data.regions||[]).includes(j.region);
 function jamPeople(j){
   const all = currentMembers();
   return j.members.map(s=>all.find(m=>m.slug===s) || {slug:s, id:"(나간 멤버)", parts:[], avail:[]});
@@ -1546,9 +1592,9 @@ async function loadJams(){
 function jamCard(j){
   const [st, cls] = jamStatus(j), people = jamPeople(j), mine = isJamMember(j);
   const sug = j.status==="planning" ? jamBest(j) : [];
-  const when = j.fixedSlot ? '🗓️ '+jamSlotLabel(j)+(j.place?' · 📍 '+esc(j.place):'')
+  const when = (j.region?'<span class="jam-region">📍 '+esc(j.region)+'</span> ':'')+(j.fixedSlot ? '🗓️ '+jamSlotLabel(j)+(j.place?' · 🏠 '+esc(j.place):'')
     : jamDays(j).length ? '📅 '+(jamDays(j).length>1?'후보 ':'')+esc(daysText(j))+(sug.length && sug[0].n ? ' · <b>'+sug[0].n+'/'+people.length+'명</b> 가능' : '')
-    : sug.length ? '✨ 제안 <b>'+sug[0].n+'/'+people.length+'명</b> · '+jamSlotLabel(j, sug[0].slot) : '⏳ 멤버들의 합주 시간을 기다리는 중';
+    : sug.length ? '✨ 제안 <b>'+sug[0].n+'/'+people.length+'명</b> · '+jamSlotLabel(j, sug[0].slot) : '⏳ 멤버들의 합주 시간을 기다리는 중');
   return '<article class="jam-card'+(mine?" me":"")+'" data-jam="'+j.slug+'" data-tilt>'
     +'<div class="jam-top"><span class="pill '+cls+'">'+st+'</span>'+(mine?'<span class="pill orange">내 모임</span>':isInvited(j)?'<span class="pill orange">💌 초대받음</span>':'')+(unreadOf(j.slug)?'<span class="pill orange">💬 새 글 '+unreadOf(j.slug)+'</span>':'')+'<small>'+people.length+'/'+capOf(j)+'명 · '+(j.status==="planning"&&j.startHour ? '희망 '+j.startHour+'–'+(j.startHour+j.duration)+'시' : j.duration+'시간')+'</small></div>'
     +'<h4>'+esc(j.title)+'</h4><p class="jam-when">'+when+'</p>'
@@ -1578,6 +1624,12 @@ function renderJams(){
   groups.fixed.sort((a,b)=>a.fixedSlot.localeCompare(b.fixedSlot));
   groups.past.sort((a,b)=>(b.fixedSlot||b.updatedAt).localeCompare(a.fixedSlot||a.updatedAt));
   const empty = t => '<div class="empty-state">'+emo("mimi-go")+'<p>'+t+'</p></div>';
+  // 내 선호 지역에서 열리는 (진행 중인) 합주
+  const near = me ? jamsCache.filter(j=>myRegion(j) && (jamPhase(j)==="planning" || jamPhase(j)==="fixed")).sort((a,b)=>(a.fixedSlot||"9").localeCompare(b.fixedSlot||"9") || b.createdAt.localeCompare(a.createdAt)) : [];
+  $("jams-near-sec").hidden = !me;
+  $("jams-near").innerHTML = !me ? "" : !(me.data.regions||[]).length
+    ? '<p class="muted near-hint">합주 시간 화면에서 <b>선호 지역</b>을 고르면 가까운 합주를 여기에 모아 보여드려요. <button type="button" class="pill-link" data-v="view-schedule">지역 고르기 →</button></p>'
+    : near.length ? moreList("near", near, jamCard) : '<p class="muted near-hint">📍 '+esc(me.data.regions.join(", "))+'에서 열리는 합주가 아직 없어요. 먼저 만들어 보세요!</p>';
   $("jams-planning").innerHTML = groups.planning.length ? moreList("planning", groups.planning, jamCard) : empty(me ? "아직 없어요. 새 모임을 만들어 보세요 🍂" : "아직 계획 중인 모임이 없어요.");
   $("jams-fixed").innerHTML = groups.fixed.length ? moreList("fixed", groups.fixed, jamCard) : empty("확정된 합주가 생기면 여기와 캘린더에 떠요.");
   $("jams-past-sec").hidden = !groups.past.length;
@@ -1614,6 +1666,7 @@ $("jam-cal").addEventListener("click", e=>{
   calMonth = d.getFullYear()+"-"+pad2(d.getMonth()+1); renderCal();
 });
 document.addEventListener("click", e=>{
+  const nv = e.target.closest("#jams-near [data-v]"); if (nv) return goTo(nv.dataset.v);
   const nb = e.target.closest("#jams-new, #jams-new-2, #jams-login, #props-new, #props-new-2");
   if (nb){ return goTo(nb.id.startsWith("jams-new") ? "view-jam-edit" : nb.id.startsWith("props-new") ? "view-prop-edit" : "view-login"); }
   const pc = e.target.closest("[data-prop]");
@@ -1693,7 +1746,7 @@ function renderJam(){
   const share = open && !full ? '<button class="button small '+(people.length<2?'primary':'ghost')+'" data-jact="share">🔗 초대 링크 보내기</button>'
     +(owner?'<button class="button small ghost" data-jact="pick">🙋 직접 초대하기</button>':'') : '';
   $("jam-body").innerHTML = '<div class="page-heading jam-heading"><div class="season-badge"><span>✦</span> JAM SESSION</div>'
-    +'<h1>'+esc(j.title)+'</h1><div class="pills"><span class="pill '+cls+'">'+st+'</span><span class="pill'+(full?' ok':'')+'">'+people.length+'/'+capOf(j)+'명'+(full?' · 다 모임':'')+' · '+j.duration+'시간</span>'+(creator?'<span class="pill'+(owner?' orange':'')+'">🗝️ 만든 사람 '+esc(creator.id)+(owner?' (나)':'')+'</span>':'')+'</div></div>'
+    +'<h1>'+esc(j.title)+'</h1><div class="pills"><span class="pill '+cls+'">'+st+'</span><span class="pill'+(full?' ok':'')+'">'+people.length+'/'+capOf(j)+'명'+(full?' · 다 모임':'')+' · '+j.duration+'시간</span>'+(j.region?'<span class="pill'+(myRegion(j)?' orange':'')+'">📍 '+esc(j.region)+(myRegion(j)?' · 내 선호 지역':'')+'</span>':'')+(creator?'<span class="pill'+(owner?' orange':'')+'">🗝️ 만든 사람 '+esc(creator.id)+(owner?' (나)':'')+'</span>':'')+'</div></div>'
     +invite
     +'<div class="jam-layout"><div>'+main
     +'<section class="magic-card jam-sec section-gap"><div class="card-head"><div><small>SETLIST</small><h2>합주할 노래</h2></div><span>🎵</span></div>'
@@ -2318,8 +2371,8 @@ $("pe-save").addEventListener("click", async ()=>{
 function openJamEdit(j, preset){
   if (!me) return goTo("view-login");
   const pre = ((preset&&preset.members)||[]).filter(s=>s!==me.slug).slice(0, 11);
-  jamDraft = j ? {slug:j.slug, title:j.title, cap:capOf(j), minCap:Math.max(2, j.members.length), invites:[], songs:j.songs.join("\n"), duration:j.duration, startHour:j.startHour||19, days:new Set(jamDays(j)), place:j.place, note:j.note}
-    : {slug:null, title:(preset&&preset.title)||"", cap:Math.max(4, pre.length+1), minCap:2, invites:pre, songs:"", duration:2, startHour:19, days:new Set(), place:"", note:""};
+  jamDraft = j ? {slug:j.slug, title:j.title, cap:capOf(j), minCap:Math.max(2, j.members.length), invites:[], songs:j.songs.join("\n"), duration:j.duration, startHour:j.startHour||19, days:new Set(jamDays(j)), region:j.region||"", place:j.place, note:j.note}
+    : {slug:null, title:(preset&&preset.title)||"", cap:Math.max(4, pre.length+1), minCap:2, invites:pre, songs:"", duration:2, startHour:19, days:new Set(), region:[...(me.data.regions||[])][0]||"", place:"", note:""};
   $("je-heading").innerHTML = j ? '모임 <em>수정</em>' : '새 <em>합주 모임</em>';
   $("je-name").value = jamDraft.title; $("je-songs").value = jamDraft.songs;
   $("je-place").value = jamDraft.place; $("je-note").value = jamDraft.note;
@@ -2331,6 +2384,10 @@ function openJamEdit(j, preset){
   $("je-cap-hint").innerHTML = jamDraft.invites.length ? '저장하면 이 밴드 멤버 <b>'+jamDraft.invites.length+'명</b>에게 초대가 가요. 수락하면 들어와요.'
     : j ? '지금 멤버 '+j.members.length+'명 · 그보다 적게는 못 줄여요.' : '멤버는 모임을 만든 뒤 <b>🔗 초대 링크</b>를 보내거나 <b>🙋 직접 초대하기</b>로 모아요. 초대받은 사람은 마이 페이지에서 수락하면 들어와요.';
   $("je-date").min = TODAY>GLOBAL_START ? TODAY : GLOBAL_START; $("je-date").max = GLOBAL_END; $("je-date").value = "";
+  $("je-region").innerHTML = '<option value="">지역을 골라주세요</option>'
+    +((me.data.regions||[]).length ? '<optgroup label="📍 내 선호 지역">'+me.data.regions.map(r=>'<option value="'+esc(r)+'">'+esc(r)+'</option>').join("")+'</optgroup>' : '')
+    +REGION_GROUPS.map(g=>'<optgroup label="'+g.k+'">'+g.items.map(r=>'<option value="'+esc(r)+'">'+esc(r)+'</option>').join("")+'</optgroup>').join("");
+  $("je-region").value = jamDraft.region;
   renderJeDays(); renderJeTime();
   show("view-jam-edit");
   setTimeout(()=>$("je-name").focus(), 150);
@@ -2373,9 +2430,11 @@ $("je-save").addEventListener("click", async ()=>{
   const err = $("je-err"), fail = t=>{ err.textContent = t; err.hidden = false; };
   const title = $("je-name").value.trim();
   if (title.length<2) return fail("모임 이름을 2자 이상 적어주세요.");
+  const region = $("je-region").value;
+  if (!region) return fail("합주 지역을 골라주세요. 어디서 합주하는지 알아야 사람들이 찾아올 수 있어요.");
   const cap = jeCapValue();
   if (!cap) return fail("인원을 "+Math.max(11, jamDraft.minCap)+"~50명 사이로 적어주세요.");
-  const jam = {title, cap, invites:jamDraft.invites, songs:$("je-songs").value.split("\n").map(x=>x.trim()).filter(Boolean),
+  const jam = {title, cap, region, invites:jamDraft.invites, songs:$("je-songs").value.split("\n").map(x=>x.trim()).filter(Boolean),
     duration:jamDraft.duration, startHour:jamDraft.startHour, days:[...jamDraft.days].sort(), place:$("je-place").value.trim(), note:$("je-note").value.trim()};
   const btn = $("je-save"); btn.disabled = true; err.hidden = true;
   try{
