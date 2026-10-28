@@ -178,6 +178,9 @@ function errText(e){
   if (e && e.error==="not_accepting") return "제안자가 지금은 사람을 받지 않아요.";
   if (e && e.error==="part_full") return "그 파트 자리가 다 찼어요. 모집 인원을 늘리거나 다른 파트로 넣어주세요.";
   if (e && e.error==="jam_full") return "모임 인원이 다 찼어요. 만든 사람에게 문의해 주세요.";
+  if (e && e.error==="not_ended") return "합주가 끝난 뒤에 후기를 남길 수 있어요.";
+  if (e && e.error==="no_tags") return "칭찬을 하나 이상 골라주세요.";
+  if (e && e.error==="not_attended") return "불참으로 응답한 모임이라 후기를 남길 수 없어요.";
   if (e && e.error==="bad_region") return "합주 지역을 골라주세요.";
   if (e && e.error==="cap_low") return "지금 멤버 수보다 인원을 적게 할 수 없어요.";
   if (e && e.error==="no_invite") return "초대가 취소됐거나 이미 응답했어요.";
@@ -224,16 +227,16 @@ let draft = null;
 let currentView = "";
 let schedDraft = null, schedPref = null, schedRegions = null;
 let sel = null;                // 대시보드 선택: {type, key}
-const VIEWS = ["view-offline","view-home","view-login","view-onboard","view-result","view-schedule","view-dash","view-feedback","view-jams","view-jam","view-jam-edit","view-prop","view-prop-edit","view-shows","view-show"];
+const VIEWS = ["view-offline","view-home","view-login","view-onboard","view-result","view-schedule","view-dash","view-feedback","view-jams","view-jam","view-jam-edit","view-prop","view-prop-edit","view-shows","view-show","view-rank"];
 
 /* ---------- 네비게이션 ---------- */
 function navItems(){
-  const fb = {v:"view-feedback",ic:"💌",t:"의견"}, jams = {v:"view-jams",ic:"🎪",t:"합주 모임"}, shows = {v:"view-shows",ic:"🎤",t:"공연"};
-  if (!me) return [{v:"view-home",ic:"✦",t:"홈"},{v:"view-login",ic:"🎸",t:"입장하기"},jams,shows,{v:"view-dash",ic:"📊",t:"대시보드"},fb];
+  const fb = {v:"view-feedback",ic:"💌",t:"의견"}, jams = {v:"view-jams",ic:"🎪",t:"합주 모임"}, shows = {v:"view-shows",ic:"🎤",t:"공연"}, rank = {v:"view-rank",ic:"🏆",t:"랭킹"};
+  if (!me) return [{v:"view-home",ic:"✦",t:"홈"},{v:"view-login",ic:"🎸",t:"입장하기"},jams,shows,rank,{v:"view-dash",ic:"📊",t:"대시보드"},{...fb, m:false}];
   // 취향·합주 시간은 처음 설정 때 등록하고, 이후 수정은 마이 페이지 '내 정보'에서 한다.
   // 휴대폰 하단 메뉴에서 의견은 푸터 링크, 나가기는 마이 페이지 버튼으로 간다
   const my = {v:"view-result",ic:"🙋",t:"마이 페이지", badge:pendingCount()};
-  return [my,jams,shows,{v:"view-dash",ic:"📊",t:"대시보드"},{...fb, m:false},{v:"logout",ic:"🚪",t:"나가기",m:false}];
+  return [my,jams,shows,rank,{v:"view-dash",ic:"📊",t:"대시보드"},{...fb, m:false},{v:"logout",ic:"🚪",t:"나가기",m:false}];
 }
 function renderNav(on){
   on = on || currentView;
@@ -271,6 +274,7 @@ function goTo(v){
   if (v==="view-jam-edit"){ if (!me) return goTo("view-login"); return openJamEdit(null); }
   if (v==="view-prop"){ if (!propOpen) return goTo("view-jams"); renderProp(); show("view-prop"); loadJams(); return; }
   if (v==="view-shows"){ show("view-shows"); renderShows(); loadJams(); return; }
+  if (v==="view-rank"){ show("view-rank"); renderRank(); loadJams(); return; }
   if (v==="view-show"){ if (!showOpen) return goTo("view-shows"); renderShow(); show("view-show"); loadJams(); return; }
   if (v==="view-prop-edit"){ if (!me) return goTo("view-login"); return openPropEdit(null); }
   if (!me) return goTo("view-login");
@@ -1180,7 +1184,7 @@ function renderResult(animate){
     card.innerHTML = '<div class="hat-avatar thinking" style="background-image:url(/assets/emo/rere-think.webp)"></div><div><div class="section-label">MATCHING…</div><h2>음… 어디 보자…</h2><p>레레가 당신의 플레이리스트를 들어보는 중이에요.</p></div>';
     setTimeout(fill, 1700);
   } else fill();
-  renderMyInfo(); renderMyBand(); renderMates();
+  renderMyInfo(); renderMyBadges(); renderMyBand(); renderMates();
 }
 // 마이 페이지 맨 아래 '내 정보': 처음 설정 때 등록한 취향과 합주 시간을 보여주고 여기서 고친다
 function renderMyInfo(){
@@ -1578,14 +1582,15 @@ function okToJoin(j){
 }
 async function loadJams(){
   try{
-    const [d, p, c, sh] = await Promise.all([api("jams"), api("proposals"), me ? api("chat", {action:"summary", id:me.id, token:me.token}).catch(()=>null) : null, api("shows").catch(()=>null)]);
-    jamsCache = d.jams||[]; propsCache = p.proposals||[]; if (c) chatSummary = c.rooms||{}; if (sh) showsCache = sh.shows||[];
+    const [d, p, c, sh, rv] = await Promise.all([api("jams"), api("proposals"), me ? api("chat", {action:"summary", id:me.id, token:me.token}).catch(()=>null) : null, api("shows").catch(()=>null), api("reviews").catch(()=>null)]);
+    jamsCache = d.jams||[]; propsCache = p.proposals||[]; if (c) chatSummary = c.rooms||{}; if (sh) showsCache = sh.shows||[]; if (rv) reviewStats = rv;
     if (currentView==="view-shows") renderShows();
     if (currentView==="view-show") renderShow();
     if (currentView==="view-jams") renderJams();
     if (currentView==="view-jam") renderJam();
     if (currentView==="view-prop") renderProp();
-    if (currentView==="view-result") renderAgenda();
+    if (currentView==="view-result"){ renderAgenda(); renderMyBadges(); }
+    if (currentView==="view-rank") renderRank();
     renderNav();
   }catch(e){ /* 다음 폴링에서 재시도 */ }
 }
@@ -1725,7 +1730,7 @@ function renderJam(){
       +(ovNow.length?'<p class="jam-note">⚠️ 일정이 겹치는 합주: '+esc(ovNow.map(o=>o.title+" ("+jamSlotLabel(o)+")"+(o.shared.length?" · "+o.shared.length+"명 겹침":"")+(o.samePlace?" · 같은 장소":"")).join(", "))+'</p>':'')
       +'<div class="rsvp-sum"><span class="pill ok">참석 '+yes.length+'</span><span class="pill gold">미정 '+maybe.length+'</span><span class="pill bad">불참 '+no.length+'</span><span class="pill">응답 전 '+(people.length-yes.length-no.length-maybe.length)+'</span></div>'
       +(me && j.members.includes(me.slug) ? '<p class="jam-q">나는 갈 수 있나요?</p><div class="seg rsvp-seg">'+["yes","maybe","no"].map(k=>'<button data-rsvp="'+k+'" aria-pressed="'+(rsvpOf(me)===k)+'">'+RSVP_LABEL[k]+'</button>').join("")+'</div>' : '')
-      +(owner?'<div class="jam-actions"><button class="button small ghost" data-jact="unfix">다른 시간으로 바꾸기</button><button class="button small ghost" data-jact="done">합주 끝! 완료로</button></div>':'')
+      +(owner?'<div class="jam-actions"><button class="button small ghost" data-jact="unfix">다른 시간으로 바꾸기</button><button class="button small ghost" data-jact="done">🎉 합주를 마쳤어요</button></div>':'')
       +'</section>';
   } else {
     main += '<section class="magic-card jam-sec jam-fixed muted-card"><small class="k">'+(phase==="canceled"?"CANCELED":"DONE")+'</small><h2>'+(j.fixedSlot?jamSlotLabel(j):"날짜를 정하지 않았어요")+'</h2>'
@@ -1751,7 +1756,7 @@ function renderJam(){
     +'<div class="jam-layout"><div>'+main
     +'<section class="magic-card jam-sec section-gap"><div class="card-head"><div><small>SETLIST</small><h2>합주할 노래</h2></div><span>🎵</span></div>'
     +(j.songs.length?'<ol class="jam-songlist">'+j.songs.map(sng=>'<li>'+esc(sng)+'</li>').join("")+'</ol>':'<p class="muted" style="margin:0">아직 정한 노래가 없어요.</p>')
-    +(j.note?'<p class="jam-memo">📝 '+esc(j.note)+'</p>':'')+'</section><div id="chat-mount"></div></div>'
+    +(j.note?'<p class="jam-memo">📝 '+esc(j.note)+'</p>':'')+'</section><div id="review-mount"></div><div id="chat-mount"></div></div>'
     +'<aside><section class="magic-card jam-sec"><div class="card-head"><div><small>MEMBERS</small><h2>멤버 '+people.length+'/'+capOf(j)+'명</h2></div><span>🎸</span></div><div class="jam-chips">'
     +people.map(m=>owner && m.slug!==j.createdBy ? chip(m).replace(/<\/span>$/, '<button class="chip-x" data-kick="'+m.slug+'" aria-label="'+esc(m.id)+' 내보내기">✕</button></span>') : chip(m)).join("")+'</div>'
     +(owner && pend.length ? '<div class="section-label jam-pend-h">💌 초대 보냄 · 응답 기다리는 중 '+pend.length+'명</div><div class="jam-chips">'+pend.map(s=>'<span class="jam-chip pend"><b>'+esc(nameOf(s))+'</b><button class="chip-x" data-uninv="'+s+'" aria-label="초대 취소">✕</button></span>').join("")+'</div>' : '')
@@ -1761,6 +1766,7 @@ function renderJam(){
       : member ? '<p class="jam-note">📌 멤버·노래·날짜는 만든 사람('+esc(creator?creator.id:"?")+')이 관리해요.</p><div class="jam-actions"><button class="button small ghost" data-jact="leave">모임 나가기</button></div>' : '')
     +'</section></aside></div>';
   updateManualInfo();
+  mountReviews(j, j.members.includes(me&&me.slug));
   mountChat(j.slug, member ? (owner ? "owner" : "member") : "", "jam");
 }
 // 직접 정하기: 날짜·시간을 바꾸면 누가 되는지 바로 보여준다
@@ -1807,7 +1813,7 @@ $("jam-body").addEventListener("click", async e=>{
   if (a==="mytime") return goTo("view-schedule");
   if (a==="edit") return openJamEdit(j);
   if (a==="unfix") return jamAct("unfix", {}, "다시 날짜를 정해요");
-  if (a==="done") return jamAct("status", {status:"done"}, "수고했어요! 🎸");
+  if (a==="done") return jamAct("status", {status:"done"}, "수고했어요! 이제 서로에게 후기를 남겨요 🎸");
   if (a==="revive") return jamAct("status", {status:"planning"}, "다시 계획해요");
   if (a==="cancel"){ if (confirm("'"+j.title+"' 모임을 취소할까요? 캘린더에서 내려가요.")) jamAct("status", {status:"canceled"}, "모임을 취소했어요"); return; }
   if (a==="delete"){ if (confirm("'"+j.title+"' 모임을 완전히 지울까요? 되돌릴 수 없어요.")) jamAct("delete", {}, "모임을 지웠어요"); }
@@ -2446,6 +2452,172 @@ $("je-save").addEventListener("click", async ()=>{
   }catch(e){ fail(errText(e)); }
   finally{ btn.disabled = false; }
 });
+
+/* ---------- 합주 후기 (칭찬만, 평점 없음) · 포인트 · 랭킹 · 뱃지 ---------- */
+// 서버 api/reviews.js PRAISE 와 같은 키
+const PRAISE = [
+  {k:"manner",e:"😊",n:"매너가 좋아요"},{k:"mood",e:"🎉",n:"분위기 메이커예요"},{k:"time",e:"⏰",n:"시간 약속을 잘 지켜요"},{k:"prep",e:"📝",n:"연습을 꼼꼼히 해왔어요"},
+  {k:"skill",e:"🎸",n:"연주 실력이 좋아요"},{k:"listen",e:"👂",n:"합을 잘 맞춰줘요"},{k:"lead",e:"🧭",n:"합주를 잘 이끌어요"},{k:"again",e:"🔁",n:"또 같이 하고 싶어요"},
+];
+const PRAISE_OF = Object.fromEntries(PRAISE.map(p=>[p.k,p]));
+let reviewStats = {received:[], written:[]};
+// 합주가 끝났는지 (서버 jamEnded 와 같은 규칙): 완료로 바꿨거나 확정 시간이 지났을 때
+function jamEnded(j){
+  if (j.status==="done") return true;
+  if (j.status!=="fixed" || !j.fixedSlot) return false;
+  const [day,h] = j.fixedSlot.split("@"), end = pd(day); end.setHours(Number(h)+j.duration);
+  return Date.now() >= end.getTime();
+}
+const jamAttended = (j, slug) => j.members.includes(slug) && j.rsvp[slug]!=="no";
+const jamDay = j => (j.fixedSlot ? j.fixedSlot.slice(0,10) : (j.updatedAt||"").slice(0,10));
+
+// 모임 화면의 후기 칸: 채팅처럼 한 번 만든 칸을 다시 붙여서, 폴링으로 다시 그려도 쓰던 글이 안 날아가게
+let reviewEl = null, reviewJam = null, reviewList = [], reviewDraft = {};
+function mountReviews(j, isMember){
+  const mount = $("review-mount"); if (!mount) return;
+  if (!isMember || !jamEnded(j)){ reviewEl = null; reviewJam = null; mount.innerHTML = ""; return; }
+  if (reviewJam!==j.slug || !reviewEl){
+    reviewJam = j.slug; reviewList = []; reviewDraft = {};
+    reviewEl = document.createElement("section");
+    reviewEl.className = "magic-card jam-sec section-gap review-sec";
+    reviewEl.addEventListener("click", onReviewClick);
+    reviewEl.addEventListener("input", e=>{ const t = e.target.closest("[data-rv-note]"); if (t) draftOf(t.dataset.rvNote).note = t.value; });
+    mount.appendChild(reviewEl);
+    reviewEl.innerHTML = '<p class="muted">후기를 불러오는 중…</p>';
+    loadReviews(j);
+  } else mount.appendChild(reviewEl);
+}
+function draftOf(to){
+  if (!reviewDraft[to]){ const mine = reviewList.find(v=>v.from===me.slug && v.to===to);
+    reviewDraft[to] = {tags:new Set(mine ? mine.tags : []), note: mine ? mine.note : "", saved: !!mine}; }
+  return reviewDraft[to];
+}
+async function loadReviews(j){
+  try{ const d = await api("reviews", {action:"list", id:me.id, token:me.token, target:j.slug}); reviewList = d.reviews||[]; }
+  catch(e){ reviewList = []; }
+  drawReviews();
+}
+function drawReviews(){
+  const j = jamsCache.find(x=>x.slug===reviewJam); if (!j || !reviewEl) return;
+  const people = jamPeople(j), others = people.filter(m=>m.slug!==me.slug), canWrite = jamAttended(j, me.slug);
+  const done = others.filter(m=>reviewList.some(v=>v.from===me.slug && v.to===m.slug)).length;
+  let h = '<div class="card-head"><div><small>AFTER THE JAM</small><h2>🎉 합주를 마쳤어요!</h2><p>함께한 멤버에게 칭찬을 남겨요. 평점은 없어요. 후기는 이 모임 멤버만 볼 수 있어요.</p></div><span>💐</span></div>';
+  if (canWrite && others.length){
+    h += '<div class="section-label rv-h">✍️ 내가 남기는 칭찬 · '+done+'/'+others.length+'명 완료</div><div class="rv-list">'
+      + others.map(m=>{ const d = draftOf(m.slug);
+        return '<div class="rv-card'+(d.saved?" saved":"")+'"><div class="rv-who">'+avatarHTML(m)+'<b>'+esc(m.id)+'</b><small>'+esc(memberPartsText(m))+'</small>'+(d.saved?'<span class="pill ok">남겼어요</span>':'')+'</div>'
+          +'<div class="rv-tags">'+PRAISE.map(p=>'<button type="button" class="genre-chip" data-rv-tag="'+p.k+'" data-rv-to="'+m.slug+'" aria-pressed="'+d.tags.has(p.k)+'">'+p.e+' '+p.n+'</button>').join("")+'</div>'
+          +'<div class="rv-row"><input class="text-input" maxlength="100" placeholder="한 줄 남기기 (선택) · 예: 덕분에 즐거웠어요!" data-rv-note="'+m.slug+'" value="'+esc(d.note)+'">'
+          +'<button type="button" class="button small primary" data-rv-save="'+m.slug+'">'+(d.saved?'고치기':'남기기')+'</button></div></div>'; }).join("")+'</div>';
+  } else if (!canWrite) h += '<p class="jam-note">불참으로 응답한 모임이라 후기는 볼 수만 있어요.</p>';
+  // 모임 후기: 받은 사람별로 모아서
+  const byTo = people.map(m=>({m, list:reviewList.filter(v=>v.to===m.slug)})).filter(x=>x.list.length);
+  h += '<div class="section-label rv-h">💐 이 모임의 후기</div>'
+    + (byTo.length ? '<div class="rv-board">'+byTo.map(({m,list})=>{
+        const cnt = {}; for (const v of list) for (const t of v.tags) cnt[t]=(cnt[t]||0)+1;
+        const tags = Object.entries(cnt).sort((a,b)=>b[1]-a[1]).map(([t,c])=>'<span class="pill orange">'+PRAISE_OF[t].e+' '+PRAISE_OF[t].n+(c>1?' ×'+c:'')+'</span>').join("");
+        const notes = list.filter(v=>v.note).map(v=>'<p class="rv-note">“'+esc(v.note)+'” <small>— '+esc((people.find(x=>x.slug===v.from)||{}).id||"?")+'</small></p>').join("");
+        return '<div class="rv-got"><div class="rv-who">'+avatarHTML(m)+'<b>'+esc(m.id)+(m.slug===me.slug?' (나)':'')+'</b><small>칭찬 '+list.length+'개</small></div><div class="pills">'+tags+'</div>'+notes+'</div>'; }).join("")+'</div>'
+      : '<div class="empty-state">'+emo("mimi-wait")+'<p>아직 남겨진 후기가 없어요. 먼저 칭찬을 남겨 보세요!</p></div>');
+  reviewEl.innerHTML = h;
+}
+async function onReviewClick(e){
+  const t = e.target.closest("[data-rv-tag]");
+  if (t){ const d = draftOf(t.dataset.rvTo), k = t.dataset.rvTag; d.tags.has(k) ? d.tags.delete(k) : d.tags.add(k); t.setAttribute("aria-pressed", d.tags.has(k)); return; }
+  const s = e.target.closest("[data-rv-save]"); if (!s) return;
+  const to = s.dataset.rvSave, d = draftOf(to);
+  if (!d.tags.size) return toast("칭찬을 하나 이상 골라주세요");
+  s.disabled = true;
+  try{
+    const r = await api("reviews", {action:"save", id:me.id, token:me.token, target:reviewJam, to, tags:[...d.tags], note:d.note});
+    reviewList = reviewList.filter(v=>!(v.from===me.slug && v.to===to)).concat([r.review]); d.saved = true;
+    toast("칭찬을 남겼어요 💐"); drawReviews(); loadJams();
+  }catch(err){ toast(errText(err)); s.disabled = false; }
+}
+
+// 포인트: 합주 참여 +10, 후기 작성 +2 (참여 포인트) / 받은 칭찬 1개 +1 (매너 포인트)
+const startOfWeek = () => { const d = pd(TODAY); d.setDate(d.getDate()-((d.getDay()+6)%7)); return ymd(d); };
+const startOfMonth = () => TODAY.slice(0,8)+"01";
+function scoreBoard(from){
+  const all = currentMembers(), S = {};
+  const row = slug => S[slug] ||= {m: all.find(x=>x.slug===slug), join:0, manner:0, jams:0, written:0, tags:{}, mates:new Set()};
+  for (const j of jamsCache){
+    if (!jamEnded(j)) continue;
+    const day = jamDay(j); if (!day || day < from || day > TODAY) continue;
+    const went = j.members.filter(s=>jamAttended(j, s));
+    for (const s of went){ const r = row(s); r.join += 10; r.jams++; for (const o of went) if (o!==s) r.mates.add(o); }
+  }
+  for (const w of reviewStats.written||[]) if (w.at.slice(0,10) >= from){ const r = row(w.from); r.join += 2; r.written++; }
+  for (const v of reviewStats.received||[]) if (v.at.slice(0,10) >= from){ const r = row(v.to); r.manner += v.tags.length; for (const t of v.tags) r.tags[t] = (r.tags[t]||0)+1; }
+  return Object.entries(S).filter(([,r])=>r.m && !isAdminId(r.m.id)).map(([slug,r])=>({slug, ...r}));
+}
+// 이달의 뱃지: 같은 기록이면 함께 받는다
+const MONTH_BADGES = [
+  {k:"jamking", e:"🏆", n:"이달의 합주왕", d:"합주를 가장 많이 했어요", v:r=>r.jams},
+  {k:"manner", e:"😊", n:"이달의 매너왕", d:"'매너가 좋아요'를 가장 많이 받았어요", v:r=>r.tags.manner||0},
+  {k:"mood", e:"🎉", n:"이달의 분위기 메이커", d:"'분위기 메이커예요'를 가장 많이 받았어요", v:r=>r.tags.mood||0},
+  {k:"allsession", e:"🌟", n:"이달의 올세션왕", d:"가장 많은 사람과 합주했어요", v:r=>r.mates.size},
+  ...["vocal","guitar","bass","drum","keys"].map(p=>({k:"part-"+p, e:PART[p].e, n:"이달의 "+PART[p].n+"왕", d:"메인 파트가 "+PART[p].n+"인 멤버 중 합주를 가장 많이 했어요", part:p, v:r=>r.jams})),
+];
+function monthWinners(){
+  const rows = scoreBoard(startOfMonth()), out = [];
+  for (const b of MONTH_BADGES){
+    const pool = b.part ? rows.filter(r=>((r.m.parts||[])[0])===b.part) : rows;
+    const best = pool.reduce((x,r)=>Math.max(x, b.v(r)), 0);
+    out.push({...b, best, who: best>0 ? pool.filter(r=>b.v(r)===best) : []});
+  }
+  return out;
+}
+// 기록 뱃지 (전체 기간)
+const MILESTONES = [
+  {e:"🎈", n:"첫 합주", ok:r=>r.jams>=1}, {e:"🔥", n:"합주 5회", ok:r=>r.jams>=5}, {e:"💎", n:"합주 10회", ok:r=>r.jams>=10},
+  {e:"💐", n:"칭찬 10개", ok:r=>r.manner>=10}, {e:"✍️", n:"후기 10개 작성", ok:r=>r.written>=10},
+];
+let rankRange = "week";
+function rankRows(list, key, unit){
+  const top = list.filter(r=>r[key]>0).sort((a,b)=>b[key]-a[key] || a.m.id.localeCompare(b.m.id)).slice(0,10);
+  if (!top.length) return '<div class="empty-state">'+emo("papa-blank")+'<p>아직 기록이 없어요. 합주를 마치고 후기를 남기면 여기에 떠요.</p></div>';
+  let rank = 0, prev = null;
+  return '<ol class="rank-list">'+top.map((r,i)=>{ if (r[key]!==prev){ rank = i+1; prev = r[key]; }
+    return '<li class="'+(me&&r.slug===me.slug?"me":"")+'"><span class="rank-n'+(rank<=3?" top":"")+'">'+(rank===1?"🥇":rank===2?"🥈":rank===3?"🥉":rank)+'</span>'+avatarHTML(r.m)+'<b>'+esc(r.m.id)+'</b><small>'+(key==="join"?'합주 '+r.jams+'회 · 후기 '+r.written+'개':Object.entries(r.tags).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([t,c])=>PRAISE_OF[t].e+c).join(" "))+'</small><em>'+r[key]+unit+'</em></li>'; }).join("")+'</ol>';
+}
+function renderRank(){
+  document.querySelectorAll("#rank-range button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.range===rankRange));
+  const from = rankRange==="week" ? startOfWeek() : startOfMonth(), rows = scoreBoard(from);
+  const label = rankRange==="week" ? dayLabel(from)+"부터" : (pd(TODAY).getMonth()+1)+"월";
+  $("rank-join").innerHTML = rankRows(rows, "join", "점"); $("rank-join-note").textContent = label+" · 합주 +10 · 후기 작성 +2";
+  $("rank-manner").innerHTML = rankRows(rows, "manner", "점"); $("rank-manner-note").textContent = label+" · 받은 칭찬 1개 +1";
+  $("rank-month-title").textContent = (pd(TODAY).getMonth()+1)+"월의 뱃지";
+  $("rank-badges").innerHTML = monthWinners().map(b=>'<div class="badge-cell'+(b.who.length?"":" empty")+(me&&b.who.some(r=>r.slug===me.slug)?" me":"")+'"><span class="badge-e">'+b.e+'</span><b>'+esc(b.n)+'</b><small>'+esc(b.d)+'</small>'
+    +'<p>'+(b.who.length ? b.who.slice(0,3).map(r=>esc(r.m.id)).join(", ")+(b.who.length>3?' 외 '+(b.who.length-3)+'명':'')+' <em>'+b.best+(b.k==="allsession"?"명":b.k==="manner"||b.k==="mood"?"개":"회")+'</em>' : '아직 주인공이 없어요')+'</p></div>').join("");
+}
+$("rank-range").addEventListener("click", e=>{ const b = e.target.closest("[data-range]"); if (!b) return; rankRange = b.dataset.range; renderRank(); });
+
+// 마이 페이지: 내 포인트 · 뱃지 · 받은 칭찬
+let myReviews = null, myReviewsAt = 0;
+function renderMyBadges(){
+  const box = $("my-badges"); if (!box || !me) return;
+  if (!myReviews || Date.now()-myReviewsAt > 60000){ myReviewsAt = Date.now();
+    api("reviews", {action:"mine", id:me.id, token:me.token}).then(d=>{ myReviews = d.reviews||[]; renderMyBadges(); }).catch(()=>{}); }
+  const mine = from => scoreBoard(from).find(r=>r.slug===me.slug) || {join:0, manner:0, jams:0, written:0, tags:{}, mates:new Set()};
+  const wk = mine(startOfWeek()), mo = mine(startOfMonth()), all = mine("0000-00-00");
+  const titles = monthWinners().filter(b=>b.who.some(r=>r.slug===me.slug));
+  const miles = MILESTONES.filter(x=>x.ok(all));
+  const tagCnt = Object.entries(all.tags).sort((a,b)=>b[1]-a[1]);
+  const notes = (myReviews||[]).filter(v=>v.note).slice(0,4);
+  const nameOf = s => (currentMembers().find(m=>m.slug===s)||{}).id || "?";
+  box.innerHTML = '<div class="card-head"><div><small>MY BADGES · POINTS</small><h2>🏅 내 뱃지 · 포인트</h2><p>합주에 참여하고 후기를 남기면 포인트와 뱃지가 쌓여요.</p></div><button class="button small ghost" data-v="view-rank">🏆 랭킹 보기</button></div>'
+    +'<div class="pt-grid"><div class="pt-cell"><small>이번 주</small><b>'+wk.join+'</b><span>참여 포인트</span></div><div class="pt-cell"><small>이번 주</small><b>'+wk.manner+'</b><span>매너 포인트</span></div>'
+    +'<div class="pt-cell"><small>이번 달</small><b>'+mo.join+'</b><span>참여 포인트</span></div><div class="pt-cell"><small>이번 달</small><b>'+mo.manner+'</b><span>매너 포인트</span></div></div>'
+    +'<div class="section-label rv-h">🏅 내 뱃지</div><div class="my-badge-row">'
+    +(titles.length||miles.length ? titles.map(b=>'<span class="my-badge title" title="'+esc(b.d)+'">'+b.e+' '+esc(b.n)+'</span>').join("")+miles.map(x=>'<span class="my-badge">'+x.e+' '+x.n+'</span>').join("")
+      : '<span class="muted">아직 뱃지가 없어요. 첫 합주를 마치면 🎈 첫 합주 뱃지를 받아요!</span>')+'</div>'
+    +'<div class="section-label rv-h">💐 받은 칭찬</div>'
+    +(tagCnt.length ? '<div class="pills">'+tagCnt.map(([t,c])=>'<span class="pill orange">'+PRAISE_OF[t].e+' '+PRAISE_OF[t].n+' ×'+c+'</span>').join("")+'</div>'
+      +notes.map(v=>'<p class="rv-note">“'+esc(v.note)+'” <small>— '+esc(nameOf(v.from))+(v.jamTitle?' · '+esc(v.jamTitle):'')+'</small></p>').join("")
+      : '<p class="muted" style="margin:0;font-size:13px">합주를 마치면 함께한 멤버들이 칭찬을 남겨줄 거예요.</p>');
+}
+$("my-badges").addEventListener("click", e=>{ const b = e.target.closest("[data-v]"); if (b) goTo(b.dataset.v); });
 
 /* ---------- 오류 보고 · 기능 제안 ---------- */
 const FB_KIND = {bug:"🐞 오류", idea:"💡 제안", etc:"💬 기타"};

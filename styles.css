@@ -1037,3 +1037,57 @@ button,input{font:inherit;color:inherit}
 /* 합주 모임 지역 */
 .jam-region{font-weight:800;color:var(--accent-text)}
 .near-hint{margin:2px 0 6px;font-size:12px;line-height:1.6}
+
+/* 합주 후기 (칭찬) */
+.rv-h{margin:18px 0 10px}
+.rv-list{display:grid;gap:10px}
+.rv-card{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:14px}
+.rv-card.saved{border-color:rgba(118,83,196,.35)}
+.rv-who{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.rv-who .avatar{width:32px;height:32px}
+.rv-who b{font-size:14px}
+.rv-who small{font-size:11px;color:var(--dim)}
+.rv-tags{display:flex;flex-wrap:wrap;gap:6px}
+.rv-tags .genre-chip{font-size:12px;padding:7px 11px}
+.rv-row{display:flex;gap:6px;margin-top:10px}
+.rv-row .text-input{flex:1;min-height:42px}
+.rv-row .button{white-space:nowrap}
+.rv-board{display:grid;gap:10px}
+.rv-got{border:1px solid var(--line);border-radius:16px;padding:14px;background:var(--panel)}
+.rv-note{margin:8px 0 0;font-size:13px;line-height:1.55;color:var(--muted)}
+.rv-note small{color:var(--dim)}
+
+/* 랭킹 · 뱃지 · 포인트 */
+.rank-seg{margin:0 0 18px}
+.rank-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:760px){.rank-grid{grid-template-columns:1fr}}
+.rank-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.rank-list li{display:grid;grid-template-columns:34px 32px 1fr auto;grid-template-areas:"n a b e" "n a s e";column-gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.rank-list li.me{border-color:rgba(118,83,196,.5)}
+.rank-list .rank-n{grid-area:n;font-weight:900;text-align:center;color:var(--dim)}
+.rank-list .rank-n.top{font-size:20px}
+.rank-list .avatar{grid-area:a;width:32px;height:32px}
+.rank-list b{grid-area:b;font-size:14px}
+.rank-list small{grid-area:s;font-size:11px;color:var(--dim)}
+.rank-list em{grid-area:e;font-style:normal;font-weight:900;font-size:16px;color:var(--accent-text)}
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.badge-cell{border:1px solid var(--line);border-radius:16px;padding:14px;background:var(--panel);display:grid;gap:4px}
+.badge-cell.me{border-color:rgba(118,83,196,.6);box-shadow:0 0 0 3px rgba(118,83,196,.12)}
+.badge-cell.empty{opacity:.6}
+.badge-e{font-size:26px}
+.badge-cell b{font-size:14px}
+.badge-cell small{font-size:11px;color:var(--dim);line-height:1.5}
+.badge-cell p{margin:6px 0 0;font-size:13px;font-weight:700}
+.badge-cell p em{font-style:normal;color:var(--accent-text);margin-left:4px}
+.my-badges{padding:24px}
+@media (max-width:640px){.my-badges{padding:20px}}
+.pt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media (max-width:640px){.pt-grid{grid-template-columns:repeat(2,1fr)}}
+.pt-cell{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--panel);display:grid;gap:2px}
+.pt-cell small{font-size:10px;color:var(--dim);font-weight:800;letter-spacing:.08em}
+.pt-cell b{font-size:24px;font-weight:900;color:var(--accent-text)}
+.pt-cell span{font-size:11px;color:var(--muted)}
+.my-badge-row{display:flex;flex-wrap:wrap;gap:6px}
+.my-badge{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel)}
+.my-badge.title{border-color:transparent;background:linear-gradient(135deg,var(--orange),var(--brand2));color:#fff}
+.my-badges .card-head .button{white-space:nowrap;flex:none}

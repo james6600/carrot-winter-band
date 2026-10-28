@@ -21,13 +21,7 @@
 <link rel="stylesheet" href="/styles.css">
 <link rel="stylesheet" href="/theme-dark.css">
 <script>document.documentElement.classList.add("js")</script>
-<script>
-// 화이트·나이트 모드: 고른 값(kw-theme)이 없으면 기기 설정을 따른다. 그리기 전에 정해서 깜빡임이 없게.
-(function(){ var t; try{ t = localStorage.getItem("kw-theme"); }catch(e){}
-  if (t!=="light" && t!=="dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  document.documentElement.dataset.theme = t;
-  var m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = t==="dark" ? "#07080c" : "#ffffff"; })();
-</script>
+<script src="/theme.js"></script>
 </head>
 <body>
 <div class="leaves" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -262,6 +256,7 @@
       </div>
       <div id="mates"></div>
     </section>
+    <section class="magic-card my-badges section-gap" id="my-badges" data-reveal></section>
     <section class="magic-card my-info section-gap" id="my-info" data-reveal></section>
     <div class="hero-actions">
       <button class="button ghost" id="btn-logout">🚪 나가기</button>
@@ -325,6 +320,24 @@
   </main>
 
   <!-- 공연: 목록 -->
+  <!-- 랭킹 · 뱃지 -->
+  <main id="view-rank" class="content-page" hidden>
+    <div class="page-heading" data-reveal>
+      <div class="season-badge"><span>✦</span> RANKING · BADGES</div>
+      <h1>이번 주 · 이번 달<br><em>합주 랭킹</em></h1>
+      <p>합주에 참여하면 <b>참여 포인트</b>(합주 +10, 후기 작성 +2), 함께한 멤버에게 칭찬을 받으면 <b>매너 포인트</b>(칭찬 1개 +1)가 쌓여요.</p>
+    </div>
+    <div class="seg rank-seg" id="rank-range" role="group" aria-label="기간">
+      <button type="button" data-range="week" aria-pressed="true">이번 주</button>
+      <button type="button" data-range="month" aria-pressed="false">이번 달</button>
+    </div>
+    <div class="rank-grid">
+      <section class="magic-card chart-card"><div class="card-head"><div><small>JAM POINTS</small><h2>🎸 참여 포인트</h2><p id="rank-join-note"></p></div><span>🎸</span></div><div id="rank-join"></div></section>
+      <section class="magic-card chart-card"><div class="card-head"><div><small>MANNER POINTS</small><h2>😊 매너 포인트</h2><p id="rank-manner-note"></p></div><span>😊</span></div><div id="rank-manner"></div></section>
+    </div>
+    <section class="magic-card chart-card section-gap"><div class="card-head"><div><small>MONTHLY BADGES</small><h2 id="rank-month-title">이달의 뱃지</h2><p>이번 달 기록으로 매일 바뀌어요. 같은 기록이면 함께 받아요.</p></div><span>🏅</span></div><div class="badge-grid" id="rank-badges"></div></section>
+  </main>
+
   <main id="view-shows" class="content-page" hidden>
     <div class="page-heading" data-reveal>
       <div class="season-badge"><span>✦</span> LIVE STAGE</div>
