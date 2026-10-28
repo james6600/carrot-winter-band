@@ -191,10 +191,11 @@ const VIEWS = ["view-offline","view-home","view-login","view-onboard","view-resu
 /* ---------- 네비게이션 ---------- */
 function navItems(){
   const fb = {v:"view-feedback",ic:"💌",t:"의견"}, jams = {v:"view-jams",ic:"🎪",t:"합주 모임"}, shows = {v:"view-shows",ic:"🎤",t:"공연"};
-  if (!me) return [{v:"view-home",ic:"✦",t:"홈"},{v:"view-login",ic:"🎸",t:"취향 등록"},jams,shows,{v:"view-dash",ic:"📊",t:"대시보드"},fb];
-  // 휴대폰 하단 메뉴는 6개까지만: 의견은 푸터 링크, 나가기는 마이 페이지 버튼으로 간다
+  if (!me) return [{v:"view-home",ic:"✦",t:"홈"},{v:"view-login",ic:"🎸",t:"입장하기"},jams,shows,{v:"view-dash",ic:"📊",t:"대시보드"},fb];
+  // 취향·합주 시간은 처음 설정 때 등록하고, 이후 수정은 마이 페이지 '내 정보'에서 한다.
+  // 휴대폰 하단 메뉴에서 의견은 푸터 링크, 나가기는 마이 페이지 버튼으로 간다
   const my = {v:"view-result",ic:"🙋",t:"마이 페이지", badge:pendingCount()};
-  return [my,{v:"view-onboard",ic:"🎸",t:"취향 등록"},{v:"view-schedule",ic:"🗓️",t:"합주 시간"},jams,shows,{v:"view-dash",ic:"📊",t:"대시보드"},{...fb, m:false},{v:"logout",ic:"🚪",t:"나가기",m:false}];
+  return [my,jams,shows,{v:"view-dash",ic:"📊",t:"대시보드"},{...fb, m:false},{v:"logout",ic:"🚪",t:"나가기",m:false}];
 }
 function renderNav(on){
   on = on || currentView;
@@ -214,7 +215,8 @@ function show(view){
   // 모임 상세·수정 화면은 메뉴에서 '합주 모임'을 켜둔다
   const p0 = view==="view-prop" || view==="view-prop-edit" ? propsCache.find(x=>x.slug===(view==="view-prop"?propOpen:(propDraft&&propDraft.slug))) : null;
   const inShow = view==="view-show" || (p0 && p0.showSlug) || (view==="view-prop-edit" && propDraft && propDraft.showSlug);
-  renderNav(inShow ? "view-shows" : ["view-jam","view-jam-edit","view-prop","view-prop-edit"].includes(view) ? "view-jams" : view);
+  renderNav(inShow ? "view-shows" : ["view-jam","view-jam-edit","view-prop","view-prop-edit"].includes(view) ? "view-jams"
+    : view==="view-schedule" || view==="view-onboard" ? "view-result" : view);
   window.scrollTo(0,0);
   revealIn($(view));
 }
@@ -1106,15 +1108,25 @@ function renderResult(animate){
     card.innerHTML = '<div class="hat-avatar thinking" style="background-image:url('+AV.vocal+')"></div><div><div class="section-label">SORTING…</div><h2>음… 어디 보자…</h2><p>당신의 플레이리스트에서 겨울 냄새가 나요.</p></div>';
     setTimeout(fill, 1700);
   } else fill();
-  renderTimeCallout(); renderMyBand(); renderMates();
+  renderMyInfo(); renderMyBand(); renderMates();
 }
-function renderTimeCallout(){
-  const n = activeAvail(me.data.avail).length;
-  $("time-callout").innerHTML = n
-    ? '<section class="coming-card"><span>🗓️</span><div><b>합주 가능 시간 '+n+'칸 ('+(n*2)+'시간) 등록됨</b><p>시간이 바뀌면 언제든 다시 칠할 수 있어요.</p></div><button class="button small ghost" data-go="view-schedule">시간 수정</button></section>'
-    : '<section class="coming-card"><span>🎄</span><div><b>아직 합주 시간을 칠하지 않았어요</b><p>시간을 칠하면 다 같이 되는 시간이 맞는 사람끼리 밴드를 더 정확히 묶어드려요.</p></div><button class="button small primary" data-go="view-schedule">시간 칠하기 →</button></section>';
+// 마이 페이지 맨 아래 '내 정보': 처음 설정 때 등록한 취향과 합주 시간을 보여주고 여기서 고친다
+function renderMyInfo(){
+  const d = me.data, n = activeAvail(d.avail).length, arts = d.artists||[];
+  const row = (label, body, btn) => '<div class="info-row"><div class="info-k">'+label+'</div><div class="info-v">'+body+'</div>'+(btn||'')+'</div>';
+  const none = t => '<span class="info-none">'+t+'</span>';
+  $("my-info").innerHTML = '<div class="card-head"><div><small>MY INFO</small><h2>내 정보</h2><p>처음 설정 때 등록한 내용이에요. 바뀌면 언제든 고칠 수 있어요.</p></div><span>🙋</span></div>'
+    +'<div class="info-group"><div class="info-title"><b>🎸 밴드 취향</b><button class="button small ghost" data-go="view-onboard">취향 수정</button></div>'
+    +row("파트", '<div class="pills">'+(d.parts||[]).map(k=>'<span class="pill orange">'+esc((PART[k]?PART[k].e+" ":"")+(k==="etc" && d.partEtc ? d.partEtc : PART[k]?PART[k].n:k)+((d.parts||[]).length>1 ? " "+lvlOf(d,k)+"%" : ""))+'</span>').join("")+'</div>')
+    +row("장르", (d.genres||[]).length ? '<div class="pills">'+d.genres.map(k=>'<span class="pill gold">'+esc(GENRE_NAME[k]||k)+'</span>').join("")+'</div>' : none("아직 없어요"))
+    +row("아티스트", arts.length ? '<div class="pills">'+arts.slice(0,10).map(a=>'<span class="pill">'+esc(a.name)+'</span>').join("")+(arts.length>10?'<span class="pill">+'+(arts.length-10)+'팀</span>':'')+'</div>' : none("아직 없어요"))
+    +'</div>'
+    +'<div class="info-group'+(n?'':' need')+'"><div class="info-title"><b>🗓️ 합주 가능 시간</b><button class="button small '+(n?'ghost':'primary')+'" data-go="view-schedule">'+(n?'시간 수정':'시간 칠하기 →')+'</button></div>'
+    +row("칠한 시간", n ? '<b>'+n+'칸</b> ('+(n*2)+'시간) · <span class="win-label">'+WINDOW_LABEL+'</span> 중' : none("아직 칠하지 않았어요. 칠하면 시간이 맞는 사람끼리 밴드를 더 정확히 묶어드려요."))
+    +row("주로 편한 때", (d.timePref||[]).length ? '<div class="pills">'+d.timePref.map(k=>'<span class="pill ok">'+esc(tprefLabel(k))+'</span>').join("")+'</div>' : none("고르지 않았어요"))
+    +'</div>';
 }
-$("time-callout").addEventListener("click", e=>{ const b=e.target.closest("[data-go]"); if (b) goTo(b.dataset.go); });
+$("my-info").addEventListener("click", e=>{ const b=e.target.closest("[data-go]"); if (b) goTo(b.dataset.go); });
 function renderMyBand(){
   if (!me || !me.data.done) return;
   const bands = buildBands(currentMembers());
@@ -1211,9 +1223,7 @@ $("mates").addEventListener("click", e=>{
   if (timeOpen.has(k)) timeOpen.delete(k); else timeOpen.add(k);
   renderMates();
 });
-$("btn-edit").addEventListener("click", ()=>goTo("view-onboard"));
 $("btn-logout").addEventListener("click", logout);
-$("btn-time").addEventListener("click", ()=>goTo("view-schedule"));
 $("btn-godash").addEventListener("click", ()=>goTo("view-dash"));
 
 /* ---------- 내 합주 시간 ---------- */
