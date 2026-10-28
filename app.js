@@ -1485,22 +1485,33 @@ function jamPicked(j){
 }
 const jamBest = j => jamDays(j).length ? jamPicked(j) : j.startHour ? jamPrimary(j) : jamSuggest(j);
 const daysText = j => { const d = jamDays(j); return d.slice(0,3).map(dayLabel).join(", ")+(d.length>3?" 외 "+(d.length-3)+"일":""); };
-// 같은 날 시간이 겹치는 다른 확정 모임
-function jamOverlaps(j, slot){
+// 같은 날 시간이 겹치는 다른 확정 모임 중, 같은 멤버가 있거나 같은 장소인 것 (멤버가 전혀 다른 모임은 겹쳐도 상관없다)
+// who: 확인할 사람들 (기본은 이 모임 멤버 전원)
+function jamOverlaps(j, slot, who){
   const [day,h] = slot.split("@"), a = Number(h), b = a+j.duration;
+  const people = who || j.members;
   return jamsCache.filter(o=>o.slug!==j.slug && o.status==="fixed" && o.fixedSlot.startsWith(day+"@"))
-    .filter(o=>{ const oh = Number(o.fixedSlot.split("@")[1]); return oh<b && oh+o.duration>a; });
+    .filter(o=>{ const oh = Number(o.fixedSlot.split("@")[1]); return oh<b && oh+o.duration>a; })
+    .map(o=>({...o, shared:o.members.filter(x=>people.includes(x)), samePlace:!!(j.place && o.place && norm(j.place)===norm(o.place))}))
+    .filter(o=>o.shared.length || o.samePlace);
 }
-// 겹치면 막지 않고 물어만 본다
+function clashLines(list){
+  const all = currentMembers(), nm = s => (all.find(m=>m.slug===s)||{}).id || "?";
+  return list.map(o=>"· "+o.title+" ("+jamSlotLabel(o)+")"
+    +(o.shared.length ? " — 겹치는 멤버: "+o.shared.map(s=>me && s===me.slug ? "나" : nm(s)).join(", ") : "")
+    +(o.samePlace ? " — 같은 장소: "+o.place : "")).join("\n");
+}
+// 겹치면 막지 않고 한 번 물어본다. 그래도 진행하면 겹친 채로 잡는다
 function fixJam(j, slot, duration){
-  const ov = jamOverlaps(j, slot);
-  if (ov.length){
-    const all = currentMembers();
-    const lines = ov.map(o=>{ const shared = o.members.filter(x=>j.members.includes(x)).map(x=>(all.find(m=>m.slug===x)||{}).id).filter(Boolean);
-      return "· "+o.title+" ("+jamSlotLabel(o)+")"+(shared.length?" — 겹치는 멤버: "+shared.join(", "):""); });
-    if (!confirm("다른 합주와 시간이 겹쳐요.\n"+lines.join("\n")+"\n\n그대로 진행할까요?")) return;
-  }
-  jamAct("fix", duration ? {slot, duration} : {slot}, "확정했어요! 캘린더에 올라갔어요 🎉");
+  const ov = jamOverlaps(duration ? {...j, duration} : j, slot);
+  if (ov.length && !confirm("⚠️ 이 시간에 이미 잡힌 합주와 겹쳐요.\n"+clashLines(ov)+"\n\n그래도 이 시간으로 잡을까요?")) return;
+  jamAct("fix", duration ? {slot, duration} : {slot}, ov.length ? "겹치는 일정이 있지만 확정했어요 🎉" : "확정했어요! 캘린더에 올라갔어요 🎉");
+}
+// 확정된 모임에 들어가기 전에 내 다른 합주와 겹치는지 한 번 물어본다
+function okToJoin(j){
+  if (!j || !me || jamPhase(j)!=="fixed") return true;
+  const ov = jamOverlaps(j, j.fixedSlot, [me.slug]);
+  return !ov.length || confirm("⚠️ '"+j.title+"' 합주("+jamSlotLabel(j)+")가 내 다른 합주와 겹쳐요.\n"+clashLines(ov)+"\n\n그래도 들어갈까요?");
 }
 async function loadJams(){
   try{
@@ -1636,7 +1647,7 @@ function renderJam(){
     const ovNow = jamOverlaps(j, j.fixedSlot);
     main += '<section class="magic-card jam-sec jam-fixed"><small class="k">FIXED · D'+dDay(j.fixedSlot.slice(0,10))+'</small><h2>'+jamSlotLabel(j)+'</h2>'
       +(j.place?'<p class="jam-place">📍 '+esc(j.place)+'</p>':'')
-      +(ovNow.length?'<p class="jam-note">⚠️ 시간이 겹치는 합주: '+esc(ovNow.map(o=>o.title+" ("+jamSlotLabel(o)+")").join(", "))+'</p>':'')
+      +(ovNow.length?'<p class="jam-note">⚠️ 일정이 겹치는 합주: '+esc(ovNow.map(o=>o.title+" ("+jamSlotLabel(o)+")"+(o.shared.length?" · "+o.shared.length+"명 겹침":"")+(o.samePlace?" · 같은 장소":"")).join(", "))+'</p>':'')
       +'<div class="rsvp-sum"><span class="pill ok">참석 '+yes.length+'</span><span class="pill gold">미정 '+maybe.length+'</span><span class="pill bad">불참 '+no.length+'</span><span class="pill">응답 전 '+(people.length-yes.length-no.length-maybe.length)+'</span></div>'
       +(me && j.members.includes(me.slug) ? '<p class="jam-q">나는 갈 수 있나요?</p><div class="seg rsvp-seg">'+["yes","maybe","no"].map(k=>'<button data-rsvp="'+k+'" aria-pressed="'+(rsvpOf(me)===k)+'">'+RSVP_LABEL[k]+'</button>').join("")+'</div>' : '')
       +(owner?'<div class="jam-actions"><button class="button small ghost" data-jact="unfix">다른 시간으로 바꾸기</button><button class="button small ghost" data-jact="done">합주 끝! 완료로</button></div>':'')
@@ -1690,7 +1701,7 @@ function updateManualInfo(){
   const ov = jamOverlaps(jj, slotKey(day, h));
   info.innerHTML = '<span class="pill '+(who.length===people.length?"ok":who.length?"gold":"bad")+'">'+who.length+'/'+people.length+'명 가능</span>'
     +(missing.length?' 빠짐: '+esc(missing.join(", ")):' 전원 가능!')
-    +(ov.length?' <span class="pill bad">⚠️ '+esc(ov.map(o=>o.title).join(", "))+'와 겹침</span>':'');
+    +(ov.length?' <span class="pill bad">⚠️ '+esc(ov.map(o=>o.title).join(", "))+'와 겹침 (같은 멤버'+(ov.some(o=>o.samePlace)?'·장소':'')+')</span>':'');
 }
 $("jam-body").addEventListener("change", e=>{ if (e.target.closest("#jm-date, #jm-hour, #jm-end")) updateManualInfo(); });
 function dDay(day){ const n = Math.round((pd(day)-pd(TODAY))/864e5); return n===0 ? "-DAY" : n>0 ? "-"+n : "+"+(-n); }
@@ -1778,6 +1789,7 @@ $("jam-pick").addEventListener("click", async e=>{
 });
 // 받은 초대 수락·거절 (마이 페이지·모임 화면 공통)
 async function answerInvite(slug, ans, btn){
+  if (ans==="accept" && !okToJoin(jamsCache.find(x=>x.slug===slug))) return;
   if (btn) btn.disabled = true;
   try{
     const d = await api("jams", {id:me.id, token:me.token, action:ans, target:slug});
@@ -1791,6 +1803,7 @@ async function answerInvite(slug, ans, btn){
 // 초대 링크로 참여: 멤버가 되고, 처음 설정을 안 했으면 설정(합주 시간 포함)을 마친 뒤 모임으로 돌아온다
 async function joinJam(slug){
   jamOpen = slug;
+  if (!okToJoin(jamsCache.find(x=>x.slug===slug))) return goTo("view-jam");
   try{
     const d = await api("jams", {id:me.id, token:me.token, action:"join", target:slug});
     jamsCache = jamsCache.some(x=>x.slug===d.jam.slug) ? jamsCache.map(x=>x.slug===d.jam.slug ? d.jam : x) : [d.jam, ...jamsCache];
