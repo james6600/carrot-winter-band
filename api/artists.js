@@ -27,7 +27,7 @@ export default async function handler(req, res){
         return json(res, 200, { known: true, name: a.name, genres: a.genres, source: "db" });
     }
 
-    // 2) 마법 수정구: Anthropic API (키가 있을 때만)
+    // 2) AI 장르 분류: Anthropic API (키가 있을 때만)
     const KEY = process.env.ANTHROPIC_API_KEY;
     if (KEY){
       const keys = GENRE_KEYS.map(k => k + "(" + GENRE_NAMES[k] + ")").join(", ");

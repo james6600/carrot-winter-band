@@ -1,0 +1,93 @@
+/* Backstage 전용: /styles.css 디자인 시스템 위에 관리자 화면 조각만 더한다. */
+.topbar .brand{cursor:default}
+.bs-me{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;font-size:13px}
+.bs-narrow{max-width:460px}
+.input-field small{color:var(--dim);font-weight:500;margin-left:6px}
+.bs-code{font-size:24px!important;letter-spacing:.35em;text-align:center;font-variant-numeric:tabular-nums}
+.bs-small{font-size:12px;margin:0}
+
+.bs-enroll{display:grid;grid-template-columns:240px minmax(0,1fr);gap:28px;max-width:760px;align-items:start}
+.bs-qr{background:#fff;border-radius:18px;padding:12px;aspect-ratio:1;display:grid;place-items:center}
+.bs-qr svg{width:100%;height:auto;display:block}
+.bs-qr .muted,.bs-qr .notice{color:#333}
+.bs-steps{margin:0;padding-left:20px;color:var(--muted);font-size:14px;line-height:1.9}
+.bs-steps b{color:var(--text)}
+.bs-secret{display:block;font:600 15px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.06em;
+  background:#0b0c10;border:1px dashed rgba(216,183,100,.35);border-radius:12px;padding:12px 14px;color:var(--gold2);word-break:break-all;user-select:all}
+
+.bs-tabs{margin:0 0 18px}
+.bs-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.bs-tools .text-input{max-width:280px;min-height:42px}
+.bs-grid3{display:grid;grid-template-columns:1fr 1.3fr .8fr;gap:8px}
+.bs-pwgen{display:flex;gap:6px}
+.bs-pwgen .text-input{flex:1}
+select.text-input{appearance:auto}
+
+.bs-dialog{border:1px solid rgba(216,183,100,.3);color:var(--text);padding:22px;width:min(460px,calc(100% - 32px));max-height:calc(100vh - 40px);overflow:auto}
+.bs-dialog.wide{width:min(620px,calc(100% - 32px))}
+.bs-dialog::backdrop{background:rgba(3,4,8,.7);backdrop-filter:blur(3px)}
+.bs-dialog b{font-size:16px}
+.bs-dlg-actions{display:flex;gap:8px;justify-content:flex-end}
+.bs-dialog .notice{margin:0}
+
+.bs-months{margin:0}
+.bs-grid-wrap{max-height:52vh;overflow:auto;border:1px solid var(--line);border-radius:12px}
+.bs-avail{border-collapse:collapse;width:100%;font-size:11px;user-select:none;touch-action:none}
+.bs-avail th{position:sticky;top:0;background:#14151b;color:#8d8680;font-weight:700;padding:6px 4px;white-space:nowrap;z-index:1}
+.bs-avail tr th:first-child{position:sticky;left:0;text-align:left;padding-left:10px;z-index:2}
+.bs-avail th.we{color:#ffb38a}
+.bs-avail td{border:1px solid rgba(255,255,255,.05);height:24px;cursor:pointer;background:#0d0e13;transition:background .12s}
+.bs-avail td:hover{background:rgba(255,123,44,.18)}
+.bs-avail td.on{background:linear-gradient(135deg,var(--orange),#ff9149)}
+
+.bs-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.bs-chip{display:inline-flex;border:1px solid rgba(255,255,255,.1);border-radius:999px;overflow:hidden;background:#0b0c10}
+.bs-chip button{border:0;background:none;color:#a49d96;cursor:pointer;padding:7px 10px;font-size:12px;font-weight:700}
+.bs-chip button + button{border-left:1px solid rgba(255,255,255,.08);padding:7px 9px}
+.bs-chip small{color:var(--dim);font-weight:500}
+.bs-chip.on{border-color:rgba(255,155,83,.5);background:rgba(255,123,44,.12)}
+.bs-chip.on button:first-child{color:#ffd2b3}
+.bs-chip.empty{opacity:.55}
+.bs-slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;margin-top:10px}
+.bs-slot{border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:11px 13px;display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center;background:rgba(255,255,255,.02)}
+.bs-slot.full{border-color:rgba(115,211,151,.3);background:rgba(64,128,82,.08)}
+.bs-slot small{grid-column:1/-1;color:#968f88;font-size:11px;line-height:1.5}
+.bs-slot small i{font-style:normal;color:#c69a7e}
+
+@media (max-width:700px){
+  .bs-enroll{grid-template-columns:1fr}
+  .bs-qr{max-width:240px}
+  .bs-grid3{grid-template-columns:1fr}
+  .bs-me b,.bs-sub{display:none}
+  .bs-me .button.small{min-height:32px;padding:6px 9px;font-size:11px}
+}
+
+/* 의견함 */
+.bs-badge{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#ff5a4f;color:#fff;font-size:10px;font-weight:900;margin-left:3px}
+.bs-fb-filter{margin:0}
+.bs-fb-status{max-width:180px;min-height:42px}
+.bs-fb-list{display:grid;gap:12px}
+.bs-fb{border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px 16px;background:rgba(255,255,255,.02);display:grid;gap:8px}
+.bs-fb.new{border-color:rgba(255,155,83,.4);background:rgba(255,123,44,.05)}
+.bs-fb-head{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12px}
+.bs-fb-who{color:#c8c2bc}
+.bs-fb-who small,.bs-fb-head > small{color:var(--dim)}
+.bs-fb-head > small{margin-left:auto}
+.bs-fb h3{margin:2px 0 0;font-size:16px;letter-spacing:-.02em}
+.bs-fb-body{margin:0;color:#cfc8c0;font-size:13px;line-height:1.7;white-space:pre-wrap}
+.bs-fb-meta{font-size:11px;color:#8a837d;line-height:1.6}
+.bs-fb-meta summary{cursor:pointer;color:#a79876}
+.bs-fb-reply{display:grid;gap:8px;border-top:1px dashed rgba(255,255,255,.08);padding-top:10px}
+.bs-fb-reply textarea{min-height:64px;padding:10px 13px;resize:vertical;font:inherit;line-height:1.5}
+.bs-fb-actions{display:flex;gap:6px;flex-wrap:wrap}
+.bs-fb-actions select{max-width:140px;min-height:38px}
+
+.bs-clamp{max-width:320px;max-height:3.2em;overflow:hidden;font-size:12px;line-height:1.6;color:#cfc8c0;white-space:pre-wrap}
+
+/* 공연 */
+.bs-lineup{margin:0;padding-left:0;list-style:none;display:grid;gap:6px}
+.bs-lineup li{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px 12px;font-size:13px;line-height:1.5;position:relative;padding-right:150px}
+.bs-lineup-btns{position:absolute;right:8px;top:8px;display:flex;gap:4px}
+.bs-lineup-btns .button.small{min-height:30px;padding:4px 9px}
+.bs-ta{min-height:96px;padding:12px 15px;resize:vertical;font:inherit;line-height:1.6}
+@media (max-width:700px){ .bs-lineup li{padding-right:12px} .bs-lineup-btns{position:static;margin-top:6px} }

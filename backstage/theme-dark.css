@@ -1,0 +1,37 @@
+/* 나이트 모드: scripts/build-dark-theme.py 가 만든 파일 (직접 고치지 말고 스크립트를 다시 돌린다).
+   html[data-theme="dark"] 일 때 밝은 기본 스타일의 색만 어두운 버전으로 덮어쓴다. */
+html[data-theme="dark"] .input-field small{color:var(--dim)}
+html[data-theme="dark"] .bs-qr{background:#fff}
+html[data-theme="dark"] .bs-qr .muted,html[data-theme="dark"] .bs-qr .notice{color:#333}
+html[data-theme="dark"] .bs-steps{color:var(--muted)}
+html[data-theme="dark"] .bs-steps b{color:var(--text)}
+html[data-theme="dark"] .bs-secret{background:#0b0c10;border:1px dashed rgba(216,183,100,.35);color:var(--gold2)}
+html[data-theme="dark"] .bs-dialog{border:1px solid rgba(216,183,100,.3);color:var(--text)}
+html[data-theme="dark"] .bs-dialog::backdrop{background:rgba(3,4,8,.7)}
+html[data-theme="dark"] .bs-grid-wrap{border:1px solid var(--line)}
+html[data-theme="dark"] .bs-avail th{background:#14151b;color:#8d8680}
+html[data-theme="dark"] .bs-avail th.we{color:#ffb38a}
+html[data-theme="dark"] .bs-avail td{border:1px solid rgba(255,255,255,.05);background:#0d0e13}
+html[data-theme="dark"] .bs-avail td:hover{background:rgba(255,123,44,.18)}
+html[data-theme="dark"] .bs-avail td.on{background:linear-gradient(135deg,var(--orange),#ff9149)}
+html[data-theme="dark"] .bs-chip{border:1px solid rgba(255,255,255,.1);background:#0b0c10}
+html[data-theme="dark"] .bs-chip button{border:0;background:none;color:#a49d96}
+html[data-theme="dark"] .bs-chip button + button{border-left:1px solid rgba(255,255,255,.08)}
+html[data-theme="dark"] .bs-chip small{color:var(--dim)}
+html[data-theme="dark"] .bs-chip.on{border-color:rgba(255,155,83,.5);background:rgba(255,123,44,.12)}
+html[data-theme="dark"] .bs-chip.on button:first-child{color:#ffd2b3}
+html[data-theme="dark"] .bs-slot{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)}
+html[data-theme="dark"] .bs-slot.full{border-color:rgba(115,211,151,.3);background:rgba(64,128,82,.08)}
+html[data-theme="dark"] .bs-slot small{color:#968f88}
+html[data-theme="dark"] .bs-slot small i{color:#c69a7e}
+html[data-theme="dark"] .bs-badge{background:#ff5a4f;color:#fff}
+html[data-theme="dark"] .bs-fb{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)}
+html[data-theme="dark"] .bs-fb.new{border-color:rgba(255,155,83,.4);background:rgba(255,123,44,.05)}
+html[data-theme="dark"] .bs-fb-who{color:#c8c2bc}
+html[data-theme="dark"] .bs-fb-who small,html[data-theme="dark"] .bs-fb-head > small{color:var(--dim)}
+html[data-theme="dark"] .bs-fb-body{color:#cfc8c0}
+html[data-theme="dark"] .bs-fb-meta{color:#8a837d}
+html[data-theme="dark"] .bs-fb-meta summary{color:#a79876}
+html[data-theme="dark"] .bs-fb-reply{border-top:1px dashed rgba(255,255,255,.08)}
+html[data-theme="dark"] .bs-clamp{color:#cfc8c0}
+html[data-theme="dark"] .bs-lineup li{border:1px solid rgba(255,255,255,.08)}

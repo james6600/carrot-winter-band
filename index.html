@@ -7,7 +7,7 @@
 <meta name="description" content="파트와 음악 취향, 합주 가능한 시간으로 밴드원을 찾고 합주 모임을 만들어요">
 <meta property="og:site_name" content="모두 밴드">
 <meta property="og:title" content="모두 밴드 · 취향 맞는 사람과 함께 밴드 해요">
-<meta property="og:description" content="파트와 취향, 합주 가능한 시간을 고르면 마법의 모자가 밴드를 짜드려요.">
+<meta property="og:description" content="파트와 취향, 합주 가능한 시간을 고르면 취향이 맞는 사람끼리 밴드를 짜드려요.">
 <meta property="og:image" content="https://modu.band/assets/og.jpg?v=4">
 <meta property="og:url" content="https://modu.band/">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
@@ -19,7 +19,15 @@
 <link rel="preload" as="image" href="/assets/stage-1536.webp?v=4" media="(min-width:701px)">
 <link rel="preload" as="image" href="/assets/stage-900.webp?v=4" media="(max-width:700px)">
 <link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/theme-dark.css">
 <script>document.documentElement.classList.add("js")</script>
+<script>
+// 화이트·나이트 모드: 고른 값(kw-theme)이 없으면 기기 설정을 따른다. 그리기 전에 정해서 깜빡임이 없게.
+(function(){ var t; try{ t = localStorage.getItem("kw-theme"); }catch(e){}
+  if (t!=="light" && t!=="dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  document.documentElement.dataset.theme = t;
+  var m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = t==="dark" ? "#07080c" : "#ffffff"; })();
+</script>
 </head>
 <body>
 <div class="leaves" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -27,9 +35,11 @@
 <div class="site-shell">
   <header class="topbar">
     <button class="brand" id="brand" aria-label="모두 밴드 홈">
-      <img class="brand-logo" src="/assets/logo.webp" width="596" height="96" alt="모두 밴드">
+      <img class="brand-logo only-light" src="/assets/logo.webp" width="596" height="96" alt="모두 밴드">
+      <img class="brand-logo only-dark" src="/assets/logo-light.webp" width="596" height="96" alt="모두 밴드">
     </button>
     <nav class="desktop-nav" id="topnav" aria-label="주요 메뉴"></nav>
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="화이트·나이트 모드 바꾸기"><span class="only-light">🌙</span><span class="only-dark">☀️</span></button>
   </header>
 
   <!-- 연결 불가 -->
@@ -72,7 +82,11 @@
         <div class="stage-3d" id="stage-3d" aria-label="모두 밴드 무대">
           <div class="stage-frame">
             <div class="stage-parallax" id="stage-parallax">
-              <picture>
+              <picture class="only-dark">
+                <source media="(max-width:700px)" srcset="/assets/dark/stage-900.webp">
+                <img src="/assets/dark/stage-1536.webp" width="1536" height="1024" alt="" loading="lazy">
+              </picture>
+              <picture class="only-light">
                 <source media="(max-width:700px)" srcset="/assets/stage-900.webp?v=4">
                 <img src="/assets/stage-1536.webp?v=4" width="1536" height="1024" alt="모두 밴드의 다섯 캐릭터 도도(보컬)·레레(키보드)·미미(드럼)·파파(베이스)·솔솔(기타)이 무대에서 함께 연주하는 모습">
               </picture>
@@ -111,13 +125,13 @@
   <!-- 입장 -->
   <main id="view-login" class="content-page" hidden>
     <div class="page-heading" data-reveal>
-      <div class="season-badge"><span>✦</span> THE SORTING SESSION</div>
+      <div class="season-badge"><span>✦</span> JOIN THE BAND</div>
       <h1>합주 메이트를 찾기 전에<br><em>먼저 입장해 주세요.</em></h1>
       <p>회원가입 절차 없이 닉네임과 비밀번호만 정하면 시작할 수 있어요.</p>
     </div>
     <div class="login-layout">
       <section class="magic-card login-card" data-reveal>
-        <div class="card-icon">🎩</div>
+        <div class="card-icon">🎫</div>
         <div class="section-label">BAND PASS</div>
         <h2>닉네임으로 입장</h2>
         <p class="muted" style="margin:0 0 20px">처음 쓰는 닉네임이면 바로 만들어지고, 다음부터 같은 비밀번호로 다시 들어올 수 있어요.</p>
@@ -137,7 +151,7 @@
           <li><span>🎸</span><div><b>필요한 파트</b><small>보컬·기타 2·베이스·드럼·키보드 6인 밴드로</small></div></li>
           <li><span>🎧</span><div><b>비슷한 음악 취향</b><small>장르와 아티스트로 비교</small></div></li>
           <li><span>🗓️</span><div><b>겹치는 합주 시간</b><small>다 같이 되는 시간을 찾아줘요</small></div></li>
-          <li><span>✨</span><div><b>마법 모자 스타일</b><small>취향을 재미있게 한 줄로</small></div></li>
+          <li><span>✨</span><div><b>나의 음악 타입</b><small>취향을 재미있게 한 줄로</small></div></li>
         </ul>
         <div class="side-avatars">
           <span class="avatar" style="background-image:url(/assets/av-vocal.webp?v=4)"></span>
@@ -153,7 +167,7 @@
   <!-- 취향 등록 -->
   <main id="view-onboard" class="content-page" hidden>
     <div class="page-heading" data-reveal>
-      <div class="season-badge"><span>✦</span> THE SORTING SESSION</div>
+      <div class="season-badge"><span>✦</span> MY MUSIC PROFILE</div>
       <h1>당신의 <em>밴드 취향</em>을<br>조금 더 들려주세요.</h1>
       <p>파트와 음악 취향은 여러 개 고를 수 있어요. 합주 가능한 시간까지 칠하면 밴드를 더 정확히 짜드려요.</p>
     </div>
@@ -190,7 +204,7 @@
         <div class="genre-grid" id="genre-choices"></div>
       </section>
       <section class="magic-card preference-card ob-step" data-step="3" hidden>
-        <div class="step-title"><span>03</span><div><h2>좋아하는 아티스트</h2><p>국내 락페 라인업과 빌보드 차트로 만든 약 1,000팀에서 검색돼요. 없는 가수는 마법 수정구가 장르를 맞혀요.</p></div></div>
+        <div class="step-title"><span>03</span><div><h2>좋아하는 아티스트</h2><p>국내 락페 라인업과 빌보드 차트로 만든 약 1,000팀에서 검색돼요. 없는 가수는 AI가 장르를 맞혀요.</p></div></div>
         <div class="artist-picker">
           <div class="artist-search-wrap">
             <input class="text-input" id="artist-input" maxlength="40" placeholder="가수·밴드 이름을 입력하세요 (예: 실리카겔, Oasis, 요루시카)" autocomplete="off">
@@ -226,20 +240,20 @@
   <main id="view-result" class="content-page" hidden>
     <div class="page-heading" data-reveal>
       <div class="season-badge"><span>✦</span> MY PAGE</div>
-      <h1 id="result-title">마법의 모자가<br><em>고민 중이에요…</em></h1>
+      <h1 id="result-title">취향을<br><em>맞춰보는 중이에요…</em></h1>
       <p id="result-desc"></p>
     </div>
     <section class="magic-card agenda-card" id="my-agenda" data-reveal></section>
     <div class="result-hero">
       <section class="magic-card sorting-card" id="sorting-card" data-reveal></section>
       <section class="magic-card myband-card" data-reveal>
-        <div class="card-head"><div><small>MY BAND</small><h2>마법의 모자가 짜준 내 밴드</h2></div><span>🎸</span></div>
+        <div class="card-head"><div><small>MY BAND</small><h2>취향으로 짜본 내 밴드</h2></div><span>🎸</span></div>
         <div id="my-band"></div>
       </section>
     </div>
     <section class="magic-card match-section section-gap" data-reveal>
       <div class="card-head"><div><small>YOUR BANDMATES</small><h2 id="mates-title">취향과 시간이 가까운 메이트</h2>
-        <p id="mates-desc">취향(장르·아티스트·마법 모자 유형) 60% + 겹치는 합주 시간 40%</p></div><span>🪄</span></div>
+        <p id="mates-desc">취향(장르·아티스트·음악 타입) 60% + 겹치는 합주 시간 40%</p></div><span>🤝</span></div>
       <div class="seg" id="mate-mode" role="group" aria-label="매칭 기준">
         <button type="button" data-mode="both" aria-pressed="true">✦ 취향 &amp; 시간</button>
         <button type="button" data-mode="taste" aria-pressed="false">🎧 취향</button>
@@ -407,14 +421,14 @@
   <!-- 오류 보고 · 기능 제안 -->
   <main id="view-feedback" class="content-page" hidden>
     <div class="page-heading" data-reveal>
-      <div class="season-badge"><span>✦</span> MAGIC MAILBOX</div>
-      <h1>고장 난 마법이나<br><em>바라는 기능</em>을 알려주세요</h1>
+      <div class="season-badge"><span>✦</span> FEEDBACK</div>
+      <h1>고장 난 곳이나<br><em>바라는 기능</em>을 알려주세요</h1>
       <p>오류를 발견했거나 이런 기능이 있으면 좋겠다 싶을 때 편하게 보내주세요. 운영진이 읽고 답장을 남겨드려요.</p>
     </div>
     <div class="login-layout">
       <section class="magic-card login-card" data-reveal>
         <div class="card-icon">💌</div>
-        <div class="section-label">SEND AN OWL</div>
+        <div class="section-label">SEND A NOTE</div>
         <div class="seg fb-kind" id="fb-kind" role="group" aria-label="의견 종류">
           <button type="button" data-kind="bug" aria-pressed="true">🐞 오류 보고</button>
           <button type="button" data-kind="idea" aria-pressed="false">💡 기능 제안</button>
@@ -427,7 +441,7 @@
           <label class="fb-check" id="fb-env-fld"><input type="checkbox" id="fb-env" checked> 브라우저·화면 정보 같이 보내기 <small>(문제 원인을 찾는 데 도움이 돼요)</small></label>
           <input class="fb-hp" id="fb-website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <div id="fb-err" class="notice error" hidden></div>
-          <button class="button primary full" id="fb-send">부엉이로 보내기 <span>→</span></button>
+          <button class="button primary full" id="fb-send">운영진에게 보내기 <span>→</span></button>
         </div>
         <p class="privacy-note">🔒 보낸 내용은 운영진만 볼 수 있어요. 비밀번호 같은 개인 정보는 적지 말아 주세요.</p>
       </section>
@@ -449,8 +463,8 @@
     <section class="stats-hero" id="stats-hero" data-reveal></section>
 
     <section class="magic-card chart-card" data-reveal>
-      <div class="card-head"><div><small>SORTING HAT · BANDS</small><h2>마법의 모자가 짜본 밴드</h2>
-        <p>보컬 1 · 기타 2 · 베이스 · 드럼 · 키보드 6인 편성을 기본으로, 파트 비중과 취향 궁합, 다 같이 되는 시간이 가장 잘 맞는 조합을 골랐어요.</p></div><span>🎩</span></div>
+      <div class="card-head"><div><small>BAND MATCH · LINEUP</small><h2>취향으로 짜본 추천 밴드</h2>
+        <p>보컬 1 · 기타 2 · 베이스 · 드럼 · 키보드 6인 편성을 기본으로, 파트 비중과 취향 궁합, 다 같이 되는 시간이 가장 잘 맞는 조합을 골랐어요.</p></div><span>🎸</span></div>
       <div class="bands" id="dash-bands"></div>
     </section>
 
@@ -485,7 +499,7 @@
       </section>
     </div>
     <section class="magic-card chart-card section-gap" data-reveal>
-      <div class="card-head"><div><small>WIZARDS · CLICK</small><h2>마법사 유형 분포</h2></div><span>🧙</span></div>
+      <div class="card-head"><div><small>MUSIC TYPES · CLICK</small><h2>음악 타입 분포</h2></div><span>🎧</span></div>
       <div class="style-grid" id="dash-styles"></div>
     </section>
     <section class="magic-card chart-card section-gap" data-reveal>
@@ -499,7 +513,7 @@
   <footer class="footer">
     <span>MODU BAND</span>
     <button class="footer-link" id="footer-feedback">🐞 오류 보고 · 💡 기능 제안</button>
-    <span>음악으로 모이는 작은 마법 · 중심은 합주와 사람</span>
+    <span>다섯 명이 모이면, 밴드가 됩니다 · 중심은 합주와 사람</span>
   </footer>
 </div>
 
@@ -509,7 +523,7 @@
     <div class="cel-avatar" id="cel-avatar"></div>
     <div class="season-badge"><span>✦</span> READY TO JAM</div>
     <h2 id="cel-title">합주 매칭 준비가<br><em>완료되었어요!</em></h2>
-    <p id="cel-sub">마법의 모자가 당신과 맞는 메이트와 밴드를 찾았어요.</p>
+    <p id="cel-sub">당신과 맞는 메이트와 밴드를 찾았어요.</p>
     <div class="pills cel-stats" id="cel-stats"></div>
     <button class="button primary full" id="cel-go">마이 페이지로 가기 <span>→</span></button>
   </div>

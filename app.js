@@ -25,20 +25,20 @@ const GROUP_OF = {
   jazz:"soul", blues:"soul", kpop:"pop", ballad:"pop", jrock:"jrockg",
 };
 const STYLES = {
-  brit:   {e:"🎩", n:"낙엽길의 브릿팝 마법사", band:"낙엽길 브릿 클럽",
-    d:"낙엽 밟는 밤, 원더월을 흥얼거리는 낭만파. 떼창 유발 멜로디에 약한 당신, 합주실의 분위기 메이커예요.", mate:"모닥불의 블루스 현자"},
-  punkish:{e:"⚡", n:"가을폭풍 펑크 폭주족", band:"가을폭풍 펑크단",
-    d:"파워코드 세 개면 쌀쌀한 밤도 달궈버리는 에너지! 템포는 빠르게, 고민은 짧게. 무대 위에서 제일 뜨거운 타입이에요.", mate:"단풍거인 메탈 기사"},
-  heavy:  {e:"🗡️", n:"단풍거인 메탈 기사", band:"단풍거인 메탈단",
-    d:"묵직한 리프와 드라마틱한 전개의 수호자. 한 곡을 파고드는 집요함이 합주 완성도를 끌어올려요.", mate:"가을폭풍 펑크 폭주족"},
-  indie:  {e:"🌰", n:"가을숲 인디 음유시인", band:"가을숲 인디밴드",
-    d:"조용히 쌓이는 낙엽처럼 섬세한 사운드를 사랑하는 타입. 디테일에 진심이라 편곡 회의에서 빛나요.", mate:"보름달의 멜로디 요정"},
-  soul:   {e:"🔥", n:"모닥불의 블루스 현자", band:"모닥불 그루브단",
-    d:"그루브와 여백을 아는 사람. 즉흥 연주에서 미소 짓는 당신 덕에 합주가 깊어져요.", mate:"낙엽길의 브릿팝 마법사"},
-  pop:    {e:"🌕", n:"보름달의 멜로디 요정", band:"보름달 멜로디단",
-    d:"좋은 멜로디 앞에서 장르 불문 무장해제! 듣는 사람을 먼저 생각하는, 셋리스트의 중심이에요.", mate:"가을숲 인디 음유시인"},
-  jrockg: {e:"🍁", n:"단풍국의 제이락 여행자", band:"단풍국 제이락단",
-    d:"질주하는 기타와 애절한 멜로디의 공존을 아는 타입. 카피 욕심 많은 당신, 레퍼토리 부자예요.", mate:"가을폭풍 펑크 폭주족"},
+  brit:   {e:"🎙️", n:"떼창을 부르는 브릿팝 로맨티스트", band:"떼창 브릿 클럽",
+    d:"원더월을 흥얼거리는 낭만파. 떼창 유발 멜로디에 약한 당신, 합주실의 분위기 메이커예요.", mate:"그루브를 아는 블루스 소울"},
+  punkish:{e:"⚡", n:"질주하는 펑크 엔진", band:"질주 펑크단",
+    d:"파워코드 세 개면 충분한 에너지! 템포는 빠르게, 고민은 짧게. 무대 위에서 제일 뜨거운 타입이에요.", mate:"묵직한 리프 장인"},
+  heavy:  {e:"🤘", n:"묵직한 리프 장인", band:"리프 메탈단",
+    d:"묵직한 리프와 드라마틱한 전개를 사랑하는 타입. 한 곡을 파고드는 집요함이 합주 완성도를 끌어올려요.", mate:"질주하는 펑크 엔진"},
+  indie:  {e:"🌿", n:"섬세한 인디 사운드 메이커", band:"사운드 인디밴드",
+    d:"섬세한 사운드를 사랑하는 타입. 디테일에 진심이라 편곡 회의에서 빛나요.", mate:"멜로디 수집가"},
+  soul:   {e:"🎷", n:"그루브를 아는 블루스 소울", band:"그루브 소울단",
+    d:"그루브와 여백을 아는 사람. 즉흥 연주에서 미소 짓는 당신 덕에 합주가 깊어져요.", mate:"떼창을 부르는 브릿팝 로맨티스트"},
+  pop:    {e:"🎶", n:"멜로디 수집가", band:"멜로디 팝단",
+    d:"좋은 멜로디 앞에서 장르 불문 무장해제! 듣는 사람을 먼저 생각하는, 셋리스트의 중심이에요.", mate:"섬세한 인디 사운드 메이커"},
+  jrockg: {e:"🚀", n:"레퍼토리 부자 제이락 러너", band:"레퍼토리 제이락단",
+    d:"질주하는 기타와 애절한 멜로디의 공존을 아는 타입. 카피 욕심 많은 당신, 레퍼토리 부자예요.", mate:"질주하는 펑크 엔진"},
 };
 const AV = Object.fromEntries(["vocal","guitar","bass","drum","keys","etc"].map(k=>[k,"/assets/av-"+k+".webp?v=4"]));
 function avatarUrl(m){
@@ -263,6 +263,20 @@ $("part-quick").addEventListener("click", e=>{
   goTo("view-dash");
   setTimeout(()=>{ const d=$("selection-detail"); if (d) d.scrollIntoView({behavior:reduceMotion()?"auto":"smooth", block:"start"}); }, 120);
 });
+
+/* ---------- 화이트·나이트 모드 ---------- */
+// <head>의 스크립트가 처음 값을 정하고(고른 값 또는 기기 설정), 여기서는 바꾸기만 한다
+function setTheme(t, save){
+  document.documentElement.dataset.theme = t;
+  const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = t==="dark" ? "#07080c" : "#ffffff";
+  $("theme-toggle").setAttribute("aria-label", t==="dark" ? "화이트 모드로 바꾸기" : "나이트 모드로 바꾸기");
+  $("theme-toggle").title = t==="dark" ? "화이트 모드" : "나이트 모드";
+  if (save) lsSet("kw-theme", t);
+}
+setTheme(document.documentElement.dataset.theme==="dark" ? "dark" : "light", false);
+$("theme-toggle").addEventListener("click", ()=>setTheme(document.documentElement.dataset.theme==="dark" ? "light" : "dark", true));
+// 직접 고른 적이 없으면 기기 설정이 바뀔 때 따라간다
+try{ matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e=>{ if (!lsGet("kw-theme")) setTheme(e.matches ? "dark" : "light", false); }); }catch(e){}
 
 /* ---------- 부팅 (파일 맨 끝에서 실행) ---------- */
 async function boot(){
@@ -937,7 +951,7 @@ function fireConfetti(){
 function celebrate(audio){
   const d = me.data, st = STYLES[d.style]||STYLES.pop;
   $("cel-avatar").style.backgroundImage = "url("+avatarUrl(d)+")";
-  $("cel-sub").innerHTML = esc(me.id)+"님은 <b style=\"color:#121212\">"+st.e+" "+esc(st.n)+"</b>!<br>마법의 모자가 맞는 메이트와 밴드를 찾아뒀어요.";
+  $("cel-sub").innerHTML = esc(me.id)+"님은 <b style=\"color:var(--text)\">"+st.e+" "+esc(st.n)+"</b>!<br>취향이 맞는 메이트와 밴드를 찾아뒀어요.";
   $("cel-stats").innerHTML = '<span class="pill orange">'+esc(memberPartsText(d))+'</span>'
     +'<span class="pill gold">장르 '+(d.genres||[]).length+'</span><span class="pill gold">아티스트 '+(d.artists||[]).length+'</span>'
     +'<span class="pill '+(activeAvail(d.avail).length?"ok":"")+'">합주 시간 '+activeAvail(d.avail).length+'칸</span>';
@@ -976,7 +990,7 @@ function renderResults(){
   const res = searchArtists(q);
   const exact = res.some(a=>a.keys.includes(norm(q)));
   box.innerHTML = res.map((a,i)=>'<button type="button" data-i="'+i+'"><b>'+esc(a.name)+'</b><small>'+esc(a.genres.map(g=>GENRE_NAME[g]).join(" · "))+(a.aliases.length?' · '+esc(a.aliases[0]):'')+'</small></button>').join("")
-    + (exact ? "" : '<button type="button" class="ai" data-ai="1"><b>🔮 \''+esc(q)+'\' 추가</b><small>마법 수정구가 장르를 맞혀요</small></button>');
+    + (exact ? "" : '<button type="button" class="ai" data-ai="1"><b>🤖 \''+esc(q)+'\' 추가</b><small>AI가 장르를 맞혀요</small></button>');
   box._res = res;
 }
 $("artist-input").addEventListener("input", renderResults);
@@ -1004,7 +1018,7 @@ async function askCrystal(name){
   if (!name) return;
   const st = $("artist-status");
   if (draft.artists.some(a=>norm(a.name)===norm(name))){ st.textContent = "이미 담겨 있어요!"; return; }
-  st.textContent = "🔮 마법 수정구에 '"+name+"'을(를) 물어보는 중…";
+  st.textContent = "🤖 AI에게 '"+name+"'의 장르를 물어보는 중…";
   try{
     const d = await api("artists", {name});
     if (d.known && (d.genres||[]).length){
@@ -1073,7 +1087,7 @@ function renderAgenda(){
   const planning = mine.filter(j=>jamPhase(j)==="planning").sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt));
   const all = currentMembers(), nameOf = sl => (all.find(m=>m.slug===sl)||{}).id || "?";
   const row = (j, extra, cls) => '<div class="ag-row'+(cls?" "+cls:"")+'" data-jam="'+j.slug+'"><div class="ag-d">'+(j.fixedSlot?'<b>D'+dDay(j.fixedSlot.slice(0,10))+'</b><small>'+dayLabel(j.fixedSlot.slice(0,10))+'</small>':'<b>⏳</b><small>미정</small>')+'</div>'
-    +'<div class="ag-main"><b>'+esc(j.title)+'</b><small>'+(j.fixedSlot?jamSlotLabel(j):(jamDays(j).length?'📅 '+esc(daysText(j)):'날짜 정하는 중')+(j.startHour?' · 희망 '+j.startHour+'–'+(j.startHour+j.duration)+'시':''))+(j.place?' · 📍 '+esc(j.place):'')+' · '+j.members.length+'명'+(j.createdBy!==me.slug?' · 🗝️ '+esc(nameOf(j.createdBy)):' · 내가 만든 모임')+(unreadOf(j.slug)?' · <b style="color:#2e09ae">💬 새 글 '+unreadOf(j.slug)+'</b>':'')+'</small></div>'
+    +'<div class="ag-main"><b>'+esc(j.title)+'</b><small>'+(j.fixedSlot?jamSlotLabel(j):(jamDays(j).length?'📅 '+esc(daysText(j)):'날짜 정하는 중')+(j.startHour?' · 희망 '+j.startHour+'–'+(j.startHour+j.duration)+'시':''))+(j.place?' · 📍 '+esc(j.place):'')+' · '+j.members.length+'명'+(j.createdBy!==me.slug?' · 🗝️ '+esc(nameOf(j.createdBy)):' · 내가 만든 모임')+(unreadOf(j.slug)?' · <b style="color:var(--accent-text)">💬 새 글 '+unreadOf(j.slug)+'</b>':'')+'</small></div>'
     +'<div class="ag-side">'+extra+'</div></div>';
   const jinv = myJamInvites();
   let html = '<div class="card-head"><div><small>MY SCHEDULE</small><h2>내 합주 일정</h2><p>'+(invites.length+jinv.length?'응답을 기다리는 초대가 <b>'+(invites.length+jinv.length)+'개</b> 있어요.':upcoming.length?'다가오는 합주 '+upcoming.length+'개':'아직 예정된 합주가 없어요.')+'</p></div><span>📅</span></div>';
@@ -1088,7 +1102,7 @@ function renderAgenda(){
       return row(j, j.createdBy===me.slug ? '<span class="pill orange">내가 날짜를 정해요</span>' : me0 ? '<span class="pill ok">내 시간 등록됨</span>' : '<span class="pill bad">내 시간 미등록</span>'); }).join("")+'</div>';
   const myProps = propsCache.filter(p=>p.status==="open" && p.createdBy===me.slug);
   const applied = propsCache.filter(p=>(p.status==="open" || unreadOf(p.slug)) && p.applicants[me.slug]);
-  const prow = (p, side) => '<div class="ag-row'+(unreadOf(p.slug)?" invite":"")+'" data-prop="'+p.slug+'"><div class="ag-d"><b>📣</b><small>제안</small></div><div class="ag-main"><b>'+esc(p.title)+'</b><small>'+(p.whenText?'🗓️ '+esc(p.whenText)+' · ':'')+'신청 '+Object.keys(p.applicants).length+' · 관심 '+p.interest.length+(unreadOf(p.slug)?' · <b style="color:#2e09ae">💬 새 글 '+unreadOf(p.slug)+'</b>':'')+'</small></div><div class="ag-side">'+side+'</div></div>';
+  const prow = (p, side) => '<div class="ag-row'+(unreadOf(p.slug)?" invite":"")+'" data-prop="'+p.slug+'"><div class="ag-d"><b>📣</b><small>제안</small></div><div class="ag-main"><b>'+esc(p.title)+'</b><small>'+(p.whenText?'🗓️ '+esc(p.whenText)+' · ':'')+'신청 '+Object.keys(p.applicants).length+' · 관심 '+p.interest.length+(unreadOf(p.slug)?' · <b style="color:var(--accent-text)">💬 새 글 '+unreadOf(p.slug)+'</b>':'')+'</small></div><div class="ag-side">'+side+'</div></div>';
   if (myProps.length) html += '<div class="ag-group"><div class="section-label">📣 내 합주 제안</div>'+myProps.map(p=>prow(p, propFull(p)?'<span class="pill gold">파트 다 모임 · 모임 만들기</span>':'<span class="pill">모집 중</span>')).join("")+'</div>';
   if (applied.length) html += '<div class="ag-group"><div class="section-label">🙋 신청한 · 초대받은 제안</div>'+applied.map(p=>{ const a = p.applicants[me.slug];
       return prow(p, appState(a)==="wait" ? '<span class="pill gold">⏳ '+PART[a.part].n+' 대기 '+waitRank(p, me.slug)+'번</span>'
@@ -1122,15 +1136,15 @@ function renderResult(animate){
     $("result-desc").textContent = st.d;
     const parts = (me.data.parts||[]).map(k=> k==="etc" && me.data.partEtc ? "✨ "+me.data.partEtc : partLabel(k));
     card.innerHTML = '<div class="hat-avatar" style="background-image:url('+avatarUrl(me.data)+')"></div>'
-      +'<div><div class="section-label">SORTING HAT SAYS</div><h2>'+st.e+' '+esc(st.n)+'</h2>'
-      +'<p>잘 맞는 유형은 <b style="color:#121212">'+esc(st.mate)+'</b>예요.</p>'
+      +'<div><div class="section-label">MY MUSIC TYPE</div><h2>'+st.e+' '+esc(st.n)+'</h2>'
+      +'<p>잘 맞는 유형은 <b style="color:var(--text)">'+esc(st.mate)+'</b>예요.</p>'
       +'<div class="pills">'+parts.map(p=>'<span class="pill orange">'+esc(p)+'</span>').join("")
       +(me.data.genres||[]).slice(0,5).map(k=>'<span class="pill gold">'+esc(GENRE_NAME[k]||k)+'</span>').join("")+'</div></div>';
   };
   if (animate && !reduceMotion()){
-    $("result-title").innerHTML = '마법의 모자가<br><em>고민 중이에요…</em>';
+    $("result-title").innerHTML = '취향을<br><em>맞춰보는 중이에요…</em>';
     $("result-desc").textContent = "파트와 취향, 합주 시간을 섞어보는 중이에요.";
-    card.innerHTML = '<div class="hat-avatar thinking" style="background-image:url(/assets/emo/rere-think.webp)"></div><div><div class="section-label">SORTING…</div><h2>음… 어디 보자…</h2><p>당신의 플레이리스트에서 가을 냄새가 나요.</p></div>';
+    card.innerHTML = '<div class="hat-avatar thinking" style="background-image:url(/assets/emo/rere-think.webp)"></div><div><div class="section-label">MATCHING…</div><h2>음… 어디 보자…</h2><p>레레가 당신의 플레이리스트를 들어보는 중이에요.</p></div>';
     setTimeout(fill, 1700);
   } else fill();
   renderMyInfo(); renderMyBand(); renderMates();
@@ -1162,12 +1176,12 @@ function renderMyBand(){
   const have = new Set(others.flatMap(m=>m.parts||[]));
   const need = CORE.filter(r=>!have.has(r) && !(me.data.parts||[]).includes(r));
   box.innerHTML = '<div class="empty-state">'+emo("dodo-hi")+'<p>아직 밴드를 짤 만큼 멤버가 모이지 않았어요.'
-    +(need.length ? '<br>지금 필요한 파트: <b style="color:#6246be">'+need.map(partLabel).join(", ")+'</b>' : '')+'<br>링크를 모임방에 공유해 보세요 🎸</p></div>';
+    +(need.length ? '<br>지금 필요한 파트: <b style="color:var(--gold2)">'+need.map(partLabel).join(", ")+'</b>' : '')+'<br>링크를 모임방에 공유해 보세요 🎸</p></div>';
 }
 let mateMode = "both";
 const timeOpen = new Set();
 const MODE_DESC = {
-  both:"취향(장르·아티스트·마법 모자 유형) 60% + 겹치는 합주 시간 40%",
+  both:"취향(장르·아티스트·음악 타입) 60% + 겹치는 합주 시간 40%",
   taste:"합주 시간은 빼고 음악 취향만 비교했어요. 같이 좋아하는 아티스트가 많을수록 위로 와요.",
   time:"취향은 빼고 합주 가능한 시간이 많이 겹치는 순서예요. 다 같이 되는 날짜와 시간을 확인해 보세요.",
 };
@@ -1230,7 +1244,7 @@ function renderMates(){
       +'<div class="match-reasons" style="margin-top:14px">'
       +(s.shared.length ? '<span>🎧 같이 좋아함 · '+esc(s.shared.slice(0,3).map(a=>a.name).join(" · "))+'</span>' : '')
       +(s.sharedGenres.length ? '<span>✦ 취향 결 · '+esc(s.sharedGenres.slice(0,3).map(g=>GENRE_NAME[g]).join(" · "))+'</span>' : '')
-      +(mateMode==="taste" && m.style===meNow.style ? '<span>🎩 같은 마법사 유형</span>' : '')
+      +(mateMode==="taste" && m.style===meNow.style ? '<span>🎧 같은 음악 타입</span>' : '')
       +(mateMode==="taste" ? '' : time)
       +'<span>🎸 파트 · '+esc(memberPartsText(m))+'</span>'
       +(lack.length ? '<span class="need">🧩 내게 없는 파트 · '+lack.map(p=>PART[p].n).join(" · ")+'</span>' : '')
@@ -2424,7 +2438,7 @@ $("fb-send").addEventListener("click", async ()=>{
     await api("feedback", {action:"submit", kind:fbKind, title, body, meta, website:$("fb-website").value,
       ...(me ? {id:me.id, token:me.token} : {name:$("fb-name").value.trim()})});
     $("fb-title").value = ""; $("fb-body").value = "";
-    toast("부엉이가 의견을 전달했어요 🦉");
+    toast("운영진에게 의견을 보냈어요 💌");
     renderMyFeedback();
   }catch(e){ fail(e && e.error==="too_many" ? "잠시 후 다시 보내주세요. (10분에 5건까지)" : "보내지 못했어요. 잠시 후 다시 시도해 주세요."); }
   finally{ btn.disabled = false; }

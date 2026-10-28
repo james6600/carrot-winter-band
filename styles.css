@@ -9,7 +9,7 @@
   --text:#111114;--muted:#55555f;--dim:#8a8a94;
   --orange:#7653c4;--orange2:#8f6ff0;--brand:#7653c4;--brand2:#3b5bff;--green:#edf7f3;--wine:#f7edf1;
   --gold:#8a8a94;--gold2:#6a48d6;--cream:#111114;--violet:#ece7fb;
-  --ok:#2f7d46;--bad:#b4233a;
+  --ok:#2f7d46;--bad:#b4233a;--accent-text:#5b3fc4;
   --shadow:0 18px 50px rgba(20,20,40,.08);
   --font:"Pretendard Variable",Pretendard,Inter,ui-sans-serif,system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
 }
@@ -1011,3 +1011,12 @@ button,input{font:inherit;color:inherit}
 .msg-sticker img{width:112px;height:112px;object-fit:contain;display:block;filter:drop-shadow(0 8px 14px rgba(20,20,40,0.128))}
 .msg.me .msg-sticker img{margin-left:auto}
 @media (max-width:520px){.emo-grid{grid-template-columns:repeat(4,1fr)}.emo-grid img{width:56px;height:56px}}
+
+/* 화이트·나이트 모드 전환 버튼 (색은 변수라 두 모드 공통) */
+.topbar .desktop-nav{margin-left:auto}
+.theme-toggle{flex:none;width:38px;height:38px;border-radius:999px;border:1px solid var(--line);background:var(--panel);cursor:pointer;font-size:17px;display:grid;place-items:center;transition:transform .2s,border-color .2s}
+.theme-toggle:hover{border-color:var(--orange2);transform:rotate(-12deg)}
+@media (max-width:900px){.theme-toggle{margin-left:auto;width:34px;height:34px;font-size:15px}}
+
+/* 의견 화면: 라벨과 종류 탭이 겹치지 않게 (.seg 의 위쪽 -6px 여백을 되돌린다) */
+.seg.fb-kind{margin:10px 0 18px}
