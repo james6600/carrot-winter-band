@@ -521,7 +521,7 @@ function renderShows(){
 function showForm(sh){
   const v = sh || {};
   dialog('<b>' + (sh ? "공연 정보 수정" : "새 공연 열기") + '</b>'
-    + '<input class="text-input" name="title" maxlength="60" required placeholder="공연 이름 (예: 제2회 분당 당근 ROCK 페스티벌)" value="' + esc(v.title || "") + '">'
+    + '<input class="text-input" name="title" maxlength="60" required placeholder="공연 이름 (예: 제2회 모두 밴드 ROCK 페스티벌)" value="' + esc(v.title || "") + '">'
     + '<div class="bs-grid3"><input class="text-input" type="date" name="date" value="' + esc(v.date || "") + '" aria-label="공연 날짜"><input class="text-input" name="timeText" maxlength="30" placeholder="시간 (예: 17:00 ~ 19:30)" value="' + esc(v.timeText || "") + '"><input class="text-input" name="venue" maxlength="60" placeholder="장소" value="' + esc(v.venue || "") + '"></div>'
     + '<textarea class="text-input bs-ta" name="description" maxlength="2000" rows="4" placeholder="공연 소개 · 참가 안내 (팀당 곡 수, 장비 등)">' + esc(v.description || "") + '</textarea>'
     + '<p class="bs-small muted">팀 모집 기간 (이 기간에만 팀을 만들고 신청할 수 있어요)</p>'

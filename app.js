@@ -1,6 +1,6 @@
 "use strict";
 /* =========================================================
-   당근 밴드 메이커 — 프론트엔드
+   모두 밴드 — 프론트엔드
    ========================================================= */
 
 /* ---------- 데이터 정의 ---------- */
@@ -24,20 +24,20 @@ const GROUP_OF = {
   jazz:"soul", blues:"soul", kpop:"pop", ballad:"pop", jrock:"jrockg",
 };
 const STYLES = {
-  brit:   {e:"🎩", n:"눈보라의 브릿팝 마법사", band:"눈보라 브릿 클럽",
-    d:"눈 내리는 밤, 원더월을 흥얼거리는 낭만파. 떼창 유발 멜로디에 약한 당신, 합주실의 분위기 메이커예요.", mate:"벽난로의 블루스 현자"},
-  punkish:{e:"⚡", n:"얼음폭풍 펑크 폭주족", band:"얼음폭풍 펑크단",
-    d:"파워코드 세 개면 겨울도 녹여버리는 에너지! 템포는 빠르게, 고민은 짧게. 무대 위에서 제일 뜨거운 타입이에요.", mate:"서리거인 메탈 기사"},
-  heavy:  {e:"🗡️", n:"서리거인 메탈 기사", band:"서리거인 메탈단",
-    d:"묵직한 리프와 드라마틱한 전개의 수호자. 한 곡을 파고드는 집요함이 합주 완성도를 끌어올려요.", mate:"얼음폭풍 펑크 폭주족"},
-  indie:  {e:"🌲", n:"겨울숲 인디 음유시인", band:"겨울숲 인디밴드",
-    d:"조용히 쌓이는 눈처럼 섬세한 사운드를 사랑하는 타입. 디테일에 진심이라 편곡 회의에서 빛나요.", mate:"첫눈의 멜로디 요정"},
-  soul:   {e:"🔥", n:"벽난로의 블루스 현자", band:"벽난로 그루브단",
-    d:"그루브와 여백을 아는 사람. 즉흥 연주에서 미소 짓는 당신 덕에 합주가 깊어져요.", mate:"눈보라의 브릿팝 마법사"},
-  pop:    {e:"🌨️", n:"첫눈의 멜로디 요정", band:"첫눈 멜로디단",
-    d:"좋은 멜로디 앞에서 장르 불문 무장해제! 듣는 사람을 먼저 생각하는, 셋리스트의 중심이에요.", mate:"겨울숲 인디 음유시인"},
-  jrockg: {e:"☃️", n:"설국의 제이락 여행자", band:"설국 제이락단",
-    d:"질주하는 기타와 애절한 멜로디의 공존을 아는 타입. 카피 욕심 많은 당신, 레퍼토리 부자예요.", mate:"얼음폭풍 펑크 폭주족"},
+  brit:   {e:"🎩", n:"낙엽길의 브릿팝 마법사", band:"낙엽길 브릿 클럽",
+    d:"낙엽 밟는 밤, 원더월을 흥얼거리는 낭만파. 떼창 유발 멜로디에 약한 당신, 합주실의 분위기 메이커예요.", mate:"모닥불의 블루스 현자"},
+  punkish:{e:"⚡", n:"가을폭풍 펑크 폭주족", band:"가을폭풍 펑크단",
+    d:"파워코드 세 개면 쌀쌀한 밤도 달궈버리는 에너지! 템포는 빠르게, 고민은 짧게. 무대 위에서 제일 뜨거운 타입이에요.", mate:"단풍거인 메탈 기사"},
+  heavy:  {e:"🗡️", n:"단풍거인 메탈 기사", band:"단풍거인 메탈단",
+    d:"묵직한 리프와 드라마틱한 전개의 수호자. 한 곡을 파고드는 집요함이 합주 완성도를 끌어올려요.", mate:"가을폭풍 펑크 폭주족"},
+  indie:  {e:"🌰", n:"가을숲 인디 음유시인", band:"가을숲 인디밴드",
+    d:"조용히 쌓이는 낙엽처럼 섬세한 사운드를 사랑하는 타입. 디테일에 진심이라 편곡 회의에서 빛나요.", mate:"보름달의 멜로디 요정"},
+  soul:   {e:"🔥", n:"모닥불의 블루스 현자", band:"모닥불 그루브단",
+    d:"그루브와 여백을 아는 사람. 즉흥 연주에서 미소 짓는 당신 덕에 합주가 깊어져요.", mate:"낙엽길의 브릿팝 마법사"},
+  pop:    {e:"🌕", n:"보름달의 멜로디 요정", band:"보름달 멜로디단",
+    d:"좋은 멜로디 앞에서 장르 불문 무장해제! 듣는 사람을 먼저 생각하는, 셋리스트의 중심이에요.", mate:"가을숲 인디 음유시인"},
+  jrockg: {e:"🍁", n:"단풍국의 제이락 여행자", band:"단풍국 제이락단",
+    d:"질주하는 기타와 애절한 멜로디의 공존을 아는 타입. 카피 욕심 많은 당신, 레퍼토리 부자예요.", mate:"가을폭풍 펑크 폭주족"},
 };
 const AV = Object.fromEntries(["vocal","guitar","bass","drum","keys","etc"].map(k=>[k,"/assets/av-"+k+".webp?v=2"]));
 function avatarUrl(m){
@@ -206,7 +206,7 @@ function renderNav(on){
   const items = navItems();
   const badge = i => i.badge ? '<i class="nav-badge">'+i.badge+'</i>' : '';
   $("topnav").innerHTML = items.map(i=>'<button data-v="'+i.v+'" class="'+(i.v===on?"on":"")+'">'+esc(i.t)+badge(i)+'</button>').join("")
-    + (me ? '<span class="nav-user">🥕 '+esc(me.id)+'</span>' : '');
+    + (me ? '<span class="nav-user">🎵 '+esc(me.id)+'</span>' : '');
   $("mobilenav").innerHTML = items.filter(i=>i.m!==false).map(i=>'<button data-v="'+i.v+'" class="'+(i.v===on?"on":"")+'"><span>'+i.ic+badge(i)+'</span>'+esc(i.t)+'</button>').join("");
 }
 for (const id of ["topnav","mobilenav"]){
@@ -302,7 +302,7 @@ function loginThenBack(view, slug, extra){ returnTo = {view, slug, ...(extra||{}
 async function shareLink(kind, slug, title){
   const url = location.origin + "/?" + kind + "=" + encodeURIComponent(slug);
   const text = kind==="j" ? "🎪 '"+title+"' 합주에 초대해요! 링크를 누르고 닉네임만 정하면 바로 참여돼요."
-    : (kind==="show" ? "🎤 " : "📣 ") + title + " — 당근 밴드 메이커에서 같이 해요!";
+    : (kind==="show" ? "🎤 " : "📣 ") + title + " — 모두 밴드에서 같이 해요!";
   if (navigator.share){ try{ await navigator.share({title, text, url}); return; }catch(e){ if (e && e.name==="AbortError") return; } }
   try{ await navigator.clipboard.writeText(url); toast("링크를 복사했어요. 단톡방에 붙여넣어 초대하세요 🔗"); }
   catch(e){ prompt("이 링크를 복사해서 보내주세요", url); }
@@ -896,7 +896,7 @@ function fireConfetti(){
   const dpr = Math.min(2, window.devicePixelRatio||1), W = innerWidth, H = innerHeight;
   cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
   const colors = ["#ff7b2c","#ff9a53","#f5d58b","#d8b764","#c26c8c","#76c08f","#fff1c9","#9f8cf5"];
-  const emojis = ["🥕","✨","🎸","🎵","⭐","🥁","🎤","❄️","🎹"];
+  const emojis = ["🍂","✨","🎸","🎵","⭐","🥁","🎤","🍁","🎹"];
   const parts = [];
   const add = (x,y,ang,spread,speed,n) => {
     for (let i=0;i<n;i++){
@@ -1125,7 +1125,7 @@ function renderResult(animate){
   if (animate && !reduceMotion()){
     $("result-title").innerHTML = '마법의 모자가<br><em>고민 중이에요…</em>';
     $("result-desc").textContent = "파트와 취향, 합주 시간을 섞어보는 중이에요.";
-    card.innerHTML = '<div class="hat-avatar thinking" style="background-image:url('+AV.vocal+')"></div><div><div class="section-label">SORTING…</div><h2>음… 어디 보자…</h2><p>당신의 플레이리스트에서 겨울 냄새가 나요.</p></div>';
+    card.innerHTML = '<div class="hat-avatar thinking" style="background-image:url('+AV.vocal+')"></div><div><div class="section-label">SORTING…</div><h2>음… 어디 보자…</h2><p>당신의 플레이리스트에서 가을 냄새가 나요.</p></div>';
     setTimeout(fill, 1700);
   } else fill();
   renderMyInfo(); renderMyBand(); renderMates();
@@ -1157,7 +1157,7 @@ function renderMyBand(){
   const have = new Set(others.flatMap(m=>m.parts||[]));
   const need = CORE.filter(r=>!have.has(r) && !(me.data.parts||[]).includes(r));
   box.innerHTML = '<div class="empty-state"><span>☾</span><p>아직 밴드를 짤 만큼 멤버가 모이지 않았어요.'
-    +(need.length ? '<br>지금 필요한 파트: <b style="color:#f2cf79">'+need.map(partLabel).join(", ")+'</b>' : '')+'<br>링크를 모임방에 공유해 보세요 🥕</p></div>';
+    +(need.length ? '<br>지금 필요한 파트: <b style="color:#f2cf79">'+need.map(partLabel).join(", ")+'</b>' : '')+'<br>링크를 모임방에 공유해 보세요 🎸</p></div>';
 }
 let mateMode = "both";
 const timeOpen = new Set();
@@ -1260,7 +1260,7 @@ $("sched-save").addEventListener("click", async ()=>{
   try{
     const d = await api("members", {id:me.id, token:me.token, avail:[...schedDraft], timePref:[...schedPref]});
     me.data = d.member;
-    toast("합주 시간을 저장했어요 🎄");
+    toast("합주 시간을 저장했어요 🍂");
     loadMembers();
     goTo("view-result");
   }catch(e){ $("sched-summary").textContent = errText(e); }
@@ -1284,7 +1284,7 @@ function renderDash(fresh){
   const hero = $("stats-hero");
   if (!hero.firstChild){
     hero.innerHTML = '<button class="big-stat" data-sel="all:all"><small>참여 완료 · 눌러보기</small><strong id="st-total">0</strong><span>명</span></button>'
-      +'<div class="stats-copy"><span>THIS WINTER</span><h2 id="st-copy"></h2>'
+      +'<div class="stats-copy"><span>THIS AUTUMN</span><h2 id="st-copy"></h2>'
       +'<div class="mini-stats"><div><b id="st-bands">0</b><small>바로 꾸릴 수 있는 밴드</small></div><div><b id="st-timed">0</b><small>시간을 칠한 멤버</small></div><div><b id="st-artists">0</b><small>모인 최애 아티스트</small></div></div></div>';
   }
   countUp($("st-total"), done.length); countUp($("st-bands"), full); countUp($("st-timed"), timed); countUp($("st-artists"), Object.keys(artistAgg).length);
@@ -1548,7 +1548,7 @@ function renderJams(){
   groups.fixed.sort((a,b)=>a.fixedSlot.localeCompare(b.fixedSlot));
   groups.past.sort((a,b)=>(b.fixedSlot||b.updatedAt).localeCompare(a.fixedSlot||a.updatedAt));
   const empty = t => '<div class="empty-state"><span>☾</span><p>'+t+'</p></div>';
-  $("jams-planning").innerHTML = groups.planning.length ? moreList("planning", groups.planning, jamCard) : empty(me ? "아직 없어요. 새 모임을 만들어 보세요 🥕" : "아직 계획 중인 모임이 없어요.");
+  $("jams-planning").innerHTML = groups.planning.length ? moreList("planning", groups.planning, jamCard) : empty(me ? "아직 없어요. 새 모임을 만들어 보세요 🍂" : "아직 계획 중인 모임이 없어요.");
   $("jams-fixed").innerHTML = groups.fixed.length ? moreList("fixed", groups.fixed, jamCard) : empty("확정된 합주가 생기면 여기와 캘린더에 떠요.");
   $("jams-past-sec").hidden = !groups.past.length;
   $("jams-past").innerHTML = groups.past.map(jamCard).join("");
@@ -1664,7 +1664,7 @@ function renderJam(){
     +'<section class="magic-card jam-sec section-gap"><div class="card-head"><div><small>SETLIST</small><h2>합주할 노래</h2></div><span>🎵</span></div>'
     +(j.songs.length?'<ol class="jam-songlist">'+j.songs.map(sng=>'<li>'+esc(sng)+'</li>').join("")+'</ol>':'<p class="muted" style="margin:0">아직 정한 노래가 없어요.</p>')
     +(j.note?'<p class="jam-memo">📝 '+esc(j.note)+'</p>':'')+'</section></div>'
-    +'<aside><section class="magic-card jam-sec"><div class="card-head"><div><small>MEMBERS</small><h2>멤버 '+people.length+'/'+capOf(j)+'명</h2></div><span>🥕</span></div><div class="jam-chips">'
+    +'<aside><section class="magic-card jam-sec"><div class="card-head"><div><small>MEMBERS</small><h2>멤버 '+people.length+'/'+capOf(j)+'명</h2></div><span>🎸</span></div><div class="jam-chips">'
     +people.map(m=>owner && m.slug!==j.createdBy ? chip(m).replace(/<\/span>$/, '<button class="chip-x" data-kick="'+m.slug+'" aria-label="'+esc(m.id)+' 내보내기">✕</button></span>') : chip(m)).join("")+'</div>'
     +(owner && pend.length ? '<div class="section-label jam-pend-h">💌 초대 보냄 · 응답 기다리는 중 '+pend.length+'명</div><div class="jam-chips">'+pend.map(s=>'<span class="jam-chip pend"><b>'+esc(nameOf(s))+'</b><button class="chip-x" data-uninv="'+s+'" aria-label="초대 취소">✕</button></span>').join("")+'</div>' : '')
     +(member && share ? '<div class="jam-actions">'+share+'</div><p class="jam-note">'+(owner?'링크를 단톡방에 보내거나, 이미 가입한 사람은 직접 초대하세요. 링크로는 가입 안 한 친구도 바로 들어와요.':'링크를 단톡방에 보내면 가입 안 한 친구도 닉네임만 정하고 바로 들어와요.')+'</p>' : '')
@@ -1749,7 +1749,7 @@ function renderInvitePick(){
   if (!q){
     const rec = pastMates().filter(x=>!j.members.includes(x.m.slug) && !inv[x.m.slug]).slice(0, 8);
     $("jp-list").innerHTML = rec.length
-      ? '<div class="section-label jp-rec-h">🥕 전에 함께한 사람</div>'+rec.map(({m,n,last})=>'<div class="jp-row">'+avatarHTML(m)+'<div><b>'+esc(m.id)+'</b><small>함께한 모임 '+n+'번 · 최근 '+esc(last)+' · '+esc(memberPartsText(m))+'</small></div><button class="button small primary" data-inv="'+m.slug+'">초대</button></div>').join("")
+      ? '<div class="section-label jp-rec-h">🤝 전에 함께한 사람</div>'+rec.map(({m,n,last})=>'<div class="jp-row">'+avatarHTML(m)+'<div><b>'+esc(m.id)+'</b><small>함께한 모임 '+n+'번 · 최근 '+esc(last)+' · '+esc(memberPartsText(m))+'</small></div><button class="button small primary" data-inv="'+m.slug+'">초대</button></div>').join("")
         +'<p class="muted jp-empty">다른 사람은 위에서 닉네임으로 찾아요.</p>'
       : '<p class="muted jp-empty">닉네임을 한 글자 이상 입력해 주세요.<br>같이 합주 모임을 한 사람이 생기면 여기에 추천해 드려요.</p>';
     return;
@@ -1792,7 +1792,7 @@ async function joinJam(slug){
   try{
     const d = await api("jams", {id:me.id, token:me.token, action:"join", target:slug});
     jamsCache = jamsCache.some(x=>x.slug===d.jam.slug) ? jamsCache.map(x=>x.slug===d.jam.slug ? d.jam : x) : [d.jam, ...jamsCache];
-    if (!me.data.done){ afterOnboard = slug; toast("모임에 들어왔어요! 파트와 합주 시간을 알려주세요 🥕"); return startOnboarding(); }
+    if (!me.data.done){ afterOnboard = slug; toast("모임에 들어왔어요! 파트와 합주 시간을 알려주세요 🎸"); return startOnboarding(); }
     toast(activeAvail(me.data.avail).length ? "모임에 들어왔어요! 🎸" : "모임에 들어왔어요! 합주 시간을 칠하면 날짜 맞추기가 쉬워요");
   }catch(e){ toast(errText(e)); }
   goTo("view-jam");
@@ -1903,7 +1903,7 @@ function renderProp(){
     +(p.ownerPart && !rows.some(w=>w.part===p.ownerPart)?'<div class="pw-row ok owner-row"><b>'+ownerPartLabel(p)+'</b><span class="pill orange">제안자</span><small>'+esc(by?by.id:"?")+(owner?' (나)':'')+'</small></div>':'')
     +(rows.length ? '<div class="prop-want">'+rows.map(w=>'<div class="pw-row'+(w.who.length>=w.need?" ok":"")+'"><b>'+PART[w.part].e+' '+PART[w.part].n+'</b><span class="pill '+(w.who.length>=w.need?"ok":"gold")+'">'+w.who.length+'/'+w.need+(w.wait?' · 대기 '+w.wait:'')+'</span><small>'+(w.who.length?w.who.map(sl=>esc(person(sl).id)+(sl===p.createdBy?" 🗝️":"")).join(", "):"아직 없어요")+'</small></div>').join("")+'</div>' : '<p class="muted" style="margin:0">파트를 정하지 않은 제안이에요. 누구나 신청할 수 있어요.</p>')
     +'</section>'
-    +'<section class="magic-card jam-sec section-gap"><div class="card-head"><div><small>PEOPLE</small><h2>멤버 '+(ins.length+1)+(waits.length?' · 대기 '+waits.length:'')+' · 관심 '+p.interest.length+'</h2></div><span>🥕</span></div>'
+    +'<section class="magic-card jam-sec section-gap"><div class="card-head"><div><small>PEOPLE</small><h2>멤버 '+(ins.length+1)+(waits.length?' · 대기 '+waits.length:'')+' · 관심 '+p.interest.length+'</h2></div><span>🙋</span></div>'
     +'<div class="jam-chips"><span class="jam-chip'+(owner?" me":"")+'">'+avatarHTML(by||{parts:[p.ownerPart]})+'<b>'+esc(by?by.id:"?")+'</b><small class="r yes">🗝️ '+(p.ownerPart?ownerPartLabel(p):"제안자")+'</small></span>'+ins.map(chip).join("")+'</div>'
     +(waits.length?'<div class="section-label" style="margin:14px 0 8px">⏳ 대기 (순서대로 들어와요)</div><div class="jam-chips">'+waits.map(chip).join("")+'</div>':'')
     +(p.interest.length?'<p class="jam-note">👀 '+esc(p.interest.map(sl=>person(sl).id).join(", "))+'</p>':'')
@@ -2056,7 +2056,7 @@ async function loadChat(initial){
       log.querySelector(".chat-empty")?.remove();
       for (const m of d.messages){ log.insertAdjacentHTML("beforeend", msgHTML(m)); chatLastN = Math.max(chatLastN, m.n); }
       if (initial || atBottom) log.scrollTop = log.scrollHeight;
-    } else if (initial) log.innerHTML = '<p class="muted bs-small chat-empty">아직 메시지가 없어요. 첫 인사를 남겨보세요 🥕</p>';
+    } else if (initial) log.innerHTML = '<p class="muted bs-small chat-empty">아직 메시지가 없어요. 첫 인사를 남겨보세요 👋</p>';
     const form = chatEl.querySelector("#chat-form"), desc = chatEl.querySelector("#chat-desc");
     form.hidden = !d.canWrite;
     desc.textContent = d.canWrite ? "제안자와 신청자끼리 이야기해요. 4초마다 새 메시지를 확인해요."
@@ -2184,7 +2184,7 @@ function openPropEdit(p, showSlug){
   const team = !!propDraft.showSlug, sh = team ? showsCache.find(x=>x.slug===propDraft.showSlug) : null;
   $("pe-heading").innerHTML = team ? (p ? '공연팀 <em>수정</em>' : '공연팀 <em>모집하기</em>') : p ? '제안 <em>수정</em>' : '합주 <em>제안 올리기</em>';
   $("pe-title-label").textContent = team ? "팀명" : "제목";
-  $("pe-title").placeholder = team ? "예: 전기톱 아쿠마" : "예: 겨울 브릿팝 카피 밴드 모집";
+  $("pe-title").placeholder = team ? "예: 전기톱 아쿠마" : "예: 가을 브릿팝 카피 밴드 모집";
   $("pe-songs-label").innerHTML = team ? '예상 공연곡 <small>한 줄에 한 곡 · "곡 - 아티스트"</small>' : '하고 싶은 곡 <small>선택 · 한 줄에 한 곡</small>';
   $("pe-when-fld").hidden = team;
   $("pe-body").placeholder = team ? (sh ? "'"+sh.title+"' 무대에서 어떤 음악을 하고 싶은지, 연습은 언제 할지 적어주세요." : "") : "하고 싶은 음악, 분위기, 실력 기준, 자주 모일 수 있는지 등을 자유롭게 적어주세요.";

@@ -3,11 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>당근 밴드 메이커</title>
-<meta name="description" content="파트와 음악 취향, 합주 가능한 시간으로 찾는 겨울 밴드원 매칭">
-<meta property="og:title" content="당근 밴드 메이커 · 이번 겨울 함께 밴드 해요">
+<title>모두 밴드</title>
+<meta name="description" content="파트와 음악 취향, 합주 가능한 시간으로 밴드원을 찾고 합주 모임을 만들어요">
+<meta property="og:site_name" content="모두 밴드">
+<meta property="og:title" content="모두 밴드 · 이번 가을 함께 밴드 해요">
 <meta property="og:description" content="파트와 취향, 합주 가능한 시간을 고르면 마법의 모자가 밴드를 짜드려요.">
-<meta property="og:image" content="/assets/og.jpg">
+<meta property="og:image" content="https://modu.band/assets/og.jpg">
+<meta property="og:url" content="https://modu.band/">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#07080c">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -18,12 +22,12 @@
 <script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
-<div class="snow" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="leaves" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
 <div class="site-shell">
   <header class="topbar">
-    <button class="brand" id="brand" aria-label="당근 밴드 메이커 홈">
-      <span class="brand-mark">🥕</span><span><b>당근</b> 밴드 메이커</span>
+    <button class="brand" id="brand" aria-label="모두 밴드 홈">
+      <img class="brand-logo" src="/assets/logo-light.webp" width="596" height="96" alt="모두 밴드">
     </button>
     <nav class="desktop-nav" id="topnav" aria-label="주요 메뉴"></nav>
   </header>
@@ -41,8 +45,8 @@
   <main id="view-home" class="home-page" hidden>
     <section class="hero-layout">
       <div class="hero-copy">
-        <div class="season-badge" data-reveal><span>✦</span> YEAR-END BAND MATCHING</div>
-        <p class="kicker" data-reveal>이번 겨울, 같이 연주할 사람을 찾아요.</p>
+        <div class="season-badge" data-reveal><span>✦</span> AUTUMN BAND MATCHING</div>
+        <p class="kicker" data-reveal>이번 가을, 같이 연주할 사람을 찾아요.</p>
         <h1 data-reveal>
           <span class="hero-title-line">취향이 맞는 우리,</span>
           <span class="hero-title-line hero-title-accent">함께 밴드 해요.</span>
@@ -64,12 +68,12 @@
       </div>
 
       <div class="hero-stage" data-reveal>
-        <div class="stage-3d" id="stage-3d" aria-label="당근 밴드 무대">
+        <div class="stage-3d" id="stage-3d" aria-label="모두 밴드 무대">
           <div class="stage-frame">
             <div class="stage-parallax" id="stage-parallax">
               <picture>
                 <source media="(max-width:700px)" srcset="/assets/stage-900.webp">
-                <img src="/assets/stage-1536.webp" width="1536" height="1024" alt="크리스마스 무대에서 마법사 모자를 쓴 보컬, 베이스, 드럼, 키보드로 합주하는 당근 밴드">
+                <img src="/assets/stage-1536.webp" width="1536" height="1024" alt="무대에서 마법사 모자를 쓴 보컬, 베이스, 드럼, 키보드가 함께 합주하는 밴드 캐릭터">
               </picture>
               <div class="fx" aria-hidden="true">
                 <i class="beam" style="--x:19.2%;--y:20%;--r:-34deg;--d:0s"></i>
@@ -97,7 +101,7 @@
           </div>
           <div class="garland" aria-hidden="true">✦ · ✦ · ✦ · ✦ · ✦ · ✦</div>
           <div class="stage-caption">
-            <span><span class="live-dot"></span> WINTER SESSION</span>
+            <span><span class="live-dot"></span> AUTUMN SESSION</span>
             <b>나랑 맞는 밴드원을 찾아보세요</b>
           </div>
         </div>
@@ -136,7 +140,7 @@
       </section>
       <aside class="login-side-card" data-reveal>
         <div class="side-spark">✦</div>
-        <h3>이번 겨울 합주에서<br>누구를 만나게 될까요?</h3>
+        <h3>이번 가을 합주에서<br>누구를 만나게 될까요?</h3>
         <ul>
           <li><span>🎸</span><div><b>필요한 파트</b><small>보컬·기타 2·베이스·드럼·키보드 6인 밴드로</small></div></li>
           <li><span>🎧</span><div><b>비슷한 음악 취향</b><small>장르와 아티스트로 비교</small></div></li>
@@ -237,7 +241,7 @@
     <div class="result-hero">
       <section class="magic-card sorting-card" id="sorting-card" data-reveal></section>
       <section class="magic-card myband-card" data-reveal>
-        <div class="card-head"><div><small>MY BAND</small><h2>마법의 모자가 짜준 내 밴드</h2></div><span>🎄</span></div>
+        <div class="card-head"><div><small>MY BAND</small><h2>마법의 모자가 짜준 내 밴드</h2></div><span>🎸</span></div>
         <div id="my-band"></div>
       </section>
     </div>
@@ -343,7 +347,7 @@
     </div>
     <section class="magic-card login-card je-card">
       <div class="form-stack">
-        <label class="input-field"><span id="pe-title-label">제목</span><input id="pe-title" maxlength="40" placeholder="예: 겨울 브릿팝 카피 밴드 모집"></label>
+        <label class="input-field"><span id="pe-title-label">제목</span><input id="pe-title" maxlength="40" placeholder="예: 가을 브릿팝 카피 밴드 모집"></label>
         <label class="input-field"><span>어떤 합주인가요?</span><textarea id="pe-body" rows="5" maxlength="1000" placeholder="하고 싶은 음악, 분위기, 실력 기준, 자주 모일 수 있는지 등을 자유롭게 적어주세요."></textarea></label>
         <div class="input-field"><span>내 파트 <small>제안한 내가 맡을 파트</small></span><div class="pe-mine" id="pe-mine"></div></div>
         <div class="input-field"><span>모집 파트 <small>나를 포함한 전체 인원 · 내 파트는 나로 1명이 채워져요</small></span><div class="pe-want" id="pe-want"></div></div>
@@ -391,7 +395,7 @@
     </div>
     <section class="magic-card login-card je-card">
       <div class="form-stack">
-        <label class="input-field"><span>모임 이름</span><input id="je-name" maxlength="40" placeholder="예: 첫눈 멜로디단 1차 합주"></label>
+        <label class="input-field"><span>모임 이름</span><input id="je-name" maxlength="40" placeholder="예: 보름달 멜로디단 1차 합주"></label>
         <div class="input-field"><span>날짜 <small>하루만 골라도 되고, 후보를 여러 날 골라두면 멤버가 많이 되는 날을 추천해요</small></span>
           <div class="je-days"><input type="date" class="text-input" id="je-date" aria-label="날짜 고르기"><div class="pills" id="je-days"></div></div></div>
         <div class="input-field"><span>합주 시간 <small>몇 시부터 몇 시까지 (최대 5시간)</small></span>
@@ -489,7 +493,7 @@
       </section>
     </div>
     <section class="magic-card chart-card section-gap" data-reveal>
-      <div class="card-head"><div><small>WIZARDS · CLICK</small><h2>겨울 마법사 유형 분포</h2></div><span>🧙</span></div>
+      <div class="card-head"><div><small>WIZARDS · CLICK</small><h2>가을 마법사 유형 분포</h2></div><span>🧙</span></div>
       <div class="style-grid" id="dash-styles"></div>
     </section>
     <section class="magic-card chart-card section-gap" data-reveal>
@@ -501,9 +505,9 @@
   </main>
 
   <footer class="footer">
-    <span>CARROT BAND MAKER</span>
+    <span>MODU BAND</span>
     <button class="footer-link" id="footer-feedback">🐞 오류 보고 · 💡 기능 제안</button>
-    <span>연말의 작은 마법 · 중심은 합주와 사람</span>
+    <span>가을밤의 작은 마법 · 중심은 합주와 사람</span>
   </footer>
 </div>
 

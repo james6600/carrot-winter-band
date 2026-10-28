@@ -1,5 +1,6 @@
-/* 당근 밴드 메이커 디자인 시스템 (carrot-winter-band-matching)을 따른다:
-   먹색 바탕 + 미세한 격자, 크림 대형 헤드라인, 금색 라벨, 금빛 코너 광원 카드, 당근 오렌지 CTA.
+/* 모두 밴드 (modu.band) 디자인: 가을 밤 분위기.
+   먹색 바탕 + 미세한 격자, 크림 대형 헤드라인, 금색 라벨, 금빛 코너 광원 카드, 단풍 오렌지 CTA, 낙엽 효과.
+   로고(보라·파랑 음표)는 assets/logo-light.webp (어두운 배경용), assets/logo.webp (밝은 배경용).
    여기에 3D 클레이 무대 이미지를 입체적으로 움직이는 효과를 더했다. */
 :root{
   color-scheme:dark;
@@ -18,7 +19,7 @@ body{
   margin:0;min-height:100vh;color:var(--text);font-family:var(--font);overflow-x:hidden;word-break:keep-all;overflow-wrap:anywhere;
   background:
     radial-gradient(circle at 78% 3%,rgba(83,42,94,.24),transparent 30%),
-    radial-gradient(circle at 12% 20%,rgba(33,83,55,.16),transparent 25%),
+    radial-gradient(circle at 12% 20%,rgba(140,72,28,.16),transparent 25%),
     linear-gradient(180deg,#07080c 0%,#0b0c11 55%,#08090d 100%);
 }
 body::before{
@@ -30,20 +31,29 @@ a{color:inherit;text-decoration:none}
 button,input{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--orange2);outline-offset:2px}
 
-/* ---------- 눈 ---------- */
-.snow{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:20;opacity:.36}
-.snow i{position:absolute;top:-10%;left:0;width:3px;height:3px;background:#fff;border-radius:50%;
-  box-shadow:120px 80px #fff,260px 230px #fff,420px 110px #fff,610px 360px #fff,810px 180px #fff,1040px 90px #fff,1260px 300px #fff,1480px 150px #fff,1700px 410px #fff;
-  animation:snowfall 15s linear infinite}
-.snow i:nth-child(2){left:8%;animation-duration:22s;animation-delay:-8s;opacity:.5;transform:scale(.7)}
-.snow i:nth-child(3){left:32%;animation-duration:28s;animation-delay:-16s;opacity:.35;transform:scale(1.3)}
-@keyframes snowfall{to{transform:translate3d(70px,115vh,0) rotate(180deg)}}
+/* ---------- 낙엽 ---------- */
+.leaves{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:20;opacity:.42}
+.leaves i{position:absolute;top:-6%;left:var(--x);width:11px;height:11px;background:var(--c);border-radius:0 100% 0 100%;
+  animation:leaf-fall var(--t) linear var(--d) infinite}
+.leaves i:nth-child(1){--x:6%;--c:#d9822b;--t:19s;--d:-3s}
+.leaves i:nth-child(2){--x:22%;--c:#b5452a;--t:24s;--d:-11s;width:9px;height:9px}
+.leaves i:nth-child(3){--x:38%;--c:#e0a83a;--t:21s;--d:-17s}
+.leaves i:nth-child(4){--x:55%;--c:#c4602b;--t:27s;--d:-6s;width:13px;height:13px}
+.leaves i:nth-child(5){--x:70%;--c:#9c3b26;--t:23s;--d:-14s;width:9px;height:9px}
+.leaves i:nth-child(6){--x:84%;--c:#d9822b;--t:26s;--d:-20s}
+.leaves i:nth-child(7){--x:94%;--c:#e0a83a;--t:20s;--d:-9s;width:8px;height:8px}
+@keyframes leaf-fall{
+  0%{transform:translate3d(0,0,0) rotate(0)}
+  25%{transform:translate3d(36px,28vh,0) rotate(120deg)}
+  50%{transform:translate3d(-18px,56vh,0) rotate(220deg)}
+  75%{transform:translate3d(30px,84vh,0) rotate(330deg)}
+  100%{transform:translate3d(-6px,112vh,0) rotate(440deg)}}
 
 /* ---------- 레이아웃 ---------- */
 .site-shell{width:min(1180px,calc(100% - 44px));margin:0 auto;position:relative}
 .topbar{height:84px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid rgba(255,255,255,.06)}
 .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.03em;background:none;border:0;cursor:pointer;padding:0;font-size:16px}
-.brand-mark{font-size:24px;filter:drop-shadow(0 8px 12px rgba(255,123,44,.25))}
+.brand-logo{display:block;height:26px;width:auto}
 .brand b{color:var(--orange)}
 .desktop-nav{display:flex;align-items:center;gap:26px;font-size:14px;color:#c8c2bc}
 .desktop-nav button{background:none;border:0;color:inherit;cursor:pointer;padding:6px 0;position:relative;transition:color .2s}
@@ -543,13 +553,14 @@ button,input{font:inherit;color:inherit}
   .footer{padding-bottom:110px}
   .stats-hero{grid-template-columns:180px 1fr}
   .big-stat strong{font-size:58px}
-  .snow{display:none}
+  .leaves{display:none}
   .save-bar{bottom:86px}
   .toast{bottom:96px}
 }
 @media(max-width:560px){
   .site-shell{width:calc(100% - 22px)}
   .brand{font-size:14px}
+  .brand-logo{height:22px}
   .content-page{padding-top:38px}
   .page-heading{margin-bottom:24px}
   .page-heading h1{font-size:38px}
@@ -604,7 +615,7 @@ button,input{font:inherit;color:inherit}
 }
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .snow,.fx{display:none}
+  .leaves,.fx{display:none}
   .button.primary::after,.hat-avatar,.hat-avatar::after,.live-dot,.grow .bar-track i,
   .ob-step.from-right,.ob-step.from-left,.ob-step.nope,.ob-steps li.cur i::after,.cel-card,.cel-avatar,.celebrate{animation:none}
   .confetti{display:none}
