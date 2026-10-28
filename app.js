@@ -144,6 +144,7 @@ function errText(e){
   if (e && e.error==="bad_part") return "파트를 골라주세요.";
   if (e && e.error==="not_accepting") return "제안자가 지금은 사람을 받지 않아요.";
   if (e && e.error==="part_full") return "그 파트 자리가 다 찼어요. 모집 인원을 늘리거나 다른 파트로 넣어주세요.";
+  if (e && e.error==="jam_full") return "모임 인원이 다 찼어요 (최대 12명). 만든 사람에게 문의해 주세요.";
   if (e && e.error==="already") return "이미 들어와 있는 사람이에요.";
   if (e && e.error==="recruit_closed") return "공연 팀 모집 기간이 아니에요.";
   if (e && e.error==="show_locked") return "공연이 확정돼서 팀을 바꿀 수 없어요. 운영진에게 문의해 주세요.";
@@ -223,7 +224,9 @@ function show(view){
 function goTo(v){
   if (v==="logout") return logout();
   if (v==="view-home"){ refreshHomeCta(); return show("view-home"); }
-  if (v==="view-login"){ if (me) return goTo("view-onboard"); show("view-login"); setTimeout(()=>$("login-id").focus(), 200); return; }
+  if (v==="view-login"){ if (me) return goTo("view-onboard");
+    $("login-ctx").hidden = !(returnTo && returnTo.msg); $("login-ctx").textContent = returnTo && returnTo.msg || "";
+    show("view-login"); setTimeout(()=>$("login-id").focus(), 200); return; }
   if (v==="view-dash"){ show("view-dash"); renderDash(true); loadMembers(); return; }
   if (v==="view-feedback"){ if (currentView!=="view-feedback") fbFrom = currentView; openFeedback(); return; }
   if (v==="view-jams"){ show("view-jams"); renderJams(); loadJams(); loadMembers(); return; }
@@ -282,18 +285,21 @@ async function boot(){
   }
   openDeepLink();
 }
-// 공유 링크: /?p=제안  /?show=공연
+// 공유 링크: /?p=제안  /?show=공연  /?j=합주 모임 초대
 function openDeepLink(){
-  const q = new URLSearchParams(location.search), p = q.get("p"), sh = q.get("show");
-  if (!p && !sh) return;
+  const q = new URLSearchParams(location.search), p = q.get("p"), sh = q.get("show"), jm = q.get("j");
+  if (!p && !sh && !jm) return;
   history.replaceState(null, "", location.pathname);
-  if (p){ propOpen = p; goTo("view-prop"); } else { showOpen = sh; goTo("view-show"); }
+  if (jm){ jamOpen = jm; goTo("view-jam"); }
+  else if (p){ propOpen = p; goTo("view-prop"); } else { showOpen = sh; goTo("view-show"); }
 }
-let returnTo = null;   // 입장 후 돌아갈 곳 {view, slug}
-function loginThenBack(view, slug){ returnTo = {view, slug}; goTo("view-login"); }
+let returnTo = null;   // 입장 후 돌아갈 곳 {view, slug, join, msg}
+let afterOnboard = null;   // 처음 설정을 마친 뒤 돌아갈 합주 모임 slug (초대 링크로 들어온 사람)
+function loginThenBack(view, slug, extra){ returnTo = {view, slug, ...(extra||{})}; goTo("view-login"); }
 async function shareLink(kind, slug, title){
   const url = location.origin + "/?" + kind + "=" + encodeURIComponent(slug);
-  const text = (kind==="show" ? "🎤 " : "📣 ") + title + " — 당근 밴드 메이커에서 같이 해요!";
+  const text = kind==="j" ? "🎪 '"+title+"' 합주에 초대해요! 링크를 누르고 닉네임만 정하면 바로 참여돼요."
+    : (kind==="show" ? "🎤 " : "📣 ") + title + " — 당근 밴드 메이커에서 같이 해요!";
   if (navigator.share){ try{ await navigator.share({title, text, url}); return; }catch(e){ if (e && e.name==="AbortError") return; } }
   try{ await navigator.clipboard.writeText(url); toast("링크를 복사했어요. 단톡방에 붙여넣어 초대하세요 🔗"); }
   catch(e){ prompt("이 링크를 복사해서 보내주세요", url); }
@@ -318,7 +324,9 @@ async function doLogin(){
     setMe(d.member, d.token);
     $("login-pw").value = "";
     loadMembers();
-    if (returnTo){ const t = returnTo; returnTo = null; if (t.view==="view-prop") propOpen = t.slug; if (t.view==="view-show") showOpen = t.slug; goTo(t.view); }
+    if (returnTo){ const t = returnTo; returnTo = null; $("login-ctx").hidden = true;
+      if (t.join) return joinJam(t.slug);
+      if (t.view==="view-prop") propOpen = t.slug; if (t.view==="view-show") showOpen = t.slug; if (t.view==="view-jam") jamOpen = t.slug; goTo(t.view); }
     else if (d.member.done) goTo("view-result");
     else startOnboarding();
   }catch(e){ fail(errText(e)); }
@@ -326,7 +334,7 @@ async function doLogin(){
 }
 function setMe(member, token){ me = {id:member.id, slug:member.slug, token, data:member}; }
 function logout(){
-  lsDel("kw-session"); me = null;
+  lsDel("kw-session"); me = null; afterOnboard = null;
   $("login-id").value = "";
   toast("로그아웃했어요");
   goTo("view-home");
@@ -932,6 +940,7 @@ function celebrate(audio){
 function closeCelebrate(){
   if ($("celebrate").hidden) return;
   $("celebrate").hidden = true;
+  if (afterOnboard){ jamOpen = afterOnboard; afterOnboard = null; toast("이제 멤버들과 시간을 맞춰볼게요 🎸"); return goTo("view-jam"); }
   renderResult(true); show("view-result"); renderAgenda(); loadJams();
 }
 $("cel-go").addEventListener("click", closeCelebrate);
@@ -1053,7 +1062,7 @@ function renderAgenda(){
   const planning = mine.filter(j=>jamPhase(j)==="planning").sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt));
   const all = currentMembers(), nameOf = sl => (all.find(m=>m.slug===sl)||{}).id || "?";
   const row = (j, extra, cls) => '<div class="ag-row'+(cls?" "+cls:"")+'" data-jam="'+j.slug+'"><div class="ag-d">'+(j.fixedSlot?'<b>D'+dDay(j.fixedSlot.slice(0,10))+'</b><small>'+dayLabel(j.fixedSlot.slice(0,10))+'</small>':'<b>⏳</b><small>미정</small>')+'</div>'
-    +'<div class="ag-main"><b>'+esc(j.title)+'</b><small>'+(j.fixedSlot?jamSlotLabel(j):'날짜 정하는 중'+(j.startHour?' · 희망 '+j.startHour+'–'+(j.startHour+j.duration)+'시':''))+(j.place?' · 📍 '+esc(j.place):'')+' · '+j.members.length+'명'+(j.createdBy!==me.slug?' · 🗝️ '+esc(nameOf(j.createdBy)):' · 내가 만든 모임')+'</small></div>'
+    +'<div class="ag-main"><b>'+esc(j.title)+'</b><small>'+(j.fixedSlot?jamSlotLabel(j):(jamDays(j).length?'📅 '+esc(daysText(j)):'날짜 정하는 중')+(j.startHour?' · 희망 '+j.startHour+'–'+(j.startHour+j.duration)+'시':''))+(j.place?' · 📍 '+esc(j.place):'')+' · '+j.members.length+'명'+(j.createdBy!==me.slug?' · 🗝️ '+esc(nameOf(j.createdBy)):' · 내가 만든 모임')+'</small></div>'
     +'<div class="ag-side">'+extra+'</div></div>';
   let html = '<div class="card-head"><div><small>MY SCHEDULE</small><h2>내 합주 일정</h2><p>'+(invites.length?'응답을 기다리는 초대가 <b>'+invites.length+'개</b> 있어요.':upcoming.length?'다가오는 합주 '+upcoming.length+'개':'아직 예정된 합주가 없어요.')+'</p></div><span>📅</span></div>';
   if (invites.length) html += '<div class="ag-group"><div class="section-label">🔔 합주 초대 · 응답해 주세요</div>'+invites.map(j=>row(j,
@@ -1426,10 +1435,11 @@ function covers(m, day, h, dur){
 const whoCovers = (j, day, h) => jamPeople(j).filter(m=>(m.avail||[]).length && covers(m, day, h, j.duration));
 // 멤버들의 합주 시간으로 많이 겹치는 순서의 후보 (두 명 이상 되는 시간만).
 // 같은 날 연속된 시작 시간에 같은 사람들이 되면 가장 이른 시작만 남긴다.
+const jamDays = j => (j.days||[]).filter(d=>d>=TODAY);
 function jamSuggest(j){
   const people = jamPeople(j).filter(m=>(m.avail||[]).length);
   if (people.length<2) return [];
-  const days = [...new Set(people.flatMap(m=>m.avail.map(k=>k.slice(0,10))))].filter(d=>d>=TODAY).sort();
+  const days = jamDays(j).length ? jamDays(j) : [...new Set(people.flatMap(m=>m.avail.map(k=>k.slice(0,10))))].filter(d=>d>=TODAY).sort();
   const out = [];
   for (const day of days){
     let prevKey = null, prevH = -9;
@@ -1450,7 +1460,17 @@ function jamPrimary(j){
   return days.map(day=>{ const who = people.filter(m=>covers(m, day, j.startHour, j.duration)); return {slot:slotKey(day, j.startHour), who, n:who.length}; })
     .filter(s=>s.n>=2).sort((a,b)=>b.n-a.n || a.slot.localeCompare(b.slot));
 }
-const jamBest = j => j.startHour ? jamPrimary(j) : jamSuggest(j);
+// 만든 사람이 날짜 후보를 골라뒀으면 그 날짜를 모두 보여준다 (아직 아무도 시간을 안 칠했어도).
+// 희망 시간이 있으면 그 시간, 없으면 그날 가장 많이 되는 시작 시간.
+function jamPicked(j){
+  return jamDays(j).map(day=>{
+    let h = j.startHour, who = h ? whoCovers(j, day, h) : [];
+    if (!h){ h = 19; for (let x=JAM_FIRST; x+j.duration<=JAM_LAST; x++){ const w = whoCovers(j, day, x); if (w.length>who.length){ who = w; h = x; } } }
+    return {slot:slotKey(day, h), who, n:who.length};
+  }).sort((a,b)=>b.n-a.n || a.slot.localeCompare(b.slot));
+}
+const jamBest = j => jamDays(j).length ? jamPicked(j) : j.startHour ? jamPrimary(j) : jamSuggest(j);
+const daysText = j => { const d = jamDays(j); return d.slice(0,3).map(dayLabel).join(", ")+(d.length>3?" 외 "+(d.length-3)+"일":""); };
 // 같은 날 시간이 겹치는 다른 확정 모임
 function jamOverlaps(j, slot){
   const [day,h] = slot.split("@"), a = Number(h), b = a+j.duration;
@@ -1485,6 +1505,7 @@ function jamCard(j){
   const [st, cls] = jamStatus(j), people = jamPeople(j), mine = isJamMember(j);
   const sug = j.status==="planning" ? jamBest(j) : [];
   const when = j.fixedSlot ? '🗓️ '+jamSlotLabel(j)+(j.place?' · 📍 '+esc(j.place):'')
+    : jamDays(j).length ? '📅 '+(jamDays(j).length>1?'후보 ':'')+esc(daysText(j))+(sug.length && sug[0].n ? ' · <b>'+sug[0].n+'/'+people.length+'명</b> 가능' : '')
     : sug.length ? '✨ 제안 <b>'+sug[0].n+'/'+people.length+'명</b> · '+jamSlotLabel(j, sug[0].slot) : '⏳ 멤버들의 합주 시간을 기다리는 중';
   return '<article class="jam-card'+(mine?" me":"")+'" data-jam="'+j.slug+'" data-tilt>'
     +'<div class="jam-top"><span class="pill '+cls+'">'+st+'</span>'+(mine?'<span class="pill orange">내 모임</span>':'')+'<small>'+people.length+'명 · '+(j.status==="planning"&&j.startHour ? '희망 '+j.startHour+'–'+(j.startHour+j.duration)+'시' : j.duration+'시간')+'</small></div>'
@@ -1582,13 +1603,14 @@ function renderJam(){
         +(owner?'<button class="button small primary" data-fix="'+s.slot+'">픽스</button>':'')+'</div>';
     };
     const sug = jamBest(j);
+    const picked = jamDays(j).length>0;
     const others = j.startHour ? jamSuggest(j).filter(s=>Number(s.slot.split("@")[1])!==j.startHour).slice(0,6) : [];
     const want = j.startHour ? j.startHour+'–'+(j.startHour+j.duration)+'시' : '';
-    main += '<section class="magic-card jam-sec"><div class="card-head"><div><small>SUGGESTED</small><h2>'+(want?'<b class="want">'+want+'</b>에 되는 날':'이런 시간은 어때요?')+'</h2><p>멤버들이 등록한 합주 시간에서 많이 겹치는 순서예요. '+(owner?'하나를 골라 픽스하면 캘린더에 올라가요.':'날짜는 만든 사람('+esc(creator?creator.id:"?")+')이 정해요.')+'</p></div><span>✨</span></div>'
+    main += '<section class="magic-card jam-sec"><div class="card-head"><div><small>'+(picked?'PICKED DAYS':'SUGGESTED')+'</small><h2>'+(picked?(jamDays(j).length>1?'고른 날짜 후보':'고른 날짜')+(want?' · <b class="want">'+want+'</b>':''):want?'<b class="want">'+want+'</b>에 되는 날':'이런 시간은 어때요?')+'</h2><p>'+(picked?'멤버들이 칠한 합주 시간으로 몇 명이 되는지 보여줘요. ':'멤버들이 등록한 합주 시간에서 많이 겹치는 순서예요. ')+(owner?'하나를 골라 픽스하면 캘린더에 올라가요.':'날짜는 만든 사람('+esc(creator?creator.id:"?")+')이 정해요.')+'</p></div><span>✨</span></div>'
       + (sug.length ? '<div class="sug-list">'+sug.slice(0,8).map(sugRow).join("")+'</div>'
         : '<div class="empty-state"><span>⏳</span><p>'+(want?'아직 '+want+'에 두 명 이상 되는 날이 없어요.':'두 명 이상 합주 시간을 등록하면 제안이 떠요.')+'</p></div>')
       + (others.length ? '<details class="sug-more"><summary>다른 시간도 괜찮다면 · '+others.length+'개 더</summary><div class="sug-list">'+others.map((s,i)=>sugRow(s, -1)).join("")+'</div></details>' : '')
-      + (owner ? '<div class="sug-manual"><b>직접 정하기</b><div class="sug-manual-row"><input type="date" id="jm-date" class="text-input" min="'+(TODAY>GLOBAL_START?TODAY:GLOBAL_START)+'" max="'+GLOBAL_END+'" value="'+(sug.length?sug[0].slot.slice(0,10):(TODAY>GLOBAL_START?TODAY:GLOBAL_START))+'">'
+      + (owner ? '<div class="sug-manual"><b>직접 정하기</b><div class="sug-manual-row"><input type="date" id="jm-date" class="text-input" min="'+(TODAY>GLOBAL_START?TODAY:GLOBAL_START)+'" max="'+GLOBAL_END+'" value="'+(sug.length?sug[0].slot.slice(0,10):jamDays(j)[0]||(TODAY>GLOBAL_START?TODAY:GLOBAL_START))+'">'
           +'<select id="jm-hour" class="text-input">'+hourOptions(JAM_FIRST, JAM_LAST-1, j.startHour||(sug.length?Number(sug[0].slot.split("@")[1]):19))+'</select><span>부터</span>'
           +'<select id="jm-end" class="text-input"></select><span>까지</span>'
           +'<button class="button small primary" data-fix-manual>이 시간으로 픽스</button></div><small id="jm-info"></small></div>' : '')
@@ -1611,13 +1633,21 @@ function renderJam(){
       +(owner?'<div class="jam-actions"><button class="button small ghost" data-jact="revive">다시 계획하기</button></div>':'')+'</section>';
   }
 
+  const open = phase==="planning" || phase==="fixed";
+  const invite = !member && open ? '<section class="magic-card jam-invite"><span>🎪</span><div><b>'+esc(creator?creator.id:"누군가")+'님의 합주 모임이에요</b><p>'
+      +(jamDays(j).length && !j.fixedSlot ? '📅 '+esc(daysText(j))+(j.startHour?' · '+j.startHour+'–'+(j.startHour+j.duration)+'시':'')+'<br>' : j.fixedSlot ? '🗓️ '+jamSlotLabel(j)+'<br>' : '')
+      +(me ? '참여하면 멤버가 되고, 내 합주 시간으로 날짜를 함께 맞춰요.' : '가입 절차 없이 닉네임과 비밀번호만 정하면 바로 참여돼요.')+'</p></div>'
+      +'<button class="button primary" data-jact="join">'+(me?'이 모임에 참여하기':'닉네임 정하고 참여하기')+' <span>→</span></button></section>' : '';
+  const share = open ? '<button class="button small '+(people.length<2?'primary':'ghost')+'" data-jact="share">🔗 초대 링크 보내기</button>' : '';
   $("jam-body").innerHTML = '<div class="page-heading jam-heading"><div class="season-badge"><span>✦</span> JAM SESSION</div>'
     +'<h1>'+esc(j.title)+'</h1><div class="pills"><span class="pill '+cls+'">'+st+'</span><span class="pill">'+people.length+'명 · '+j.duration+'시간</span>'+(creator?'<span class="pill'+(owner?' orange':'')+'">🗝️ 만든 사람 '+esc(creator.id)+(owner?' (나)':'')+'</span>':'')+'</div></div>'
+    +invite
     +'<div class="jam-layout"><div>'+main
     +'<section class="magic-card jam-sec section-gap"><div class="card-head"><div><small>SETLIST</small><h2>합주할 노래</h2></div><span>🎵</span></div>'
     +(j.songs.length?'<ol class="jam-songlist">'+j.songs.map(sng=>'<li>'+esc(sng)+'</li>').join("")+'</ol>':'<p class="muted" style="margin:0">아직 정한 노래가 없어요.</p>')
     +(j.note?'<p class="jam-memo">📝 '+esc(j.note)+'</p>':'')+'</section></div>'
     +'<aside><section class="magic-card jam-sec"><div class="card-head"><div><small>MEMBERS</small><h2>멤버 '+people.length+'명</h2></div><span>🥕</span></div><div class="jam-chips">'+people.map(chip).join("")+'</div>'
+    +(member && share ? '<div class="jam-actions">'+share+'</div><p class="jam-note">링크를 단톡방에 보내면 가입 안 한 친구도 닉네임만 정하고 바로 들어와요.</p>' : '')
     +(owner?'<div class="jam-actions"><button class="button small ghost" data-jact="edit">✏️ 모임 수정</button>'+(phase!=="canceled"?'<button class="button small ghost" data-jact="cancel">모임 취소</button>':'')+'<button class="button small danger" data-jact="delete">삭제</button></div>'
       : member ? '<p class="jam-note">📌 멤버·노래·날짜는 만든 사람('+esc(creator?creator.id:"?")+')이 관리해요.</p>' : '')
     +'</section></aside></div>';
@@ -1653,6 +1683,11 @@ $("jam-body").addEventListener("click", async e=>{
   if (rs) return jamAct("rsvp", {answer:rs.dataset.rsvp}, "응답을 남겼어요");
   if (!ac) return;
   const a = ac.dataset.jact;
+  if (a==="join"){
+    if (!me) return loginThenBack("view-jam", j.slug, {join:true, msg:"🎪 '"+j.title+"' 모임에 참여하려면 닉네임과 비밀번호만 정해주세요. 처음 쓰는 닉네임이면 바로 만들어져요."});
+    return joinJam(j.slug);
+  }
+  if (a==="share") return shareLink("j", j.slug, j.title);
   if (a==="mytime") return goTo("view-schedule");
   if (a==="edit") return openJamEdit(j);
   if (a==="unfix") return jamAct("unfix", {}, "다시 날짜를 정해요");
@@ -1661,6 +1696,17 @@ $("jam-body").addEventListener("click", async e=>{
   if (a==="cancel"){ if (confirm("'"+j.title+"' 모임을 취소할까요? 캘린더에서 내려가요.")) jamAct("status", {status:"canceled"}, "모임을 취소했어요"); return; }
   if (a==="delete"){ if (confirm("'"+j.title+"' 모임을 완전히 지울까요? 되돌릴 수 없어요.")) jamAct("delete", {}, "모임을 지웠어요"); }
 });
+// 초대 링크로 참여: 멤버가 되고, 처음 설정을 안 했으면 설정(합주 시간 포함)을 마친 뒤 모임으로 돌아온다
+async function joinJam(slug){
+  jamOpen = slug;
+  try{
+    const d = await api("jams", {id:me.id, token:me.token, action:"join", target:slug});
+    jamsCache = jamsCache.some(x=>x.slug===d.jam.slug) ? jamsCache.map(x=>x.slug===d.jam.slug ? d.jam : x) : [d.jam, ...jamsCache];
+    if (!me.data.done){ afterOnboard = slug; toast("모임에 들어왔어요! 파트와 합주 시간을 알려주세요 🥕"); return startOnboarding(); }
+    toast(activeAvail(me.data.avail).length ? "모임에 들어왔어요! 🎸" : "모임에 들어왔어요! 합주 시간을 칠하면 날짜 맞추기가 쉬워요");
+  }catch(e){ toast(errText(e)); }
+  goTo("view-jam");
+}
 async function jamAct(action, extra, msg){
   if (!me) return goTo("view-login");
   try{
@@ -2102,15 +2148,16 @@ $("pe-save").addEventListener("click", async ()=>{
 /* 만들기 · 수정 */
 function openJamEdit(j, preset){
   if (!me) return goTo("view-login");
-  jamDraft = j ? {slug:j.slug, title:j.title, members:new Set(j.members), songs:j.songs.join("\n"), duration:j.duration, startHour:j.startHour||19, place:j.place, note:j.note}
-    : {slug:null, title:(preset&&preset.title)||"", members:new Set([me.slug, ...((preset&&preset.members)||[])]), songs:"", duration:2, startHour:19, place:"", note:""};
+  jamDraft = j ? {slug:j.slug, title:j.title, members:new Set(j.members), songs:j.songs.join("\n"), duration:j.duration, startHour:j.startHour||19, days:new Set(jamDays(j)), place:j.place, note:j.note}
+    : {slug:null, title:(preset&&preset.title)||"", members:new Set([me.slug, ...((preset&&preset.members)||[])]), songs:"", duration:2, startHour:19, days:new Set(), place:"", note:""};
   jamDraft.members.add(me.slug);
   $("je-heading").innerHTML = j ? '모임 <em>수정</em>' : '새 <em>합주 모임</em>';
   $("je-name").value = jamDraft.title; $("je-songs").value = jamDraft.songs;
   $("je-place").value = jamDraft.place; $("je-note").value = jamDraft.note;
   $("je-err").hidden = true;
   $("je-search").value = "";
-  renderJeTime(); renderJeMembers();
+  $("je-date").min = TODAY>GLOBAL_START ? TODAY : GLOBAL_START; $("je-date").max = GLOBAL_END; $("je-date").value = "";
+  renderJeDays(); renderJeTime(); renderJeMembers();
   show("view-jam-edit");
   setTimeout(()=>$("je-name").focus(), 150);
 }
@@ -2123,6 +2170,18 @@ function renderJeTime(){
   $("je-start").innerHTML = hourOptions(JAM_FIRST, JAM_LAST-1, st);
   $("je-end").innerHTML = hourOptions(st+1, Math.min(JAM_LAST, st+5), st+jamDraft.duration);
 }
+function renderJeDays(){
+  const days = [...jamDraft.days].sort();
+  $("je-days").innerHTML = days.length ? days.map(d=>'<button type="button" class="pill orange je-day" data-day="'+d+'" aria-label="'+dayLabel(d)+' 빼기">'+dayLabel(d)+' ✕</button>').join("")
+    : '<span class="muted je-day-empty">위에서 날짜를 고르면 여기에 담겨요. 비워두면 멤버들 시간으로 아무 날이나 추천해요.</span>';
+}
+$("je-date").addEventListener("change", ()=>{
+  const v = $("je-date").value; if (!v) return;
+  if (v < (TODAY>GLOBAL_START?TODAY:GLOBAL_START) || v > GLOBAL_END) return toast("고를 수 없는 날짜예요");
+  if (!jamDraft.days.has(v) && jamDraft.days.size>=14) return toast("날짜 후보는 14개까지예요");
+  jamDraft.days.add(v); $("je-date").value = ""; renderJeDays();
+});
+$("je-days").addEventListener("click", e=>{ const b = e.target.closest("[data-day]"); if (!b) return; jamDraft.days.delete(b.dataset.day); renderJeDays(); });
 $("je-start").addEventListener("change", ()=>{ jamDraft.startHour = Number($("je-start").value); renderJeTime(); });
 $("je-end").addEventListener("change", ()=>{ jamDraft.duration = Number($("je-end").value) - jamDraft.startHour; });
 function renderJeMembers(){
@@ -2148,15 +2207,14 @@ $("je-save").addEventListener("click", async ()=>{
   const err = $("je-err"), fail = t=>{ err.textContent = t; err.hidden = false; };
   const title = $("je-name").value.trim();
   if (title.length<2) return fail("모임 이름을 2자 이상 적어주세요.");
-  if (jamDraft.members.size<2) return fail("멤버를 한 명 이상 더 골라주세요.");
   const jam = {title, members:[...jamDraft.members], songs:$("je-songs").value.split("\n").map(x=>x.trim()).filter(Boolean),
-    duration:jamDraft.duration, startHour:jamDraft.startHour, place:$("je-place").value.trim(), note:$("je-note").value.trim()};
+    duration:jamDraft.duration, startHour:jamDraft.startHour, days:[...jamDraft.days].sort(), place:$("je-place").value.trim(), note:$("je-note").value.trim()};
   const btn = $("je-save"); btn.disabled = true; err.hidden = true;
   try{
     const d = await api("jams", jamDraft.slug ? {id:me.id, token:me.token, action:"update", target:jamDraft.slug, jam} : {id:me.id, token:me.token, action:"create", jam});
     jamsCache = jamsCache.some(x=>x.slug===d.jam.slug) ? jamsCache.map(x=>x.slug===d.jam.slug ? d.jam : x) : [d.jam, ...jamsCache];
     jamOpen = d.jam.slug;
-    toast(jamDraft.slug ? "모임을 고쳤어요" : "모임을 만들었어요! 이제 날짜를 골라요 🎪");
+    toast(jamDraft.slug ? "모임을 고쳤어요" : "모임을 만들었어요! 🔗 초대 링크를 보내 멤버를 모아보세요");
     goTo("view-jam");
   }catch(e){ fail(errText(e)); }
   finally{ btn.disabled = false; }

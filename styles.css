@@ -925,3 +925,17 @@ button,input{font:inherit;color:inherit}
 .my-info .info-v{font-size:13px;min-width:0}
 .my-info .info-none{color:#8b8178;font-size:12px}
 @media (max-width:520px){.my-info .info-row{grid-template-columns:1fr;gap:6px}.my-info .info-k{padding-top:0}}
+
+/* 합주 모임: 날짜 고르기 · 초대 */
+.je-days{display:flex;flex-direction:column;gap:10px}
+.je-days .pills{gap:6px}
+.je-day{cursor:pointer;font-size:12px;padding:6px 10px}
+.je-day-empty{font-size:12px}
+.je-hint{display:block;margin-top:8px;font-size:12px;color:#9d9288;line-height:1.5}
+.invite-ctx{margin:0 0 16px;border:1px solid rgba(255,123,44,.35);border-color:rgba(255,123,44,.35);background:rgba(255,123,44,.08);color:#ffd2b5;font-size:13px;line-height:1.5}
+.jam-invite{display:flex;gap:16px;align-items:center;padding:20px 22px;margin-bottom:18px;border-color:rgba(255,123,44,.35)}
+.jam-invite>span{font-size:30px}
+.jam-invite>div{flex:1;min-width:0}
+.jam-invite b{font-size:16px}
+.jam-invite p{margin:6px 0 0;font-size:13px;color:#b5aaa0;line-height:1.55}
+@media (max-width:640px){.jam-invite{flex-direction:column;align-items:stretch;text-align:left}.jam-invite .button{justify-content:center}}

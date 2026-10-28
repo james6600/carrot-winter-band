@@ -1,5 +1,6 @@
 // 합주 모임: 멤버·노래·장소를 정하고, 멤버들의 합주 가능 시간으로 날짜를 제안받아 확정(픽스)한다.
 // 목록(GET)은 누구나, 만들기는 로그인한 멤버, 날짜 픽스·수정·취소·삭제는 만든 사람만, 참석 응답은 멤버.
+// 초대 링크를 받은 사람은 참여(join)로 스스로 멤버가 된다.
 import crypto from "node:crypto";
 import { json, readBody, memberSlug, SLOT_HOURS, GLOBAL_END } from "../lib/util.js";
 import { getMember, listMembers, listJams, getJam, putJam, deleteJam } from "../lib/db.js";
@@ -32,7 +33,11 @@ async function cleanJam(input, base){
   // 희망 시간대: "몇 시부터 몇 시까지"의 시작 시(時). 0이면 정하지 않음.
   const sRaw = Number(input.startHour ?? base.startHour);
   const startHour = Number.isInteger(sRaw) && sRaw >= SLOT_HOURS[0] && sRaw + duration <= SLOT_HOURS[SLOT_HOURS.length - 1] + 2 ? sRaw : 0;
-  return { ...base, title, members, songs, duration, startHour,
+  // 날짜 후보: 만들 때 미리 골라두는 날짜 (오늘 이후, 최대 14개). 비어 있으면 멤버 시간으로 아무 날이나 추천한다.
+  const today = todayKst();
+  const days = [...new Set((Array.isArray(input.days) ? input.days : base.days || []).map(String)
+    .filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d) && d >= today && d <= GLOBAL_END))].sort().slice(0, 14);
+  return { ...base, title, members, songs, duration, startHour, days,
     note: clip(input.note ?? base.note, 300), place: clip(input.place ?? base.place, 40) };
 }
 
@@ -48,7 +53,7 @@ export default async function handler(req, res){
 
     if (b.action === "create"){
       const base = { slug: "j_" + crypto.randomBytes(5).toString("hex"), createdBy: me.slug, members: [], songs: [],
-        note: "", place: "", duration: 2, startHour: 0, status: "planning", fixedSlot: "", rsvp: {}, createdAt: now, updatedAt: now };
+        note: "", place: "", duration: 2, startHour: 0, days: [], status: "planning", fixedSlot: "", rsvp: {}, createdAt: now, updatedAt: now };
       const jam = await cleanJam(b.jam || {}, base);
       await putJam(jam);
       return json(res, 200, { ok: true, jam });
@@ -57,6 +62,14 @@ export default async function handler(req, res){
     const jam = await getJam(String(b.target || ""));
     if (!jam) return json(res, 404, { error: "no_target" });
     const isOwner = jam.createdBy === me.slug;
+    if (b.action === "join"){
+      if (jam.members.includes(me.slug)) return json(res, 200, { ok: true, jam });
+      if (jam.status === "done" || jam.status === "canceled") return json(res, 400, { error: "closed" });
+      if (jam.members.length >= 12) return json(res, 400, { error: "jam_full" });
+      const next = { ...jam, members: [...jam.members, me.slug], updatedAt: now };
+      await putJam(next);
+      return json(res, 200, { ok: true, jam: next });
+    }
     if (!isOwner && !jam.members.includes(me.slug)) return json(res, 403, { error: "not_member" });
     if (b.action !== "rsvp" && !isOwner) return json(res, 403, { error: "not_owner" });
 

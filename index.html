@@ -125,6 +125,7 @@
         <div class="section-label">BAND PASS</div>
         <h2>닉네임으로 입장</h2>
         <p class="muted" style="margin:0 0 20px">처음 쓰는 닉네임이면 바로 만들어지고, 다음부터 같은 비밀번호로 다시 들어올 수 있어요.</p>
+        <div class="notice invite-ctx" id="login-ctx" hidden></div>
         <div class="form-stack">
           <label class="input-field"><span>닉네임</span><input id="login-id" autocomplete="username" maxlength="20" placeholder="예: 페퍼민트"></label>
           <label class="input-field"><span>비밀번호</span><input id="login-pw" type="password" autocomplete="current-password" maxlength="40" placeholder="4자 이상"></label>
@@ -365,15 +366,18 @@
     <div class="page-heading">
       <div class="season-badge"><span>✦</span> NEW JAM</div>
       <h1 id="je-heading">새 <em>합주 모임</em></h1>
-      <p>멤버와 노래를 정해두면, 멤버들의 합주 시간으로 날짜를 제안해 드려요. 나중에 언제든 고칠 수 있어요.</p>
+      <p>날짜·시간과 노래를 정하고 만든 다음, 초대 링크를 보내 멤버를 모아요. 가입 안 한 친구도 링크로 바로 들어올 수 있어요.</p>
     </div>
     <section class="magic-card login-card je-card">
       <div class="form-stack">
         <label class="input-field"><span>모임 이름</span><input id="je-name" maxlength="40" placeholder="예: 첫눈 멜로디단 1차 합주"></label>
-        <div class="input-field"><span>멤버 <small id="je-count"></small></span><input class="text-input je-search" id="je-search" maxlength="20" placeholder="🔍 닉네임으로 찾기" autocomplete="off"><div class="je-members" id="je-members"></div></div>
-        <label class="input-field"><span>합주할 노래 <small>한 줄에 한 곡</small></span><textarea id="je-songs" rows="4" maxlength="700" placeholder="Creep - Radiohead&#10;Zombie - The Cranberries"></textarea></label>
-        <div class="input-field"><span>합주 시간 <small>몇 시부터 몇 시까지 (최대 5시간) · 날짜는 다음 화면에서 골라요</small></span>
+        <div class="input-field"><span>날짜 <small>하루만 골라도 되고, 후보를 여러 날 골라두면 멤버가 많이 되는 날을 추천해요</small></span>
+          <div class="je-days"><input type="date" class="text-input" id="je-date" aria-label="날짜 고르기"><div class="pills" id="je-days"></div></div></div>
+        <div class="input-field"><span>합주 시간 <small>몇 시부터 몇 시까지 (최대 5시간)</small></span>
           <div class="je-time"><select class="text-input" id="je-start" aria-label="시작 시간"></select><span>부터</span><select class="text-input" id="je-end" aria-label="끝나는 시간"></select><span>까지</span></div></div>
+        <div class="input-field"><span>멤버 <small id="je-count"></small></span><input class="text-input je-search" id="je-search" maxlength="20" placeholder="🔍 닉네임으로 찾기" autocomplete="off"><div class="je-members" id="je-members"></div>
+          <small class="je-hint">🔗 아직 가입 안 한 친구는 모임을 만든 뒤 <b>초대 링크</b>로 불러요. 링크를 누르면 닉네임만 정하고 바로 들어와요.</small></div>
+        <label class="input-field"><span>합주할 노래 <small>한 줄에 한 곡</small></span><textarea id="je-songs" rows="4" maxlength="700" placeholder="Creep - Radiohead&#10;Zombie - The Cranberries"></textarea></label>
         <label class="input-field"><span>장소 <small>선택</small></span><input id="je-place" maxlength="40" placeholder="예: 정자동 ○○합주실"></label>
         <label class="input-field"><span>메모 <small>선택</small></span><textarea id="je-note" rows="2" maxlength="300" placeholder="준비물, 연습 범위 등"></textarea></label>
         <div id="je-err" class="notice error" hidden></div>
