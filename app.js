@@ -1161,7 +1161,7 @@ function renderMyInfo(){
     +row("아티스트", arts.length ? '<div class="pills">'+arts.slice(0,10).map(a=>'<span class="pill">'+esc(a.name)+'</span>').join("")+(arts.length>10?'<span class="pill">+'+(arts.length-10)+'팀</span>':'')+'</div>' : none("아직 없어요"))
     +'</div>'
     +'<div class="info-group'+(n?'':' need')+'"><div class="info-title"><b>🗓️ 합주 가능 시간</b><button class="button small '+(n?'ghost':'primary')+'" data-go="view-schedule">'+(n?'시간 수정':'시간 칠하기 →')+'</button></div>'
-    +row("칠한 시간", n ? '<b>'+n+'칸</b> ('+(n*2)+'시간) · <span class="win-label">'+WINDOW_LABEL+'</span> 중' : none("아직 칠하지 않았어요. 칠하면 시간이 맞는 사람끼리 밴드를 더 정확히 묶어드려요."))
+    +row("칠한 시간", n ? '<b>'+n+'칸</b> ('+(n*2)+'시간)' : none("아직 칠하지 않았어요. 칠하면 시간이 맞는 사람끼리 밴드를 더 정확히 묶어드려요."))
     +row("주로 편한 때", (d.timePref||[]).length ? '<div class="pills">'+d.timePref.map(k=>'<span class="pill ok">'+esc(tprefLabel(k))+'</span>').join("")+'</div>' : none("고르지 않았어요"))
     +'</div>';
 }
