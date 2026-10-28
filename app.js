@@ -48,13 +48,14 @@ const avatarHTML = m => '<span class="avatar" style="background-image:url('+avat
 
 /* ---------- 합주 시간 (lib/util.js와 같은 값) ---------- */
 const SLOT_HOURS = [10,12,14,16,18,20,22];
-const GLOBAL_START = "2026-10-01";
-const GLOBAL_END = "2027-12-31";
+const GLOBAL_START = "2026-10-01";   // 서비스 시작일
 const DOW = ["일","월","화","수","목","금","토"];
 function ymd(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function pd(s){ const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); }
 const TODAY = ymd(new Date());
-// 이번 달부터 3개월만 열린다 (10~12월, 11~1월, 12~2월 …). 지난 날짜는 고를 수 없다.
+// 합주 모임 날짜는 오늘부터 1년 뒤까지 (끝나는 해 없이 매일 함께 늘어난다. lib/util.js farEnd와 같은 규칙)
+const GLOBAL_END = (()=>{ const d = new Date(); return ymd(new Date(d.getFullYear()+1, d.getMonth(), d.getDate())); })();
+// 합주 시간표는 이번 달부터 3개월만 열린다 (10~12월, 11~1월, 12~2월 …). 지난 날짜는 고를 수 없다.
 const WINDOW = (()=>{
   const now = new Date();
   const first = ymd(new Date(now.getFullYear(), now.getMonth(), 1));
@@ -83,7 +84,7 @@ const TIME_PREF = [{k:"wkDay",e:"☀️",n:"평일 오후"},{k:"wkEve",e:"🌙",
 const TPREF = Object.fromEntries(TIME_PREF.map(t=>[t.k,t]));
 const tprefLabel = k => TPREF[k] ? TPREF[k].e+" "+TPREF[k].n : k;
 function mountTimePref(root, set, onChange){
-  const draw = ()=>{ root.innerHTML = '<div class="tpref"><p><b>주로 언제가 편해요?</b><small>여러 개 골라도 돼요 · 날짜별 칸과 별개로 전체 경향을 조사해요</small></p><div class="tpref-chips">'
+  const draw = ()=>{ root.innerHTML = '<div class="tpref"><p><span class="tpref-tag">간단 설문</span><b>주로 언제가 편해요?</b><small>여러 개 골라도 돼요 · 전체 경향만 조사하고, 아래 일정표에는 칠해지지 않아요</small></p><div class="tpref-chips">'
     +TIME_PREF.map(t=>'<button type="button" class="genre-chip" data-tp="'+t.k+'" aria-pressed="'+set.has(t.k)+'">'+t.e+' '+t.n+'</button>').join("")+'</div></div>'; };
   root.onclick = e=>{ const b = e.target.closest("[data-tp]"); if (!b) return; const k = b.dataset.tp; set.has(k) ? set.delete(k) : set.add(k); draw(); if (onChange) onChange(); };
   draw();
@@ -650,9 +651,10 @@ function availSummary(set){
   return n ? '칠한 시간 <b>'+n+'칸</b> ('+(n*2)+'시간) · '+WEEKS.length+'주 중 <b>'+wk+'주</b>' : '아직 칠한 칸이 없어요. 칸을 누르거나 드래그해 보세요.';
 }
 function mountEditor(root, set, onChange){
-  root.innerHTML = '<div class="presets">'
-    +'<button data-p="wkEve">🌙 평일 저녁 전부</button><button data-p="weDay">☀️ 주말 낮 전부</button>'
-    +'<button data-p="weEve">✨ 주말 저녁 전부</button><button data-p="clrWeek" class="warn">이번 주 지우기</button>'
+  root.innerHTML = '<div class="sg-intro"><b>📅 날짜별 합주 가능 시간</b><small>실제로 합주할 수 있는 칸만 칠해요. 이 일정표로 멤버끼리 날짜를 맞춰요.</small></div>'
+    +'<div class="presets"><span class="presets-label">한 번에 칠하기</span>'
+    +'<button data-p="wkEve">평일 18–22시</button><button data-p="weDay">주말 12–18시</button>'
+    +'<button data-p="weEve">주말 18–22시</button><button data-p="clrWeek" class="warn">이번 주 지우기</button>'
     +'<button data-p="clrAll" class="warn">전체 지우기</button></div><div class="sg-box"></div><div class="sg-sum"></div>';
   const sum = root.querySelector(".sg-sum");
   const upd = ()=>{ sum.innerHTML = availSummary(set); if (onChange) onChange(); };
@@ -1284,7 +1286,7 @@ function renderDash(fresh){
   const hero = $("stats-hero");
   if (!hero.firstChild){
     hero.innerHTML = '<button class="big-stat" data-sel="all:all"><small>참여 완료 · 눌러보기</small><strong id="st-total">0</strong><span>명</span></button>'
-      +'<div class="stats-copy"><span>THIS AUTUMN</span><h2 id="st-copy"></h2>'
+      +'<div class="stats-copy"><span>RIGHT NOW</span><h2 id="st-copy"></h2>'
       +'<div class="mini-stats"><div><b id="st-bands">0</b><small>바로 꾸릴 수 있는 밴드</small></div><div><b id="st-timed">0</b><small>시간을 칠한 멤버</small></div><div><b id="st-artists">0</b><small>모인 최애 아티스트</small></div></div></div>';
   }
   countUp($("st-total"), done.length); countUp($("st-bands"), full); countUp($("st-timed"), timed); countUp($("st-artists"), Object.keys(artistAgg).length);
@@ -2184,7 +2186,7 @@ function openPropEdit(p, showSlug){
   const team = !!propDraft.showSlug, sh = team ? showsCache.find(x=>x.slug===propDraft.showSlug) : null;
   $("pe-heading").innerHTML = team ? (p ? '공연팀 <em>수정</em>' : '공연팀 <em>모집하기</em>') : p ? '제안 <em>수정</em>' : '합주 <em>제안 올리기</em>';
   $("pe-title-label").textContent = team ? "팀명" : "제목";
-  $("pe-title").placeholder = team ? "예: 전기톱 아쿠마" : "예: 가을 브릿팝 카피 밴드 모집";
+  $("pe-title").placeholder = team ? "예: 전기톱 아쿠마" : "예: 브릿팝 카피 밴드 모집";
   $("pe-songs-label").innerHTML = team ? '예상 공연곡 <small>한 줄에 한 곡 · "곡 - 아티스트"</small>' : '하고 싶은 곡 <small>선택 · 한 줄에 한 곡</small>';
   $("pe-when-fld").hidden = team;
   $("pe-body").placeholder = team ? (sh ? "'"+sh.title+"' 무대에서 어떤 음악을 하고 싶은지, 연습은 언제 할지 적어주세요." : "") : "하고 싶은 음악, 분위기, 실력 기준, 자주 모일 수 있는지 등을 자유롭게 적어주세요.";

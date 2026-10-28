@@ -6,7 +6,7 @@
 <title>모두 밴드</title>
 <meta name="description" content="파트와 음악 취향, 합주 가능한 시간으로 밴드원을 찾고 합주 모임을 만들어요">
 <meta property="og:site_name" content="모두 밴드">
-<meta property="og:title" content="모두 밴드 · 이번 가을 함께 밴드 해요">
+<meta property="og:title" content="모두 밴드 · 취향 맞는 사람과 함께 밴드 해요">
 <meta property="og:description" content="파트와 취향, 합주 가능한 시간을 고르면 마법의 모자가 밴드를 짜드려요.">
 <meta property="og:image" content="https://modu.band/assets/og.jpg">
 <meta property="og:url" content="https://modu.band/">
@@ -45,8 +45,8 @@
   <main id="view-home" class="home-page" hidden>
     <section class="hero-layout">
       <div class="hero-copy">
-        <div class="season-badge" data-reveal><span>✦</span> AUTUMN BAND MATCHING</div>
-        <p class="kicker" data-reveal>이번 가을, 같이 연주할 사람을 찾아요.</p>
+        <div class="season-badge" data-reveal><span>✦</span> BAND MATCHING · JAM TOGETHER</div>
+        <p class="kicker" data-reveal>같이 연주할 사람, 여기서 찾아요.</p>
         <h1 data-reveal>
           <span class="hero-title-line">취향이 맞는 우리,</span>
           <span class="hero-title-line hero-title-accent">함께 밴드 해요.</span>
@@ -101,7 +101,7 @@
           </div>
           <div class="garland" aria-hidden="true">✦ · ✦ · ✦ · ✦ · ✦ · ✦</div>
           <div class="stage-caption">
-            <span><span class="live-dot"></span> AUTUMN SESSION</span>
+            <span><span class="live-dot"></span> JAM SESSION</span>
             <b>나랑 맞는 밴드원을 찾아보세요</b>
           </div>
         </div>
@@ -109,9 +109,9 @@
     </section>
 
     <section class="feature-strip">
-      <article data-reveal><span>01</span><b>파트를 고르고</b><p>이번 합주에서 맡고 싶은 악기를 선택해요.</p></article>
+      <article data-reveal><span>01</span><b>파트를 고르고</b><p>합주에서 맡고 싶은 악기를 선택해요.</p></article>
       <article data-reveal><span>02</span><b>취향을 들려주고</b><p>장르와 좋아하는 아티스트로 음악 취향을 표현해요.</p></article>
-      <article data-reveal><span>03</span><b>합주 시간을 칠하고</b><p>이번 달부터 3개월(<span class="win-label">10월~12월</span>) 중 되는 시간을 달력에 칠해요.</p></article>
+      <article data-reveal><span>03</span><b>합주 시간을 칠하고</b><p>앞으로 3개월(<span class="win-label">10월~12월</span>) 중 되는 시간을 달력에 칠해요. 매달 다음 달이 새로 열려요.</p></article>
       <article data-reveal><span>04</span><b>밴드를 만나고</b><p>취향과 시간이 맞는 사람끼리 밴드를 짜드려요.</p></article>
     </section>
   </main>
@@ -140,7 +140,7 @@
       </section>
       <aside class="login-side-card" data-reveal>
         <div class="side-spark">✦</div>
-        <h3>이번 가을 합주에서<br>누구를 만나게 될까요?</h3>
+        <h3>다음 합주에서<br>누구를 만나게 될까요?</h3>
         <ul>
           <li><span>🎸</span><div><b>필요한 파트</b><small>보컬·기타 2·베이스·드럼·키보드 6인 밴드로</small></div></li>
           <li><span>🎧</span><div><b>비슷한 음악 취향</b><small>장르와 아티스트로 비교</small></div></li>
@@ -347,12 +347,12 @@
     </div>
     <section class="magic-card login-card je-card">
       <div class="form-stack">
-        <label class="input-field"><span id="pe-title-label">제목</span><input id="pe-title" maxlength="40" placeholder="예: 가을 브릿팝 카피 밴드 모집"></label>
+        <label class="input-field"><span id="pe-title-label">제목</span><input id="pe-title" maxlength="40" placeholder="예: 브릿팝 카피 밴드 모집"></label>
         <label class="input-field"><span>어떤 합주인가요?</span><textarea id="pe-body" rows="5" maxlength="1000" placeholder="하고 싶은 음악, 분위기, 실력 기준, 자주 모일 수 있는지 등을 자유롭게 적어주세요."></textarea></label>
         <div class="input-field"><span>내 파트 <small>제안한 내가 맡을 파트</small></span><div class="pe-mine" id="pe-mine"></div></div>
         <div class="input-field"><span>모집 파트 <small>나를 포함한 전체 인원 · 내 파트는 나로 1명이 채워져요</small></span><div class="pe-want" id="pe-want"></div></div>
         <label class="input-field"><span id="pe-songs-label">하고 싶은 곡 <small>선택 · 한 줄에 한 곡</small></span><textarea id="pe-songs" rows="3" maxlength="700" placeholder="Wonderwall - Oasis&#10;Creep - Radiohead"></textarea></label>
-        <label class="input-field" id="pe-when-fld"><span>희망 시기 <small>선택</small></span><input id="pe-when" maxlength="60" placeholder="예: 11월 주말 저녁, 격주 1회"></label>
+        <label class="input-field" id="pe-when-fld"><span>희망 시기 <small>선택</small></span><input id="pe-when" maxlength="60" placeholder="예: 주말 저녁, 격주 1회"></label>
         <div id="pe-err" class="notice error" hidden></div>
         <div class="je-actions"><button class="button ghost" id="pe-cancel">취소</button><button class="button primary" id="pe-save">올리기 <span>→</span></button></div>
       </div>
@@ -493,7 +493,7 @@
       </section>
     </div>
     <section class="magic-card chart-card section-gap" data-reveal>
-      <div class="card-head"><div><small>WIZARDS · CLICK</small><h2>가을 마법사 유형 분포</h2></div><span>🧙</span></div>
+      <div class="card-head"><div><small>WIZARDS · CLICK</small><h2>마법사 유형 분포</h2></div><span>🧙</span></div>
       <div class="style-grid" id="dash-styles"></div>
     </section>
     <section class="magic-card chart-card section-gap" data-reveal>
@@ -507,7 +507,7 @@
   <footer class="footer">
     <span>MODU BAND</span>
     <button class="footer-link" id="footer-feedback">🐞 오류 보고 · 💡 기능 제안</button>
-    <span>가을밤의 작은 마법 · 중심은 합주와 사람</span>
+    <span>음악으로 모이는 작은 마법 · 중심은 합주와 사람</span>
   </footer>
 </div>
 

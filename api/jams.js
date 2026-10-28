@@ -3,7 +3,7 @@
 // 멤버는 만든 뒤에 모은다: 초대 링크로 스스로 참여(join)하거나, 만든 사람이 직접 초대(invite)하면 마이 페이지에서 수락(accept)한다.
 // 인원(cap)은 만든 사람 포함 2~50명 (화면에서는 10명까지 고르고, 그 이상은 직접 입력).
 import crypto from "node:crypto";
-import { json, readBody, memberSlug, SLOT_HOURS, GLOBAL_END } from "../lib/util.js";
+import { json, readBody, memberSlug, SLOT_HOURS, farEnd } from "../lib/util.js";
 import { getMember, listMembers, listJams, getJam, putJam, deleteJam } from "../lib/db.js";
 
 const STATUS = ["planning", "fixed", "done", "canceled"];
@@ -17,7 +17,7 @@ function validSlot(slot, duration){
   if (!m) return false;
   const h = Number(m[2]), first = SLOT_HOURS[0], last = SLOT_HOURS[SLOT_HOURS.length - 1] + 2;
   if (h < first || h + duration > last) return false;
-  return m[1] >= todayKst() && m[1] <= GLOBAL_END;
+  return m[1] >= todayKst() && m[1] <= farEnd();
 }
 function cleanDuration(v, fallback){
   const d = Number(v ?? fallback);
@@ -40,7 +40,7 @@ async function cleanJam(input, base){
   // 날짜 후보: 만들 때 미리 골라두는 날짜 (오늘 이후, 최대 14개). 비어 있으면 멤버 시간으로 아무 날이나 추천한다.
   const today = todayKst();
   const days = [...new Set((Array.isArray(input.days) ? input.days : base.days || []).map(String)
-    .filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d) && d >= today && d <= GLOBAL_END))].sort().slice(0, 14);
+    .filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d) && d >= today && d <= farEnd()))].sort().slice(0, 14);
   return { ...base, title, members, cap, songs, duration, startHour, days,
     note: clip(input.note ?? base.note, 300), place: clip(input.place ?? base.place, 40) };
 }
