@@ -567,7 +567,7 @@ function renderReports(){
   const list = reports.filter(x => !rFilter || x.status === rFilter);
   $("r-list").innerHTML = list.length ? list.map(x => '<article class="bs-fb' + (x.status === "new" ? " new" : "") + '" data-rn="' + x.n + '">'
     + '<div class="bs-fb-head"><span class="pill ' + (x.status === "new" ? "bad" : "") + '">' + (x.status === "new" ? "미처리" : "처리됨") + '</span><span class="bs-fb-who">방: <b>' + esc(x.roomTitle) + '</b></span><small>#' + x.n + ' · ' + when(x.at) + ' · 신고자 ' + esc(x.byId) + '</small></div>'
-    + (x.msg ? '<p class="bs-fb-body"><b>' + esc(x.msg.authorId) + '</b>: ' + esc(x.msg.body) + (x.msg.hidden ? ' <span class="pill">가려짐</span>' : '') + '</p>' : '<p class="muted bs-small">(지워진 메시지)</p>')
+    + (x.msg ? '<p class="bs-fb-body"><b>' + esc(x.msg.authorId) + '</b>: ' + (/^:emo:[a-z]+_\d\d:$/.test(x.msg.body) ? '<img src="/assets/emo/set/' + x.msg.body.slice(5, -1) + '.webp" alt="이모티콘" width="56" height="56" style="vertical-align:middle">' : esc(x.msg.body)) + (x.msg.hidden ? ' <span class="pill">가려짐</span>' : '') + '</p>' : '<p class="muted bs-small">(지워진 메시지)</p>')
     + (x.reason ? '<p class="bs-small muted">사유: ' + esc(x.reason) + '</p>' : '')
     + '<div class="bs-fb-actions">'
     + (x.msg ? '<button class="button small ghost" data-ra="hide" data-msg="' + x.msgN + '" data-h="' + (x.msg.hidden ? "0" : "1") + '">' + (x.msg.hidden ? "가림 해제" : "메시지 가리기") + '</button>'

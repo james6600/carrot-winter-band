@@ -219,7 +219,7 @@ for (const id of ["topnav","mobilenav"]){
 function show(view){
   currentView = view;
   for (const v of VIEWS) $(v).hidden = (v!==view);
-  if (view!=="view-prop") stopChat();
+  if (view!=="view-prop" && view!=="view-jam") stopChat();
   // 모임 상세·수정 화면은 메뉴에서 '합주 모임'을 켜둔다
   const p0 = view==="view-prop" || view==="view-prop-edit" ? propsCache.find(x=>x.slug===(view==="view-prop"?propOpen:(propDraft&&propDraft.slug))) : null;
   const inShow = view==="view-show" || (p0 && p0.showSlug) || (view==="view-prop-edit" && propDraft && propDraft.showSlug);
@@ -1073,7 +1073,7 @@ function renderAgenda(){
   const planning = mine.filter(j=>jamPhase(j)==="planning").sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt));
   const all = currentMembers(), nameOf = sl => (all.find(m=>m.slug===sl)||{}).id || "?";
   const row = (j, extra, cls) => '<div class="ag-row'+(cls?" "+cls:"")+'" data-jam="'+j.slug+'"><div class="ag-d">'+(j.fixedSlot?'<b>D'+dDay(j.fixedSlot.slice(0,10))+'</b><small>'+dayLabel(j.fixedSlot.slice(0,10))+'</small>':'<b>⏳</b><small>미정</small>')+'</div>'
-    +'<div class="ag-main"><b>'+esc(j.title)+'</b><small>'+(j.fixedSlot?jamSlotLabel(j):(jamDays(j).length?'📅 '+esc(daysText(j)):'날짜 정하는 중')+(j.startHour?' · 희망 '+j.startHour+'–'+(j.startHour+j.duration)+'시':''))+(j.place?' · 📍 '+esc(j.place):'')+' · '+j.members.length+'명'+(j.createdBy!==me.slug?' · 🗝️ '+esc(nameOf(j.createdBy)):' · 내가 만든 모임')+'</small></div>'
+    +'<div class="ag-main"><b>'+esc(j.title)+'</b><small>'+(j.fixedSlot?jamSlotLabel(j):(jamDays(j).length?'📅 '+esc(daysText(j)):'날짜 정하는 중')+(j.startHour?' · 희망 '+j.startHour+'–'+(j.startHour+j.duration)+'시':''))+(j.place?' · 📍 '+esc(j.place):'')+' · '+j.members.length+'명'+(j.createdBy!==me.slug?' · 🗝️ '+esc(nameOf(j.createdBy)):' · 내가 만든 모임')+(unreadOf(j.slug)?' · <b style="color:#cbbcff">💬 새 글 '+unreadOf(j.slug)+'</b>':'')+'</small></div>'
     +'<div class="ag-side">'+extra+'</div></div>';
   const jinv = myJamInvites();
   let html = '<div class="card-head"><div><small>MY SCHEDULE</small><h2>내 합주 일정</h2><p>'+(invites.length+jinv.length?'응답을 기다리는 초대가 <b>'+(invites.length+jinv.length)+'개</b> 있어요.':upcoming.length?'다가오는 합주 '+upcoming.length+'개':'아직 예정된 합주가 없어요.')+'</p></div><span>📅</span></div>';
@@ -1536,7 +1536,7 @@ function jamCard(j){
     : jamDays(j).length ? '📅 '+(jamDays(j).length>1?'후보 ':'')+esc(daysText(j))+(sug.length && sug[0].n ? ' · <b>'+sug[0].n+'/'+people.length+'명</b> 가능' : '')
     : sug.length ? '✨ 제안 <b>'+sug[0].n+'/'+people.length+'명</b> · '+jamSlotLabel(j, sug[0].slot) : '⏳ 멤버들의 합주 시간을 기다리는 중';
   return '<article class="jam-card'+(mine?" me":"")+'" data-jam="'+j.slug+'" data-tilt>'
-    +'<div class="jam-top"><span class="pill '+cls+'">'+st+'</span>'+(mine?'<span class="pill orange">내 모임</span>':isInvited(j)?'<span class="pill orange">💌 초대받음</span>':'')+'<small>'+people.length+'/'+capOf(j)+'명 · '+(j.status==="planning"&&j.startHour ? '희망 '+j.startHour+'–'+(j.startHour+j.duration)+'시' : j.duration+'시간')+'</small></div>'
+    +'<div class="jam-top"><span class="pill '+cls+'">'+st+'</span>'+(mine?'<span class="pill orange">내 모임</span>':isInvited(j)?'<span class="pill orange">💌 초대받음</span>':'')+(unreadOf(j.slug)?'<span class="pill orange">💬 새 글 '+unreadOf(j.slug)+'</span>':'')+'<small>'+people.length+'/'+capOf(j)+'명 · '+(j.status==="planning"&&j.startHour ? '희망 '+j.startHour+'–'+(j.startHour+j.duration)+'시' : j.duration+'시간')+'</small></div>'
     +'<h4>'+esc(j.title)+'</h4><p class="jam-when">'+when+'</p>'
     +'<div class="jam-people">'+people.map(m=>'<span>'+avatarHTML(m)+esc(m.id)+'</span>').join("")+'</div>'
     +(j.songs.length?'<p class="jam-songs">🎵 '+esc(j.songs.slice(0,3).join(" · "))+(j.songs.length>3?' 외 '+(j.songs.length-3)+'곡':'')+'</p>':'')
@@ -1684,7 +1684,7 @@ function renderJam(){
     +'<div class="jam-layout"><div>'+main
     +'<section class="magic-card jam-sec section-gap"><div class="card-head"><div><small>SETLIST</small><h2>합주할 노래</h2></div><span>🎵</span></div>'
     +(j.songs.length?'<ol class="jam-songlist">'+j.songs.map(sng=>'<li>'+esc(sng)+'</li>').join("")+'</ol>':'<p class="muted" style="margin:0">아직 정한 노래가 없어요.</p>')
-    +(j.note?'<p class="jam-memo">📝 '+esc(j.note)+'</p>':'')+'</section></div>'
+    +(j.note?'<p class="jam-memo">📝 '+esc(j.note)+'</p>':'')+'</section><div id="chat-mount"></div></div>'
     +'<aside><section class="magic-card jam-sec"><div class="card-head"><div><small>MEMBERS</small><h2>멤버 '+people.length+'/'+capOf(j)+'명</h2></div><span>🎸</span></div><div class="jam-chips">'
     +people.map(m=>owner && m.slug!==j.createdBy ? chip(m).replace(/<\/span>$/, '<button class="chip-x" data-kick="'+m.slug+'" aria-label="'+esc(m.id)+' 내보내기">✕</button></span>') : chip(m)).join("")+'</div>'
     +(owner && pend.length ? '<div class="section-label jam-pend-h">💌 초대 보냄 · 응답 기다리는 중 '+pend.length+'명</div><div class="jam-chips">'+pend.map(s=>'<span class="jam-chip pend"><b>'+esc(nameOf(s))+'</b><button class="chip-x" data-uninv="'+s+'" aria-label="초대 취소">✕</button></span>').join("")+'</div>' : '')
@@ -1694,6 +1694,7 @@ function renderJam(){
       : member ? '<p class="jam-note">📌 멤버·노래·날짜는 만든 사람('+esc(creator?creator.id:"?")+')이 관리해요.</p><div class="jam-actions"><button class="button small ghost" data-jact="leave">모임 나가기</button></div>' : '')
     +'</section></aside></div>';
   updateManualInfo();
+  mountChat(j.slug, member ? (owner ? "owner" : "member") : "", "jam");
 }
 // 직접 정하기: 날짜·시간을 바꾸면 누가 되는지 바로 보여준다
 function updateManualInfo(){
@@ -1931,7 +1932,7 @@ function renderProp(){
     +(waits.length?'<div class="section-label" style="margin:14px 0 8px">⏳ 대기 (순서대로 들어와요)</div><div class="jam-chips">'+waits.map(chip).join("")+'</div>':'')
     +(p.interest.length?'<p class="jam-note">👀 '+esc(p.interest.map(sl=>person(sl).id).join(", "))+'</p>':'')
     +'</section></aside></div>';
-  mountChat(p);
+  mountChat(p.slug, me ? (p.createdBy===me.slug ? "owner" : p.applicants[me.slug] ? "applicant" : p.interest.includes(me.slug) ? "interest" : "") : "", "prop");
 }
 
 /* ---------- 공연 ---------- */
@@ -2038,24 +2039,29 @@ const unreadOf = room => { const s = chatSummary[room]; if (!s || !me) return 0;
 const unreadRooms = () => Object.keys(chatSummary).filter(room=>unreadOf(room)>0);
 function markRead(room, n){ const m = readMap(); if ((m[room]||0) >= n) return; m[room] = n; lsSet("kw-chat-read", JSON.stringify(m)); }
 function stopChat(){ if (chatTimer){ clearInterval(chatTimer); chatTimer = null; } }
-function mountChat(p){
+// 채팅방: 합주 제안(kind "prop")과 합주 모임(kind "jam") 공통. room은 제안·모임의 slug
+function mountChat(room, role, kind){
   const mount = $("chat-mount"); if (!mount) return;
-  const role = me ? (p.createdBy===me.slug ? "owner" : p.applicants[me.slug] ? "applicant" : p.interest.includes(me.slug) ? "interest" : "") : "";
   if (!role){
     stopChat(); chatRoom = null; chatEl = null;
-    mount.innerHTML = '<section class="magic-card jam-sec section-gap chat-sec"><div class="card-head"><div><small>ROOM</small><h2>💬 채팅방</h2><p>'+(me ? '관심을 누르면 읽을 수 있고, 파트로 신청하면 함께 이야기할 수 있어요.' : '입장한 뒤 관심을 누르거나 신청하면 채팅방이 열려요.')+'</p></div><span>💬</span></div></section>';
+    const why = kind==="jam" ? (me ? '모임 멤버가 되면 함께 이야기할 수 있어요.' : '입장해서 모임에 참여하면 채팅방이 열려요.')
+      : (me ? '관심을 누르면 읽을 수 있고, 파트로 신청하면 함께 이야기할 수 있어요.' : '입장한 뒤 관심을 누르거나 신청하면 채팅방이 열려요.');
+    mount.innerHTML = '<section class="magic-card jam-sec section-gap chat-sec"><div class="card-head"><div><small>ROOM</small><h2>💬 채팅방</h2><p>'+why+'</p></div><span>💬</span></div></section>';
     return;
   }
-  if (chatRoom!==p.slug || !chatEl){
-    stopChat(); chatRoom = p.slug; chatLastN = 0;
+  if (chatRoom!==room || !chatEl){
+    stopChat(); chatRoom = room; chatLastN = 0;
     chatEl = document.createElement("section");
     chatEl.className = "magic-card jam-sec section-gap chat-sec";
     chatEl.innerHTML = '<div class="card-head"><div><small>ROOM</small><h2>💬 채팅방</h2><p id="chat-desc">불러오는 중…</p></div><span>💬</span></div>'
       +'<div class="chat-log" id="chat-log"><p class="muted bs-small chat-empty">불러오는 중…</p></div>'
-      +'<form class="chat-form" id="chat-form"><input class="text-input" id="chat-text" maxlength="300" placeholder="메시지 (300자까지)" autocomplete="off"><button class="button primary" id="chat-send">보내기</button></form>'
+      +'<div class="emo-pick" id="emo-pick" hidden></div>'
+      +'<form class="chat-form" id="chat-form"><button type="button" class="emo-btn" id="emo-btn" aria-label="이모티콘" aria-expanded="false" title="이모티콘"><img src="/assets/emo/set/dodo_05.webp" alt="" width="200" height="200"></button><input class="text-input" id="chat-text" maxlength="300" placeholder="메시지 (300자까지)" autocomplete="off"><button class="button primary" id="chat-send">보내기</button></form>'
       +'<div id="chat-err" class="notice error" hidden></div>'
       +'<p class="chat-notice">🔒 운영진이 열람할 수 있어요 · 욕설·성적 표현은 자동으로 막혀요 · 전화번호 같은 개인정보는 가려져요 · 문제가 있는 메시지는 신고해 주세요</p>';
     chatEl.querySelector("#chat-form").addEventListener("submit", sendChat);
+    chatEl.querySelector("#emo-btn").addEventListener("click", toggleEmoPick);
+    chatEl.querySelector("#emo-pick").addEventListener("click", pickEmo);
     chatEl.querySelector("#chat-log").addEventListener("click", reportChat);
     mount.appendChild(chatEl);
     loadChat(true);
@@ -2066,7 +2072,9 @@ function msgHTML(m){
   const mine = me && m.authorSlug===me.slug;
   const time = new Date(m.at).toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"});
   if (m.hidden) return '<div class="msg hidden-msg" data-n="'+m.n+'"><div class="msg-body">🚫 운영진이 가린 메시지예요</div></div>';
-  return '<div class="msg'+(mine?" me":"")+'" data-n="'+m.n+'"><div class="msg-meta">'+(mine?'나':esc(m.authorId))+' · '+time+(mine?'':' <button type="button" class="msg-report" data-report="'+m.n+'" title="신고">신고</button>')+'</div><div class="msg-body">'+esc(m.body)+'</div></div>';
+  const st = stickerOf(m.body);
+  return '<div class="msg'+(mine?" me":"")+(st?" sticker":"")+'" data-n="'+m.n+'"><div class="msg-meta">'+(mine?'나':esc(m.authorId))+' · '+time+(mine?'':' <button type="button" class="msg-report" data-report="'+m.n+'" title="신고">신고</button>')+'</div>'
+    +(st ? '<div class="msg-sticker"><img src="/assets/emo/set/'+st[0]+'.webp" alt="'+esc(st[1])+'" title="'+esc(st[1])+'" width="200" height="200" loading="lazy"></div>' : '<div class="msg-body">'+esc(m.body)+'</div>')+'</div>';
 }
 async function loadChat(initial){
   if (!chatRoom || !me || chatBusy) return;
@@ -2082,26 +2090,60 @@ async function loadChat(initial){
     } else if (initial) log.innerHTML = '<p class="muted bs-small chat-empty">아직 메시지가 없어요. 첫 인사를 남겨보세요 👋</p>';
     const form = chatEl.querySelector("#chat-form"), desc = chatEl.querySelector("#chat-desc");
     form.hidden = !d.canWrite;
-    desc.textContent = d.canWrite ? "제안자와 신청자끼리 이야기해요. 4초마다 새 메시지를 확인해요."
+    desc.textContent = d.canWrite ? (d.kind==="jam" ? "모임 멤버끼리 이야기해요. 😊 버튼으로 이모티콘도 보낼 수 있어요." : "제안자와 신청자끼리 이야기해요. 😊 버튼으로 이모티콘도 보낼 수 있어요.")
       : d.banUntil ? "운영진이 채팅을 잠시 정지했어요 ("+new Date(d.banUntil).toLocaleString("ko-KR",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"})+"까지). 읽기만 할 수 있어요."
-      : d.closed ? "닫힌 제안이라 읽기만 할 수 있어요." : "관심만 누른 상태라 읽기만 할 수 있어요. 파트로 신청하면 쓸 수 있어요.";
+      : d.closed ? (d.kind==="jam" ? "취소된 모임이라 읽기만 할 수 있어요." : "닫힌 제안이라 읽기만 할 수 있어요.") : "관심만 누른 상태라 읽기만 할 수 있어요. 파트로 신청하면 쓸 수 있어요.";
     if (chatLastN){ markRead(chatRoom, chatLastN); if (chatSummary[chatRoom]) chatSummary[chatRoom].lastN = Math.max(chatSummary[chatRoom].lastN, chatLastN); renderNav(); }
   }catch(e){ if (initial) chatEl.querySelector("#chat-log").innerHTML = '<p class="muted bs-small chat-empty">'+esc(errText(e))+'</p>'; }
   finally{ chatBusy = false; }
 }
-async function sendChat(e){
-  e.preventDefault();
+async function sendChat(e, sticker){
+  if (e) e.preventDefault();
   const input = chatEl.querySelector("#chat-text"), btn = chatEl.querySelector("#chat-send"), err = chatEl.querySelector("#chat-err");
-  const body = input.value.trim(); if (!body) return;
+  const body = sticker ? ":emo:"+sticker+":" : input.value.trim(); if (!body) return;
   btn.disabled = true; err.hidden = true;
   try{
     const d = await api("chat", {action:"send", id:me.id, token:me.token, room:chatRoom, body});
-    input.value = "";
+    if (!sticker) input.value = ""; else closeEmoPick();
     const log = chatEl.querySelector("#chat-log"); log.querySelector(".chat-empty")?.remove();
     if (d.message.n > chatLastN){ log.insertAdjacentHTML("beforeend", msgHTML(d.message)); chatLastN = d.message.n; log.scrollTop = log.scrollHeight; markRead(chatRoom, chatLastN); }
     loadChat(false);
   }catch(ex){ err.textContent = errText(ex); err.hidden = false; }
-  finally{ btn.disabled = false; input.focus(); }
+  finally{ btn.disabled = false; if (!sticker) input.focus(); }
+}
+/* ---------- 모두 밴드 이모티콘 (도도·레레·미미·파파·솔솔 × 10) ---------- */
+const EMO_CHARS = [{k:"dodo",n:"도도",p:"vocal"},{k:"rere",n:"레레",p:"keys"},{k:"mimi",n:"미미",p:"drum"},{k:"papa",n:"파파",p:"bass"},{k:"solsol",n:"솔솔",p:"guitar"}];
+const EMO_LABELS = {
+  dodo:["안녕!","고마워요","신나요","사랑해요","좋아요","감동이야","잘자요","헉!","화이팅","앵콜!"],
+  rere:["안녕하세요","생각중...","좋아요","축하해요","미안해요","집중!","궁금해요","부끄","졸려요","완벽해"],
+  mimi:["두둠칫","하이파이브","빵터짐","화났어요","대박!","기다릴게요","짜잔","응원해요","지쳤어요","합주 가자!"],
+  papa:["굿굿","그루비~","쉿","멍...","접수 완료","토닥토닥","윙크","히히","뭐라고?","퇴근!"],
+  solsol:["락앤롤!","솔로 타임","최고!","슬퍼요","감사합니다","반가워요","출발!","흥!","멋짐","수고했어요"],
+};
+// ":emo:mimi_10:" → ["mimi_10", "미미 · 합주 가자!"]
+function stickerOf(body){
+  const m = /^:emo:(dodo|rere|mimi|papa|solsol)_(0[1-9]|10):$/.exec(body||""); if (!m) return null;
+  const c = EMO_CHARS.find(x=>x.k===m[1]);
+  return [m[1]+"_"+m[2], c.n+" · "+EMO_LABELS[m[1]][Number(m[2])-1]];
+}
+let emoTab = (()=>{ const t = lsGet("kw-emo-tab"); return EMO_CHARS.some(c=>c.k===t) ? t : "dodo"; })();
+function renderEmoPick(){
+  const box = chatEl.querySelector("#emo-pick");
+  box.innerHTML = '<div class="emo-tabs" role="tablist">'+EMO_CHARS.map(c=>'<button type="button" role="tab" data-emo-tab="'+c.k+'" aria-selected="'+(c.k===emoTab)+'"><img src="/assets/emo/set/'+c.k+'_01.webp" alt="" width="200" height="200">'+c.n+'</button>').join("")+'</div>'
+    +'<div class="emo-grid">'+EMO_LABELS[emoTab].map((t,i)=>{ const k = emoTab+"_"+String(i+1).padStart(2,"0");
+      return '<button type="button" data-emo="'+k+'" title="'+esc(t)+'"><img src="/assets/emo/set/'+k+'.webp" alt="'+esc(t)+'" width="200" height="200" loading="lazy"><small>'+esc(t)+'</small></button>'; }).join("")+'</div>';
+}
+function toggleEmoPick(){
+  const box = chatEl.querySelector("#emo-pick"), open = box.hidden;
+  if (open) renderEmoPick();
+  box.hidden = !open; chatEl.querySelector("#emo-btn").setAttribute("aria-expanded", open);
+}
+function closeEmoPick(){ if (!chatEl) return; chatEl.querySelector("#emo-pick").hidden = true; chatEl.querySelector("#emo-btn").setAttribute("aria-expanded", "false"); }
+function pickEmo(e){
+  const t = e.target.closest("[data-emo-tab]");
+  if (t){ emoTab = t.dataset.emoTab; lsSet("kw-emo-tab", emoTab); return renderEmoPick(); }
+  const b = e.target.closest("[data-emo]"); if (!b) return;
+  sendChat(null, b.dataset.emo);
 }
 async function reportChat(e){
   const b = e.target.closest("[data-report]"); if (!b) return;

@@ -993,3 +993,21 @@ button,input{font:inherit;color:inherit}
 .empty-state{gap:8px}
 .choice-card small b{color:inherit;font-weight:800}
 .offline-emo{width:120px;height:120px;margin-top:8px}
+
+/* 채팅 이모티콘 (모두 밴드 캐릭터 50종) */
+.emo-btn{flex:none;width:46px;height:46px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:#0d0e14;padding:4px;cursor:pointer;transition:.15s}
+.emo-btn img{width:100%;height:100%;object-fit:contain}
+.emo-btn:hover,.emo-btn[aria-expanded=true]{border-color:rgba(154,125,255,.6);background:rgba(122,85,230,.14)}
+.emo-pick{margin-top:10px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:#0d0e14;padding:10px}
+.emo-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.07)}
+.emo-tabs button{flex:none;display:flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.1);background:none;color:#c8c2bc;border-radius:999px;padding:4px 12px 4px 4px;font-size:12px;font-weight:700;cursor:pointer}
+.emo-tabs button img{width:26px;height:26px;object-fit:contain}
+.emo-tabs button[aria-selected=true]{border-color:rgba(154,125,255,.6);background:rgba(122,85,230,.18);color:#fff}
+.emo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px;max-height:240px;overflow:auto}
+.emo-grid button{display:grid;justify-items:center;gap:2px;border:1px solid transparent;background:none;border-radius:12px;padding:6px 2px;cursor:pointer;color:#a9a19a}
+.emo-grid button:hover{border-color:rgba(154,125,255,.45);background:rgba(122,85,230,.1)}
+.emo-grid img{width:64px;height:64px;object-fit:contain}
+.emo-grid small{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.msg-sticker img{width:112px;height:112px;object-fit:contain;display:block;filter:drop-shadow(0 8px 14px rgba(0,0,0,.4))}
+.msg.me .msg-sticker img{margin-left:auto}
+@media (max-width:520px){.emo-grid{grid-template-columns:repeat(4,1fr)}.emo-grid img{width:56px;height:56px}}

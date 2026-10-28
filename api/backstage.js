@@ -321,7 +321,7 @@ export default async function handler(req, res){
 
     if (action === "reports_list"){
       const names = Object.fromEntries((await listMembers()).map(m => [m.slug, m.id]));
-      const titles = Object.fromEntries((await listProposals()).map(p => [p.slug, p.title]));
+      const titles = Object.fromEntries([...(await listProposals()).map(p => [p.slug, "📣 " + p.title]), ...(await listJams()).map(j => [j.slug, "🎪 " + j.title])]);
       const reports = (await listReports()).map(x => ({ ...x, roomTitle: titles[x.room] || x.room }));
       const bans = (await listBans()).map(x => ({ ...x, id: names[x.slug] || "?" }));
       return json(res, 200, { reports, bans });
